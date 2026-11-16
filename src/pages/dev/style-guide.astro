@@ -3,6 +3,7 @@ import Base from "../../layouts/Base.astro";
 import Button from "../../components/Button.astro";
 import Badge from "../../components/Badge.astro";
 import LanguageSwitcher from "../../components/LanguageSwitcher.astro";
+import Navigation from "../../components/Navigation.astro";
 import ServiceIcon from "../../components/ServiceIcon.astro";
 
 const serviceIconNames = ["branding", "website", "webshop", "consulting", "strategy"] as const;
@@ -34,11 +35,29 @@ const buttonVariants = [
 const languageSwitcherVariants = [
 	{
 		locale: "hu",
+		variant: "light",
 		description: "Hungarian is the current language: HU is orange and underlined.",
 	},
 	{
 		locale: "en",
+		variant: "light",
 		description: "English is the current language: EN is orange and underlined.",
+	},
+	{
+		locale: "hu",
+		variant: "dark",
+		description: "For dark backgrounds: the inactive language is light gray and turns white on hover.",
+	},
+] as const;
+
+const navigationVariants = [
+	{
+		variant: "light",
+		description: "White bar with a dark logo and dark text. This is the default, for pages with a dark top.",
+	},
+	{
+		variant: "dark",
+		description: "Dark bar with the light logo and white text, for pages with a light top. Set it per page with the navVariant prop of the Base layout.",
 	},
 ] as const;
 
@@ -164,6 +183,32 @@ const colorGroups = [
 									</li>
 								))}
 							</ul>
+						</div>
+					))
+				}
+			</div>
+		</section>
+
+		<section class="mt-16">
+			<h2 class="mb-8 text-2xl font-bold">Navigation</h2>
+
+			<div class="flex flex-col gap-10">
+				{
+					navigationVariants.map(({ variant, description }) => (
+						<div class="border-t border-border pt-6">
+							<h3 class="mb-1 text-lg font-medium">
+								<code>variant="{variant}"</code>
+							</h3>
+							<p class="mb-4 text-text-muted">{description}</p>
+							<div
+								class:list={[
+									"relative hidden h-40 [contain:layout] rounded-[24px] xl:block",
+									variant === "dark" ? "bg-surface" : "bg-gray-900",
+								]}
+							>
+								<Navigation {variant} />
+							</div>
+							<p class="text-text-muted xl:hidden">Preview is shown at desktop width only.</p>
 						</div>
 					))
 				}

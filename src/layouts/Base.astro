@@ -15,10 +15,19 @@ interface Props {
 	canonical?: string | null;
 	/** Pass content reference for plugin page contributions on content pages */
 	content?: { collection: string; id: string; slug?: string | null };
+	/** Navigation bar style: "light" (default) or "dark" */
+	navVariant?: "light" | "dark";
 }
 
-const { title, pageTitle, description, image, canonical, content } =
-	Astro.props;
+const {
+	title,
+	pageTitle,
+	description,
+	image,
+	canonical,
+	content,
+	navVariant = "light",
+} = Astro.props;
 const settingsResult = await getSiteSettingsWithCacheHint();
 if (Astro.cache?.enabled) Astro.cache.set(settingsResult.cacheHint);
 
@@ -58,7 +67,7 @@ const pageCtx = createPublicPageContext({
 	<body class="flex min-h-screen flex-col">
 		<EmDashBodyStart page={pageCtx} />
 
-		<Navigation />
+		<Navigation variant={navVariant} />
 
 		<main class="flex-1">
 			<slot />

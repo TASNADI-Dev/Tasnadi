@@ -96,6 +96,7 @@ export interface CaseStudy {
   page_overview_use_white_background?: boolean;
   summary_paragraph: string;
   summary_images?: { "image": { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } } }[];
+  featured?: boolean;
   createdAt: Date;
   updatedAt: Date;
   publishedAt: Date | null;

@@ -3,6 +3,8 @@ import Badge from "./Badge.astro";
 
 type Props = {
 	label: string;
+	/** Match the navigation variant */
+	variant?: "light" | "dark";
 	groups: {
 		/** Subtitle shown above the group, with a divider above it on desktop */
 		heading?: string;
@@ -10,13 +12,23 @@ type Props = {
 	}[];
 };
 
-const { label, groups } = Astro.props;
+const { label, groups, variant = "light" } = Astro.props;
+const isDark = variant === "dark";
+
+const textClass = isDark ? "text-white" : "text-text";
+const panelClass = isDark ? "xl:bg-gray-900" : "xl:bg-background";
+const dividerClass = isDark ? "border-gray-600" : "border-border";
+const headingClass = isDark ? "text-gray-400" : "text-gray-500";
+const itemHoverClass = isDark ? "hover:bg-white/10" : "hover:bg-surface";
 ---
 
 <li data-dropdown data-open="false" class="group/dropdown relative">
 	<button
 		type="button"
-		class="flex w-full cursor-pointer items-center gap-2 rounded-full px-5 py-2 text-left text-base font-medium text-text transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent group-focus-within/dropdown:text-primary max-xl:group-data-[open=true]/dropdown:text-primary xl:w-auto xl:px-4"
+		class:list={[
+			"flex w-full cursor-pointer items-center gap-2 rounded-full px-5 py-2 text-left text-base font-medium transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent group-focus-within/dropdown:text-primary max-xl:group-data-[open=true]/dropdown:text-primary xl:w-auto xl:px-4",
+			textClass,
+		]}
 	>
 		{label}
 		<svg
@@ -39,13 +51,23 @@ const { label, groups } = Astro.props;
 		class="hidden group-data-[open=true]/dropdown:block xl:pointer-events-none xl:absolute xl:block xl:top-full xl:left-0 xl:translate-y-1 xl:pt-3 xl:opacity-0 xl:transition xl:duration-200 xl:group-focus-within/dropdown:pointer-events-auto xl:group-focus-within/dropdown:translate-y-0 xl:group-focus-within/dropdown:opacity-100 xl:group-hover/dropdown:pointer-events-auto xl:group-hover/dropdown:translate-y-0 xl:group-hover/dropdown:opacity-100"
 	>
 		<ul
-			class="flex flex-col max-xl:ml-5 max-xl:border-l max-xl:border-border xl:min-w-[15rem] xl:rounded-[16px] xl:bg-background xl:p-2 xl:shadow-[0_4px_30px_color-mix(in_srgb,var(--color-gray-900)_12%,transparent)]"
+			class:list={[
+				"flex flex-col max-xl:ml-5 max-xl:border-l xl:min-w-[15rem] xl:rounded-[16px] xl:p-2 xl:shadow-[0_4px_30px_color-mix(in_srgb,var(--color-gray-900)_12%,transparent)]",
+				dividerClass,
+				panelClass,
+			]}
 		>
 			{
 				groups.map((group) => (
 					<>
 						{group.heading && (
-							<li class="mt-2 px-4 pb-1 text-sm font-medium text-gray-500 xl:-mx-2 xl:mt-2 xl:border-t xl:border-border xl:px-4 xl:pt-3 xl:pb-1">
+							<li
+								class:list={[
+									"mt-2 px-4 pb-1 text-sm font-medium xl:-mx-2 xl:mt-2 xl:border-t xl:px-4 xl:pt-3 xl:pb-1",
+									headingClass,
+									dividerClass,
+								]}
+							>
 								{group.heading}
 							</li>
 						)}
@@ -53,7 +75,11 @@ const { label, groups } = Astro.props;
 							<li>
 								<a
 									href={item.href}
-									class="flex items-center gap-3 rounded-[8px] px-4 py-2 text-base font-medium whitespace-nowrap text-text transition-colors hover:bg-surface hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent xl:px-2 xl:py-2.5"
+									class:list={[
+										"flex items-center gap-3 rounded-[8px] px-4 py-2 text-base font-medium whitespace-nowrap transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent xl:px-2 xl:py-2.5",
+										textClass,
+										itemHoverClass,
+									]}
 								>
 									{item.label}
 									{item.badge && <Badge>{item.badge}</Badge>}
