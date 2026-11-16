@@ -136,6 +136,244 @@
 					"type": "image"
 				}
 			]
+		},
+		{
+			"slug": "case_studies",
+			"label": "Case studies",
+			"labelSingular": "Case study",
+			"description": "V2 case studies migrated from Webflow",
+			"icon": "briefcase",
+			"urlPattern": "/case-studies/{slug}",
+			"supports": [
+				"drafts",
+				"revisions",
+				"preview",
+				"search",
+				"seo"
+			],
+			"titleField": "title",
+			"dateField": "date",
+			"admin": {
+				"listColumns": [
+					"date"
+				]
+			},
+			"fields": [
+				{
+					"slug": "title",
+					"label": "Name of the client",
+					"type": "string",
+					"required": true,
+					"searchable": true,
+					"validation": {
+						"maxLength": 256
+					}
+				},
+				{
+					"slug": "date",
+					"label": "Date",
+					"type": "datetime",
+					"required": true,
+					"indexed": true
+				},
+				{
+					"slug": "hero_text",
+					"label": "Hero title",
+					"type": "string",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "short_description",
+					"label": "Hero description",
+					"type": "text",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "image",
+					"label": "Hero image",
+					"type": "image",
+					"required": true
+				},
+				{
+					"slug": "thumbnail",
+					"label": "Thumbnail",
+					"type": "image",
+					"required": true
+				},
+				{
+					"slug": "industry",
+					"label": "Industry",
+					"type": "reference",
+					"required": true,
+					"validation": {
+						"targetCollection": "industries",
+						"multiple": true
+					}
+				},
+				{
+					"slug": "services",
+					"label": "Services",
+					"type": "reference",
+					"required": true,
+					"validation": {
+						"targetCollection": "services",
+						"multiple": true
+					}
+				},
+				{
+					"slug": "our_team",
+					"label": "Behind the scenes team",
+					"type": "reference",
+					"required": true,
+					"validation": {
+						"targetCollection": "team_members",
+						"multiple": true
+					}
+				},
+				{
+					"slug": "step_1_left_column",
+					"label": "Step 1 – Left column",
+					"type": "portableText",
+					"required": true
+				},
+				{
+					"slug": "step_1_right_column",
+					"label": "Step 1 – Right column",
+					"type": "portableText",
+					"required": true
+				},
+				{
+					"slug": "step_2_left_column",
+					"label": "Step 2 – Left column",
+					"type": "portableText"
+				},
+				{
+					"slug": "step_2_right_column",
+					"label": "Step 2 – Right column",
+					"type": "portableText"
+				},
+				{
+					"slug": "step_3_left_column",
+					"label": "Step 3 – Left column",
+					"type": "portableText"
+				},
+				{
+					"slug": "step_3_right_column",
+					"label": "Step 3 – Right column",
+					"type": "portableText"
+				},
+				{
+					"slug": "where_we_started_paragraph",
+					"label": "Where we started – Paragraph",
+					"type": "text"
+				},
+				{
+					"slug": "where_we_started_previous_version",
+					"label": "Where we started – Previous version",
+					"type": "image"
+				},
+				{
+					"slug": "where_we_started_new_version",
+					"label": "Where we started – New version",
+					"type": "image"
+				},
+				{
+					"slug": "testimonial_quote",
+					"label": "Testimonial – Quote",
+					"type": "text"
+				},
+				{
+					"slug": "testimonial_name",
+					"label": "Testimonial – Name",
+					"type": "string"
+				},
+				{
+					"slug": "testimonial_position",
+					"label": "Testimonial – Position",
+					"type": "string"
+				},
+				{
+					"slug": "brand_assets_paragraph",
+					"label": "Brand assets – Paragraph",
+					"type": "text"
+				},
+				{
+					"slug": "brand_assets_image",
+					"label": "Brand assets – Image",
+					"type": "image"
+				},
+				{
+					"slug": "text_left_image_right_text",
+					"label": "Text on left, image on right – Text",
+					"type": "portableText",
+					"required": true
+				},
+				{
+					"slug": "text_left_image_right_image",
+					"label": "Text on left, image on right – Image",
+					"type": "image",
+					"required": true
+				},
+				{
+					"slug": "image_left_text_right_text",
+					"label": "Image on left, text on right – Text",
+					"type": "portableText"
+				},
+				{
+					"slug": "image_left_text_right_image",
+					"label": "Image on left, text on right – Image",
+					"type": "image"
+				},
+				{
+					"slug": "page_overview_paragraph",
+					"label": "Page overview – Paragraph",
+					"type": "text"
+				},
+				{
+					"slug": "page_overview_screenshots",
+					"label": "Page overview – Screenshots",
+					"type": "repeater",
+					"validation": {
+						"subFields": [
+							{
+								"slug": "image",
+								"label": "Screenshot",
+								"type": "image",
+								"required": true
+							}
+						]
+					}
+				},
+				{
+					"slug": "page_overview_use_white_background",
+					"label": "Page overview – Use white background",
+					"type": "boolean",
+					"defaultValue": false
+				},
+				{
+					"slug": "summary_paragraph",
+					"label": "Summary – Paragraph",
+					"type": "text",
+					"required": true
+				},
+				{
+					"slug": "summary_images",
+					"label": "Summary – Images",
+					"type": "repeater",
+					"validation": {
+						"subFields": [
+							{
+								"slug": "image",
+								"label": "Image",
+								"type": "image",
+								"required": true
+							}
+						]
+					}
+				}
+			]
 		}
 	],
 	"taxonomies": [
