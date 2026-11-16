@@ -1,5 +1,6 @@
 ---
-import { getSiteSettings } from "emdash";
+import { getEmDashCollection, getEmDashEntry, getSiteSettings } from "emdash";
+import { Image } from "emdash/ui";
 import Base from "../layouts/Base.astro";
 import Badge from "../components/Badge.astro";
 import Button from "../components/Button.astro";
@@ -71,6 +72,10 @@ const copy = {
 				quizCta: "Kitöltöm a 3 perces kvízt",
 			},
 		},
+		caseStudy: {
+			title: [{ text: "Sikertörténeteink", tone: "primary" }],
+			cta: "Tovább olvasom",
+		},
 	},
 	en: {
 		titleStart: "Simply",
@@ -130,8 +135,45 @@ const copy = {
 				quizCta: "Take the 3-min quiz",
 			},
 		},
+		caseStudy: {
+			title: [
+				{ text: "See our" },
+				{ text: "success stories", tone: "primary" },
+			],
+			cta: "See more",
+		},
 	},
 }[locale];
+
+const { entries: featuredCaseStudies, cacheHint: caseStudyListHint } = await getEmDashCollection(
+	"case_studies",
+	{
+		locale,
+		where: { featured: "1" },
+		orderBy: { date: "desc" },
+		limit: 1,
+	},
+);
+if (Astro.cache?.enabled) Astro.cache.set(caseStudyListHint);
+
+const featuredCaseStudySlug = featuredCaseStudies[0]?.data.slug;
+
+const { entry: caseStudy, cacheHint: caseStudyHint } = featuredCaseStudySlug
+	? await getEmDashEntry("case_studies", featuredCaseStudySlug, {
+			locale,
+			references: { industry: true, services: true },
+		})
+	: { entry: undefined, cacheHint: undefined };
+if (caseStudyHint && Astro.cache?.enabled) Astro.cache.set(caseStudyHint);
+
+const localePrefix = locale === "en" ? "/en" : "";
+const caseStudyHref = `${localePrefix}/case-studies/${caseStudy?.data.slug}`;
+const caseStudyServices = caseStudy?.references?.services.entries ?? [];
+const caseStudyIndustry = caseStudy?.references?.industry.entries[0];
+const caseStudyLabels = [
+	...caseStudyServices.map((service) => service.data.title),
+	...(caseStudyIndustry ? [caseStudyIndustry.data.title] : []),
+];
 
 const cardClass =
 	"flex flex-col gap-3 rounded-[20px] bg-background p-6 text-text shadow-[0_2px_2px_color-mix(in_srgb,var(--color-gray-900)_20%,transparent)] transition-shadow";
@@ -176,7 +218,7 @@ const cardClass =
 			class="absolute right-[47%] bottom-[20%] z-1 w-[4.625rem] max-lg:hidden"
 		/>
 		<img
-			src="/home/planet-3.webp"
+			src="/global/planet-3.webp"
 			alt=""
 			width="217"
 			height="307"
@@ -329,4 +371,99 @@ const cardClass =
 			</div>
 		</div>
 	</section>
+
+	{
+		caseStudy && (
+		<section id="success-stories" class="relative overflow-hidden bg-background pt-[4.375rem] pb-32 max-md:pb-24">
+			<img
+				src="/global/planet-3.webp"
+				alt=""
+				width="217"
+				height="307"
+				loading="lazy"
+				class="absolute top-[4rem] right-0 w-[13.5625rem] max-lg:w-[8rem] max-md:hidden"
+			/>
+			<img
+				src="/home/case-study-curve.svg"
+				alt=""
+				width="1513"
+				height="212"
+				loading="lazy"
+				class="pointer-events-none absolute inset-x-0 bottom-0 h-auto w-full"
+			/>
+
+			<div class="relative z-10 mx-auto w-[92%] max-w-[76.875rem]">
+				<h2 class="text-[3rem] leading-normal font-medium text-text max-[30rem]:text-[1.875rem]">
+					{copy.caseStudy.title.map((part) => (
+						<>
+							<span
+								class:list={[
+									part.tone === "primary" && "text-primary",
+									part.tone === "accent" && "text-accent",
+								]}
+							>
+								{part.text}
+							</span>{" "}
+						</>
+					))}
+				</h2>
+
+				<div class="mt-8 grid grid-cols-2 items-center gap-x-8 gap-y-10 max-lg:grid-cols-1">
+					<div class="max-w-[34rem]">
+						{caseStudyLabels.length > 0 && (
+							<ul class="flex flex-wrap gap-3">
+								{caseStudyLabels.map((label) => (
+									<li>
+										<Badge>{label}</Badge>
+									</li>
+								))}
+							</ul>
+						)}
+						<h3
+							{...caseStudy.edit.hero_text}
+							class="mt-5 text-[2.125rem] leading-[2.75rem] font-medium text-text max-[30rem]:text-[1.75rem] max-[30rem]:leading-9"
+						>
+							<a href={caseStudyHref} class="no-underline">
+								{caseStudy.data.hero_text}
+							</a>
+						</h3>
+						<p
+							{...caseStudy.edit.short_description}
+							class="mt-4 text-base leading-[1.625rem] font-light text-text"
+						>
+							{caseStudy.data.short_description}
+						</p>
+						<Button
+							variant="primary"
+							href={caseStudyHref}
+							class="mt-6"
+						>
+							{copy.caseStudy.cta}
+						</Button>
+					</div>
+
+					<div class="relative pt-20 max-lg:pt-14">
+						<img
+							src="/home/spaceship.webp"
+							alt=""
+							width="580"
+							height="378"
+							loading="lazy"
+							class="absolute top-0 left-[8%] w-[13.75rem] animate-float motion-reduce:animate-none max-lg:w-[9rem]"
+						/>
+						<div {...caseStudy.edit.image}>
+							<Image
+								image={caseStudy.data.image}
+								alt={caseStudy.data.hero_text}
+								sizes="(min-width: 64rem) 38rem, 92vw"
+								loading="lazy"
+								class="relative h-auto w-full"
+							/>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		)
+	}
 </Base>

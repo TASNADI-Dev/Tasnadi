@@ -30,6 +30,18 @@
 	--color-primary: var(--color-orange-500);
 	--color-primary-hover: var(--color-orange-300);
 	--color-accent: var(--color-blue-500);
+
+	--animate-float: float 6s ease-in-out infinite;
+
+	@keyframes float {
+		0%,
+		100% {
+			transform: translateY(0);
+		}
+		50% {
+			transform: translateY(0.75rem);
+		}
+	}
 }
 
 body {

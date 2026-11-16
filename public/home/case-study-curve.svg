@@ -1,0 +1,29 @@
+<svg width="1513" height="212" viewBox="0 0 1513 212" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_5507_6056)">
+<g filter="url(#filter0_f_5507_6056)">
+<g clip-path="url(#paint0_diamond_5507_6056_clip_path)" data-figma-skip-parse="true"><g transform="matrix(-1.16382 1.31295 -3.57131 -2.13595 1348.61 67.4106)"><rect x="0" y="0" width="845.679" height="246.289" fill="url(#paint0_diamond_5507_6056)" opacity="1" shape-rendering="crispEdges"/><rect x="0" y="0" width="845.679" height="246.289" transform="scale(1 -1)" fill="url(#paint0_diamond_5507_6056)" opacity="1" shape-rendering="crispEdges"/><rect x="0" y="0" width="845.679" height="246.289" transform="scale(-1 1)" fill="url(#paint0_diamond_5507_6056)" opacity="1" shape-rendering="crispEdges"/><rect x="0" y="0" width="845.679" height="246.289" transform="scale(-1)" fill="url(#paint0_diamond_5507_6056)" opacity="1" shape-rendering="crispEdges"/></g></g><path d="M3.13857 954.377L3.13672 110.337C3.13672 110.337 391.448 57.0075 922.5 71.6013C1453.55 86.1951 1501.5 138.88 1501.5 138.88L1510.5 960.085L3.13857 954.377Z" data-figma-gradient-fill="{&#34;type&#34;:&#34;GRADIENT_DIAMOND&#34;,&#34;stops&#34;:[{&#34;color&#34;:{&#34;r&#34;:0.91666668653488159,&#34;g&#34;:0.51432633399963379,&#34;b&#34;:0.042013883590698242,&#34;a&#34;:1.0},&#34;position&#34;:0.12470468133687973},{&#34;color&#34;:{&#34;r&#34;:1.0,&#34;g&#34;:0.69895398616790771,&#34;b&#34;:0.24583333730697632,&#34;a&#34;:1.0},&#34;position&#34;:0.30554395914077759},{&#34;color&#34;:{&#34;r&#34;:1.0,&#34;g&#34;:1.0,&#34;b&#34;:1.0,&#34;a&#34;:1.0},&#34;position&#34;:0.48453778028488159},{&#34;color&#34;:{&#34;r&#34;:0.15686275064945221,&#34;g&#34;:0.67058825492858887,&#34;b&#34;:0.89019608497619629,&#34;a&#34;:1.0},&#34;position&#34;:0.56174015998840332},{&#34;color&#34;:{&#34;r&#34;:0.15686273574829102,&#34;g&#34;:0.67058825492858887,&#34;b&#34;:0.89019608497619629,&#34;a&#34;:0.41999998688697815},&#34;position&#34;:0.67549824714660645}],&#34;stopsVar&#34;:[],&#34;transform&#34;:{&#34;m00&#34;:-2327.631347656250,&#34;m01&#34;:-7142.61816406250,&#34;m02&#34;:6083.729980468750,&#34;m10&#34;:2625.90136718750,&#34;m11&#34;:-4271.909667968750,&#34;m12&#34;:890.41473388671875},&#34;opacity&#34;:1.0,&#34;blendMode&#34;:&#34;NORMAL&#34;,&#34;visible&#34;:true}"/>
+</g>
+<path d="M1513 212.351H0V104.492C0 104.492 238.988 61 747.5 61C1256.01 61 1513 110.347 1513 110.347V212.351Z" fill="url(#paint1_linear_5507_6056)" style="mix-blend-mode:lighten"/>
+</g>
+<defs>
+<filter id="filter0_f_5507_6056" x="-46.8633" y="19.0723" width="1607.36" height="991.013" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="25" result="effect1_foregroundBlur_5507_6056"/>
+</filter>
+<clipPath id="paint0_diamond_5507_6056_clip_path"><path d="M3.13857 954.377L3.13672 110.337C3.13672 110.337 391.448 57.0075 922.5 71.6013C1453.55 86.1951 1501.5 138.88 1501.5 138.88L1510.5 960.085L3.13857 954.377Z"/></clipPath><linearGradient id="paint0_diamond_5507_6056" x1="0" y1="0" x2="500" y2="500" gradientUnits="userSpaceOnUse">
+<stop offset="0.124705" stop-color="#EA830B" style="stop-color:#EA830B;stop-color:color(display-p3 0.9167 0.5143 0.0420);stop-opacity:1;"/>
+<stop offset="0.305544" stop-color="#FFB23F" style="stop-color:#FFB23F;stop-color:color(display-p3 1.0000 0.6990 0.2458);stop-opacity:1;"/>
+<stop offset="0.484538" stop-color="white" style="stop-color:white;stop-opacity:1;"/>
+<stop offset="0.56174" stop-color="#28ABE3" style="stop-color:#28ABE3;stop-color:color(display-p3 0.1569 0.6706 0.8902);stop-opacity:1;"/>
+<stop offset="0.675498" stop-color="#28ABE3" stop-opacity="0.42" style="stop-color:#28ABE3;stop-color:color(display-p3 0.1569 0.6706 0.8902);stop-opacity:0.42;"/>
+</linearGradient>
+<linearGradient id="paint1_linear_5507_6056" x1="766.5" y1="61" x2="767.788" y2="600.212" gradientUnits="userSpaceOnUse">
+<stop stop-color="white" style="stop-color:white;stop-opacity:1;"/>
+<stop offset="0.424505" stop-color="white" style="stop-color:white;stop-opacity:1;"/>
+</linearGradient>
+<clipPath id="clip0_5507_6056">
+<rect width="1513" height="212" fill="white" style="fill:white;fill-opacity:1;"/>
+</clipPath>
+</defs>
+</svg>
