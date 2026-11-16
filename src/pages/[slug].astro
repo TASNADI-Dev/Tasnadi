@@ -2,7 +2,7 @@
 import { getEmDashEntry, getSeoMeta, decodeSlug, getSiteSettings } from "emdash";
 import { PortableText } from "emdash/ui";
 import Base from "../layouts/Base.astro";
-import { resolveStarterSiteIdentity } from "../utils/site-identity";
+import { resolveSiteIdentity } from "../utils/site-identity";
 
 const slug = decodeSlug(Astro.params.slug);
 
@@ -17,7 +17,7 @@ if (!page) {
 }
 
 if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
-const { siteTitle } = resolveStarterSiteIdentity(await getSiteSettings());
+const { siteTitle } = resolveSiteIdentity(await getSiteSettings());
 
 const seo = getSeoMeta(page, {
 	siteTitle,

@@ -2,7 +2,7 @@
 import { getSiteSettingsWithCacheHint } from "emdash";
 import { EmDashHead, EmDashBodyStart, EmDashBodyEnd } from "emdash/ui";
 import { createPublicPageContext } from "emdash/page";
-import { resolveStarterSiteIdentity } from "../utils/site-identity";
+import { resolveSiteIdentity } from "../utils/site-identity";
 import Navigation from "../components/Navigation.astro";
 import "../styles/global.css";
 
@@ -21,7 +21,7 @@ const { title, pageTitle, description, image, canonical, content } =
 const settingsResult = await getSiteSettingsWithCacheHint();
 if (Astro.cache?.enabled) Astro.cache.set(settingsResult.cacheHint);
 
-const { siteTitle, siteTagline } = resolveStarterSiteIdentity(
+const { siteTitle, siteTagline } = resolveSiteIdentity(
 	settingsResult.data,
 );
 const titleIncludesSiteName =

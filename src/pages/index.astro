@@ -4,9 +4,9 @@ import Base from "../layouts/Base.astro";
 import Badge from "../components/Badge.astro";
 import Button from "../components/Button.astro";
 import ServiceIcon from "../components/ServiceIcon.astro";
-import { resolveStarterSiteIdentity } from "../utils/site-identity";
+import { resolveSiteIdentity } from "../utils/site-identity";
 
-const { siteTitle, siteTagline } = resolveStarterSiteIdentity(
+const { siteTitle, siteTagline } = resolveSiteIdentity(
 	await getSiteSettings(),
 );
 

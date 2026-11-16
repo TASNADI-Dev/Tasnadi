@@ -5,17 +5,17 @@ export interface MediaReference {
 	url?: string;
 }
 
-export interface StarterSiteIdentitySettings {
+export interface SiteIdentitySettings {
 	title?: string;
 	tagline?: string;
 	logo?: MediaReference;
 	favicon?: MediaReference;
 }
 
-const DEFAULT_SITE_TITLE = "My Site";
-const DEFAULT_SITE_TAGLINE = "Built with EmDash";
+const DEFAULT_SITE_TITLE = "TASNADI";
+const DEFAULT_SITE_TAGLINE = "Egyszerűen jobb üzlet.";
 
-export function resolveStarterSiteIdentity(settings?: StarterSiteIdentitySettings) {
+export function resolveSiteIdentity(settings?: SiteIdentitySettings) {
 	return {
 		siteTitle: settings?.title ?? DEFAULT_SITE_TITLE,
 		siteTagline: settings?.tagline ?? DEFAULT_SITE_TAGLINE,

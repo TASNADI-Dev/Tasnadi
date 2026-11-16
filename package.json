@@ -1,12 +1,12 @@
 {
-  "name": "starry-satellite",
+  "name": "tasnadi",
   "type": "module",
   "version": "0.0.1",
   "engines": {
     "node": ">=22.23.4"
   },
   "emdash": {
-    "label": "Starter",
+    "label": "TASNADI",
     "seed": "seed/seed.json"
   },
   "scripts": {
