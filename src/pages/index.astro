@@ -1,11 +1,106 @@
 ---
 import { getSiteSettings } from "emdash";
 import Base from "../layouts/Base.astro";
+import Button from "../components/Button.astro";
 import { resolveStarterSiteIdentity } from "../utils/site-identity";
 
 const { siteTitle, siteTagline } = resolveStarterSiteIdentity(
 	await getSiteSettings(),
 );
+
+const locale = Astro.currentLocale === "en" ? "en" : "hu";
+
+const copy = {
+	hu: {
+		titleStart: "Egyszerűen",
+		titleHighlight: "jobb üzlet.",
+		text: "Digitális megoldások kívül-belül: több ügyfél, kevesebb káosz.",
+		primaryCta: "Szolgáltatásaink",
+		secondaryCta: "Mérd fel a céged digitális érettségét",
+	},
+	en: {
+		titleStart: "Simply",
+		titleHighlight: "better business.",
+		text: "Digital solutions, inside and out: more clients, less chaos.",
+		primaryCta: "Our services",
+		secondaryCta: "Assess your company’s digital maturity",
+	},
+}[locale];
 ---
 
-<Base title={siteTitle} description={siteTagline} />
+<Base title={siteTitle} description={siteTagline}>
+	<section
+		class="relative overflow-hidden pt-[11.875rem] pb-[12.25rem]"
+	>
+		<img
+			src="/home/hero-bg.webp"
+			alt=""
+			width="3024"
+			height="1520"
+			loading="eager"
+			fetchpriority="high"
+			class="absolute inset-0 size-full object-cover object-[50%_100%] max-lg:hidden"
+		/>
+		<img
+			src="/home/hero-bg-mobile.webp"
+			alt=""
+			width="1500"
+			height="1948"
+			loading="eager"
+			class="absolute inset-x-0 bottom-0 hidden h-auto w-full object-cover object-[50%_100%] max-lg:block"
+		/>
+
+		<img
+			src="/home/planet-2.webp"
+			alt=""
+			width="255"
+			height="255"
+			loading="eager"
+			class="absolute top-[33%] right-[29%] z-1 w-[7.96875rem] max-lg:hidden"
+		/>
+		<img
+			src="/home/planet-1.webp"
+			alt=""
+			width="74"
+			height="71"
+			loading="eager"
+			class="absolute right-[47%] bottom-[20%] z-1 w-[4.625rem] max-lg:hidden"
+		/>
+		<img
+			src="/home/planet-3.webp"
+			alt=""
+			width="217"
+			height="307"
+			loading="eager"
+			class="absolute top-[6%] right-0 z-1 w-[13.5625rem] max-lg:hidden"
+		/>
+
+		<div class="relative z-10 mx-auto w-[92%] max-w-[76.875rem]">
+			<h1
+				class="max-w-[32.5rem] pr-10 text-[4.375rem] leading-[5.25rem] font-medium tracking-[-0.02em] text-text max-lg:text-[2.1875rem] max-lg:leading-[2.75rem]"
+			>
+				{copy.titleStart}{" "}
+				<span class="text-primary">{copy.titleHighlight}</span>
+			</h1>
+
+			<div class="w-full max-w-[48.125rem] max-lg:w-4/5 max-sm:w-auto">
+				<p
+					class="my-10 pr-15 text-xl leading-[1.875rem] font-medium text-text max-lg:pr-0"
+				>
+					{copy.text}
+				</p>
+
+				<div
+					class="flex items-center gap-8 max-md:flex-col max-md:items-start max-md:gap-4"
+				>
+					<Button variant="primary" href="#services">
+						{copy.primaryCta}
+					</Button>
+					<Button variant="link-arrow" href="#">
+						{copy.secondaryCta}
+					</Button>
+				</div>
+			</div>
+		</div>
+	</section>
+</Base>
