@@ -1,0 +1,55 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+type Variant = "primary" | "secondary" | "link-arrow" | "link";
+
+type Props = Omit<HTMLAttributes<"a">, "type"> & {
+	variant?: Variant;
+	/** Renders an <a> when set, otherwise a <button> */
+	href?: string;
+	type?: "button" | "submit" | "reset";
+};
+
+const {
+	variant = "primary",
+	href,
+	type = "button",
+	class: className,
+	...rest
+} = Astro.props;
+
+const Tag = href ? "a" : "button";
+const tagProps = href ? { href } : { type };
+
+const base =
+	"inline-flex cursor-pointer items-center justify-center text-base leading-5 tracking-[0.02em] no-underline transition duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
+
+const variants: Record<Variant, string> = {
+	primary:
+		"rounded-[4px] bg-primary px-8 py-3 font-normal text-text hover:bg-primary-hover active:shadow-[inset_0_4px_8px_var(--color-orange-700)]",
+	secondary:
+		"rounded-[4px] px-8 py-3 font-normal text-text shadow-[inset_0_0_0_2px_var(--color-primary)] hover:bg-primary-hover hover:shadow-none active:shadow-[inset_0_4px_8px_var(--color-orange-700)]",
+	"link-arrow":
+		"gap-4 border-b-2 border-primary font-medium text-primary hover:text-primary-hover active:text-orange-700",
+	link: "border-b-2 border-primary font-medium text-primary hover:text-primary-hover active:text-orange-700",
+};
+---
+
+<Tag {...tagProps} {...rest} class:list={[base, variants[variant], className]}>
+	<slot />
+	{
+		variant === "link-arrow" && (
+			<svg
+				class="shrink-0"
+				width="16"
+				height="13"
+				viewBox="0 0 16 13"
+				fill="currentColor"
+				xmlns="http://www.w3.org/2000/svg"
+				aria-hidden="true"
+			>
+				<path d="M1 5.75C0.585786 5.75 0.25 6.08579 0.25 6.5C0.25 6.91421 0.585786 7.25 1 7.25L1 5.75ZM15.5303 7.03033C15.8232 6.73744 15.8232 6.26256 15.5303 5.96967L10.7574 1.1967C10.4645 0.903805 9.98959 0.903805 9.6967 1.1967C9.40381 1.48959 9.40381 1.96447 9.6967 2.25736L13.9393 6.5L9.6967 10.7426C9.40381 11.0355 9.40381 11.5104 9.6967 11.8033C9.98959 12.0962 10.4645 12.0962 10.7574 11.8033L15.5303 7.03033ZM1 7.25L15 7.25L15 5.75L1 5.75L1 7.25Z" />
+			</svg>
+		)
+	}
+</Tag>

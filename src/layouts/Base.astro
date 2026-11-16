@@ -1,8 +1,7 @@
 ---
-import { getMenuWithCacheHint, getSiteSettingsWithCacheHint } from "emdash";
+import { getSiteSettingsWithCacheHint } from "emdash";
 import { EmDashHead, EmDashBodyStart, EmDashBodyEnd } from "emdash/ui";
 import { createPublicPageContext } from "emdash/page";
-import LiveSearch from "emdash/ui/search";
 import { resolveStarterSiteIdentity } from "../utils/site-identity";
 import "../styles/global.css";
 
@@ -18,16 +17,10 @@ interface Props {
 
 const { title, pageTitle, description, image, canonical, content } =
 	Astro.props;
-const [settingsResult, menuResult] = await Promise.all([
-	getSiteSettingsWithCacheHint(),
-	getMenuWithCacheHint("primary"),
-]);
-if (Astro.cache?.enabled) {
-	Astro.cache.set(settingsResult.cacheHint);
-	Astro.cache.set(menuResult.cacheHint);
-}
+const settingsResult = await getSiteSettingsWithCacheHint();
+if (Astro.cache?.enabled) Astro.cache.set(settingsResult.cacheHint);
 
-const { siteTitle, siteTagline, siteLogo } = resolveStarterSiteIdentity(
+const { siteTitle, siteTagline } = resolveStarterSiteIdentity(
 	settingsResult.data,
 );
 const titleIncludesSiteName =
@@ -36,7 +29,6 @@ const titleIncludesSiteName =
 	title.endsWith(` — ${siteTitle}`);
 const fullTitle = titleIncludesSiteName ? title : `${title} — ${siteTitle}`;
 const pageDescription = description ?? siteTagline;
-const menu = menuResult.data;
 
 const pageCtx = createPublicPageContext({
 	Astro,
@@ -63,36 +55,6 @@ const pageCtx = createPublicPageContext({
 	</head>
 	<body>
 		<EmDashBodyStart page={pageCtx} />
-
-		<header>
-			<nav>
-				<a href="/">
-					{
-						siteLogo ? (
-							<img
-								src={siteLogo.url}
-								alt={siteLogo.alt || siteTitle}
-								style="height:48px;width:auto;margin:-8px 0;display:block;"
-							/>
-						) : (
-							siteTitle
-						)
-					}
-				</a>
-				{
-					menu?.items.map((item) => (
-						<a
-							href={item.url}
-							target={item.target}
-							rel={item.target === "_blank" ? "noopener noreferrer" : undefined}
-						>
-							{item.label}
-						</a>
-					))
-				}
-				<LiveSearch placeholder="Search..." collections={["posts", "pages"]} />
-			</nav>
-		</header>
 
 		<main>
 			<slot />
