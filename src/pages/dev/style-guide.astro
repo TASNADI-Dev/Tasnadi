@@ -1,7 +1,16 @@
 ---
 import Base from "../../layouts/Base.astro";
 import Button from "../../components/Button.astro";
+import Badge from "../../components/Badge.astro";
 import LanguageSwitcher from "../../components/LanguageSwitcher.astro";
+import ServiceIcon from "../../components/ServiceIcon.astro";
+
+const serviceIconNames = ["branding", "website", "webshop", "consulting", "strategy"] as const;
+
+const serviceIconTones = [
+	{ tone: "primary", description: "Orange circle outline, used for the external digital presence services." },
+	{ tone: "accent", description: "Blue circle outline, used for the internal digital operations services." },
+] as const;
 
 const buttonVariants = [
 	{
@@ -120,6 +129,41 @@ const colorGroups = [
 								</Button>
 								<Button variant={variant}>As a button</Button>
 							</div>
+						</div>
+					))
+				}
+			</div>
+		</section>
+
+		<section class="mt-16">
+			<h2 class="mb-8 text-2xl font-bold">Badge</h2>
+
+			<div class="border-t border-border pt-6">
+				<h3 class="mb-1 text-lg font-medium">Default</h3>
+				<p class="mb-4 text-text-muted">Small blue pill used for section labels and tags like "New".</p>
+				<Badge>Our services</Badge>
+			</div>
+		</section>
+
+		<section class="mt-16">
+			<h2 class="mb-8 text-2xl font-bold">Service icon</h2>
+
+			<div class="flex flex-col gap-10">
+				{
+					serviceIconTones.map(({ tone, description }) => (
+						<div class="border-t border-border pt-6">
+							<h3 class="mb-1 text-lg font-medium">
+								<code>tone="{tone}"</code>
+							</h3>
+							<p class="mb-4 text-text-muted">{description}</p>
+							<ul class="flex flex-wrap items-center gap-6">
+								{serviceIconNames.map((name) => (
+									<li class="flex flex-col items-center gap-2">
+										<ServiceIcon {name} {tone} />
+										<code class="text-sm text-text-muted">{name}</code>
+									</li>
+								))}
+							</ul>
 						</div>
 					))
 				}

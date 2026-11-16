@@ -1,7 +1,9 @@
 ---
 import { getSiteSettings } from "emdash";
 import Base from "../layouts/Base.astro";
+import Badge from "../components/Badge.astro";
 import Button from "../components/Button.astro";
+import ServiceIcon from "../components/ServiceIcon.astro";
 import { resolveStarterSiteIdentity } from "../utils/site-identity";
 
 const { siteTitle, siteTagline } = resolveStarterSiteIdentity(
@@ -17,6 +19,58 @@ const copy = {
 		text: "Digitális megoldások kívül-belül: több ügyfél, kevesebb káosz.",
 		primaryCta: "Szolgáltatásaink",
 		secondaryCta: "Mérd fel a céged digitális érettségét",
+		services: {
+			badge: "Szolgáltatásaink",
+			title: [
+				{ text: "Kívül", tone: "primary" },
+				{ text: "erősebb." },
+				{ text: "Belül", tone: "accent" },
+				{ text: "gördülékenyebb." },
+			],
+			external: {
+				eyebrow: "Külső digitális jelenlét",
+				title: "Hogyan legyen több és jobb ügyfelem?",
+			},
+			internal: {
+				eyebrow: "Belső digitális működés",
+				title: "Hogyan tudunk kevesebb káosszal és manuális munkával nőni?",
+			},
+			items: [
+				{
+					icon: "branding" as const,
+					title: "Branding",
+					text: "Megkönnyítjük ügyfeleidnek, hogy megértsék: te vagy a legjobb választás számukra. Szakértelmünkkel az online branding terén biztosítjuk, hogy márkád felismerhető és vonzó legyen.",
+				},
+				{
+					icon: "website" as const,
+					title: "Weboldalak",
+					text: "Digitális ügynökségként gondoskodunk arról, hogy honlapod leadeket generáljon, céged pedig megbízhatónak tűnjön.",
+				},
+				{
+					icon: "webshop" as const,
+					title: "Webshopok",
+					text: "Hatékony webshoppal segítjük online értékesítésedet, amely nemcsak esztétikus, hanem rendkívül funkcionális is, növelve konverzióidat.",
+				},
+				{
+					icon: "consulting" as const,
+					title: "Tanácsadás",
+					text: "Segítünk a megfelelő stratégia kidolgozásában, hogy kitűnj a piacon.",
+				},
+			],
+			moreCta: "Bővebben",
+			strategy: {
+				badge: "Új",
+				title: "Digitalizációs stratégia",
+				text: "Feltárjuk, hol lassítja a manuális munka a növekedést, majd megvalósítható tervet készítünk. Nem szoftvert sózunk rád.",
+				listTitle: "Ismerős?",
+				list: [
+					"Fél óra megtalálni egy fél éve elküldött szerződést.",
+					"Az ügyféladatok Excelben, e-mailben és a kollégák fejében vannak.",
+					"Több ügyfél, több káosz.",
+				],
+				quizCta: "Kitöltöm a 3 perces kvízt",
+			},
+		},
 	},
 	en: {
 		titleStart: "Simply",
@@ -24,8 +78,63 @@ const copy = {
 		text: "Digital solutions, inside and out: more clients, less chaos.",
 		primaryCta: "Our services",
 		secondaryCta: "Assess your company’s digital maturity",
+		services: {
+			badge: "Our services",
+			title: [
+				{ text: "Stronger" },
+				{ text: "outside.", tone: "primary" },
+				{ text: "Smoother" },
+				{ text: "inside.", tone: "accent" },
+			],
+			external: {
+				eyebrow: "External digital presence",
+				title: "How do we get more and better clients?",
+			},
+			internal: {
+				eyebrow: "Internal digital operations",
+				title: "How can we grow with less chaos and manual work?",
+			},
+			items: [
+				{
+					icon: "branding" as const,
+					title: "Branding",
+					text: "We make it easy for your customers to understand that you are the best choice for them. With our expertise in online branding, we ensure your brand is recognizable and attractive.",
+				},
+				{
+					icon: "website" as const,
+					title: "Websites",
+					text: "As a digital agency, we ensure your website generates leads and your company appears trustworthy.",
+				},
+				{
+					icon: "webshop" as const,
+					title: "Webshops",
+					text: "We support your online sales with an effective online store that is not only aesthetic but also highly functional, increasing your conversions.",
+				},
+				{
+					icon: "consulting" as const,
+					title: "Consulting",
+					text: "We help you develop the right strategy to stand out in the market.",
+				},
+			],
+			moreCta: "Find out more",
+			strategy: {
+				badge: "New",
+				title: "Digitalization strategy",
+				text: "We find where manual work is slowing your growth, then build a plan you can actually implement. No software sales pitch.",
+				listTitle: "Sounds familiar?",
+				list: [
+					"Finding a contract from six months ago takes half an hour.",
+					"Client data lives in Excel, email and your colleagues’ heads.",
+					"More clients means more chaos.",
+				],
+				quizCta: "Take the 3-min quiz",
+			},
+		},
 	},
 }[locale];
+
+const cardClass =
+	"flex flex-col gap-3 rounded-[20px] bg-background p-6 text-text shadow-[0_2px_2px_color-mix(in_srgb,var(--color-gray-900)_20%,transparent)] transition-shadow";
 ---
 
 <Base title={siteTitle} description={siteTagline}>
@@ -99,6 +208,123 @@ const copy = {
 					<Button variant="link-arrow" href="#">
 						{copy.secondaryCta}
 					</Button>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section
+		id="services"
+		class="relative bg-gray-900 pt-10 pb-20 max-[30rem]:pt-[3.125rem]"
+	>
+		<img
+			src="/home/services-bg.webp"
+			alt=""
+			width="1512"
+			height="1294"
+			loading="lazy"
+			class="absolute inset-0 size-full object-cover object-top max-[30rem]:object-bottom"
+		/>
+
+		<div class="relative z-10 mx-auto w-[92%] max-w-[76.875rem]">
+			<Badge class="align-top">{copy.services.badge}</Badge>
+
+			<h2
+				class="mt-5 mb-2.5 text-[3rem] leading-normal font-medium text-white max-[30rem]:text-[1.875rem]"
+			>
+				{
+					copy.services.title.map((part) => (
+						<>
+							<span
+								class:list={[
+									part.tone === "primary" && "text-primary",
+									part.tone === "accent" && "text-accent",
+								]}
+							>
+								{part.text}
+							</span>{" "}
+						</>
+					))
+				}
+			</h2>
+
+			<div class="grid grid-cols-[2fr_1fr] gap-8 pt-[1.875rem] max-lg:grid-cols-1">
+				<div>
+					<p class="text-sm leading-5 font-medium text-primary uppercase">
+						{copy.services.external.eyebrow}
+					</p>
+					<h3 class="mt-2.5 mb-2.5 text-2xl leading-[2.125rem] font-medium text-white">
+						{copy.services.external.title}
+					</h3>
+				</div>
+				<div>
+					<p class="text-sm leading-5 font-medium text-accent uppercase">
+						{copy.services.internal.eyebrow}
+					</p>
+					<h3 class="mt-2.5 mb-2.5 text-2xl leading-[2.125rem] font-medium text-white">
+						{copy.services.internal.title}
+					</h3>
+				</div>
+
+				<ul class="grid grid-cols-2 gap-4 max-md:grid-cols-1">
+					{
+						copy.services.items.map((item) => (
+							<li class={`${cardClass} group relative hover:shadow-[0_2px_6px_color-mix(in_srgb,var(--color-gray-900)_30%,transparent)]`}>
+								<ServiceIcon name={item.icon} />
+								<div class="flex flex-col items-start">
+									<h4 class="text-2xl leading-[2.125rem] font-medium">
+										{item.title}
+									</h4>
+									<p class="mt-2 mb-2.5 text-base leading-[1.625rem] font-light text-text-muted">
+										{item.text}
+									</p>
+									<Button
+										variant="link-arrow"
+										href="#"
+										class="mt-2 after:absolute after:inset-0 after:rounded-[20px] group-hover:text-primary-hover"
+									>
+										{copy.services.moreCta}
+									</Button>
+								</div>
+							</li>
+						))
+					}
+				</ul>
+
+				<div class={cardClass}>
+					<div class="flex items-center justify-between gap-4">
+						<ServiceIcon name="strategy" tone="accent" />
+						<Badge>{copy.services.strategy.badge}</Badge>
+					</div>
+					<div class="flex flex-col items-start">
+						<h4 class="text-2xl leading-[2.125rem] font-medium">
+							{copy.services.strategy.title}
+						</h4>
+						<p class="mt-2 mb-2.5 text-base leading-[1.625rem] font-light text-text-muted">
+							{copy.services.strategy.text}
+						</p>
+					</div>
+					<hr class="border-t border-gray-300" />
+					<div class="pt-2">
+						<p class="text-sm leading-5 font-bold">
+							{copy.services.strategy.listTitle}
+						</p>
+						<ul class="mt-2 list-disc pl-4 marker:text-accent">
+							{
+								copy.services.strategy.list.map((text) => (
+									<li class="mb-3 text-sm leading-normal font-light">{text}</li>
+								))
+							}
+						</ul>
+					</div>
+					<div class="mt-auto flex flex-col items-start gap-4">
+						<Button variant="primary" href="#">
+							{copy.services.strategy.quizCta}
+						</Button>
+						<Button variant="link-arrow" href="#">
+							{copy.services.moreCta}
+						</Button>
+					</div>
 				</div>
 			</div>
 		</div>
