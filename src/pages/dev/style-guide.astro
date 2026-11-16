@@ -1,0 +1,147 @@
+---
+import Base from "../../layouts/Base.astro";
+import Button from "../../components/Button.astro";
+import LanguageSwitcher from "../../components/LanguageSwitcher.astro";
+
+const buttonVariants = [
+	{
+		variant: "primary",
+		description: "Solid orange background. Hover lightens it, active adds an inset shadow.",
+	},
+	{
+		variant: "secondary",
+		description: "Transparent with a 2px orange inset border. Hover fills it with the light orange.",
+	},
+	{
+		variant: "link-arrow",
+		description: "No background, orange underline and a right-pointing arrow.",
+	},
+	{
+		variant: "link",
+		description: "Same as link-arrow, without the arrow icon.",
+	},
+] as const;
+
+const languageSwitcherVariants = [
+	{
+		locale: "hu",
+		description: "Hungarian is the current language: HU is orange and underlined.",
+	},
+	{
+		locale: "en",
+		description: "English is the current language: EN is orange and underlined.",
+	},
+] as const;
+
+const baseColors = [
+	{ name: "white", value: "#ffffff", swatch: "bg-white" },
+	{ name: "gray-50", value: "#f8f8f8", swatch: "bg-gray-50" },
+	{ name: "gray-200", value: "#e2e2e2", swatch: "bg-gray-200" },
+	{ name: "gray-300", value: "#c4c4c4", swatch: "bg-gray-300" },
+	{ name: "gray-400", value: "#afafaf", swatch: "bg-gray-400" },
+	{ name: "gray-500", value: "#979797", swatch: "bg-gray-500" },
+	{ name: "gray-600", value: "#656565", swatch: "bg-gray-600" },
+	{ name: "gray-900", value: "#222222", swatch: "bg-gray-900" },
+	{ name: "orange-300", value: "#ffb546", swatch: "bg-orange-300" },
+	{ name: "orange-500", value: "#f39200", swatch: "bg-orange-500" },
+	{ name: "orange-700", value: "#c97900", swatch: "bg-orange-700" },
+	{ name: "blue-400", value: "#2cc0f6", swatch: "bg-blue-400" },
+	{ name: "blue-500", value: "#05a3e0", swatch: "bg-blue-500" },
+] as const;
+
+const semanticColors = [
+	{ name: "background", value: "white", swatch: "bg-background" },
+	{ name: "surface", value: "gray-50", swatch: "bg-surface" },
+	{ name: "text", value: "gray-900", swatch: "bg-text" },
+	{ name: "text-muted", value: "gray-600", swatch: "bg-text-muted" },
+	{ name: "border", value: "gray-200", swatch: "bg-border" },
+	{ name: "primary", value: "orange-500", swatch: "bg-primary" },
+	{ name: "primary-hover", value: "orange-300", swatch: "bg-primary-hover" },
+	{ name: "accent", value: "blue-500", swatch: "bg-accent" },
+] as const;
+
+const colorGroups = [
+	{
+		title: "Base colors",
+		description: "The raw palette. Prefer the semantic colors in components.",
+		colors: baseColors,
+	},
+	{
+		title: "Semantic colors",
+		description: "Named by purpose and mapped to a base color.",
+		colors: semanticColors,
+	},
+];
+---
+
+<Base title="Style guide">
+	<div class="mx-auto max-w-[1230px] px-6 pt-32 pb-12">
+		<h1 class="mb-2 text-4xl font-bold">Style guide</h1>
+		<p class="mb-12 text-text-muted">Internal reference for the colors and reusable UI components.</p>
+
+		<section class="mb-16">
+			<h2 class="mb-8 text-2xl font-bold">Colors</h2>
+
+			<div class="flex flex-col gap-10">
+				{
+					colorGroups.map(({ title, description, colors }) => (
+						<div class="border-t border-border pt-6">
+							<h3 class="mb-1 text-lg font-medium">{title}</h3>
+							<p class="mb-6 text-text-muted">{description}</p>
+							<ul class="grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6">
+								{colors.map(({ name, value, swatch }) => (
+									<li>
+										<div class:list={["mb-3 h-20 rounded-[8px] border border-border", swatch]} />
+										<code class="block text-base font-medium">{name}</code>
+										<span class="text-sm text-text-muted">{value}</span>
+									</li>
+								))}
+							</ul>
+						</div>
+					))
+				}
+			</div>
+		</section>
+
+		<section>
+			<h2 class="mb-8 text-2xl font-bold">Button</h2>
+
+			<div class="flex flex-col gap-10">
+				{
+					buttonVariants.map(({ variant, description }) => (
+						<div class="border-t border-border pt-6">
+							<h3 class="mb-1 text-lg font-medium">
+								<code>{variant}</code>
+							</h3>
+							<p class="mb-4 text-text-muted">{description}</p>
+							<div class="flex flex-wrap items-center gap-8">
+								<Button variant={variant} href="#">
+									As a link
+								</Button>
+								<Button variant={variant}>As a button</Button>
+							</div>
+						</div>
+					))
+				}
+			</div>
+		</section>
+
+		<section class="mt-16">
+			<h2 class="mb-8 text-2xl font-bold">Language switcher</h2>
+
+			<div class="flex flex-col gap-10">
+				{
+					languageSwitcherVariants.map(({ locale, description }) => (
+						<div class="border-t border-border pt-6">
+							<h3 class="mb-1 text-lg font-medium">
+								<code>locale="{locale}"</code>
+							</h3>
+							<p class="mb-4 text-text-muted">{description}</p>
+							<LanguageSwitcher {locale} />
+						</div>
+					))
+				}
+			</div>
+		</section>
+	</div>
+</Base>

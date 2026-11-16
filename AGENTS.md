@@ -11,6 +11,7 @@ The main goal of this project is to migrate an existing Webflow site to Astro an
 * **Styling:** Tailwind CSS
 * **CMS:** EmDash is the CMS for this project. Follow its build guide before setting up or changing anything CMS-related: https://emdashcms.com/start.md
 * **Locale:** Hungarian (`hu`) is the default language; English (`en`) is the one translated language. All content and user-visible text is Hungarian by default, with an English translation as the secondary language.
+* **Locale Routing:** Astro i18n is configured in `astro.config.mjs` (EmDash reads the same config). Hungarian is served unprefixed, English under `/en`. Pages are **not** duplicated per locale: a missing `/en/...` page falls back to the Hungarian one via rewrite, and components read the language from `Astro.currentLocale`. Only the home page has an explicit `src/pages/en/index.astro`, because the `[slug]` route would otherwise swallow `/en`.
 * **English for Development:** Everything development-related must be in English, even though the site's main language is Hungarian. This includes class names, component names, file and folder names, variable and function names, props, routes/slugs in code, and any other identifiers. Only user-visible content is Hungarian (or its English translation).
 
 ## Design System & Styling Rules
@@ -19,6 +20,7 @@ The main goal of this project is to migrate an existing Webflow site to Astro an
 * **Strict Color Usage:** Use only the theme colors defined in `src/styles/global.css`. Do **not** invent arbitrary hex codes or use default Tailwind colors (they are disabled via `--color-*: initial`).
   * Prefer the semantic colors over the base colors in components.
   * If a design or the original site uses a color that is not a variable, do not hardcode it — ask the user whether to add it as a new variable or use an existing color instead.
+  * Whenever you add, change or remove a color variable (base or semantic) in `src/styles/global.css`, update the Colors section of `src/pages/dev/style-guide.astro` in the same change.
 * **Typography:** Use only **Museo Sans** (`font-sans` / `font-heading`) for all text. The font files are in `public/global/fonts/`, loaded via `@font-face` and defined as theme fonts via `@theme` in `src/styles/global.css` (imported in `src/layouts/Base.astro`). Do not use other font families.
 * **Units:** Do not use `px` for font sizes — use `rem` instead. When the user specifies a value in `px`, always convert it to `rem` first (16px = 1rem) before applying it in code. **Exception:** border radius values may use `px`.
 * **Container:** The max width of the content should be 1230px.
@@ -33,12 +35,20 @@ The main goal of this project is to migrate an existing Webflow site to Astro an
 
 * **File Structure:** Place all reusable `.astro` components in `src/components/`, page layouts in `src/layouts/`, and pages in `src/pages/`.
 * **Islands Architecture:** Keep server-first rendering by default. Only use interactive client directives (`client:load`, `client:idle`, `client:visible`) when strictly necessary for JavaScript interactivity.
-* **Components catalog:** Whenever you create or update a UI component (or add a variant), also add it to `src/pages/dev/components.astro`. Keep that page out of the main nav, group by component with every variant visible, and write the page itself in English.
+* **Style guide:** `src/pages/dev/style-guide.astro` is the internal reference for colors and reusable UI components. Whenever you create or update a UI component (or add a variant), also add it to this page. Keep it out of the main nav, group by component with every variant visible, and write the page itself in English.
 
 ## JavaScript Organization & Formatting
 
-* **Modular Files:** Do **not** write monolithic `<script>` tags or massive single JS/TS files. Split logic into small, modular files organized logically in `src/scripts/` or alongside the component.
-* **Header Comment Required:** Every JS/TS file **must** start with a brief 1–2 line comment explaining its core purpose. Don't add comments to other file types.
+* **Component Scripts Stay Inline:** JavaScript that belongs to a single component goes in a `<script>` tag inside that component's `.astro` file (Astro bundles and dedupes it automatically). Keep these scripts short and focused on one job.
+* **Extract When It Grows:** Move logic into small, modular files in `src/scripts/` and import them (e.g. `import "../scripts/menu-toggle";`) when the script is shared by more than one component, or when it grows past roughly 30–40 lines or starts doing more than one job. Do **not** write monolithic `<script>` tags or massive single JS/TS files.
+* **Header Comment Required:** Every JS/TS file, and every inline component `<script>`, **must** start with a brief 1–2 line comment explaining its core purpose. Don't add comments to other file types or to the rest of an `.astro` file.
+
+## Animations
+
+* **CSS First:** Do animations with CSS (transitions, keyframes, Tailwind utilities) whenever it is enough.
+* **GSAP When CSS Is Not Enough:** Use GSAP only for animations CSS can't handle well (e.g. scroll-driven or timeline-based sequences, complex choreography). Do not use any other animation library.
+* **Vanilla JS For Simple State Changes:** Simple interactions like toggling, showing and hiding are done with plain vanilla JavaScript (usually toggling a class or `data-` attribute that CSS animates), with no need for GSAP.
+* **Respect Reduced Motion:** Honor `prefers-reduced-motion` (e.g. Tailwind's `motion-reduce:` variant) for non-essential animations.
 
 ## Documentation
 

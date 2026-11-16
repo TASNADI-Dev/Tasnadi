@@ -10,6 +10,15 @@ export default defineConfig({
 	adapter: node({
 		mode: "standalone",
 	}),
+	i18n: {
+		defaultLocale: "hu",
+		locales: ["hu", "en"],
+		routing: {
+			prefixDefaultLocale: false,
+			fallbackType: "rewrite",
+		},
+		fallback: { en: "hu" },
+	},
 	image: {
 		layout: "constrained",
 		responsiveStyles: true,

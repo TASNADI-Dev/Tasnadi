@@ -1,0 +1,95 @@
+---
+type Props = {
+	label: string;
+	groups: {
+		/** Subtitle shown above the group, with a divider above it on desktop */
+		heading?: string;
+		items: { label: string; href: string; badge?: string }[];
+	}[];
+};
+
+const { label, groups } = Astro.props;
+---
+
+<li data-dropdown data-open="false" class="group/dropdown relative">
+	<button
+		type="button"
+		class="flex w-full cursor-pointer items-center gap-2 rounded-full px-5 py-2 text-left text-base font-medium text-text transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent group-focus-within/dropdown:text-primary max-xl:group-data-[open=true]/dropdown:text-primary xl:w-auto xl:px-4"
+	>
+		{label}
+		<svg
+			class="shrink-0 transition-transform duration-200 group-focus-within/dropdown:rotate-180 group-hover/dropdown:rotate-180 max-xl:group-data-[open=true]/dropdown:rotate-180"
+			width="10"
+			height="6"
+			viewBox="0 0 10 6"
+			fill="none"
+			stroke="currentColor"
+			stroke-width="1.5"
+			stroke-linecap="round"
+			stroke-linejoin="round"
+			aria-hidden="true"
+		>
+			<path d="M1 1l4 4 4-4"></path>
+		</svg>
+	</button>
+
+	<div
+		class="hidden group-data-[open=true]/dropdown:block xl:pointer-events-none xl:absolute xl:block xl:top-full xl:left-0 xl:translate-y-1 xl:pt-3 xl:opacity-0 xl:transition xl:duration-200 xl:group-focus-within/dropdown:pointer-events-auto xl:group-focus-within/dropdown:translate-y-0 xl:group-focus-within/dropdown:opacity-100 xl:group-hover/dropdown:pointer-events-auto xl:group-hover/dropdown:translate-y-0 xl:group-hover/dropdown:opacity-100"
+	>
+		<ul
+			class="flex flex-col max-xl:ml-5 max-xl:border-l max-xl:border-border xl:min-w-[15rem] xl:rounded-[16px] xl:bg-background xl:p-2 xl:shadow-[0_4px_30px_color-mix(in_srgb,var(--color-gray-900)_12%,transparent)]"
+		>
+			{
+				groups.map((group) => (
+					<>
+						{group.heading && (
+							<li class="mt-2 px-4 pb-1 text-sm font-medium text-gray-500 xl:-mx-2 xl:mt-2 xl:border-t xl:border-border xl:px-4 xl:pt-3 xl:pb-1">
+								{group.heading}
+							</li>
+						)}
+						{group.items.map((item) => (
+							<li>
+								<a
+									href={item.href}
+									class="flex items-center gap-3 rounded-[8px] px-4 py-2 text-base font-medium whitespace-nowrap text-text transition-colors hover:bg-surface hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent xl:px-2 xl:py-2.5"
+								>
+									{item.label}
+									{item.badge && (
+										<span class="rounded-full bg-accent px-3 py-1 text-xs leading-4 font-medium text-white">
+											{item.badge}
+										</span>
+									)}
+								</a>
+							</li>
+						))}
+					</>
+				))
+			}
+		</ul>
+	</div>
+</li>
+
+<script>
+	// Expands and collapses the dropdowns in the mobile navigation (desktop uses hover and focus via CSS).
+	const dropdowns = document.querySelectorAll<HTMLElement>("[data-dropdown]");
+	const desktop = window.matchMedia("(min-width: 80rem)");
+
+	const setOpen = (dropdown: HTMLElement, open: boolean) => {
+		const button = dropdown.querySelector("button");
+		dropdown.dataset.open = String(open);
+		if (desktop.matches) button?.removeAttribute("aria-expanded");
+		else button?.setAttribute("aria-expanded", String(open));
+	};
+
+	const reset = () => dropdowns.forEach((dropdown) => setOpen(dropdown, false));
+
+	dropdowns.forEach((dropdown) => {
+		dropdown.querySelector("button")?.addEventListener("click", () => {
+			if (desktop.matches) return;
+			setOpen(dropdown, dropdown.dataset.open !== "true");
+		});
+	});
+
+	reset();
+	desktop.addEventListener("change", reset);
+</script>
