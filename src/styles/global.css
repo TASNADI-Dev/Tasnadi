@@ -1,3 +1,10 @@
+@import "tailwindcss";
+
+@theme {
+	--font-sans: "Museo Sans", sans-serif;
+	--font-heading: "Museo Sans", sans-serif;
+}
+
 @font-face {
 	font-family: "Museo Sans";
 	src: url("/global/fonts/MuseoSans_100.woff2") format("woff2");
