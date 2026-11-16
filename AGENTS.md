@@ -60,3 +60,7 @@ The main goal of this project is to migrate an existing Webflow site to Astro an
   - Astro Components: https://docs.astro.build/en/basics/astro-components/
   - Content Collections: https://docs.astro.build/en/guides/content-collections/
   - Styling & Tailwind: https://docs.astro.build/en/guides/styling/
+
+## Git
+
+* **Branches:** Never create a new branch unless the user specifically asks for one. By default, commit directly on the current branch (usually `main`) and push it there.
