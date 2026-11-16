@@ -3,6 +3,38 @@
 @theme {
 	--font-sans: "Museo Sans", sans-serif;
 	--font-heading: "Museo Sans", sans-serif;
+
+	--color-*: initial;
+
+	--color-white: #ffffff;
+	--color-gray-50: #f8f8f8;
+	--color-gray-200: #e2e2e2;
+	--color-gray-300: #c4c4c4;
+	--color-gray-400: #afafaf;
+	--color-gray-500: #979797;
+	--color-gray-600: #656565;
+	--color-gray-900: #222222;
+
+	--color-orange-300: #ffb546;
+	--color-orange-500: #f39200;
+	--color-orange-700: #c97900;
+
+	--color-blue-400: #2cc0f6;
+	--color-blue-500: #05a3e0;
+
+	--color-background: var(--color-white);
+	--color-surface: var(--color-gray-50);
+	--color-text: var(--color-gray-900);
+	--color-text-muted: var(--color-gray-600);
+	--color-border: var(--color-gray-200);
+	--color-primary: var(--color-orange-500);
+	--color-primary-hover: var(--color-orange-300);
+	--color-accent: var(--color-blue-500);
+}
+
+body {
+	background-color: var(--color-background);
+	color: var(--color-text);
 }
 
 @font-face {
