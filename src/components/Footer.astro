@@ -1,0 +1,214 @@
+---
+type Locale = "hu" | "en";
+
+type Props = {
+	locale?: Locale;
+	class?: string;
+};
+
+const { class: className } = Astro.props;
+const locale: Locale =
+	Astro.props.locale ?? (Astro.currentLocale === "en" ? "en" : "hu");
+
+const currentYear = new Date().getFullYear();
+
+const copy = {
+	hu: {
+		rights: "Minden jog fenntartva.",
+		privacy: "Adatkezelési tájékoztató",
+		terms: "Általános Szerződési Feltételek",
+		services: "Szolgáltatásaink",
+		serviceLinks: [
+			"Weboldalak",
+			"Webshopok",
+			"Branding",
+			"Tanácsadás",
+			"Modern Vállalkozások Programja",
+		],
+		company: "Cég",
+		companyLinks: ["Munkáink", "Módszer", "Rólunk", "Karrier"],
+		contact: "Kapcsolat",
+		country: "Magyarország",
+		follow: "Kövess minket",
+	},
+	en: {
+		rights: "All rights reserved.",
+		privacy: "Privacy Policy",
+		terms: "General Terms & Conditions",
+		services: "Services",
+		serviceLinks: [
+			"Websites",
+			"Webshops",
+			"Branding",
+			"Consulting",
+			"Modern Vállalkozások Programja",
+		],
+		company: "Company",
+		companyLinks: ["Work", "Method", "About", "Careers"],
+		contact: "Contact",
+		country: "Hungary",
+		follow: "Follow us on",
+	},
+}[locale];
+
+const email = "hello@tasnadi.net";
+const mapUrl = "https://goo.gl/maps/uZG2rTDrfRunMMeDA";
+const addressLines = ["Bajcsy-Zsilinszky út 58. 1054 Budapest,", copy.country];
+
+const socials = [
+	{
+		name: "Behance",
+		href: "https://www.behance.net/tasnadi",
+		icon: "/global/social-behance.webp",
+	},
+	{
+		name: "LinkedIn",
+		href: "https://www.linkedin.com/company/tasnadi-co",
+		icon: "/global/social-linkedin.webp",
+	},
+	{
+		name: "Facebook",
+		href: "https://www.facebook.com/tasnadiandco",
+		icon: "/global/social-facebook.webp",
+	},
+];
+
+const linkClass =
+	"text-sm leading-5 font-light text-white transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent";
+const captionLinkClass =
+	"text-xs leading-4 text-surface underline transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent";
+const headingClass = "text-base leading-5 font-medium text-primary uppercase";
+const blockClass = "flex flex-col items-start gap-6";
+---
+
+<footer
+	class:list={["relative overflow-hidden bg-gray-900", className]}
+>
+	<img
+		src="/global/footer-bg.webp"
+		alt=""
+		width="1512"
+		height="1270"
+		loading="lazy"
+		class="absolute inset-0 size-full object-cover object-[50%_60%]"
+	/>
+
+	<div
+		class="relative z-10 mx-auto w-[92%] max-w-[76.875rem] pt-[6.875rem] pb-[3.625rem] max-lg:pt-20 max-lg:pb-12"
+	>
+		<div
+			class="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-4 lg:grid-cols-12"
+		>
+			<div
+				class="col-span-full flex flex-col justify-between gap-8 lg:col-span-2"
+			>
+				<a
+					href="/"
+					aria-label="TASNADI"
+					class="self-start focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+				>
+					<img
+						src="/global/footer-logo.webp"
+						alt=""
+						width="38"
+						height="40"
+						loading="lazy"
+						class="h-10 w-auto"
+					/>
+				</a>
+
+				<div class="flex flex-col items-start gap-2">
+					<p class="text-xs leading-4 text-gray-300">
+						{copy.rights} © 2018-{currentYear} TASNADI Group Ltd.
+					</p>
+					<a href="#" class={captionLinkClass}>{copy.privacy}</a>
+					<a href="#" class={captionLinkClass}>{copy.terms}</a>
+				</div>
+			</div>
+
+			<nav class:list={[blockClass, "lg:col-span-2 lg:col-start-5"]} aria-labelledby="footer-services">
+				<h2 id="footer-services" class={headingClass}>{copy.services}</h2>
+				{
+					copy.serviceLinks.map((label) => (
+						<a href="#" class={linkClass}>
+							{label}
+						</a>
+					))
+				}
+			</nav>
+
+			<nav class:list={[blockClass, "lg:col-span-2"]} aria-labelledby="footer-company">
+				<h2 id="footer-company" class={headingClass}>{copy.company}</h2>
+				{
+					copy.companyLinks.map((label) => (
+						<a href="#" class={linkClass}>
+							{label}
+						</a>
+					))
+				}
+			</nav>
+
+			<div class:list={[blockClass, "lg:col-span-2"]}>
+				<h2 class={headingClass}>{copy.contact}</h2>
+				<a href={`mailto:${email}`} class={linkClass}>{email}</a>
+				<a
+					href={mapUrl}
+					target="_blank"
+					rel="noopener noreferrer"
+					class={linkClass}
+				>
+					{
+						addressLines.map((line, index) => (
+							<>
+								{index > 0 && <br />}
+								{line}
+							</>
+						))
+					}
+				</a>
+			</div>
+
+			<div class:list={[blockClass, "lg:col-span-2"]}>
+				<h2 class={headingClass}>{copy.follow}</h2>
+				<ul class="flex items-center gap-6">
+					{
+						socials.map(({ name, href, icon }) => (
+							<li>
+								<a
+									{href}
+									target="_blank"
+									rel="noopener noreferrer"
+									class="block focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+								>
+									<img
+										src={icon}
+										alt={name}
+										width="20"
+										height="20"
+										loading="lazy"
+										class="size-5"
+									/>
+								</a>
+							</li>
+						))
+					}
+				</ul>
+				<div class="w-full">
+					<script
+						is:inline
+						type="text/javascript"
+						src="https://widget.clutch.co/static/js/widget.js"></script>
+					<div
+						class="clutch-widget"
+						data-url="https://widget.clutch.co"
+						data-widget-type="1"
+						data-height="50"
+						data-darkbg="1"
+						data-clutchcompany-id="853898"
+					>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>

@@ -3,6 +3,7 @@ import { getSiteSettingsWithCacheHint } from "emdash";
 import { EmDashHead, EmDashBodyStart, EmDashBodyEnd } from "emdash/ui";
 import { createPublicPageContext } from "emdash/page";
 import { resolveSiteIdentity } from "../utils/site-identity";
+import Footer from "../components/Footer.astro";
 import Navigation from "../components/Navigation.astro";
 import "../styles/global.css";
 
@@ -54,14 +55,16 @@ const pageCtx = createPublicPageContext({
 		<title>{fullTitle}</title>
 		<EmDashHead page={pageCtx} />
 	</head>
-	<body>
+	<body class="flex min-h-screen flex-col">
 		<EmDashBodyStart page={pageCtx} />
 
 		<Navigation />
 
-		<main>
+		<main class="flex-1">
 			<slot />
 		</main>
+
+		<Footer />
 
 		<EmDashBodyEnd page={pageCtx} />
 	</body>
