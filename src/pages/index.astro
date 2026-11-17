@@ -17,6 +17,12 @@ const { siteTitle, siteTagline } = resolveSiteIdentity(
 
 const locale = Astro.currentLocale === "en" ? "en" : "hu";
 
+// Same Formspark endpoint and Cloudflare Turnstile site key as the live Webflow site
+const contactForm = {
+	action: "https://submit-form.com/fWyEEvKks",
+	turnstileSiteKey: "0x4AAAAAACK5HFavcDJe9wjU",
+};
+
 const copy = {
 	hu: {
 		titleStart: "Egyszerűen",
@@ -115,6 +121,30 @@ const copy = {
 			title: [{ text: "Néhány" }, { text: "elégedett", tone: "primary" as const }, { text: "ügyfelünk" }],
 			prevLabel: "Előző videó",
 			nextLabel: "Következő videó",
+		},
+		clutch: {
+			caption:
+				"A Clutch egy megbízható értékelési platform, amely hiteles, részletes ügyfélvéleményeket gyűjt vezető szolgáltatókról és cégekről, így biztosítva az autentikusságot.",
+			ctaLabel: "További vélemények a Clutchon",
+			ctaHref: "https://clutch.co/profile/tasnadi-co?utm_source=widget&utm_medium=1&utm_campaign=widget&utm_content=num_reviews&utm_term=www.tasnadi.co#reviews",
+		},
+		contact: {
+			title: [{ text: "Gondolkozol egy projekten?" }, { text: "Beszélgessünk!", tone: "primary" as const }],
+			form: {
+				...contactForm,
+				successMessage: "Vissza",
+				labels: { name: "Név", phone: "Telefon", email: "E-mail", message: "Üzenet" },
+				placeholders: {
+					name: "Név Példa",
+					phone: "+36 30 123 4567",
+					email: "pelda@gmail.com",
+					message: "Példaszöveg",
+				},
+				consent: "Hozzájárulok személyes adataim marketingcélú feldolgozásához.",
+				submit: "Küldés",
+				success: "Köszönjük! Sikeres küldés.",
+				error: "Hoppá! Az űrlap elküldésekor valami rosszul sült el.",
+			},
 		},
 	},
 	en: {
@@ -218,6 +248,30 @@ const copy = {
 			prevLabel: "Previous video",
 			nextLabel: "Next video",
 		},
+		clutch: {
+			caption:
+				"Clutch is a trusted review platform that provides verified, in-depth client feedback on top service providers and companies, ensuring authenticity.",
+			ctaLabel: "More reviews on Clutch",
+			ctaHref: "https://clutch.co/profile/tasnadi-co?utm_source=widget&utm_medium=1&utm_campaign=widget&utm_content=num_reviews&utm_term=www.tasnadi.co#reviews",
+		},
+		contact: {
+			title: [{ text: "Have a project in mind?" }, { text: "Let's talk!", tone: "primary" as const }],
+			form: {
+				...contactForm,
+				successMessage: "Back",
+				labels: { name: "Name", phone: "Phone", email: "Email", message: "Message" },
+				placeholders: {
+					name: "Name Example",
+					phone: "+36 30 123 4567",
+					email: "example@gmail.com",
+					message: "Example Text",
+				},
+				consent: "I agree with the processing of my personal data for marketing purposes.",
+				submit: "Send",
+				success: "Thank you! Your submission has been received!",
+				error: "Oops! Something went wrong while submitting the form.",
+			},
+		},
 	},
 }[locale];
 
@@ -310,6 +364,14 @@ const latestPosts = (
 	)
 ).filter((post) => post != null);
 
+// The contact section shows the owner; name, position and both photos come from the team members collection
+const { entry: contactPerson, cacheHint: contactPersonHint } = await getEmDashEntry(
+	"team_members",
+	"oliver-tasnadi",
+	{ locale },
+);
+if (contactPersonHint && Astro.cache?.enabled) Astro.cache.set(contactPersonHint);
+
 const clientVideos = [
 	{ name: "Citi-Kert", src: "/home/testimonials/citi-kert.mp4" },
 	{ name: "Ravenwood", src: "/home/testimonials/ravenwood.mp4" },
@@ -349,6 +411,10 @@ const mediaSection = {
 		})),
 	},
 };
+
+const labelClass = "text-base leading-[1.625rem] font-medium text-accent";
+const fieldClass =
+	"w-full rounded-[5px] border border-gray-300 bg-white px-3 text-base font-medium text-text placeholder:font-normal placeholder:text-gray-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
 
 const cardClass =
 	"flex flex-col gap-3 rounded-[20px] bg-background p-6 text-text shadow-[0_2px_2px_color-mix(in_srgb,var(--color-gray-900)_20%,transparent)] transition-shadow";
@@ -677,8 +743,249 @@ const cardClass =
 
 	<MediaSection {...mediaSection} />
 
-	<ClientsSection {...copy.clients} items={clientVideos} />
+	<ClientsSection {...copy.clients} items={clientVideos}>
+		<div class="mx-auto mt-[7.5rem] max-w-[57.1875rem] max-md:mt-16">
+			<div
+				class="clutch-widget"
+				data-url="https://widget.clutch.co"
+				data-widget-type="8"
+				data-height="300"
+				data-nofollow="true"
+				data-expandifr="true"
+				data-scale="100"
+				data-reviews="280099,229842,193827,167574,164224,149271"
+				data-clutchcompany-id="853898"
+			>
+			</div>
+			<script is:inline async src="https://widget.clutch.co/static/js/widget.js"></script>
+		</div>
+
+		<p class="mx-auto mt-6 max-w-[40rem] text-center text-sm leading-5 font-light text-text italic">
+			{copy.clutch.caption}
+		</p>
+
+		<div class="mt-16 flex items-center justify-center max-md:mt-10">
+			<Button variant="secondary" href={copy.clutch.ctaHref} target="_blank" rel="noopener">
+				{copy.clutch.ctaLabel}
+			</Button>
+		</div>
+
+		<img
+			slot="decoration"
+			src="/home/astronaut.webp"
+			alt=""
+			width="908"
+			height="1301"
+			loading="lazy"
+			class="pointer-events-none absolute right-0 -bottom-[5%] z-1 h-auto w-80 animate-float motion-reduce:animate-none max-lg:hidden"
+		/>
+	</ClientsSection>
+
+	{
+		contactPerson && (
+		<section class="relative overflow-hidden bg-gray-900 pt-[9.375rem] pb-[10.625rem] max-lg:py-20">
+			<img
+				src="/global/footer-bg.webp"
+				alt=""
+				width="1512"
+				height="1270"
+				loading="lazy"
+				class="absolute inset-0 size-full object-cover object-[50%_60%]"
+			/>
+
+			<div class="relative z-10 mx-auto w-[92%] max-w-[76.875rem]">
+				<h2 class="mb-12 text-[3rem] leading-normal font-medium text-white max-[30rem]:text-[1.875rem]">
+					{
+						copy.contact.title.map((part) => (
+							<>
+								<span
+									class:list={[
+										part.tone === "primary" && "text-primary",
+										part.tone === "accent" && "text-accent",
+									]}
+								>
+									{part.text}
+								</span>{" "}
+							</>
+						))
+					}
+				</h2>
+
+				<div class="flex items-start gap-20 max-lg:flex-col max-lg:gap-12">
+					<div class="min-w-0 flex-1 max-lg:w-full">
+						<div>
+							<form
+								action={copy.contact.form.action}
+								method="post"
+								class="grid grid-cols-2 gap-x-9 gap-y-5 max-md:grid-cols-1"
+							>
+								<input type="hidden" name="utm_source" />
+								<input type="hidden" name="utm_medium" />
+								<input type="hidden" name="utm_campaign" id="utm_campaign" />
+								<input type="hidden" name="utm_term" />
+								<input type="hidden" name="utm_content" />
+								<input type="hidden" name="_feedback.whitelabel" value="true" />
+								<input type="hidden" name="_feedback.dark" value="true" />
+								<input type="hidden" name="_feedback.success.message" value={copy.contact.form.successMessage} />
+
+								<div class="flex flex-col gap-1">
+									<label for="contact-name" class={labelClass}>{copy.contact.form.labels.name}</label>
+									<input
+										id="contact-name"
+										name="name"
+										type="text"
+										maxlength="256"
+										required
+										autocomplete="name"
+										placeholder={copy.contact.form.placeholders.name}
+										class:list={[fieldClass, "h-[3.25rem]"]}
+									/>
+								</div>
+
+								<div class="flex flex-col gap-1">
+									<label for="contact-phone" class={labelClass}>{copy.contact.form.labels.phone}</label>
+									<input
+										id="contact-phone"
+										name="Phone"
+										type="tel"
+										maxlength="256"
+										autocomplete="tel"
+										placeholder={copy.contact.form.placeholders.phone}
+										class:list={[fieldClass, "h-[3.25rem]"]}
+									/>
+								</div>
+
+								<div class="flex flex-col gap-1">
+									<label for="contact-email" class={labelClass}>{copy.contact.form.labels.email}</label>
+									<input
+										id="contact-email"
+										name="Email"
+										type="email"
+										maxlength="256"
+										required
+										autocomplete="email"
+										placeholder={copy.contact.form.placeholders.email}
+										class:list={[fieldClass, "h-[3.25rem]"]}
+									/>
+								</div>
+
+								<div class="flex flex-col gap-1 md:col-start-2 md:row-span-3 md:row-start-1">
+									<label for="contact-message" class={labelClass}>{copy.contact.form.labels.message}</label>
+									<textarea
+										id="contact-message"
+										name="Message"
+										maxlength="5000"
+										placeholder={copy.contact.form.placeholders.message}
+										class:list={[fieldClass, "min-h-[10rem] flex-1 resize-y py-3"]}
+									></textarea>
+								</div>
+
+								<label class="relative col-span-full flex cursor-pointer items-center gap-3 pt-2">
+									<input
+										type="checkbox"
+										name="checkbox"
+										required
+										class="peer size-5 shrink-0 cursor-pointer appearance-none rounded-[2px] border border-gray-300 bg-transparent checked:border-primary checked:bg-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+									/>
+									<svg
+										class="pointer-events-none absolute top-[0.625rem] left-0 size-5 p-1 text-text opacity-0 peer-checked:opacity-100"
+										viewBox="0 0 16 16"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										aria-hidden="true"
+									>
+										<path d="m3 8.5 3.5 3.5L13 4.5"></path>
+									</svg>
+									<span class="text-sm leading-5 font-light text-gray-300">{copy.contact.form.consent}</span>
+								</label>
+
+								<div
+									class="cf-turnstile col-span-full"
+									data-sitekey={copy.contact.form.turnstileSiteKey}
+									data-theme="dark"
+								>
+								</div>
+
+								<div class="col-span-full flex items-center gap-4">
+									<button
+										type="submit"
+										class="inline-flex cursor-pointer items-center justify-center rounded-[4px] bg-primary px-8 py-3 text-base leading-5 font-normal tracking-[0.02em] text-text transition duration-200 hover:bg-primary-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent active:shadow-[inset_0_4px_8px_var(--color-orange-700)] disabled:cursor-wait disabled:opacity-70"
+									>
+										{copy.contact.form.submit}
+									</button>
+									<span
+										data-form-loader
+										role="status"
+										class="hidden size-6 animate-spin rounded-full border-2 border-gray-300 border-t-primary motion-reduce:animate-none"
+									>
+									</span>
+								</div>
+							</form>
+
+							<div
+								data-form-success
+								tabindex="-1"
+								role="status"
+								class="hidden text-xl leading-8 font-medium text-accent focus-visible:outline-none"
+							>
+								{copy.contact.form.success}
+							</div>
+							<div data-form-error role="alert" class="mt-4 hidden text-base leading-6 font-medium text-primary">
+								{copy.contact.form.error}
+							</div>
+						</div>
+					</div>
+
+					<div
+						class="group flex w-60 shrink-0 flex-col items-center rounded-[10px] bg-background px-6 py-8 text-center max-lg:w-full max-lg:max-w-60"
+					>
+						<div class="relative size-48 overflow-hidden rounded-full">
+							<Image
+								image={contactPerson.data.default_image}
+								alt={contactPerson.data.title}
+								sizes="12rem"
+								loading="lazy"
+								class="size-full object-cover"
+							/>
+							<Image
+								image={contactPerson.data.hover_image}
+								alt=""
+								sizes="12rem"
+								loading="lazy"
+								class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100 motion-reduce:transition-none"
+							/>
+						</div>
+						<p {...contactPerson.edit.title} class="mt-4 text-xl leading-[1.625rem] font-medium text-text">
+							{contactPerson.data.title}
+						</p>
+						{
+							contactPerson.data.position && (
+								<p {...contactPerson.edit.position} class="mt-1 text-sm leading-5 font-light text-text">
+									{contactPerson.data.position}
+								</p>
+							)
+						}
+					</div>
+				</div>
+			</div>
+		</section>
+		)
+	}
 </Base>
+
+<script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+<script>
+	// Wires up the contact form: UTM hidden fields and Formspark submission with Turnstile.
+	import { initUtmFields } from "../scripts/utm-fields";
+	import { initFormsparkForms } from "../scripts/formspark-form";
+
+	initUtmFields();
+	initFormsparkForms();
+</script>
 
 <script>
 	// Moves the spaceship toward the top left when scrolling down and back to the bottom right when scrolling up.

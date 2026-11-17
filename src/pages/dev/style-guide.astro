@@ -6,7 +6,6 @@ import Badge from "../../components/Badge.astro";
 import BlogCard from "../../components/BlogCard.astro";
 import ClientsSection from "../../components/ClientsSection.astro";
 import CaseStudyCard from "../../components/CaseStudyCard.astro";
-import LanguageSwitcher from "../../components/LanguageSwitcher.astro";
 import Navigation from "../../components/Navigation.astro";
 import PodcastCard from "../../components/PodcastCard.astro";
 import ServiceIcon from "../../components/ServiceIcon.astro";
@@ -33,7 +32,7 @@ const { entries: samplePosts } = await getEmDashCollection("posts", {
 });
 const samplePost = samplePosts[0];
 
-const serviceIconNames = ["branding", "website", "webshop", "consulting", "strategy"] as const;
+const serviceIconNames =["branding", "website", "webshop", "consulting", "strategy"] as const;
 
 const serviceIconTones = [
 	{ tone: "primary", description: "Orange circle outline, used for the external digital presence services." },
@@ -56,24 +55,6 @@ const buttonVariants = [
 	{
 		variant: "link",
 		description: "Same as link-arrow, without the arrow icon.",
-	},
-] as const;
-
-const languageSwitcherVariants = [
-	{
-		locale: "hu",
-		variant: "light",
-		description: "Hungarian is the current language: HU is orange and underlined.",
-	},
-	{
-		locale: "en",
-		variant: "light",
-		description: "English is the current language: EN is orange and underlined.",
-	},
-	{
-		locale: "hu",
-		variant: "dark",
-		description: "For dark backgrounds: the inactive language is light gray and turns white on hover.",
 	},
 ] as const;
 
@@ -260,10 +241,7 @@ const colorGroups = [
 
 					<div class="border-t border-border pt-6">
 						<h3 class="mb-1 text-lg font-medium">Default</h3>
-						<p class="mb-4 text-text-muted">
-							Image first, then service badges, title and short description. The whole card is
-							one link; hover deepens the shadow, zooms the image and turns the title orange.
-						</p>
+						<p class="mb-4 text-text-muted">Image, service badges, title and description in one link.</p>
 						<div class="max-w-[24.5rem]">
 							<CaseStudyCard
 								href="#"
@@ -285,11 +263,7 @@ const colorGroups = [
 
 					<div class="border-t border-border pt-6">
 						<h3 class="mb-1 text-lg font-medium">Default</h3>
-						<p class="mb-4 text-text-muted">
-							Image on the left, title and the streaming platform links on the right. The title link
-							covers the card; the platform links open in a new tab. Hover deepens the shadow, zooms the
-							image and turns the title orange. Platforms without a link are left out.
-						</p>
+						<p class="mb-4 text-text-muted">Image, title and streaming platform links.</p>
 						<div class="inline-block max-w-full rounded-[24px] bg-gray-900 p-8">
 							<div class="w-[36.9rem] max-w-full">
 								<PodcastCard
@@ -318,11 +292,7 @@ const colorGroups = [
 
 					<div class="border-t border-border pt-6">
 						<h3 class="mb-1 text-lg font-medium">Default</h3>
-						<p class="mb-4 text-text-muted">
-							Same size as the podcast card. Image on the left with the category as an outline
-							badge, title and publish date on the right. The whole card is one link, with the same
-							hover effect as the podcast card.
-						</p>
+						<p class="mb-4 text-text-muted">Image with category badge, title and publish date.</p>
 						<div class="inline-block max-w-full rounded-[24px] bg-gray-900 p-8">
 							<div class="w-[36.9rem] max-w-full">
 								<BlogCard
@@ -345,11 +315,7 @@ const colorGroups = [
 
 			<div class="border-t border-border pt-6">
 				<h3 class="mb-1 text-lg font-medium">Default</h3>
-				<p class="mb-4 text-text-muted">
-					Square video with rounded corners, a poster image and an orange play button. Clicking the
-					video plays or pauses it (no native controls); the play button shows while it is paused.
-					Optional name and role below it, made for dark backgrounds.
-				</p>
+				<p class="mb-4 text-text-muted">Square video with a poster and a custom play button.</p>
 				<div class="inline-block rounded-[24px] bg-gray-900 p-8">
 					<VideoCard
 						src="/home/owner-video-hu.mp4"
@@ -367,11 +333,7 @@ const colorGroups = [
 
 			<div class="border-t border-border pt-6">
 				<h3 class="mb-1 text-lg font-medium">Default</h3>
-				<p class="mb-4 text-text-muted">
-					Centered title and a Swiper slider of native client testimonial videos (with browser
-					controls): 3 per view on desktop, 2 on tablet and 1 on mobile, with round arrow buttons
-					below.
-				</p>
+				<p class="mb-4 text-text-muted">Title and a Swiper slider of native videos. Extra content goes in the default slot.</p>
 				<div class="overflow-hidden rounded-[24px] border border-border">
 					<ClientsSection
 						title={[{ text: "Some of our" }, { text: "happy", tone: "primary" }, { text: "clients" }]}
@@ -385,24 +347,6 @@ const colorGroups = [
 						]}
 					/>
 				</div>
-			</div>
-		</section>
-
-		<section class="mt-16">
-			<h2 class="mb-8 text-2xl font-bold">Language switcher</h2>
-
-			<div class="flex flex-col gap-10">
-				{
-					languageSwitcherVariants.map(({ locale, description }) => (
-						<div class="border-t border-border pt-6">
-							<h3 class="mb-1 text-lg font-medium">
-								<code>locale="{locale}"</code>
-							</h3>
-							<p class="mb-4 text-text-muted">{description}</p>
-							<LanguageSwitcher {locale} />
-						</div>
-					))
-				}
 			</div>
 		</section>
 	</div>
