@@ -55,7 +55,7 @@ const filtersQuery = new URLSearchParams([
 const blogPath = getRelativeLocaleUrl(locale, "/blog").replace(/(.)\/$/, "$1");
 ---
 
-<Base title={copy.pageTitle} description={copy.description}>
+<Base title={copy.pageTitle} description={copy.description} navVariant="dark">
 	<section class="relative bg-background pt-[11.25rem] pb-10 max-lg:pt-40">
 		<img
 			src="/blog/hero-bg.webp"

@@ -82,6 +82,24 @@ async function loadAllPosts(entryLocale: Locale, hints: CacheHint[]) {
 	return all;
 }
 
+// The collection query does not resolve references, so each post is loaded again with them
+async function loadWithReferences(entries: Awaited<ReturnType<typeof loadAllPosts>>, entryLocale: Locale, hints: CacheHint[]) {
+	const posts = await Promise.all(
+		entries
+			.map((entry) => entry.data.slug)
+			.filter((slug): slug is string => Boolean(slug))
+			.map(async (slug) => {
+				const { entry, cacheHint } = await getEmDashEntry("posts", slug, {
+					locale: entryLocale,
+					references: { category: true, author: true },
+				});
+				if (cacheHint) hints.push(cacheHint);
+				return entry;
+			}),
+	);
+	return posts.filter((post) => post != null);
+}
+
 export async function loadBlogPosts(locale: Locale, filters: BlogFilters, offset = 0) {
 	const hints: CacheHint[] = [];
 	// Posts are never shown in another language: a locale without posts has no blog page at all
@@ -96,21 +114,7 @@ export async function loadBlogPosts(locale: Locale, filters: BlogFilters, offset
 		(entry) => !needle || normalize(entry.data.title).includes(needle),
 	);
 
-	// The collection query does not resolve references, so each post is loaded again with them
-	const withReferences = (entries: typeof candidates) =>
-		Promise.all(
-			entries
-				.map((entry) => entry.data.slug)
-				.filter((slug): slug is string => Boolean(slug))
-				.map(async (slug) => {
-					const { entry, cacheHint } = await getEmDashEntry("posts", slug, {
-						locale: entryLocale,
-						references: { category: true, author: true },
-					});
-					if (cacheHint) hints.push(cacheHint);
-					return entry;
-				}),
-		).then((posts) => posts.filter((post) => post != null));
+	const withReferences = (entries: typeof candidates) => loadWithReferences(entries, entryLocale, hints);
 
 	let matching: Awaited<ReturnType<typeof withReferences>>;
 	let page: typeof matching;
@@ -137,4 +141,25 @@ export async function loadBlogPosts(locale: Locale, filters: BlogFilters, offset
 		activeCategories: activeCategories.map((category) => category.slug),
 		hints,
 	};
+}
+
+const RELATED_BATCH_SIZE = 12;
+
+/** The latest posts in the same category as a post (the post itself excluded), for its "related articles" section */
+export async function loadRelatedPosts(locale: Locale, current: { slug: string; categoryGroup: string }, limit = 3) {
+	const hints: CacheHint[] = [];
+	const related: Awaited<ReturnType<typeof loadWithReferences>> = [];
+	if (!current.categoryGroup) return { posts: related, hints };
+
+	const candidates = (await loadAllPosts(locale, hints)).filter(
+		(entry) => entry.data.slug && entry.data.slug !== current.slug,
+	);
+
+	// Posts are newest first, so loading them in small batches stops as soon as enough of the same category are found
+	for (let start = 0; start < candidates.length && related.length < limit; start += RELATED_BATCH_SIZE) {
+		const batch = await loadWithReferences(candidates.slice(start, start + RELATED_BATCH_SIZE), locale, hints);
+		related.push(...batch.filter((post) => translationGroupOf(post.references?.category.entries[0]) === current.categoryGroup));
+	}
+
+	return { posts: related.slice(0, limit), hints };
 }
