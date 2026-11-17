@@ -16,7 +16,8 @@ const copy = {
 	description:
 		"Hallgasd a TASNADI podcast legfrissebb epizódjait webdesign, branding, webfejlesztés és digitalizáció témában.",
 	titleStart: "A legfrissebb",
-	titleHighlight: "podcast epizódok",
+	titleHighlight: "podcast",
+	titleEnd: "epizódok",
 	listenLabel: "Podcast meghallgatása:",
 	noResults: "Még nincs elérhető epizód.",
 };
@@ -38,7 +39,7 @@ do {
 ---
 
 <Base title={copy.pageTitle} description={copy.description} navVariant="dark">
-	<PageHero titleStart={copy.titleStart} titleHighlight={copy.titleHighlight} />
+	<PageHero titleStart={copy.titleStart} titleHighlight={copy.titleHighlight} titleEnd={copy.titleEnd} />
 
 	<section class="bg-background pt-4 pb-24 max-lg:pb-16">
 		<div class="mx-auto w-[92%] max-w-[76.875rem]">

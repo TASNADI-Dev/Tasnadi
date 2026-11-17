@@ -4,9 +4,11 @@ type Props = {
 	titleStart: string;
 	/** Highlighted (primary color) end of the title */
 	titleHighlight: string;
+	/** Plain part of the title after the highlight */
+	titleEnd?: string;
 };
 
-const { titleStart, titleHighlight } = Astro.props;
+const { titleStart, titleHighlight, titleEnd } = Astro.props;
 ---
 
 <section class="relative bg-background pt-[11.25rem] pb-10 max-lg:pt-40">
@@ -26,7 +28,7 @@ const { titleStart, titleHighlight } = Astro.props;
 		<h1
 			class="mb-[6.25rem] text-[4.375rem] leading-[5.25rem] font-medium tracking-[-0.02em] text-text-inverse max-lg:mb-16 max-lg:text-[2.1875rem] max-lg:leading-[2.75rem]"
 		>
-			{titleStart} <span class="text-primary">{titleHighlight}</span>
+			{titleStart} <span class="text-primary">{titleHighlight}</span>{titleEnd && ` ${titleEnd}`}
 		</h1>
 	</div>
 </section>
