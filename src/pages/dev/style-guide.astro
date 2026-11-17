@@ -7,6 +7,7 @@ import BlogCard from "../../components/BlogCard.astro";
 import ClientsSection from "../../components/ClientsSection.astro";
 import CaseStudyCard from "../../components/CaseStudyCard.astro";
 import Navigation from "../../components/Navigation.astro";
+import NewsletterSection from "../../components/NewsletterSection.astro";
 import PodcastCard from "../../components/PodcastCard.astro";
 import ServiceIcon from "../../components/ServiceIcon.astro";
 import VideoCard from "../../components/VideoCard.astro";
@@ -299,6 +300,19 @@ const colorGroups = [
 						name="Name Surname"
 						role="Role"
 					/>
+				</div>
+			</div>
+		</section>
+
+		<section class="mt-16">
+			<h2 class="mb-8 text-2xl font-bold">Newsletter section</h2>
+
+			<div class="border-t border-border pt-6">
+				<p class="mb-4 text-sm text-text-muted">
+					Hungarian only (renders nothing on the English site). The form is live: it posts to Formspark.
+				</p>
+				<div class="overflow-hidden rounded-[24px] border border-border pb-10">
+					<NewsletterSection />
 				</div>
 			</div>
 		</section>

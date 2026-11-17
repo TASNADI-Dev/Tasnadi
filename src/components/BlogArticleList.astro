@@ -33,7 +33,10 @@ const partialPath = getRelativeLocaleUrl(locale, "/partials/blog-articles").repl
 const partialUrl = filtersQuery ? `${partialPath}?${filtersQuery}` : partialPath;
 ---
 
-<section class="bg-background pt-4 pb-24 max-lg:pb-16">
+<section
+	data-blog-results
+	class="bg-background pt-4 pb-24 transition-opacity duration-200 data-[loading=true]:opacity-50 max-lg:pb-16 motion-reduce:transition-none"
+>
 	<div class="mx-auto w-[92%] max-w-[76.875rem]">
 		{
 			posts.length === 0 ? (
@@ -65,13 +68,13 @@ const partialUrl = filtersQuery ? `${partialPath}?${filtersQuery}` : partialPath
 
 <script>
 	// Fetches the next page of article cards (with the active filters) from the partial route and appends them to the grid.
-	const wrapper = document.querySelector<HTMLElement>("[data-load-more]");
-	const grid = document.querySelector<HTMLElement>("[data-blog-grid]");
-	const button = wrapper?.querySelector<HTMLButtonElement>("[data-load-more-button]");
-	const error = wrapper?.querySelector<HTMLElement>("[data-load-more-error]");
-
-	button?.addEventListener("click", async () => {
-		if (!wrapper || !grid || !error) return;
+	// The click is delegated because the whole list is replaced when the filters change.
+	document.addEventListener("click", async (event) => {
+		const button = (event.target as Element).closest<HTMLButtonElement>("[data-load-more-button]");
+		const wrapper = button?.closest<HTMLElement>("[data-load-more]");
+		const grid = document.querySelector<HTMLElement>("[data-blog-grid]");
+		const error = wrapper?.querySelector<HTMLElement>("[data-load-more-error]");
+		if (!button || !wrapper || !grid || !error) return;
 		button.disabled = true;
 		error.classList.add("hidden");
 
@@ -81,8 +84,12 @@ const partialUrl = filtersQuery ? `${partialPath}?${filtersQuery}` : partialPath
 			const response = await fetch(url);
 			if (!response.ok) throw new Error(String(response.status));
 
+			const html = await response.text();
+			// The filters changed while loading, so these cards belong to a list that is gone
+			if (!wrapper.isConnected) return;
+
 			const template = document.createElement("template");
-			template.innerHTML = await response.text();
+			template.innerHTML = html;
 			const marker = template.content.querySelector<HTMLElement>("[data-next-offset]");
 			const nextOffset = marker?.dataset.nextOffset ?? "";
 			marker?.remove();

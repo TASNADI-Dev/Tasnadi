@@ -4,6 +4,7 @@ import Base from "../../layouts/Base.astro";
 import Badge from "../../components/Badge.astro";
 import BlogArticleList from "../../components/BlogArticleList.astro";
 import Button from "../../components/Button.astro";
+import NewsletterSection from "../../components/NewsletterSection.astro";
 import { loadBlogPosts, parseBlogFilters } from "../../utils/blog-posts";
 import { hasLocaleContent } from "../../utils/locale-content";
 
@@ -124,20 +125,16 @@ const blogPath = getRelativeLocaleUrl(locale, "/blog").replace(/(.)\/$/, "$1");
 			</fieldset>
 
 			<button type="submit" class="sr-only">{copy.search}</button>
-			<Button variant="link" href={`${blogPath}#filters`}>{copy.reset}</Button>
+			<Button variant="link" href={`${blogPath}#filters`} data-blog-reset>{copy.reset}</Button>
 		</form>
 	</section>
 
 	<BlogArticleList {posts} {categories} {nextOffset} {filtersQuery} {locale} />
+
+	<NewsletterSection />
 </Base>
 
 <script>
-	// Submits the filter form as soon as a category is toggled (the search box submits on Enter).
-	document
-		.querySelector<HTMLFormElement>("[data-blog-filters]")
-		?.addEventListener("change", (event) => {
-			if ((event.target as HTMLInputElement).type === "checkbox") {
-				(event.currentTarget as HTMLFormElement).requestSubmit();
-			}
-		});
+	// Loads the in-place blog filtering (no page reload when searching or toggling categories).
+	import "../../scripts/blog-filters";
 </script>

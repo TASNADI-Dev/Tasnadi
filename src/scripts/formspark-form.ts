@@ -5,6 +5,10 @@ export function initFormsparkForms() {
 	document
 		.querySelectorAll<HTMLFormElement>('form[action^="https://submit-form.com"]')
 		.forEach((form) => {
+			// A page can load this from several components, so every form is wired only once
+			if (form.dataset.formsparkReady) return;
+			form.dataset.formsparkReady = "true";
+
 			const root = form.parentElement;
 			const success = root?.querySelector<HTMLElement>("[data-form-success]");
 			const failure = root?.querySelector<HTMLElement>("[data-form-error]");

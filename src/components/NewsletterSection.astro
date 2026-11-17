@@ -1,0 +1,175 @@
+---
+import Button from "./Button.astro";
+
+// Hungarian only: the newsletter and its blog articles do not exist in English, so nothing is rendered on the English site
+const isHungarian = Astro.currentLocale !== "en";
+
+// Same Formspark endpoint and Cloudflare Turnstile site key as the subscribe form on the live Webflow blog page
+const form = {
+	action: "https://submit-form.com/XYPQCNC1d",
+	turnstileSiteKey: "0x4AAAAAACK5HFavcDJe9wjU",
+};
+
+const copy = {
+	intro: "Készen állsz, hogy a weboldalad ne csak szép, hanem hatékony is legyen?",
+	title: "Iratkozz fel és mutatjuk, hogyan hozhatod ki a legtöbbet a céges weboldaladból.",
+	text: "Hetente egyszer küldünk neked egy új cikket.",
+	labels: { name: "Név", email: "Email" },
+	placeholders: { name: "Név Példa", email: "email@pelda.hu" },
+	consent: "Hozzájárulok személyes adataim marketingcélú feldolgozásához.",
+	submit: "Feliratkozás",
+	successMessage: "Vissza",
+	success: "A feliratkozás sikeres volt!",
+	error: "Hoppá! Az űrlap elküldésekor valami rosszul sült el.",
+};
+
+const labelClass = "text-base leading-[1.625rem] font-medium text-text-inverse";
+const fieldClass =
+	"h-[3.25rem] w-full rounded-[5px] border border-border-strong bg-background px-3 text-base font-medium text-text placeholder:font-normal placeholder:text-text-subtle focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
+---
+
+{
+	isHungarian && (
+		<section class="bg-background">
+			<div class="mx-auto w-[92%] max-w-[45.875rem]">
+				<div
+					id="subscribe"
+					class="relative z-10 -mb-10 overflow-hidden rounded-[10px] border-2 border-primary bg-surface-dark p-10 text-text-inverse max-md:px-6"
+				>
+					<img
+						src="/blog/newsletter-bg.webp"
+						alt=""
+						width="1468"
+						height="1054"
+						loading="lazy"
+						class="absolute inset-0 size-full object-cover"
+					/>
+
+					<div
+						aria-hidden="true"
+						class="pointer-events-none absolute -top-[2.6875rem] -right-11 h-[14.75rem] w-[14.3rem] rounded-full bg-linear-to-b from-primary-hover via-primary to-transparent opacity-30 blur-[50px]"
+					/>
+
+					<img
+						src="/blog/newsletter-rocket.webp"
+						alt=""
+						width="104"
+						height="93"
+						loading="lazy"
+						class="pointer-events-none absolute top-[0.9375rem] right-[2.1875rem] z-10 h-auto w-[6.5rem] max-[30rem]:right-[0.9375rem] max-[30rem]:w-20"
+					/>
+
+					<div class="relative z-10" data-newsletter>
+						<p class="max-w-[70%] text-xl leading-[1.625rem]">{copy.intro}</p>
+						<h2 class="mt-5 mb-2.5 text-[2.125rem] leading-[2.75rem] font-medium text-primary max-[30rem]:text-[1.75rem] max-[30rem]:leading-9">
+							{copy.title}
+						</h2>
+						<p class="text-xl leading-[1.625rem]">{copy.text}</p>
+
+						<div class="mt-8">
+							<form action={form.action} method="post" class="w-full">
+								<input type="hidden" name="_feedback.whitelabel" value="true" />
+								<input type="hidden" name="_feedback.dark" value="true" />
+								<input type="hidden" name="_feedback.success.message" value={copy.successMessage} />
+
+								<div class="grid grid-cols-2 gap-6 max-md:grid-cols-1 max-md:gap-2.5">
+									<div class="flex flex-col gap-[0.3125rem]">
+										<label for="newsletter-name" class={labelClass}>
+											{copy.labels.name}
+										</label>
+										<input
+											id="newsletter-name"
+											name="Name"
+											type="text"
+											maxlength="256"
+											required
+											autocomplete="name"
+											placeholder={copy.placeholders.name}
+											class={fieldClass}
+										/>
+									</div>
+
+									<div class="flex flex-col gap-[0.3125rem]">
+										<label for="newsletter-email" class={labelClass}>
+											{copy.labels.email}
+										</label>
+										<input
+											id="newsletter-email"
+											name="Email"
+											type="email"
+											maxlength="256"
+											required
+											autocomplete="email"
+											placeholder={copy.placeholders.email}
+											class={fieldClass}
+										/>
+									</div>
+								</div>
+
+								<label class="relative mt-3.5 mb-6 flex cursor-pointer items-center gap-2.5 max-md:items-start max-md:gap-2">
+									<input
+										type="checkbox"
+										name="Checkbox"
+										required
+										class="peer size-5 shrink-0 cursor-pointer appearance-none rounded-[2px] border-2 border-text-inverse bg-transparent checked:bg-text-inverse focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+									/>
+									<svg
+										class="pointer-events-none absolute top-1/2 left-0 size-5 -translate-y-1/2 p-1 text-text opacity-0 peer-checked:opacity-100 max-md:top-0 max-md:translate-y-0"
+										viewBox="0 0 16 16"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										aria-hidden="true"
+									>
+										<path d="m3 8.5 3.5 3.5L13 4.5" />
+									</svg>
+									<span class="text-sm leading-5 font-normal">{copy.consent}</span>
+								</label>
+
+								<div
+									class="cf-turnstile mb-4"
+									data-sitekey={form.turnstileSiteKey}
+									data-theme="dark"
+								/>
+
+								<div class="flex items-center gap-4">
+									<Button variant="primary" type="submit" class="disabled:cursor-wait disabled:opacity-70">
+										{copy.submit}
+									</Button>
+									<span
+										data-form-loader
+										role="status"
+										class="hidden size-6 animate-spin rounded-full border-2 border-border-strong border-t-primary motion-reduce:animate-none"
+									/>
+								</div>
+							</form>
+
+							<div
+								data-form-success
+								tabindex="-1"
+								role="status"
+								class="mt-6 hidden rounded-[10px] bg-surface p-5 text-2xl leading-6 font-medium text-text focus-visible:outline-none"
+							>
+								{copy.success}
+							</div>
+							<div data-form-error role="alert" class="mt-4 hidden text-base leading-[1.625rem] font-medium text-primary">
+								{copy.error}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer />
+		</section>
+	)
+}
+
+<script>
+	// Wires up the newsletter form: Formspark submission with Turnstile.
+	import { initFormsparkForms } from "../scripts/formspark-form";
+
+	initFormsparkForms();
+</script>
