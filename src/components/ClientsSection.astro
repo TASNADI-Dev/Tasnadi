@@ -22,7 +22,10 @@ const arrowClass =
 	"flex size-[3.125rem] cursor-pointer items-center justify-center rounded-full border-2 border-primary bg-transparent text-primary transition-colors duration-200 hover:bg-primary/10 active:bg-primary active:text-white disabled:cursor-default disabled:opacity-40 disabled:hover:bg-transparent motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
 ---
 
-<section data-clients class:list={["bg-background py-20 max-md:py-16", className]}>
+<section
+	data-clients
+	class:list={["relative overflow-hidden bg-background pt-16 pb-[6.875rem] max-md:py-[3.125rem]", className]}
+>
 	<div class="mx-auto w-[92%] max-w-[76.875rem]">
 		<h2 class="text-center text-[3rem] leading-normal font-medium text-text max-[30rem]:text-[1.875rem]">
 			{
@@ -74,7 +77,11 @@ const arrowClass =
 				</svg>
 			</button>
 		</div>
+
+		<slot />
 	</div>
+
+	<slot name="decoration" />
 </section>
 
 <script>
