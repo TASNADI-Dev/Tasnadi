@@ -1,8 +1,8 @@
 ---
 import type { HTMLAttributes } from "astro/types";
 import { Image } from "emdash/ui";
-
-type Platform = "spotify" | "youtube" | "apple-podcasts" | "youtube-music" | "soundcloud";
+import PlatformLinks from "./PlatformLinks.astro";
+import type { Platform } from "./PlatformLinks.astro";
 
 type Props = Omit<HTMLAttributes<"article">, "title"> & {
 	href: string;
@@ -14,14 +14,6 @@ type Props = Omit<HTMLAttributes<"article">, "title"> & {
 	links?: { platform: Platform; url?: string }[];
 	/** Prefix of the accessible name of each platform link, e.g. "Listen on" */
 	listenLabel: string;
-};
-
-const platformNames: Record<Platform, string> = {
-	spotify: "Spotify",
-	youtube: "YouTube",
-	"apple-podcasts": "Apple Podcasts",
-	"youtube-music": "YouTube Music",
-	soundcloud: "SoundCloud",
 };
 
 const {
@@ -52,9 +44,6 @@ const titleClass = isStacked
 	? "line-clamp-3 text-xl leading-8 font-medium"
 	: "line-clamp-2 text-xl leading-[1.625rem] font-medium";
 
-const platformLinks = links.filter((link): link is { platform: Platform; url: string } =>
-	Boolean(link.url),
-);
 ---
 
 <article
@@ -74,8 +63,8 @@ const platformLinks = links.filter((link): link is { platform: Platform; url: st
 		/>
 	</div>
 
-	<div class="flex flex-col items-start gap-4 p-4">
-		<h3 class="line-clamp-2 text-xl leading-[1.625rem] font-medium">
+	<div class={bodyClass}>
+		<h3 class={titleClass}>
 			<a
 				href={href}
 				class="no-underline transition-colors duration-200 group-hover:text-primary after:absolute after:inset-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
@@ -84,30 +73,6 @@ const platformLinks = links.filter((link): link is { platform: Platform; url: st
 			</a>
 		</h3>
 
-		{
-			platformLinks.length > 0 && (
-				<ul class:list={["relative z-10 flex flex-wrap gap-2", isStacked && "mt-auto"]}>
-					{platformLinks.map(({ platform, url }) => (
-						<li>
-							<a
-								href={url}
-								target="_blank"
-								rel="noopener noreferrer"
-								aria-label={`${listenLabel} ${platformNames[platform]}`}
-								class="block h-8 rounded-[8px] bg-surface transition-colors duration-200 hover:bg-border focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-							>
-								<img
-									src={`/home/podcast/${platform}.svg`}
-									alt=""
-									height="32"
-									loading="lazy"
-									class="h-full w-auto"
-								/>
-							</a>
-						</li>
-					))}
-				</ul>
-			)
-		}
+		<PlatformLinks {links} {listenLabel} class={isStacked ? "relative z-10 mt-auto" : "relative z-10"} />
 	</div>
 </article>

@@ -1,0 +1,152 @@
+---
+import { getEmDashCollection, getEmDashEntry, getSeoMeta, decodeSlug, getSiteSettings } from "emdash";
+import { Image, PortableText } from "emdash/ui";
+import Base from "../../layouts/Base.astro";
+import NewsletterSection from "../../components/NewsletterSection.astro";
+import PlatformLinks from "../../components/PlatformLinks.astro";
+import PodcastCard from "../../components/PodcastCard.astro";
+import { richTextClass } from "../../utils/rich-text-class";
+import { resolveSiteIdentity } from "../../utils/site-identity";
+
+const slug = decodeSlug(Astro.params.slug);
+
+// The podcast is Hungarian only, so an episode never exists under /en
+if (!slug || Astro.currentLocale === "en") {
+	return Astro.rewrite("/404");
+}
+
+const { entry: episode, cacheHint } = await getEmDashEntry("podcasts", slug, { locale: "hu" });
+
+if (!episode) {
+	return Astro.rewrite("/404");
+}
+
+if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
+
+const copy = {
+	listenHeading: "Hallgasd meg a kedvenc platformodon",
+	listenLabel: "Podcast meghallgatása:",
+	moreTitle: "További epizódok",
+};
+
+// The newest episodes other than this one; one extra is fetched so the current episode can be skipped
+const { entries: latest, cacheHint: latestHint } = await getEmDashCollection("podcasts", {
+	locale: "hu",
+	orderBy: { published_at: "desc" },
+	limit: 4,
+});
+if (Astro.cache?.enabled) Astro.cache.set(latestHint);
+const otherEpisodes = latest.filter((entry) => entry.data.slug !== slug).slice(0, 3);
+
+const date = episode.data.publishedAt;
+
+// Hungarian: 2026. október 27. (shown in capitals)
+const dateFormatter = new Intl.DateTimeFormat("hu", {
+	year: "numeric",
+	month: "long",
+	day: "numeric",
+	timeZone: "Europe/Budapest",
+});
+
+const platformLinks = (data: typeof episode.data) => [
+	{ platform: "spotify" as const, url: data.spotify_link },
+	{ platform: "youtube" as const, url: data.youtube_link },
+	{ platform: "apple-podcasts" as const, url: data.apple_podcasts_link },
+	{ platform: "youtube-music" as const, url: data.youtube_music_link },
+	{ platform: "soundcloud" as const, url: data.soundcloud_link },
+];
+
+const { siteTitle } = resolveSiteIdentity(await getSiteSettings());
+
+const seo = getSeoMeta(episode, {
+	siteTitle,
+	siteUrl: Astro.url.origin,
+	path: Astro.url.pathname.replace(/\/$/, ""),
+});
+---
+
+<Base
+	title={seo.title}
+	pageTitle={seo.ogTitle}
+	description={seo.description}
+	canonical={seo.canonical}
+	content={{ collection: "podcasts", id: episode.data.id, slug }}
+	navVariant="dark"
+>
+	<section class="bg-background pt-[11.25rem] pb-12 max-lg:pt-40 max-lg:pb-10">
+		<div class="mx-auto flex w-[92%] max-w-[50rem] flex-col gap-8 max-lg:gap-6">
+			<h1
+				{...episode.edit.title}
+				class="text-[2.5rem] leading-[3rem] font-medium tracking-[-0.02em] max-lg:text-[1.75rem] max-lg:leading-[2.25rem]"
+			>
+				{episode.data.title}
+			</h1>
+
+			{
+				episode.data.image && (
+					<Image
+						image={episode.data.image}
+						sizes="(min-width: 56rem) 50rem, 92vw"
+						loading="eager"
+						fetchpriority="high"
+						class="h-auto w-full rounded-[20px]"
+					/>
+				)
+			}
+
+			<div class="flex flex-col gap-5">
+				{
+					date && (
+						<time
+							datetime={date.toISOString()}
+							class="text-sm leading-5 font-medium text-text-muted uppercase"
+						>
+							{dateFormatter.format(date)}
+						</time>
+					)
+				}
+
+				<h2 class="text-[1.75rem] leading-9 font-medium max-lg:text-2xl max-lg:leading-8">
+					{copy.listenHeading}
+				</h2>
+				<PlatformLinks size="lg" links={platformLinks(episode.data)} listenLabel={copy.listenLabel} />
+			</div>
+		</div>
+	</section>
+
+	<section class="bg-background pb-20 max-lg:pb-14">
+		<div class="mx-auto w-[92%] max-w-[50rem]">
+			<div class:list={richTextClass}>
+				<PortableText value={episode.data.description} />
+			</div>
+		</div>
+	</section>
+
+	{
+		otherEpisodes.length > 0 && (
+			<section class="bg-background pb-12">
+				<div class="mx-auto w-[92%] max-w-[50rem]">
+					<h2 class="mb-8 text-[1.75rem] leading-9 font-medium max-lg:text-2xl max-lg:leading-8">
+						{copy.moreTitle}
+					</h2>
+					<ul class="flex flex-col gap-8">
+						{otherEpisodes.map((entry) => (
+							<li>
+								<PodcastCard
+									variant="row"
+									href={`/podcast/${entry.data.slug}`}
+									title={entry.data.title}
+									image={entry.data.image}
+									listenLabel={copy.listenLabel}
+									links={platformLinks(entry.data)}
+								/>
+							</li>
+						))}
+					</ul>
+				</div>
+			</section>
+		)
+	}
+
+	<NewsletterSection />
+</Base>

@@ -1,0 +1,59 @@
+---
+export type Platform = "spotify" | "youtube" | "apple-podcasts" | "youtube-music" | "soundcloud";
+
+type Props = {
+	/** Platform links; entries without a url are skipped */
+	links?: { platform: Platform; url?: string }[];
+	/** Prefix of the accessible name of each link, e.g. "Listen on" */
+	listenLabel: string;
+	/** "sm" = compact logos (cards), "lg" = large logos (episode page) */
+	size?: "sm" | "lg";
+	class?: string;
+};
+
+const platformNames: Record<Platform, string> = {
+	spotify: "Spotify",
+	youtube: "YouTube",
+	"apple-podcasts": "Apple Podcasts",
+	"youtube-music": "YouTube Music",
+	soundcloud: "SoundCloud",
+};
+
+const { links = [], listenLabel, size = "sm", class: className } = Astro.props;
+
+const platformLinks = links.filter((link): link is { platform: Platform; url: string } =>
+	Boolean(link.url),
+);
+
+const isLarge = size === "lg";
+const imageHeight = isLarge ? 48 : 32;
+---
+
+{
+	platformLinks.length > 0 && (
+		<ul class:list={["flex flex-wrap", isLarge ? "gap-3" : "gap-2", className]}>
+			{platformLinks.map(({ platform, url }) => (
+				<li>
+					<a
+						href={url}
+						target="_blank"
+						rel="noopener noreferrer"
+						aria-label={`${listenLabel} ${platformNames[platform]}`}
+						class:list={[
+							"block rounded-[8px] bg-surface transition-colors duration-200 hover:bg-border focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent motion-reduce:transition-none",
+							isLarge ? "h-12" : "h-8",
+						]}
+					>
+						<img
+							src={`/home/podcast/${platform}.svg`}
+							alt=""
+							height={imageHeight}
+							loading="lazy"
+							class="h-full w-auto"
+						/>
+					</a>
+				</li>
+			))}
+		</ul>
+	)
+}
