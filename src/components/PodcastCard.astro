@@ -1,0 +1,85 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { Image } from "emdash/ui";
+
+type Platform = "spotify" | "youtube" | "apple-podcasts" | "youtube-music" | "soundcloud";
+
+type Props = Omit<HTMLAttributes<"article">, "title"> & {
+	href: string;
+	title: string;
+	image: Parameters<typeof Image>[0]["image"];
+	/** Platform links; entries without a url are skipped */
+	links?: { platform: Platform; url?: string }[];
+	/** Prefix of the accessible name of each platform link, e.g. "Listen on" */
+	listenLabel: string;
+};
+
+const platformNames: Record<Platform, string> = {
+	spotify: "Spotify",
+	youtube: "YouTube",
+	"apple-podcasts": "Apple Podcasts",
+	"youtube-music": "YouTube Music",
+	soundcloud: "SoundCloud",
+};
+
+const { href, title, image, links = [], listenLabel, class: className, ...rest } = Astro.props;
+
+const platformLinks = links.filter((link): link is { platform: Platform; url: string } =>
+	Boolean(link.url),
+);
+---
+
+<article
+	{...rest}
+	class:list={[
+		"group relative grid min-h-[10.75rem] grid-cols-[1fr_2fr] overflow-hidden rounded-[8px] bg-background text-text shadow-[0_2px_4px_color-mix(in_srgb,var(--color-gray-900)_20%,transparent)] transition duration-300 hover:shadow-[0_10px_25px_color-mix(in_srgb,var(--color-gray-900)_25%,transparent)] motion-reduce:transition-none max-[30rem]:grid-cols-1",
+		className,
+	]}
+>
+	<div class="overflow-hidden bg-surface max-[30rem]:aspect-video">
+		<Image
+			image={image}
+			alt=""
+			sizes="(min-width: 64rem) 13rem, (min-width: 30rem) 30vw, 92vw"
+			loading="lazy"
+			class="size-full object-cover transition-transform duration-500 group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+		/>
+	</div>
+
+	<div class="flex flex-col items-start gap-4 p-4">
+		<h3 class="line-clamp-2 text-xl leading-[1.625rem] font-medium">
+			<a
+				href={href}
+				class="no-underline transition-colors duration-200 group-hover:text-primary after:absolute after:inset-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+			>
+				{title}
+			</a>
+		</h3>
+
+		{
+			platformLinks.length > 0 && (
+				<ul class="relative z-10 flex flex-wrap gap-2">
+					{platformLinks.map(({ platform, url }) => (
+						<li>
+							<a
+								href={url}
+								target="_blank"
+								rel="noopener noreferrer"
+								aria-label={`${listenLabel} ${platformNames[platform]}`}
+								class="block h-8 rounded-[8px] bg-surface transition-colors duration-200 hover:bg-border focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+							>
+								<img
+									src={`/home/podcast-${platform}.svg`}
+									alt=""
+									height="32"
+									loading="lazy"
+									class="h-full w-auto"
+								/>
+							</a>
+						</li>
+					))}
+				</ul>
+			)
+		}
+	</div>
+</article>

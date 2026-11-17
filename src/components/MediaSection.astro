@@ -1,0 +1,68 @@
+---
+import type { ComponentProps } from "astro/types";
+import BlogCard from "./BlogCard.astro";
+import Button from "./Button.astro";
+import PodcastCard from "./PodcastCard.astro";
+
+type TitlePart = { text: string; tone?: "primary" | "accent" };
+
+type Props = {
+	podcasts: {
+		title: TitlePart[];
+		moreCta: string;
+		moreHref: string;
+		items: ComponentProps<typeof PodcastCard>[];
+	};
+	posts: {
+		title: TitlePart[];
+		moreCta: string;
+		moreHref: string;
+		items: ComponentProps<typeof BlogCard>[];
+	};
+};
+
+const { podcasts, posts } = Astro.props;
+
+const columns = [
+	{ ...podcasts, kind: "podcasts" as const },
+	{ ...posts, kind: "posts" as const },
+];
+---
+
+<section class="bg-gray-900 pt-8 pb-20 max-md:pt-4 max-md:pb-16">
+	<div class="mx-auto grid w-[92%] max-w-[76.875rem] grid-cols-2 gap-x-12 gap-y-16 max-lg:grid-cols-1">
+		{
+			columns.map((column) => (
+				<div class="flex min-w-0 flex-col">
+					<h2 class="mb-10 text-[3rem] leading-normal font-medium text-white max-[30rem]:mb-6 max-[30rem]:text-[1.875rem]">
+						{column.title.map((part) => (
+							<>
+								<span class:list={[part.tone === "primary" && "text-primary"]}>{part.text}</span>{" "}
+							</>
+						))}
+					</h2>
+
+					<ul class="flex flex-col gap-8">
+						{column.kind === "podcasts"
+							? column.items.map((item) => (
+									<li>
+										<PodcastCard {...item} />
+									</li>
+								))
+							: column.items.map((item) => (
+									<li>
+										<BlogCard {...item} />
+									</li>
+								))}
+					</ul>
+
+					<div class="mt-8">
+						<Button variant="link-arrow" href={column.moreHref}>
+							{column.moreCta}
+						</Button>
+					</div>
+				</div>
+			))
+		}
+	</div>
+</section>

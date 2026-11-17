@@ -5,6 +5,7 @@ import Base from "../layouts/Base.astro";
 import Badge from "../components/Badge.astro";
 import AgencyIntro from "../components/AgencyIntro.astro";
 import Button from "../components/Button.astro";
+import MediaSection from "../components/MediaSection.astro";
 import CaseStudyCard from "../components/CaseStudyCard.astro";
 import ServiceIcon from "../components/ServiceIcon.astro";
 import { resolveSiteIdentity } from "../utils/site-identity";
@@ -98,6 +99,17 @@ const copy = {
 				role: "Tulajdonos, stratégiai vezető",
 			},
 		},
+		media: {
+			podcasts: {
+				title: [{ text: "Hallgasd" }, { text: "podcastünket", tone: "primary" as const }],
+				moreCta: "További epizódok",
+				listenLabel: "Podcast meghallgatása:",
+			},
+			posts: {
+				title: [{ text: "Olvasd el" }, { text: "gondolatainkat", tone: "primary" as const }],
+				moreCta: "További cikkek",
+			},
+		},
 	},
 	en: {
 		titleStart: "Simply",
@@ -184,6 +196,17 @@ const copy = {
 				role: "Owner, strategist",
 			},
 		},
+		media: {
+			podcasts: {
+				title: [{ text: "Listen to our" }, { text: "podcasts", tone: "primary" as const }],
+				moreCta: "Show more episodes",
+				listenLabel: "Listen on",
+			},
+			posts: {
+				title: [{ text: "Read our" }, { text: "insights", tone: "primary" as const }],
+				moreCta: "Show more articles",
+			},
+		},
 	},
 }[locale];
 
@@ -192,7 +215,7 @@ const { entries: featuredCaseStudies, cacheHint: caseStudyListHint } = await get
 	{
 		locale,
 		where: { featured: "1" },
-		orderBy: { date: "desc" },
+		orderBy: { published_at: "desc" },
 		limit: 1,
 	},
 );
@@ -220,7 +243,7 @@ const caseStudyLabels = [
 const { entries: latestCaseStudies, cacheHint: latestCaseStudiesHint } =
 	await getEmDashCollection("case_studies", {
 		locale,
-		orderBy: { date: "desc" },
+		orderBy: { published_at: "desc" },
 	});
 if (Astro.cache?.enabled) Astro.cache.set(latestCaseStudiesHint);
 
@@ -242,6 +265,71 @@ const listedCaseStudies = (
 		}),
 	)
 ).filter((entry) => entry !== undefined);
+
+// Podcasts and blog posts are not translated yet, so English falls back to the Hungarian entries
+const loadLatest = async <T extends "podcasts" | "posts">(collection: T) => {
+	for (const entryLocale of locale === "en" ? ["en", "hu"] : ["hu"]) {
+		const { entries, cacheHint } = await getEmDashCollection(collection, {
+			locale: entryLocale,
+			orderBy: { published_at: "desc" },
+			limit: 3,
+		});
+		if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
+		if (entries.length > 0) return { entries, entryLocale };
+	}
+	return { entries: [], entryLocale: "hu" };
+};
+
+const { entries: latestPodcasts } = await loadLatest("podcasts");
+const { entries: latestPostList, entryLocale: postLocale } = await loadLatest("posts");
+
+const latestPosts = (
+	await Promise.all(
+		latestPostList
+			.map((entry) => entry.data.slug)
+			.filter((slug): slug is string => Boolean(slug))
+			.map(async (slug) => {
+				const { entry: post, cacheHint } = await getEmDashEntry("posts", slug, {
+					locale: postLocale,
+					references: { category: true },
+				});
+				if (cacheHint && Astro.cache?.enabled) Astro.cache.set(cacheHint);
+				return post;
+			}),
+	)
+).filter((post) => post != null);
+
+const mediaSection = {
+	podcasts: {
+		...copy.media.podcasts,
+		moreHref: `${localePrefix}/podcast`,
+		items: latestPodcasts.map((entry) => ({
+			href: `${localePrefix}/podcast/${entry.data.slug}`,
+			title: entry.data.title,
+			image: entry.data.image,
+			listenLabel: copy.media.podcasts.listenLabel,
+			links: [
+				{ platform: "spotify" as const, url: entry.data.spotify_link },
+				{ platform: "youtube" as const, url: entry.data.youtube_link },
+				{ platform: "apple-podcasts" as const, url: entry.data.apple_podcasts_link },
+				{ platform: "youtube-music" as const, url: entry.data.youtube_music_link },
+				{ platform: "soundcloud" as const, url: entry.data.soundcloud_link },
+			],
+		})),
+	},
+	posts: {
+		...copy.media.posts,
+		moreHref: `${localePrefix}/blog`,
+		items: latestPosts.map((post) => ({
+			href: `${localePrefix}/blog/${post.data.slug}`,
+			title: post.data.title,
+			image: post.data.image,
+			category: post.references?.category.entries[0]?.data.title,
+			date: post.data.publishedAt,
+			locale,
+		})),
+	},
+};
 
 const cardClass =
 	"flex flex-col gap-3 rounded-[20px] bg-background p-6 text-text shadow-[0_2px_2px_color-mix(in_srgb,var(--color-gray-900)_20%,transparent)] transition-shadow";
@@ -567,6 +655,8 @@ const cardClass =
 	}
 
 	<AgencyIntro {...copy.intro} />
+
+	<MediaSection {...mediaSection} />
 </Base>
 
 <script>

@@ -3,18 +3,34 @@ import { getEmDashCollection } from "emdash";
 import Base from "../../layouts/Base.astro";
 import Button from "../../components/Button.astro";
 import Badge from "../../components/Badge.astro";
+import BlogCard from "../../components/BlogCard.astro";
 import CaseStudyCard from "../../components/CaseStudyCard.astro";
 import LanguageSwitcher from "../../components/LanguageSwitcher.astro";
 import Navigation from "../../components/Navigation.astro";
+import PodcastCard from "../../components/PodcastCard.astro";
 import ServiceIcon from "../../components/ServiceIcon.astro";
 import VideoCard from "../../components/VideoCard.astro";
 
 const { entries: sampleCaseStudies } = await getEmDashCollection("case_studies", {
 	locale: "hu",
-	orderBy: { date: "desc" },
+	orderBy: { published_at: "desc" },
 	limit: 1,
 });
 const sampleCaseStudy = sampleCaseStudies[0];
+
+const { entries: samplePodcasts } = await getEmDashCollection("podcasts", {
+	locale: "hu",
+	orderBy: { published_at: "desc" },
+	limit: 1,
+});
+const samplePodcast = samplePodcasts[0];
+
+const { entries: samplePosts } = await getEmDashCollection("posts", {
+	locale: "hu",
+	orderBy: { published_at: "desc" },
+	limit: 1,
+});
+const samplePost = samplePosts[0];
 
 const serviceIconNames = ["branding", "website", "webshop", "consulting", "strategy"] as const;
 
@@ -167,10 +183,21 @@ const colorGroups = [
 		<section class="mt-16">
 			<h2 class="mb-8 text-2xl font-bold">Badge</h2>
 
-			<div class="border-t border-border pt-6">
-				<h3 class="mb-1 text-lg font-medium">Default</h3>
-				<p class="mb-4 text-text-muted">Small blue pill used for section labels and tags like "New".</p>
-				<Badge>Our services</Badge>
+			<div class="flex flex-col gap-10">
+				<div class="border-t border-border pt-6">
+					<h3 class="mb-1 text-lg font-medium"><code>variant="solid"</code></h3>
+					<p class="mb-4 text-text-muted">
+						Default. Small blue pill used for section labels and tags like "New".
+					</p>
+					<Badge>Our services</Badge>
+				</div>
+				<div class="border-t border-border pt-6">
+					<h3 class="mb-1 text-lg font-medium"><code>variant="outline"</code></h3>
+					<p class="mb-4 text-text-muted">
+						White pill with a thin blue border and light blue text, used for blog categories on top of images.
+					</p>
+					<Badge variant="outline">Business</Badge>
+				</div>
 			</div>
 		</section>
 
@@ -234,7 +261,7 @@ const colorGroups = [
 						<h3 class="mb-1 text-lg font-medium">Default</h3>
 						<p class="mb-4 text-text-muted">
 							Image first, then service badges, title and short description. The whole card is
-							one link; hover lifts the card, zooms the image and turns the title orange.
+							one link; hover deepens the shadow, zooms the image and turns the title orange.
 						</p>
 						<div class="max-w-[24.5rem]">
 							<CaseStudyCard
@@ -244,6 +271,68 @@ const colorGroups = [
 								image={sampleCaseStudy.data.thumbnail}
 								services={["Website", "Branding"]}
 							/>
+						</div>
+					</div>
+				</section>
+			)
+		}
+
+		{
+			samplePodcast && (
+				<section class="mt-16">
+					<h2 class="mb-8 text-2xl font-bold">Podcast card</h2>
+
+					<div class="border-t border-border pt-6">
+						<h3 class="mb-1 text-lg font-medium">Default</h3>
+						<p class="mb-4 text-text-muted">
+							Image on the left, title and the streaming platform links on the right. The title link
+							covers the card; the platform links open in a new tab. Hover deepens the shadow, zooms the
+							image and turns the title orange. Platforms without a link are left out.
+						</p>
+						<div class="inline-block max-w-full rounded-[24px] bg-gray-900 p-8">
+							<div class="w-[36.9rem] max-w-full">
+								<PodcastCard
+									href="#"
+									title={samplePodcast.data.title}
+									image={samplePodcast.data.image}
+									listenLabel="Listen on"
+									links={[
+										{ platform: "spotify", url: "#" },
+										{ platform: "youtube", url: "#" },
+										{ platform: "apple-podcasts", url: "#" },
+										{ platform: "youtube-music", url: "#" },
+									]}
+								/>
+							</div>
+						</div>
+					</div>
+				</section>
+			)
+		}
+
+		{
+			samplePost && (
+				<section class="mt-16">
+					<h2 class="mb-8 text-2xl font-bold">Blog card</h2>
+
+					<div class="border-t border-border pt-6">
+						<h3 class="mb-1 text-lg font-medium">Default</h3>
+						<p class="mb-4 text-text-muted">
+							Same size as the podcast card. Image on the left with the category as an outline
+							badge, title and publish date on the right. The whole card is one link, with the same
+							hover effect as the podcast card.
+						</p>
+						<div class="inline-block max-w-full rounded-[24px] bg-gray-900 p-8">
+							<div class="w-[36.9rem] max-w-full">
+								<BlogCard
+									href="#"
+									title={samplePost.data.title}
+									image={samplePost.data.image}
+									category="Business"
+									date={samplePost.data.publishedAt}
+									locale="hu"
+								/>
+							</div>
 						</div>
 					</div>
 				</section>
