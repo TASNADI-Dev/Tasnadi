@@ -30,6 +30,7 @@ const languageHrefs = {
 
 const contactHref = withoutTrailingSlash(getRelativeLocaleUrl(locale, "/contact"));
 const blogHref = withoutTrailingSlash(getRelativeLocaleUrl(locale, "/blog"));
+const podcastHref = withoutTrailingSlash(getRelativeLocaleUrl(locale, "/podcast"));
 
 const copy = {
 	hu: {
@@ -62,7 +63,7 @@ const copy = {
 			{
 				items: [
 					{ label: "Blog", href: blogHref, collection: "posts" },
-					{ label: "Podcast", collection: "podcasts" },
+					{ label: "Podcast", href: podcastHref, collection: "podcasts" },
 				],
 			},
 		],
@@ -97,7 +98,7 @@ const copy = {
 			{
 				items: [
 					{ label: "Blog", href: blogHref, collection: "posts" },
-					{ label: "Podcast", collection: "podcasts" },
+					{ label: "Podcast", href: podcastHref, collection: "podcasts" },
 				],
 			},
 		],

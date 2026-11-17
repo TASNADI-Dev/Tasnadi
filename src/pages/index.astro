@@ -9,6 +9,7 @@ import Button from "../components/Button.astro";
 import MediaSection from "../components/MediaSection.astro";
 import CaseStudyCard from "../components/CaseStudyCard.astro";
 import ServiceIcon from "../components/ServiceIcon.astro";
+import { hasLocaleContent } from "../utils/locale-content";
 import { resolveSiteIdentity } from "../utils/site-identity";
 
 const { siteTitle, siteTagline } = resolveSiteIdentity(
@@ -333,6 +334,7 @@ const listedCaseStudies = (
 
 // Podcasts and blog posts that are not translated stay out of the English page (the media section hides an empty column)
 const loadLatest = async <T extends "podcasts" | "posts">(collection: T) => {
+	if (!(await hasLocaleContent(collection, locale))) return [];
 	const { entries, cacheHint } = await getEmDashCollection(collection, {
 		locale,
 		orderBy: { published_at: "desc" },

@@ -1,0 +1,32 @@
+---
+type Props = {
+	/** Plain part of the title */
+	titleStart: string;
+	/** Highlighted (primary color) end of the title */
+	titleHighlight: string;
+};
+
+const { titleStart, titleHighlight } = Astro.props;
+---
+
+<section class="relative bg-background pt-[11.25rem] pb-10 max-lg:pt-40">
+	<img
+		src="/global/images/page-hero-bg.webp"
+		srcset="/global/images/page-hero-bg-mobile.webp 800w, /global/images/page-hero-bg.webp 2000w"
+		sizes="100vw"
+		alt=""
+		width="2000"
+		height="1403"
+		loading="eager"
+		fetchpriority="high"
+		class="absolute inset-0 size-full object-cover object-[50%_60%]"
+	/>
+
+	<div class="relative z-10 mx-auto w-[92%] max-w-[76.875rem] text-center">
+		<h1
+			class="mb-[6.25rem] text-[4.375rem] leading-[5.25rem] font-medium tracking-[-0.02em] text-text-inverse max-lg:mb-16 max-lg:text-[2.1875rem] max-lg:leading-[2.75rem]"
+		>
+			{titleStart} <span class="text-primary">{titleHighlight}</span>
+		</h1>
+	</div>
+</section>

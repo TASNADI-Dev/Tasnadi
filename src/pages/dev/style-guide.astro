@@ -8,6 +8,7 @@ import ClientsSection from "../../components/ClientsSection.astro";
 import CaseStudyCard from "../../components/CaseStudyCard.astro";
 import Navigation from "../../components/Navigation.astro";
 import NewsletterSection from "../../components/NewsletterSection.astro";
+import type { ComponentProps } from "astro/types";
 import PodcastCard from "../../components/PodcastCard.astro";
 import ServiceIcon from "../../components/ServiceIcon.astro";
 import VideoCard from "../../components/VideoCard.astro";
@@ -25,6 +26,12 @@ const { entries: samplePodcasts } = await getEmDashCollection("podcasts", {
 	limit: 1,
 });
 const samplePodcast = samplePodcasts[0];
+const podcastLinks: ComponentProps<typeof PodcastCard>["links"] = [
+	{ platform: "spotify", url: "#" },
+	{ platform: "youtube", url: "#" },
+	{ platform: "apple-podcasts", url: "#" },
+	{ platform: "youtube-music", url: "#" },
+];
 
 const { entries: samplePosts } = await getEmDashCollection("posts", {
 	locale: "hu",
@@ -224,20 +231,31 @@ const colorGroups = [
 				<section class="mt-16">
 					<h2 class="mb-8 text-2xl font-bold">Podcast card</h2>
 
-					<div class="border-t border-border pt-6">
-						<div class="inline-block max-w-full rounded-[24px] bg-surface-dark p-8">
-							<div class="w-[36.9rem] max-w-full">
+					<div class="flex flex-col gap-10">
+						<div class="border-t border-border pt-6">
+							<h3 class="mb-4 text-lg font-medium"><code>variant="row"</code></h3>
+							<div class="inline-block max-w-full rounded-[24px] bg-surface-dark p-8">
+								<div class="w-[36.9rem] max-w-full">
+									<PodcastCard
+										href="#"
+										title={samplePodcast.data.title}
+										image={samplePodcast.data.image}
+										listenLabel="Listen on"
+										links={podcastLinks}
+									/>
+								</div>
+							</div>
+						</div>
+						<div class="border-t border-border pt-6">
+							<h3 class="mb-4 text-lg font-medium"><code>variant="stacked"</code></h3>
+							<div class="w-[25rem] max-w-full">
 								<PodcastCard
+									variant="stacked"
 									href="#"
 									title={samplePodcast.data.title}
 									image={samplePodcast.data.image}
 									listenLabel="Listen on"
-									links={[
-										{ platform: "spotify", url: "#" },
-										{ platform: "youtube", url: "#" },
-										{ platform: "apple-podcasts", url: "#" },
-										{ platform: "youtube-music", url: "#" },
-									]}
+									links={podcastLinks}
 								/>
 							</div>
 						</div>

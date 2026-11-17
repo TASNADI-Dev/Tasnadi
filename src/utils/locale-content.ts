@@ -11,8 +11,12 @@ const SECTION_COLLECTIONS: Record<string, string> = {
 	"/podcast": "podcasts",
 };
 
+/** Collections that are only published in the default locale, whatever the CMS holds in other locales */
+const DEFAULT_LOCALE_ONLY = new Set(["podcasts"]);
+
 export async function hasLocaleContent(collection: string, locale: Locale) {
 	if (locale === DEFAULT_LOCALE) return true;
+	if (DEFAULT_LOCALE_ONLY.has(collection)) return false;
 	const { entries } = await getEmDashCollection(collection, { locale, limit: 1 });
 	return entries.length > 0;
 }

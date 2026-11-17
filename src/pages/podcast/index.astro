@@ -1,0 +1,75 @@
+---
+import { getEmDashCollection } from "emdash";
+import Base from "../../layouts/Base.astro";
+import NewsletterSection from "../../components/NewsletterSection.astro";
+import PageHero from "../../components/PageHero.astro";
+import PodcastCard from "../../components/PodcastCard.astro";
+import { hasLocaleContent } from "../../utils/locale-content";
+
+// The podcast is Hungarian only, so /en/podcast is a 404 instead of a Hungarian fallback
+if (!(await hasLocaleContent("podcasts", "hu")) || Astro.currentLocale === "en") {
+	return Astro.rewrite("/404");
+}
+
+const copy = {
+	pageTitle: "Podcast",
+	description:
+		"Hallgasd a TASNADI podcast legfrissebb epizódjait webdesign, branding, webfejlesztés és digitalizáció témában.",
+	titleStart: "A legfrissebb",
+	titleHighlight: "podcast epizódok",
+	listenLabel: "Podcast meghallgatása:",
+	noResults: "Még nincs elérhető epizód.",
+};
+
+// Newest first; the cursor loop keeps the list complete if there are more than one query page of episodes
+const episodes = [];
+let cursor: string | undefined;
+do {
+	const { entries, nextCursor, cacheHint } = await getEmDashCollection("podcasts", {
+		locale: "hu",
+		orderBy: { published_at: "desc" },
+		limit: 100,
+		cursor,
+	});
+	if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
+	episodes.push(...entries);
+	cursor = nextCursor;
+} while (cursor);
+---
+
+<Base title={copy.pageTitle} description={copy.description} navVariant="dark">
+	<PageHero titleStart={copy.titleStart} titleHighlight={copy.titleHighlight} />
+
+	<section class="bg-background pt-4 pb-24 max-lg:pb-16">
+		<div class="mx-auto w-[92%] max-w-[76.875rem]">
+			{
+				episodes.length === 0 ? (
+					<p class="text-center text-xl leading-8 font-medium text-text-muted">{copy.noResults}</p>
+				) : (
+					<ul class="grid grid-cols-3 gap-x-8 gap-y-10 max-lg:grid-cols-2 max-md:grid-cols-1">
+						{episodes.map((entry) => (
+							<li>
+								<PodcastCard
+									variant="stacked"
+									href={`/podcast/${entry.data.slug}`}
+									title={entry.data.title}
+									image={entry.data.image}
+									listenLabel={copy.listenLabel}
+									links={[
+										{ platform: "spotify", url: entry.data.spotify_link },
+										{ platform: "youtube", url: entry.data.youtube_link },
+										{ platform: "apple-podcasts", url: entry.data.apple_podcasts_link },
+										{ platform: "youtube-music", url: entry.data.youtube_music_link },
+										{ platform: "soundcloud", url: entry.data.soundcloud_link },
+									]}
+								/>
+							</li>
+						))}
+					</ul>
+				)
+			}
+		</div>
+	</section>
+
+	<NewsletterSection />
+</Base>

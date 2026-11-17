@@ -4,6 +4,7 @@ import Base from "../../layouts/Base.astro";
 import Badge from "../../components/Badge.astro";
 import BlogArticleList from "../../components/BlogArticleList.astro";
 import Button from "../../components/Button.astro";
+import PageHero from "../../components/PageHero.astro";
 import NewsletterSection from "../../components/NewsletterSection.astro";
 import { loadBlogPosts, parseBlogFilters } from "../../utils/blog-posts";
 import { hasLocaleContent } from "../../utils/locale-content";
@@ -56,27 +57,7 @@ const blogPath = getRelativeLocaleUrl(locale, "/blog").replace(/(.)\/$/, "$1");
 ---
 
 <Base title={copy.pageTitle} description={copy.description} navVariant="dark">
-	<section class="relative bg-background pt-[11.25rem] pb-10 max-lg:pt-40">
-		<img
-			src="/blog/hero-bg.webp"
-			srcset="/blog/hero-bg-mobile.webp 800w, /blog/hero-bg.webp 2000w"
-			sizes="100vw"
-			alt=""
-			width="2000"
-			height="1403"
-			loading="eager"
-			fetchpriority="high"
-			class="absolute inset-0 size-full object-cover object-[50%_60%]"
-		/>
-
-		<div class="relative z-10 mx-auto w-[92%] max-w-[76.875rem] text-center">
-			<h1
-				class="mb-[6.25rem] text-[4.375rem] leading-[5.25rem] font-medium tracking-[-0.02em] text-text-inverse max-lg:mb-16 max-lg:text-[2.1875rem] max-lg:leading-[2.75rem]"
-			>
-				{copy.titleStart} <span class="text-primary">{copy.titleHighlight}</span>
-			</h1>
-		</div>
-	</section>
+	<PageHero titleStart={copy.titleStart} titleHighlight={copy.titleHighlight} />
 
 	<section id="filters" class="scroll-mt-28 bg-background pt-4 pb-8">
 		<form
