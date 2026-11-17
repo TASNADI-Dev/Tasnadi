@@ -1,10 +1,19 @@
 ---
+import { getEmDashCollection } from "emdash";
 import Base from "../../layouts/Base.astro";
 import Button from "../../components/Button.astro";
 import Badge from "../../components/Badge.astro";
+import CaseStudyCard from "../../components/CaseStudyCard.astro";
 import LanguageSwitcher from "../../components/LanguageSwitcher.astro";
 import Navigation from "../../components/Navigation.astro";
 import ServiceIcon from "../../components/ServiceIcon.astro";
+
+const { entries: sampleCaseStudies } = await getEmDashCollection("case_studies", {
+	locale: "hu",
+	orderBy: { date: "desc" },
+	limit: 1,
+});
+const sampleCaseStudy = sampleCaseStudies[0];
 
 const serviceIconNames = ["branding", "website", "webshop", "consulting", "strategy"] as const;
 
@@ -214,6 +223,31 @@ const colorGroups = [
 				}
 			</div>
 		</section>
+
+		{
+			sampleCaseStudy && (
+				<section class="mt-16">
+					<h2 class="mb-8 text-2xl font-bold">Case study card</h2>
+
+					<div class="border-t border-border pt-6">
+						<h3 class="mb-1 text-lg font-medium">Default</h3>
+						<p class="mb-4 text-text-muted">
+							Image first, then service badges, title and short description. The whole card is
+							one link; hover lifts the card, zooms the image and turns the title orange.
+						</p>
+						<div class="max-w-[24.5rem]">
+							<CaseStudyCard
+								href="#"
+								title={sampleCaseStudy.data.hero_text}
+								description={sampleCaseStudy.data.short_description}
+								image={sampleCaseStudy.data.thumbnail}
+								services={["Website", "Branding"]}
+							/>
+						</div>
+					</div>
+				</section>
+			)
+		}
 
 		<section class="mt-16">
 			<h2 class="mb-8 text-2xl font-bold">Language switcher</h2>

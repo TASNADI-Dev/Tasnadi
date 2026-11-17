@@ -4,6 +4,7 @@ import { Image } from "emdash/ui";
 import Base from "../layouts/Base.astro";
 import Badge from "../components/Badge.astro";
 import Button from "../components/Button.astro";
+import CaseStudyCard from "../components/CaseStudyCard.astro";
 import ServiceIcon from "../components/ServiceIcon.astro";
 import { resolveSiteIdentity } from "../utils/site-identity";
 
@@ -75,6 +76,7 @@ const copy = {
 		caseStudy: {
 			title: [{ text: "Sikertörténeteink", tone: "primary" }],
 			cta: "Tovább olvasom",
+			moreCta: "További projektek",
 		},
 	},
 	en: {
@@ -141,6 +143,7 @@ const copy = {
 				{ text: "success stories", tone: "primary" },
 			],
 			cta: "See more",
+			moreCta: "More projects",
 		},
 	},
 }[locale];
@@ -174,6 +177,32 @@ const caseStudyLabels = [
 	...caseStudyServices.map((service) => service.data.title),
 	...(caseStudyIndustry ? [caseStudyIndustry.data.title] : []),
 ];
+
+const { entries: latestCaseStudies, cacheHint: latestCaseStudiesHint } =
+	await getEmDashCollection("case_studies", {
+		locale,
+		orderBy: { date: "desc" },
+	});
+if (Astro.cache?.enabled) Astro.cache.set(latestCaseStudiesHint);
+
+// The newest three case studies that are not the highlighted (featured) one
+const listedCaseStudySlugs = latestCaseStudies
+	.filter((entry) => !entry.data.featured)
+	.slice(0, 3)
+	.map((entry) => entry.data.slug);
+
+const listedCaseStudies = (
+	await Promise.all(
+		listedCaseStudySlugs.map(async (slug) => {
+			const { entry, cacheHint } = await getEmDashEntry("case_studies", slug, {
+				locale,
+				references: { services: true },
+			});
+			if (cacheHint && Astro.cache?.enabled) Astro.cache.set(cacheHint);
+			return entry;
+		}),
+	)
+).filter((entry) => entry !== undefined);
 
 const cardClass =
 	"flex flex-col gap-3 rounded-[20px] bg-background p-6 text-text shadow-[0_2px_2px_color-mix(in_srgb,var(--color-gray-900)_20%,transparent)] transition-shadow";
@@ -442,14 +471,15 @@ const cardClass =
 						</Button>
 					</div>
 
-					<div class="relative pt-20 max-lg:pt-14">
+					<div class="relative -mb-32 pt-20 max-lg:pt-14">
 						<img
 							src="/home/spaceship.webp"
 							alt=""
 							width="580"
 							height="378"
 							loading="lazy"
-							class="absolute top-0 left-[8%] w-[13.75rem] animate-float motion-reduce:animate-none max-lg:w-[9rem]"
+							data-spaceship
+							class="absolute -top-24 left-0 w-[13.75rem] will-change-transform max-lg:right-24 max-lg:left-auto max-lg:w-[9rem]"
 						/>
 						<div {...caseStudy.edit.image}>
 							<Image
@@ -466,4 +496,70 @@ const cardClass =
 		</section>
 		)
 	}
+
+	{
+		listedCaseStudies.length > 0 && (
+			<section class="bg-background pt-16 pb-24 max-md:pt-12 max-md:pb-20">
+				<div class="mx-auto w-[92%] max-w-[76.875rem]">
+					<ul class="grid grid-cols-3 gap-8 max-lg:grid-cols-1">
+						{listedCaseStudies.map((entry) => (
+							<li>
+								<CaseStudyCard
+									href={`${localePrefix}/case-studies/${entry.data.slug}`}
+									title={entry.data.hero_text}
+									description={entry.data.short_description}
+									image={entry.data.thumbnail}
+									services={entry.references?.services.entries.map(
+										(service) => service.data.title,
+									)}
+								/>
+							</li>
+						))}
+					</ul>
+
+					<div class="mt-12 flex justify-end">
+						<Button variant="link-arrow" href={`${localePrefix}/case-studies`}>
+							{copy.caseStudy.moreCta}
+						</Button>
+					</div>
+				</div>
+			</section>
+		)
+	}
 </Base>
+
+<script>
+	// Moves the spaceship toward the top left when scrolling down and back to the bottom right when scrolling up.
+	const ship = document.querySelector<HTMLElement>("[data-spaceship]");
+	const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+	if (ship && ship.parentElement && !reduceMotion.matches) {
+		const wrapper = ship.parentElement;
+		const range = 12 * 16; // total travel in px (12rem) on each axis
+		let ticking = false;
+
+		const update = () => {
+			const rect = wrapper.getBoundingClientRect();
+			const viewport = window.innerHeight;
+			const progress = Math.min(
+				Math.max((viewport - rect.top) / (viewport + rect.height), 0),
+				1,
+			);
+			const offset = (0.5 - progress) * range;
+			ship.style.transform = `translate(${offset}px, ${offset}px)`;
+			ticking = false;
+		};
+
+		window.addEventListener(
+			"scroll",
+			() => {
+				if (!ticking) {
+					ticking = true;
+					requestAnimationFrame(update);
+				}
+			},
+			{ passive: true },
+		);
+		update();
+	}
+</script>
