@@ -1,4 +1,6 @@
 ---
+import { getEmDashEntry } from "emdash";
+import { Image } from "emdash/ui";
 import Base from "../layouts/Base.astro";
 
 const locale = Astro.currentLocale === "en" ? "en" : "hu";
@@ -34,6 +36,18 @@ const copy = {
 		submit: "Küldés",
 		success: "Köszönjük! Sikeres küldés.",
 		error: "Sajnos hiba történt az űrlap beküldésekor. Keress minket emailben:",
+		directContact: "Vagy keress minket közvetlenül",
+		companyDetails: {
+			title: "Cégadatok",
+			lines: [
+				"TASNADI Group Kft.",
+				"Cégjegyzékszám: 01-09-405698",
+				"Adószám: 32081404-2-41",
+				"Székhely: 1054 Budapest, Bajcsy-Zsilinszky út 58. 2. em. 1.",
+				"Képviseli: Tasnádi Olivér",
+			],
+			mapTitle: "TASNADI székhelye a térképen",
+		},
 		steps: [
 			"Jelentkezz egy ingyenes, kötelezettségmentes beszélgetésre!",
 			"A regisztrációt követő három munkanapon belül felvesszük veled a kapcsolatot.",
@@ -64,6 +78,18 @@ const copy = {
 		submit: "Send",
 		success: "Thank you! Your submission has been received!",
 		error: "Oops! Something went wrong while submitting the form. You can contact us via email:",
+		directContact: "Or feel free to contact us directly",
+		companyDetails: {
+			title: "Company details",
+			lines: [
+				"TASNADI Group Ltd.",
+				"Company registration nr: 01-09-405698",
+				"VAT nr: HU32081404",
+				"Address: Bajcsy-Zsilinszky út 58. 2/1, 1054 Budapest, Hungary",
+				"Represented by: Oliver Tasnadi",
+			],
+			mapTitle: "TASNADI office location on the map",
+		},
 		steps: [
 			"Sign up for a free, no-obligation consultation!",
 			"We will contact you within three business days after your registration.",
@@ -72,9 +98,21 @@ const copy = {
 	},
 }[locale];
 
+// Names, positions and photos come from the team members collection; email and phone are shared across locales
+const directContactSlugs = ["oliver-tasnadi", "balazs-marton"];
+const directContacts = (
+	await Promise.all(
+		directContactSlugs.map(async (slug) => {
+			const { entry, cacheHint } = await getEmDashEntry("team_members", slug, { locale });
+			if (cacheHint && Astro.cache?.enabled) Astro.cache.set(cacheHint);
+			return entry;
+		}),
+	)
+).filter((person) => person != null);
+
 const labelClass = "text-base leading-[1.625rem] font-medium text-accent";
 const fieldClass =
-	"w-full rounded-[5px] border border-gray-300 bg-white px-3 text-base font-medium text-text placeholder:font-normal placeholder:text-gray-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
+	"w-full rounded-[5px] border border-border-strong bg-background px-3 text-base font-medium text-text placeholder:font-normal placeholder:text-text-subtle focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
 
 const fields = [
 	{ id: "first-name", name: "First-name", type: "text", autocomplete: "given-name", key: "firstName" as const, required: true },
@@ -85,7 +123,7 @@ const fields = [
 ---
 
 <Base title={copy.pageTitle} description={copy.description}>
-	<section class="relative overflow-hidden bg-gray-900 pt-[11.25rem] pb-16 max-lg:pt-40">
+	<section class="relative overflow-hidden bg-background-dark pt-[11.25rem] pb-16 max-lg:pt-40">
 		<img
 			src="/global/images/space-bg.webp"
 			alt=""
@@ -98,7 +136,7 @@ const fields = [
 
 		<div class="relative z-10 mx-auto w-[92%] max-w-[76.875rem]">
 			<h1
-				class="text-[4.375rem] leading-[5.25rem] font-medium tracking-[-0.02em] text-white max-lg:text-[2.1875rem] max-lg:leading-[2.75rem]"
+				class="text-[4.375rem] leading-[5.25rem] font-medium tracking-[-0.02em] text-text-inverse max-lg:text-[2.1875rem] max-lg:leading-[2.75rem]"
 			>
 				{copy.title}
 			</h1>
@@ -160,7 +198,7 @@ const fields = [
 								type="checkbox"
 								name="checkbox"
 								required
-								class="peer size-5 shrink-0 cursor-pointer appearance-none rounded-[2px] border border-gray-300 bg-transparent checked:border-primary checked:bg-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+								class="peer size-5 shrink-0 cursor-pointer appearance-none rounded-[2px] border border-border-strong bg-transparent checked:border-primary checked:bg-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
 							/>
 							<svg
 								class="pointer-events-none absolute top-1/2 left-0 size-5 -translate-y-1/2 p-1 text-text opacity-0 peer-checked:opacity-100"
@@ -174,7 +212,7 @@ const fields = [
 							>
 								<path d="m3 8.5 3.5 3.5L13 4.5"></path>
 							</svg>
-							<span class="text-sm leading-5 font-normal text-white">{copy.consent}</span>
+							<span class="text-sm leading-5 font-normal text-text-inverse">{copy.consent}</span>
 						</label>
 
 						<div
@@ -187,14 +225,14 @@ const fields = [
 						<div class="col-span-full flex items-center gap-4">
 							<button
 								type="submit"
-								class="inline-flex cursor-pointer items-center justify-center rounded-[4px] bg-primary px-8 py-3 text-base leading-5 font-normal tracking-[0.02em] text-text transition duration-200 hover:bg-primary-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent active:shadow-[inset_0_4px_8px_var(--color-orange-700)] disabled:cursor-wait disabled:opacity-70"
+								class="inline-flex cursor-pointer items-center justify-center rounded-[4px] bg-primary px-8 py-3 text-base leading-5 font-normal tracking-[0.02em] text-text transition duration-200 hover:bg-primary-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent active:shadow-[inset_0_4px_8px_var(--color-primary-active)] disabled:cursor-wait disabled:opacity-70"
 							>
 								{copy.submit}
 							</button>
 							<span
 								data-form-loader
 								role="status"
-								class="hidden size-6 animate-spin rounded-full border-2 border-gray-300 border-t-primary motion-reduce:animate-none"
+								class="hidden size-6 animate-spin rounded-full border-2 border-border-strong border-t-primary motion-reduce:animate-none"
 							>
 							</span>
 						</div>
@@ -204,7 +242,7 @@ const fields = [
 						data-form-success
 						tabindex="-1"
 						role="status"
-						class="hidden bg-accent p-4 text-center text-xl leading-8 font-medium text-white focus-visible:outline-none"
+						class="hidden bg-accent p-4 text-center text-xl leading-8 font-medium text-text-inverse focus-visible:outline-none"
 					>
 						{copy.success}
 					</div>
@@ -221,11 +259,102 @@ const fields = [
 								<span class="text-xl leading-[1.625rem] font-medium text-accent">
 									{String(index + 1).padStart(2, "0")}
 								</span>
-								<span class="text-xl leading-[1.625rem] font-normal text-gray-50">{step}</span>
+								<span class="text-xl leading-[1.625rem] font-normal text-text-inverse">{step}</span>
 							</li>
 						))
 					}
 				</ol>
+			</div>
+		</div>
+	</section>
+
+	<section class="bg-background-dark py-16">
+		<div class="mx-auto w-[92%] max-w-[76.875rem]">
+			{
+				directContacts.length > 0 && (
+					<div>
+						<h2 class="text-[2.125rem] leading-[2.75rem] font-medium text-primary max-[30rem]:text-[1.75rem] max-[30rem]:leading-9">
+							{copy.directContact}
+						</h2>
+						<ul class="mt-8 flex items-start gap-16 max-md:flex-col max-md:gap-6">
+							{directContacts.map((person) => (
+								<li class="group flex items-center gap-6 max-md:gap-4">
+									<div class="relative size-[11.25rem] shrink-0 overflow-hidden rounded-full max-md:size-32">
+										<Image
+											image={person.data.default_image}
+											alt={person.data.default_image?.alt || person.data.title}
+											sizes="11.25rem"
+											loading="lazy"
+											class="size-full object-cover"
+										/>
+										<Image
+											image={person.data.hover_image}
+											alt=""
+											sizes="11.25rem"
+											loading="lazy"
+											class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100 motion-reduce:transition-none"
+										/>
+									</div>
+									<div class="text-base leading-[1.625rem] font-light text-text-inverse">
+										<p {...person.edit.title} class="text-2xl leading-[2.125rem] font-bold text-primary">
+											{person.data.title}
+										</p>
+										{person.data.position && <p {...person.edit.position}>{person.data.position}</p>}
+										{person.data.phone && (
+											<p {...person.edit.phone} class="font-medium">
+												<a
+													href={`tel:${person.data.phone.replace(/[^\d+]/g, "")}`}
+													class="transition-colors hover:text-primary motion-reduce:transition-none"
+												>
+													{person.data.phone}
+												</a>
+											</p>
+										)}
+										{person.data.email && (
+											<p {...person.edit.email} class="font-medium">
+												<a
+													href={`mailto:${person.data.email}`}
+													class="transition-colors hover:text-primary motion-reduce:transition-none"
+												>
+													{person.data.email}
+												</a>
+											</p>
+										)}
+									</div>
+								</li>
+							))}
+						</ul>
+					</div>
+				)
+			}
+
+			<div
+				class="mt-16 grid grid-cols-[minmax(0,1fr)_minmax(0,2fr)] items-start gap-x-10 max-lg:mt-16 max-lg:grid-cols-1 max-lg:gap-y-8"
+			>
+				<div>
+					<h2
+						class="text-[2.125rem] leading-[2.75rem] font-medium text-primary max-[30rem]:text-[1.75rem] max-[30rem]:leading-9"
+					>
+						{copy.companyDetails.title}
+					</h2>
+					<p class="mt-5 text-base leading-[1.625rem] font-light text-text-inverse-muted">
+						{
+							copy.companyDetails.lines.map((line, index) => (
+								<>
+									{index > 0 && <br />}
+									{line}
+								</>
+							))
+						}
+					</p>
+				</div>
+				<iframe
+					src="https://www.google.com/maps/d/u/2/embed?mid=1RLV4t4e88LnwgcxQwp9niwXV_jNh2io&ehbc=2E312F&noprof=1"
+					title={copy.companyDetails.mapTitle}
+					loading="lazy"
+					referrerpolicy="no-referrer-when-downgrade"
+					class="aspect-video w-full rounded-3xl border-0 max-md:aspect-[4/3]"
+				></iframe>
 			</div>
 		</div>
 	</section>

@@ -164,6 +164,18 @@
 					"slug": "hover_image",
 					"label": "Hover image (1:1 square, shown on hover over the default image)",
 					"type": "image"
+				},
+				{
+					"slug": "email",
+					"label": "Email (shown on the contact page, leave empty to hide)",
+					"type": "string",
+					"translatable": false
+				},
+				{
+					"slug": "phone",
+					"label": "Phone (shown on the contact page, leave empty to hide)",
+					"type": "string",
+					"translatable": false
 				}
 			]
 		},
