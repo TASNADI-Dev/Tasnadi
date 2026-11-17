@@ -37,8 +37,8 @@ const { siteTitle, siteTagline } = resolveSiteIdentity(
 const titleIncludesSiteName =
 	title === siteTitle ||
 	title.endsWith(` | ${siteTitle}`) ||
-	title.endsWith(` — ${siteTitle}`);
-const fullTitle = titleIncludesSiteName ? title : `${title} — ${siteTitle}`;
+	title.endsWith(` – ${siteTitle}`);
+const fullTitle = titleIncludesSiteName ? title : `${title} – ${siteTitle}`;
 const pageDescription = description ?? siteTagline;
 
 const pageCtx = createPublicPageContext({

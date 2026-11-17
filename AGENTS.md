@@ -13,6 +13,7 @@ The main goal of this project is to migrate an existing Webflow site to Astro an
 * **Locale:** Hungarian (`hu`) is the default language; English (`en`) is the one translated language. All content and user-visible text is Hungarian by default, with an English translation as the secondary language.
 * **Locale Routing:** Astro i18n is configured in `astro.config.mjs` (EmDash reads the same config). Hungarian is served unprefixed, English under `/en`. Pages are **not** duplicated per locale: a missing `/en/...` page falls back to the Hungarian one via rewrite, and components read the language from `Astro.currentLocale`. Only the home page has an explicit `src/pages/en/index.astro`, because the `[slug]` route would otherwise swallow `/en`.
 * **English for Development:** Everything development-related must be in English, even though the site's main language is Hungarian. This includes class names, component names, file and folder names, variable and function names, props, routes/slugs in code, and any other identifiers. Only user-visible content is Hungarian (or its English translation).
+* **Dashes in Hungarian:** There are three dash lengths: the hyphen `-` (short), the en dash `–` (medium) and the em dash `—` (long). In Hungarian text we never use the em dash `—`; only the hyphen `-` and the en dash `–`. Wherever the em dash appears in user-visible content (including page titles), replace it with the en dash `–`.
 
 ## Design System & Styling Rules
 
