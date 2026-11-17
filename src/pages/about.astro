@@ -15,6 +15,20 @@ const copy = {
 			"Kíváncsi vagy arra, hogy kik vagyunk, és miért lehetünk éppen mi a tökéletes választás számodra?",
 		],
 		highlight: "Hadd meséljünk többet!",
+		human: {
+			title: "Egyszerűen jó weboldalak, emberektől, embereknek.",
+			intro:
+				"Bármi is a szereped, mindenekelőtt ember vagy. Állandóan használsz weboldalakat, és valószínűleg frusztrál, ha nem felelnek meg az elvárásaidnak. Úgy érzed magad, mintha egy útvesztőben tévelyegnél – mintha az oldalt olyanok készítették volna, akik nem igazán értik, hogyan gondolkodnak és tájékozódnak az emberek.",
+			lead: "Mi is átéltük ezt a frusztrációt. Ezért hisszük, hogy egy weboldal használatának könnyednek és intuitívnak kell lennie.",
+			body: [
+				"Nem kell azon gondolkodnod, hova kattints. Ha mégis, az az oldal hibája, nem a tiéd. Célunk, hogy olyan marketingeszközt hozzunk létre a vállalkozásodnak, amelyben a látogatók könnyebben megtalálják, amit keresnek, és ügyféllé vagy érdeklődővé válnak. Emellett azt szeretnénk, ha te is élvezned a ",
+				" – hiszen ha az ügyfeleid kivételes felhasználói élményt érdemelnek, te is.",
+			],
+			linkText: "weboldalad elkészítésének folyamatát",
+			closing:
+				"Végső soron mi is csak emberek vagyunk, akik jobbá akarják tenni a dolgokat. Ez a mi módunk a világ jobbítására, egy weboldallal egyszerre: kiiktatjuk a bosszantó élményeket, és simábbá, élvezetesebbé tesszük az utadat.",
+			teamAlt: "A TASNADI csapata együtt",
+		},
 	},
 	en: {
 		pageTitle: "About",
@@ -28,6 +42,20 @@ const copy = {
 			"Are you curious about who we are and why we might just be the perfect fit for your needs?",
 		],
 		highlight: "Let us tell you more.",
+		human: {
+			title: "Simply good websites, by humans, for humans.",
+			intro:
+				"No matter your role, you’re always a human first. You use websites constantly, and it’s likely to cause frustration when they don’t meet your expectations. They make you feel like you’re navigating a maze. It’s as if the website is a creation of people who don’t quite get how real humans think and navigate.",
+			lead: "We’ve experienced that frustration too. That’s why we believe that using a website should be effortless and intuitive.",
+			body: [
+				"You shouldn’t have to think about where to click. If you do, that’s on the website, not you. Our goal is to help your business create a marketing tool that makes it easier for visitors to find what they’re looking for and become customers or leads. Plus, we want you to enjoy ",
+				" – after all, if your customers deserve an exceptional user experience, you do too.",
+			],
+			linkText: "the process of building your site",
+			closing:
+				"At the end of the day, we’re just people trying to make things better. This is our way of improving the world, one website at a time, by eliminating those annoying experiences and making your journey smoother and more enjoyable.",
+			teamAlt: "The whole TASNADI team",
+		},
 	},
 }[locale] as {
 	pageTitle: string;
@@ -36,6 +64,15 @@ const copy = {
 	titleWords: [string, string];
 	paragraphs: string[];
 	highlight: string;
+	human: {
+		title: string;
+		intro: string;
+		lead: string;
+		body: [string, string];
+		linkText: string;
+		closing: string;
+		teamAlt: string;
+	};
 };
 ---
 
@@ -127,7 +164,7 @@ const copy = {
 		/>
 	</section>
 
-	<div class="relative min-h-[8.5rem] bg-background lg:min-h-[21.5rem]">
+	<section class="relative bg-background pt-12 pb-24 lg:pt-20 lg:pb-[12.5rem]">
 		<img
 			src="/about/astronaut.webp"
 			srcset="/about/astronaut-500.webp 500w, /about/astronaut-800.webp 800w, /about/astronaut.webp 1635w"
@@ -138,7 +175,48 @@ const copy = {
 			loading="lazy"
 			class="absolute top-0 right-0 w-48 lg:w-[35vw] lg:max-w-[31.25rem]"
 		/>
-	</div>
+
+		<div class="relative mx-auto w-[92%] max-w-[76.875rem]">
+			<div class="max-w-[39.125rem] pt-32 lg:pt-0">
+				<h2
+					class="text-[2rem] leading-[2.75rem] font-medium tracking-[-0.02em] text-text lg:text-[3rem] lg:leading-[4.5rem]"
+				>
+					{copy.human.title}
+				</h2>
+				<p class="mt-2 text-base leading-[1.625rem] font-medium text-text-muted">
+					{copy.human.intro}
+				</p>
+			</div>
+
+			<div
+				class="mt-10 flex items-center justify-between gap-8 max-lg:flex-col lg:mt-10"
+			>
+				<img
+					src="/about/team.webp"
+					srcset="/about/team-500.webp 500w, /about/team-800.webp 800w, /about/team.webp 1024w"
+					sizes="(min-width: 64rem) 30rem, 92vw"
+					alt={copy.human.teamAlt}
+					width="1024"
+					height="683"
+					loading="lazy"
+					class="aspect-[3/2] w-full max-w-[30rem] rounded-[300px] object-cover max-lg:max-w-none max-lg:rounded-[7.5rem]"
+				/>
+
+				<div
+					class="flex max-w-[30.875rem] flex-col gap-5 text-base leading-[1.625rem] text-text-muted"
+				>
+					<p class="font-medium">{copy.human.lead}</p>
+					<p>
+						{copy.human.body[0]}<a
+							href="#"
+							class="text-accent transition-colors hover:text-primary-hover">{copy.human.linkText}</a
+						>{copy.human.body[1]}
+					</p>
+					<p>{copy.human.closing}</p>
+				</div>
+			</div>
+		</div>
+	</section>
 </Base>
 
 <script>
