@@ -1,0 +1,52 @@
+---
+import Base from "../layouts/Base.astro";
+import { getSitemapGroups } from "../utils/sitemap";
+
+const locale = Astro.currentLocale === "en" ? "en" : "hu";
+const copy = {
+	hu: { title: "Oldaltérkép", intro: "Az oldal összes oldala egy helyen." },
+	en: { title: "Sitemap", intro: "Every page of the site in one place." },
+}[locale];
+
+const groups = (await getSitemapGroups())
+	.map((group) => ({
+		...group,
+		urls: group.urls.filter((item) => item.locale === locale),
+	}))
+	.filter((group) => group.urls.length > 0);
+---
+
+<Base title={copy.title}>
+	<section class="pt-40 pb-24 max-lg:pt-32">
+		<div class="mx-auto w-[92%] max-w-[76.875rem]">
+			<h1 class="text-[3rem] leading-normal font-medium text-text max-[30rem]:text-[1.875rem]">
+				{copy.title}
+			</h1>
+			<p class="mt-4 text-text-muted">{copy.intro}</p>
+
+			<div class="mt-12 grid grid-cols-3 gap-x-12 gap-y-12 max-lg:grid-cols-2 max-sm:grid-cols-1">
+				{
+					groups.map((group) => (
+						<div>
+							<h2 class="mb-4 border-b border-border pb-3 text-xl font-medium text-text">
+								{group.label[locale]}
+							</h2>
+							<ul class="flex flex-col gap-2">
+								{group.urls.map((item) => (
+									<li>
+										<a
+											href={item.path}
+											class="text-text-muted transition-colors hover:text-primary"
+										>
+											{item.title}
+										</a>
+									</li>
+								))}
+							</ul>
+						</div>
+					))
+				}
+			</div>
+		</div>
+	</section>
+</Base>
