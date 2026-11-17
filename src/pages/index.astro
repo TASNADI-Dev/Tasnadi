@@ -4,6 +4,7 @@ import { Image } from "emdash/ui";
 import Base from "../layouts/Base.astro";
 import Badge from "../components/Badge.astro";
 import AgencyIntro from "../components/AgencyIntro.astro";
+import ClientsSection from "../components/ClientsSection.astro";
 import Button from "../components/Button.astro";
 import MediaSection from "../components/MediaSection.astro";
 import CaseStudyCard from "../components/CaseStudyCard.astro";
@@ -110,6 +111,11 @@ const copy = {
 				moreCta: "További cikkek",
 			},
 		},
+		clients: {
+			title: [{ text: "Néhány" }, { text: "elégedett", tone: "primary" as const }, { text: "ügyfelünk" }],
+			prevLabel: "Előző videó",
+			nextLabel: "Következő videó",
+		},
 	},
 	en: {
 		titleStart: "Simply",
@@ -207,6 +213,11 @@ const copy = {
 				moreCta: "Show more articles",
 			},
 		},
+		clients: {
+			title: [{ text: "Some of our" }, { text: "happy", tone: "primary" as const }, { text: "clients" }],
+			prevLabel: "Previous video",
+			nextLabel: "Next video",
+		},
 	},
 }[locale];
 
@@ -298,6 +309,14 @@ const latestPosts = (
 			}),
 	)
 ).filter((post) => post != null);
+
+const clientVideos = [
+	{ name: "Citi-Kert", src: "/home/testimonials/citi-kert.mp4" },
+	{ name: "Ravenwood", src: "/home/testimonials/ravenwood.mp4" },
+	{ name: "Premiomed", src: "/home/testimonials/premiomed.mp4" },
+	{ name: "Bookkeepie", src: "/home/testimonials/bookkeepie.mp4" },
+	{ name: "Rentouch", src: "/home/testimonials/rentouch.mp4" },
+];
 
 const mediaSection = {
 	podcasts: {
@@ -657,6 +676,8 @@ const cardClass =
 	<AgencyIntro {...copy.intro} />
 
 	<MediaSection {...mediaSection} />
+
+	<ClientsSection {...copy.clients} items={clientVideos} />
 </Base>
 
 <script>
