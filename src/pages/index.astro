@@ -3,6 +3,7 @@ import { getEmDashCollection, getEmDashEntry, getSiteSettings } from "emdash";
 import { Image } from "emdash/ui";
 import Base from "../layouts/Base.astro";
 import Badge from "../components/Badge.astro";
+import AgencyIntro from "../components/AgencyIntro.astro";
 import Button from "../components/Button.astro";
 import CaseStudyCard from "../components/CaseStudyCard.astro";
 import ServiceIcon from "../components/ServiceIcon.astro";
@@ -78,6 +79,25 @@ const copy = {
 			cta: "Tovább olvasom",
 			moreCta: "További projektek",
 		},
+		intro: {
+			badge: "Legendás ügyfélélmény",
+			title: [
+				{ text: "Digitális," },
+				{ text: "emberi módon.", tone: "primary" as const },
+			],
+			text: "A TASNADI budapesti digitális ügynökség kis- és középvállalkozások számára. Hisszük, hogy a jó eredmény jó kapcsolatból születik: előbb meghallgatunk, mindent átláthatóvá teszünk, érthetően beszélünk, és teljes felelősséget vállalunk az eredményért – így a közös munka ugyanolyan jó, mint maga az eredmény.",
+			links: [
+				{ label: "Nézd meg, hogyan dolgozunk", href: "/method" },
+				{ label: "Ismerd meg a csapatot", href: "/about" },
+			],
+			video: {
+				src: "/home/owner-video-hu.mp4",
+				poster: "/home/owner-video-poster.webp",
+				playLabel: "Videó lejátszása",
+				name: "Tasnádi Olivér",
+				role: "Tulajdonos, stratégiai vezető",
+			},
+		},
 	},
 	en: {
 		titleStart: "Simply",
@@ -144,6 +164,25 @@ const copy = {
 			],
 			cta: "See more",
 			moreCta: "More projects",
+		},
+		intro: {
+			badge: "Legendary client experience",
+			title: [
+				{ text: "Digital," },
+				{ text: "made human.", tone: "primary" as const },
+			],
+			text: "TASNADI is a Budapest-based digital agency for small and medium-sized businesses. We believe great results grow from great relationships: we listen first, keep things transparent, explain them simply, and take full responsibility for the outcome – so working with us feels as good as the result.",
+			links: [
+				{ label: "See how we work", href: "/en/method" },
+				{ label: "Meet the team", href: "/en/about" },
+			],
+			video: {
+				src: "/home/owner-video-en.mp4",
+				poster: "/home/owner-video-poster.webp",
+				playLabel: "Play video",
+				name: "Oliver Tasnadi",
+				role: "Owner, strategist",
+			},
 		},
 	},
 }[locale];
@@ -526,6 +565,8 @@ const cardClass =
 			</section>
 		)
 	}
+
+	<AgencyIntro {...copy.intro} />
 </Base>
 
 <script>

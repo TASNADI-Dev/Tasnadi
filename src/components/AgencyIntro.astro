@@ -1,0 +1,76 @@
+---
+import Badge from "./Badge.astro";
+import Button from "./Button.astro";
+import VideoCard from "./VideoCard.astro";
+
+type TitlePart = { text: string; tone?: "primary" | "accent" };
+
+type Props = {
+	badge: string;
+	title: TitlePart[];
+	text: string;
+	links: { label: string; href: string }[];
+	video: {
+		src: string;
+		poster: string;
+		playLabel: string;
+		name: string;
+		role: string;
+	};
+};
+
+const { badge, title, text, links, video } = Astro.props;
+---
+
+<section class="overflow-hidden bg-gray-900 py-12 xl:bg-[linear-gradient(to_bottom,var(--color-background)_50%,var(--color-gray-900)_50%)]">
+	<div class="relative mx-auto max-w-[100rem] xl:aspect-[3958/1834]">
+		<img
+			src="/home/owner-spaceship.webp"
+			alt=""
+			width="3958"
+			height="1834"
+			loading="lazy"
+			class="absolute inset-0 size-full object-cover object-center max-xl:hidden"
+		/>
+
+		<div
+			class="relative flex flex-col gap-10 px-[4%] py-16 xl:absolute xl:inset-0 xl:flex-row xl:items-center xl:justify-between xl:gap-8 xl:py-0 xl:pr-[18%] xl:pl-[17%]"
+		>
+			<div class="max-w-[34rem]">
+				<Badge>{badge}</Badge>
+
+				<h2 class="mt-5 text-[2.5rem] leading-[3rem] font-medium text-white max-[30rem]:text-[1.875rem] max-[30rem]:leading-9">
+					{
+						title.map((part) => (
+							<>
+								<span
+									class:list={[
+										part.tone === "primary" && "text-primary",
+										part.tone === "accent" && "text-accent",
+									]}
+								>
+									{part.text}
+								</span>{" "}
+							</>
+						))
+					}
+				</h2>
+
+				<p class="mt-5 text-base leading-[1.625rem] font-light text-white">{text}</p>
+
+				<div class="mt-6 flex flex-wrap items-center gap-x-8 gap-y-4">
+					{links.map((link) => <Button variant="link-arrow" href={link.href}>{link.label}</Button>)}
+				</div>
+			</div>
+
+			<VideoCard
+				src={video.src}
+				poster={video.poster}
+				playLabel={video.playLabel}
+				name={video.name}
+				role={video.role}
+				class="shrink-0"
+			/>
+		</div>
+	</div>
+</section>

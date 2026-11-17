@@ -7,6 +7,7 @@ import CaseStudyCard from "../../components/CaseStudyCard.astro";
 import LanguageSwitcher from "../../components/LanguageSwitcher.astro";
 import Navigation from "../../components/Navigation.astro";
 import ServiceIcon from "../../components/ServiceIcon.astro";
+import VideoCard from "../../components/VideoCard.astro";
 
 const { entries: sampleCaseStudies } = await getEmDashCollection("case_studies", {
 	locale: "hu",
@@ -248,6 +249,28 @@ const colorGroups = [
 				</section>
 			)
 		}
+
+		<section class="mt-16">
+			<h2 class="mb-8 text-2xl font-bold">Video card</h2>
+
+			<div class="border-t border-border pt-6">
+				<h3 class="mb-1 text-lg font-medium">Default</h3>
+				<p class="mb-4 text-text-muted">
+					Square video with rounded corners, a poster image and an orange play button. Clicking the
+					video plays or pauses it (no native controls); the play button shows while it is paused.
+					Optional name and role below it, made for dark backgrounds.
+				</p>
+				<div class="inline-block rounded-[24px] bg-gray-900 p-8">
+					<VideoCard
+						src="/home/owner-video-hu.mp4"
+						poster="/home/owner-video-poster.webp"
+						playLabel="Play video"
+						name="Name Surname"
+						role="Role"
+					/>
+				</div>
+			</div>
+		</section>
 
 		<section class="mt-16">
 			<h2 class="mb-8 text-2xl font-bold">Language switcher</h2>
