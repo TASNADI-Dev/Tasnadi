@@ -19,7 +19,7 @@ type Props = {
 const { title, items, prevLabel, nextLabel, class: className } = Astro.props;
 
 const arrowClass =
-	"flex size-[3.125rem] cursor-pointer items-center justify-center rounded-full border-2 border-primary bg-transparent text-primary transition-colors duration-200 hover:bg-primary/10 active:bg-primary active:text-white disabled:cursor-default disabled:opacity-40 disabled:hover:bg-transparent motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
+	"flex size-[3.125rem] cursor-pointer items-center justify-center rounded-full border-2 border-primary bg-transparent text-primary transition-colors duration-200 hover:bg-primary/10 active:bg-primary active:text-text-inverse disabled:cursor-default disabled:opacity-40 disabled:hover:bg-transparent motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
 ---
 
 <section
@@ -50,7 +50,7 @@ const arrowClass =
 					items.map((item) => (
 						<li class="swiper-slide">
 							<video
-								class="aspect-video w-full rounded-[20px] bg-gray-900 object-cover"
+								class="aspect-video w-full rounded-[20px] bg-surface-dark object-cover"
 								controls
 								playsinline
 								preload="metadata"

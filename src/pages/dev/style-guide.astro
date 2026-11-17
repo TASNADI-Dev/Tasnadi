@@ -70,6 +70,7 @@ const navigationVariants = [
 ] as const;
 
 const baseColors = [
+	{ name: "black", value: "#000000", swatch: "bg-black" },
 	{ name: "white", value: "#ffffff", swatch: "bg-white" },
 	{ name: "gray-50", value: "#f8f8f8", swatch: "bg-gray-50" },
 	{ name: "gray-200", value: "#e2e2e2", swatch: "bg-gray-200" },
@@ -87,19 +88,30 @@ const baseColors = [
 
 const semanticColors = [
 	{ name: "background", value: "white", swatch: "bg-background" },
+	{ name: "background-dark", value: "black", swatch: "bg-background-dark" },
 	{ name: "surface", value: "gray-50", swatch: "bg-surface" },
+	{ name: "surface-dark", value: "gray-900", swatch: "bg-surface-dark" },
+	{ name: "surface-dark-hover", value: "white at 10% opacity", swatch: "bg-surface-dark-hover" },
 	{ name: "text", value: "gray-900", swatch: "bg-text" },
 	{ name: "text-muted", value: "gray-600", swatch: "bg-text-muted" },
+	{ name: "text-subtle", value: "gray-500", swatch: "bg-text-subtle" },
+	{ name: "text-inverse", value: "white", swatch: "bg-text-inverse" },
+	{ name: "text-inverse-muted", value: "gray-300", swatch: "bg-text-inverse-muted" },
+	{ name: "text-inverse-subtle", value: "gray-400", swatch: "bg-text-inverse-subtle" },
 	{ name: "border", value: "gray-200", swatch: "bg-border" },
+	{ name: "border-strong", value: "gray-300", swatch: "bg-border-strong" },
+	{ name: "border-inverse", value: "gray-600", swatch: "bg-border-inverse" },
 	{ name: "primary", value: "orange-500", swatch: "bg-primary" },
 	{ name: "primary-hover", value: "orange-300", swatch: "bg-primary-hover" },
+	{ name: "primary-active", value: "orange-700", swatch: "bg-primary-active" },
 	{ name: "accent", value: "blue-500", swatch: "bg-accent" },
+	{ name: "shadow", value: "gray-900", swatch: "bg-shadow" },
 ] as const;
 
 const colorGroups = [
 	{
 		title: "Base colors",
-		description: "The raw palette. Prefer the semantic colors in components.",
+		description: "The raw palette. Never use these in components, only the semantic colors below.",
 		colors: baseColors,
 	},
 	{
@@ -222,7 +234,7 @@ const colorGroups = [
 							<div
 								class:list={[
 									"relative hidden h-[30rem] [contain:layout] rounded-[24px] xl:block",
-									variant === "dark" ? "bg-surface" : "bg-gray-900",
+									variant === "dark" ? "bg-surface" : "bg-surface-dark",
 								]}
 							>
 								<Navigation {variant} />
@@ -264,7 +276,7 @@ const colorGroups = [
 					<div class="border-t border-border pt-6">
 						<h3 class="mb-1 text-lg font-medium">Default</h3>
 						<p class="mb-4 text-text-muted">Image, title and streaming platform links.</p>
-						<div class="inline-block max-w-full rounded-[24px] bg-gray-900 p-8">
+						<div class="inline-block max-w-full rounded-[24px] bg-surface-dark p-8">
 							<div class="w-[36.9rem] max-w-full">
 								<PodcastCard
 									href="#"
@@ -293,7 +305,7 @@ const colorGroups = [
 					<div class="border-t border-border pt-6">
 						<h3 class="mb-1 text-lg font-medium">Default</h3>
 						<p class="mb-4 text-text-muted">Image with category badge, title and publish date.</p>
-						<div class="inline-block max-w-full rounded-[24px] bg-gray-900 p-8">
+						<div class="inline-block max-w-full rounded-[24px] bg-surface-dark p-8">
 							<div class="w-[36.9rem] max-w-full">
 								<BlogCard
 									href="#"
@@ -316,7 +328,7 @@ const colorGroups = [
 			<div class="border-t border-border pt-6">
 				<h3 class="mb-1 text-lg font-medium">Default</h3>
 				<p class="mb-4 text-text-muted">Square video with a poster and a custom play button.</p>
-				<div class="inline-block rounded-[24px] bg-gray-900 p-8">
+				<div class="inline-block rounded-[24px] bg-surface-dark p-8">
 					<VideoCard
 						src="/home/owner/video-hu.mp4"
 						poster="/home/owner/video-poster.webp"

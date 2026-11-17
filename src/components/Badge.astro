@@ -10,7 +10,7 @@ type Props = HTMLAttributes<"span"> & {
 const { variant = "solid", class: className, ...rest } = Astro.props;
 
 const variants: Record<Variant, string> = {
-	solid: "border-accent bg-accent text-white",
+	solid: "border-accent bg-accent text-text-inverse",
 	outline: "border-accent bg-background text-accent",
 };
 ---

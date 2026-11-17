@@ -74,7 +74,7 @@ const socials = [
 ];
 
 const linkClass =
-	"text-sm leading-5 font-light text-white transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent";
+	"text-sm leading-5 font-light text-text-inverse transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent";
 const captionLinkClass =
 	"text-xs leading-4 text-surface underline transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent";
 const headingClass = "text-base leading-5 font-medium text-primary uppercase";
@@ -82,7 +82,7 @@ const blockClass = "flex flex-col items-start gap-6";
 ---
 
 <footer
-	class:list={["relative overflow-hidden bg-gray-900", className]}
+	class:list={["relative overflow-hidden bg-surface-dark", className]}
 >
 	<img
 		src="/global/images/footer-bg.webp"
@@ -118,7 +118,7 @@ const blockClass = "flex flex-col items-start gap-6";
 				</a>
 
 				<div class="flex flex-col items-start gap-2">
-					<p class="text-xs leading-4 text-gray-300">
+					<p class="text-xs leading-4 text-text-inverse-muted">
 						{copy.rights} © 2018-{currentYear} TASNADI Group Ltd.
 					</p>
 					<a href="#" class={captionLinkClass}>{copy.privacy}</a>

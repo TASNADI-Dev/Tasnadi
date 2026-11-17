@@ -15,11 +15,11 @@ type Props = {
 const { label, groups, variant = "light" } = Astro.props;
 const isDark = variant === "dark";
 
-const textClass = isDark ? "text-white" : "text-text";
-const panelClass = isDark ? "xl:bg-gray-900" : "xl:bg-background";
-const dividerClass = isDark ? "border-gray-600" : "border-border";
-const headingClass = isDark ? "text-gray-400" : "text-gray-500";
-const itemHoverClass = isDark ? "hover:bg-white/10" : "hover:bg-surface";
+const textClass = isDark ? "text-text-inverse" : "text-text";
+const panelClass = isDark ? "xl:bg-surface-dark" : "xl:bg-background";
+const dividerClass = isDark ? "border-border-inverse" : "border-border";
+const headingClass = isDark ? "text-text-inverse-subtle" : "text-text-subtle";
+const itemHoverClass = isDark ? "hover:bg-surface-dark-hover" : "hover:bg-surface";
 ---
 
 <li data-dropdown data-open="false" class="group/dropdown relative">
@@ -52,7 +52,7 @@ const itemHoverClass = isDark ? "hover:bg-white/10" : "hover:bg-surface";
 	>
 		<ul
 			class:list={[
-				"flex flex-col max-xl:ml-5 max-xl:border-l xl:min-w-[15rem] xl:rounded-[16px] xl:p-2 xl:shadow-[0_4px_30px_color-mix(in_srgb,var(--color-gray-900)_12%,transparent)]",
+				"flex flex-col max-xl:ml-5 max-xl:border-l xl:min-w-[15rem] xl:rounded-[16px] xl:p-2 xl:shadow-[0_4px_30px_color-mix(in_srgb,var(--color-shadow)_12%,transparent)]",
 				dividerClass,
 				panelClass,
 			]}

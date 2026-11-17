@@ -97,8 +97,8 @@ const toGroups = (groups: CopyGroup[]) =>
 		items: group.items.map((item) => ({ ...item, href: "#" })),
 	}));
 
-const surfaceClass = isDark ? "bg-gray-900" : "bg-background";
-const textClass = isDark ? "text-white" : "text-text";
+const surfaceClass = isDark ? "bg-surface-dark" : "bg-background";
+const textClass = isDark ? "text-text-inverse" : "text-text";
 const logoSrc = isDark ? "/global/branding/logo-light.svg" : "/global/branding/logo.svg";
 
 const linkClass =
@@ -114,7 +114,7 @@ const linkClass =
 	<nav
 		aria-label={copy.mainNavigation}
 		class:list={[
-			"pointer-events-auto relative mx-auto flex h-[4.125rem] max-w-[70rem] items-center justify-between rounded-full pr-3 pl-6 max-[22.5rem]:pr-1 max-[22.5rem]:pl-4 shadow-[0_4px_30px_color-mix(in_srgb,var(--color-gray-900)_10%,transparent)] xl:pr-8 xl:pl-8",
+			"pointer-events-auto relative mx-auto flex h-[4.125rem] max-w-[70rem] items-center justify-between rounded-full pr-3 pl-6 max-[22.5rem]:pr-1 max-[22.5rem]:pl-4 shadow-[0_4px_30px_color-mix(in_srgb,var(--color-shadow)_10%,transparent)] xl:pr-8 xl:pl-8",
 			surfaceClass,
 		]}
 	>
@@ -166,7 +166,7 @@ const linkClass =
 		<div
 			id="site-nav-panel"
 			class:list={[
-				"absolute inset-x-0 top-full mt-3 hidden flex-col gap-6 rounded-[24px] p-6 shadow-[0_4px_30px_color-mix(in_srgb,var(--color-gray-900)_10%,transparent)] group-data-[menu-open=true]/nav:flex max-xl:max-h-[calc(100dvh-7rem)] max-xl:overflow-y-auto max-xl:overscroll-contain xl:static xl:mt-0 xl:flex xl:flex-row xl:items-center xl:gap-4 xl:rounded-none xl:bg-transparent xl:p-0 xl:shadow-none",
+				"absolute inset-x-0 top-full mt-3 hidden flex-col gap-6 rounded-[24px] p-6 shadow-[0_4px_30px_color-mix(in_srgb,var(--color-shadow)_10%,transparent)] group-data-[menu-open=true]/nav:flex max-xl:max-h-[calc(100dvh-7rem)] max-xl:overflow-y-auto max-xl:overscroll-contain xl:static xl:mt-0 xl:flex xl:flex-row xl:items-center xl:gap-4 xl:rounded-none xl:bg-transparent xl:p-0 xl:shadow-none",
 				surfaceClass,
 			]}
 		>

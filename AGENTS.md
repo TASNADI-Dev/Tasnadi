@@ -19,7 +19,8 @@ The main goal of this project is to migrate an existing Webflow site to Astro an
 
 * **Tailwind Configuration:** Define custom colors and fonts in `src/styles/global.css` via `@theme` (Tailwind v4). Do not add a `tailwind.config.mjs`.
 * **Strict Color Usage:** Use only the theme colors defined in `src/styles/global.css`. Do **not** invent arbitrary hex codes or use default Tailwind colors (they are disabled via `--color-*: initial`).
-  * Prefer the semantic colors over the base colors in components.
+  * **Semantic colors only:** Elements, components, sections and pages must never use base color variables (e.g. `bg-gray-900`, `text-white`, `border-gray-300`, `var(--color-orange-700)`). Always use a semantic color (e.g. `bg-surface-dark`, `text-text-inverse`, `border-border-strong`, `var(--color-primary-active)`), including inside arbitrary values and `color-mix()` (shadows use `var(--color-shadow)`). Base colors exist only as the palette that semantic colors are mapped to in `src/styles/global.css`, and as the swatches in the Base colors group of the style guide.
+  * If no semantic color fits the purpose, add a new semantic color mapped to the right base color (name it by purpose, not by appearance) instead of using the base color directly.
   * If a design or the original site uses a color that is not a variable, do not hardcode it — ask the user whether to add it as a new variable or use an existing color instead.
   * Whenever you add, change or remove a color variable (base or semantic) in `src/styles/global.css`, update the Colors section of `src/pages/dev/style-guide.astro` in the same change.
 * **Typography:** Use only **Museo Sans** (`font-sans` / `font-heading`) for all text. The font files are in `public/global/fonts/`, loaded via `@font-face` and defined as theme fonts via `@theme` in `src/styles/global.css` (imported in `src/layouts/Base.astro`). Do not use other font families.
