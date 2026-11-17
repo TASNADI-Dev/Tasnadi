@@ -15,31 +15,61 @@
 			"slug": "posts",
 			"label": "Blog posts",
 			"labelSingular": "Blog post",
-			"urlPattern": "/posts/{slug}",
+			"urlPattern": "/blog/{slug}",
 			"supports": ["drafts", "revisions", "preview", "scheduling", "search", "seo"],
+			"titleField": "title",
+			"dateField": "publishedAt",
 			"fields": [
 				{
 					"slug": "title",
 					"label": "Title",
 					"type": "string",
 					"required": true,
+					"searchable": true,
+					"validation": {
+						"maxLength": 256
+					}
+				},
+				{
+					"slug": "post_summary",
+					"label": "Post summary",
+					"type": "string",
 					"searchable": true
 				},
 				{
-					"slug": "featured_image",
-					"label": "Featured Image",
+					"slug": "image",
+					"label": "Image",
 					"type": "image"
 				},
 				{
+					"slug": "author",
+					"label": "Author",
+					"type": "reference",
+					"validation": {
+						"targetCollection": "team_members"
+					}
+				},
+				{
+					"slug": "category",
+					"label": "Category",
+					"type": "reference",
+					"validation": {
+						"targetCollection": "blog_categories"
+					}
+				},
+				{
 					"slug": "content",
-					"label": "Content",
+					"label": "Body",
 					"type": "portableText",
 					"searchable": true
 				},
 				{
-					"slug": "excerpt",
-					"label": "Excerpt",
-					"type": "text"
+					"slug": "cta_option",
+					"label": "CTA option",
+					"type": "select",
+					"validation": {
+						"options": ["Rebrand", "Webshop guide", "Webnavigátor"]
+					}
 				}
 			]
 		},
@@ -152,12 +182,7 @@
 				"seo"
 			],
 			"titleField": "title",
-			"dateField": "date",
-			"admin": {
-				"listColumns": [
-					"date"
-				]
-			},
+			"dateField": "publishedAt",
 			"fields": [
 				{
 					"slug": "title",
@@ -168,13 +193,6 @@
 					"validation": {
 						"maxLength": 256
 					}
-				},
-				{
-					"slug": "date",
-					"label": "Date",
-					"type": "datetime",
-					"required": true,
-					"indexed": true
 				},
 				{
 					"slug": "hero_text",
@@ -378,6 +396,87 @@
 					"label": "Featured on the homepage",
 					"type": "boolean",
 					"defaultValue": false
+				}
+			]
+		},
+		{
+			"slug": "podcasts",
+			"label": "Podcasts",
+			"labelSingular": "Podcast",
+			"description": "Podcast episodes migrated from Webflow",
+			"icon": "microphone",
+			"urlPattern": "/podcast/{slug}",
+			"supports": ["drafts", "revisions", "preview", "search", "seo"],
+			"titleField": "title",
+			"dateField": "publishedAt",
+			"fields": [
+				{
+					"slug": "title",
+					"label": "Name",
+					"type": "string",
+					"required": true,
+					"searchable": true,
+					"validation": {
+						"maxLength": 256
+					}
+				},
+				{
+					"slug": "image",
+					"label": "Image",
+					"type": "image",
+					"required": true
+				},
+				{
+					"slug": "description",
+					"label": "Description",
+					"type": "portableText",
+					"searchable": true
+				},
+				{
+					"slug": "spotify_link",
+					"label": "Spotify link",
+					"type": "url"
+				},
+				{
+					"slug": "youtube_link",
+					"label": "YouTube link",
+					"type": "url"
+				},
+				{
+					"slug": "apple_podcasts_link",
+					"label": "Apple Podcasts link",
+					"type": "url"
+				},
+				{
+					"slug": "youtube_music_link",
+					"label": "YouTube Music link",
+					"type": "url"
+				},
+				{
+					"slug": "soundcloud_link",
+					"label": "SoundCloud link",
+					"type": "url"
+				}
+			]
+		},
+		{
+			"slug": "blog_categories",
+			"label": "Blog categories",
+			"labelSingular": "Blog category",
+			"description": "Categories used to filter blog posts, migrated from Webflow",
+			"icon": "tag",
+			"supports": ["drafts", "revisions", "preview", "search"],
+			"titleField": "title",
+			"fields": [
+				{
+					"slug": "title",
+					"label": "Name",
+					"type": "string",
+					"required": true,
+					"searchable": true,
+					"validation": {
+						"maxLength": 256
+					}
 				}
 			]
 		}

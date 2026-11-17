@@ -10,9 +10,10 @@ export interface Post {
   slug: string | null;
   status: string;
   title: string;
-  featured_image?: { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } };
   content?: PortableTextBlock[];
-  excerpt?: string;
+  post_summary?: string;
+  cta_option?: "Rebrand" | "Webshop guide" | "Webnavigátor";
+  image?: { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } };
   createdAt: Date;
   updatedAt: Date;
   publishedAt: Date | null;
@@ -63,12 +64,24 @@ export interface TeamMember {
   terms?: Record<string, TaxonomyTerm[]>;
 }
 
+export interface BlogCategory {
+  id: string;
+  slug: string | null;
+  status: string;
+  title: string;
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date | null;
+  byline?: BylineSummary | null;
+  bylines?: ContentBylineCredit[];
+  terms?: Record<string, TaxonomyTerm[]>;
+}
+
 export interface CaseStudy {
   id: string;
   slug: string | null;
   status: string;
   title: string;
-  date: string;
   hero_text: string;
   short_description: string;
   image: { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } };
@@ -105,6 +118,45 @@ export interface CaseStudy {
   terms?: Record<string, TaxonomyTerm[]>;
 }
 
+export interface Page {
+  id: string;
+  slug: string | null;
+  status: string;
+  title: string;
+  content?: PortableTextBlock[];
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date | null;
+  byline?: BylineSummary | null;
+  bylines?: ContentBylineCredit[];
+  terms?: Record<string, TaxonomyTerm[]>;
+}
+
+export interface Podcast {
+  id: string;
+  slug: string | null;
+  status: string;
+  title: string;
+  image: { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } };
+  description?: PortableTextBlock[];
+  spotify_link?: string;
+  youtube_link?: string;
+  apple_podcasts_link?: string;
+  youtube_music_link?: string;
+  soundcloud_link?: string;
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date | null;
+  byline?: BylineSummary | null;
+  bylines?: ContentBylineCredit[];
+  terms?: Record<string, TaxonomyTerm[]>;
+}
+
+export interface PostReferences {
+  author: ReferencePage<TeamMember>;
+  category: ReferencePage<BlogCategory>;
+}
+
 export interface CaseStudyReferences {
   industry: ReferencePage<Industry>;
   services: ReferencePage<Service>;
@@ -117,9 +169,13 @@ declare module "emdash" {
     industries: Industry;
     services: Service;
     team_members: TeamMember;
+    blog_categories: BlogCategory;
     case_studies: CaseStudy;
+    pages: Page;
+    podcasts: Podcast;
   }
   interface EmDashCollectionReferences {
+    posts: PostReferences;
     case_studies: CaseStudyReferences;
   }
 }
