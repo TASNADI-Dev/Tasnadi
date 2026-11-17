@@ -27,6 +27,15 @@ The main goal of this project is to migrate an existing Webflow site to Astro an
 * **Container:** The max width of the content should be 1230px.
 * **Asset Storage:** For now, store all images and other assets in the `public/` folder. Every page gets its own folder (e.g. `public/home/`, `public/about/`) holding only the assets used on that page. Assets used on more than one page (e.g. favicon, logo) go in `public/global/`. Folder names are in English.
 
+## Images & Alt Text
+
+* **Always Add Alt Text In Both Languages:** Every time a new image is added, write a short, descriptive alt text in both Hungarian (`hu`) and English (`en`). This applies to static images and to images managed in EmDash.
+* **Static Images:** Alt text is user-visible content, so it follows the active locale (read it from `Astro.currentLocale`), never a single hardcoded language. Keep the Hungarian and English strings together where the image is used.
+* **CMS Images (EmDash):** Fill in the `alt` of every image field and Portable Text image block in both the Hungarian entry and its English translation. Also set the alt text on the Media Library item, and include `alt` in `$media` references in `seed/seed.json`, so the value is never empty. Each locale entry stores its own alt, so the English entry must not reuse the Hungarian text. Components must render the CMS alt: pass no `alt` prop to EmDash's `<Image>` (it uses `image.alt` by default) and never hardcode `alt=""` or a field like the title on a CMS image. Only add an `alt` override for decorative CMS images (e.g. a hover duplicate of another image) or as a fallback when the CMS alt is empty.
+* **Writing Alt Text:** Keep it short (a brief phrase, not a sentence-long essay), describe what the image shows or its purpose, and don't start with "image of" or "picture of". Don't use a file name as alt text.
+* **Decorative Images:** Purely decorative images (background shapes, ornaments, repeated icons next to text that already says the same thing) keep an empty `alt=""` and need no translation. Say so when you add one.
+* **Linked Images And Icons:** If an image is the only content of a link or button, its alt text describes the destination or action.
+
 ## Responsive & Mobile-First Design
 
 * **Desktop-First Approach:** Write styles for desktop screens by default, then layer on layout and style changes using Tailwind's breakpoint prefixes (`sm:`, `md:`, `lg:`, `xl:`).

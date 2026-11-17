@@ -696,7 +696,6 @@ const cardClass =
 						<div {...caseStudy.edit.image}>
 							<Image
 								image={caseStudy.data.image}
-								alt={caseStudy.data.hero_text}
 								sizes="(min-width: 64rem) 38rem, 92vw"
 								loading="lazy"
 								class="relative h-auto w-full"
@@ -945,7 +944,7 @@ const cardClass =
 						<div class="relative size-48 overflow-hidden rounded-full">
 							<Image
 								image={contactPerson.data.default_image}
-								alt={contactPerson.data.title}
+								alt={contactPerson.data.default_image?.alt || contactPerson.data.title}
 								sizes="12rem"
 								loading="lazy"
 								class="size-full object-cover"
