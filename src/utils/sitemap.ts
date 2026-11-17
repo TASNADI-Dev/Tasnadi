@@ -33,6 +33,7 @@ const COLLECTION_LABELS: Record<string, { hu: string; en: string }> = {
 
 const STATIC_PAGE_TITLES: Record<string, { hu: string; en: string }> = {
 	"": { hu: "Főoldal", en: "Home" },
+	"/about": { hu: "Rólunk", en: "About" },
 	"/contact": { hu: "Kapcsolat", en: "Contact" },
 	"/blog": { hu: "Blog", en: "Blog" },
 	"/podcast": { hu: "Podcast", en: "Podcast" },

@@ -1,0 +1,149 @@
+---
+import Base from "../layouts/Base.astro";
+
+const locale = Astro.currentLocale === "en" ? "en" : "hu";
+
+const copy = {
+	hu: {
+		pageTitle: "Rólunk",
+		description:
+			"Ismerd meg a TASNADI csapatát, és hogy miért lehetünk éppen mi a tökéletes választás számodra.",
+		titleWords: ["Rólad", "Rólunk"] as [string, string],
+		paragraphs: [
+			"Egy olyan kkv tulajdonosa vagy alkalmazottja vagy, amely nagyszerű termékkel vagy szolgáltatással rendelkezik, minőségi értékeket képvisel, és az ügyfelek elégedettségére összpontosít. Biztosan szeretnéd, ha mindezt az ügyfeleid egy pillantás alatt megértenék, amint megérkeznek a weboldaladra.",
+			"Mi egy marketingoldalakra és webáruházakra szakosodott tervezőstúdió vagyunk, akiknek legfőbb célja, hogy online jelenléted olyan hatékony eszközzé alakítsuk, amely a látogatókat hűséges vásárlókká alakítja. Emellett nagy hangsúlyt fektetünk arra is, hogy a folyamatot ne csak egyszerűvé, hanem élvezetessé is tegyük a számodra.",
+			"Kíváncsi vagy arra, hogy kik vagyunk, és miért lehetünk éppen mi a tökéletes választás számodra?",
+		],
+		highlight: "Hadd meséljünk többet!",
+	},
+	en: {
+		pageTitle: "About",
+		description:
+			"Get to know the TASNADI team and why we might just be the perfect fit for your needs.",
+		titlePrefix: "About",
+		titleWords: ["You", "Us"] as [string, string],
+		paragraphs: [
+			"You own or work for an SME with a great product or service, good values, focused on customer satisfaction. You’d like your customers to understand all that at a glance, as soon as they arrive on your website.",
+			"We’re a design studio focused on marketing sites and webshops, and our goal is to transform your online presence into a powerful tool that converts visitors into loyal customers. We’re also highly committed to making the process not only streamlined, but enjoyable for you, our future client.",
+			"Are you curious about who we are and why we might just be the perfect fit for your needs?",
+		],
+		highlight: "Let us tell you more.",
+	},
+}[locale] as {
+	pageTitle: string;
+	description: string;
+	titlePrefix?: string;
+	titleWords: [string, string];
+	paragraphs: string[];
+	highlight: string;
+};
+---
+
+<Base title={copy.pageTitle} description={copy.description}>
+	<section
+		data-about-hero
+		data-title="main"
+		class="group/hero relative h-[200vh] overflow-clip bg-background-dark pt-[11.25rem] text-center motion-reduce:h-auto motion-reduce:pb-48"
+	>
+		<div
+			data-title-bar
+			class="sticky top-0 z-20 flex flex-col items-center bg-linear-to-b from-background-dark from-40% to-transparent py-40 motion-reduce:static"
+		>
+			<h1
+				class="inline-flex items-start justify-center text-[4.375rem] leading-[5.25rem] font-medium tracking-[-0.02em] text-text-inverse max-lg:text-[2.1875rem] max-lg:leading-[2.75rem]"
+			>
+				{copy.titlePrefix && <span class="mr-5 max-lg:mr-4">{copy.titlePrefix}</span>}
+				<span
+					class:list={[
+						"inline-grid overflow-hidden",
+						copy.titlePrefix ? "justify-items-start" : "justify-items-center",
+					]}
+				>
+					<span
+						data-title-word="main"
+						class="col-start-1 row-start-1 group-data-[title=alt]/hero:-translate-y-full"
+					>
+						{copy.titleWords[0]}
+					</span>
+					<span
+						data-title-word="alt"
+						aria-hidden="true"
+						class="col-start-1 row-start-1 -translate-y-full text-primary group-data-[title=alt]/hero:translate-y-0 motion-reduce:hidden"
+					>
+						{copy.titleWords[1]}
+					</span>
+				</span>
+			</h1>
+		</div>
+
+		<div
+			class="sticky top-0 z-10 mx-auto max-w-[19.375rem] perspective-[50rem] max-md:max-w-[15.625rem] max-md:perspective-[62.5rem] motion-reduce:static motion-reduce:perspective-none"
+		>
+			<div
+				data-about-crawl
+				class="flex origin-center transform-3d flex-col gap-[1.625rem] text-base leading-[1.625rem] font-light text-text-inverse [transform:rotateX(45deg)_translateY(var(--crawl-y,100vh))] motion-reduce:[transform:none]"
+			>
+				{
+					copy.paragraphs.map((paragraph, index) => (
+						<p>
+							{paragraph}
+							{index === copy.paragraphs.length - 1 && (
+								<>
+									<br />
+									<span class="text-primary">{copy.highlight}</span>
+								</>
+							)}
+						</p>
+					))
+				}
+			</div>
+		</div>
+
+		<div
+			aria-hidden="true"
+			class="pointer-events-none absolute inset-x-0 top-[90svh] z-30 flex h-5 justify-center text-text-inverse transition-opacity duration-300 group-data-[scrolled=true]/hero:opacity-0 motion-reduce:hidden"
+		>
+			<svg
+				width="12"
+				height="24"
+				viewBox="0 1 12 18"
+				fill="none"
+				xmlns="http://www.w3.org/2000/svg"
+				class="animate-nudge-down"
+			>
+				<path
+					d="M6.75 1.5a.75.75 0 0 0-1.5 0h1.5ZM5.47 16.03a.75.75 0 0 0 1.06 0l4.773-4.773a.75.75 0 1 0-1.06-1.06L6 14.44 1.757 10.197a.75.75 0 0 0-1.06 1.06l4.773 4.773ZM5.25 1.5v14h1.5v-14h-1.5Z"
+					fill="currentColor"></path>
+			</svg>
+		</div>
+
+		<img
+			src="/about/curved-shape.svg"
+			alt=""
+			width="1512"
+			height="161"
+			loading="eager"
+			class="absolute inset-x-0 bottom-0 z-0 -mb-px h-auto w-full max-sm:-bottom-1.5"
+		/>
+	</section>
+
+	<div class="relative min-h-[8.5rem] bg-background lg:min-h-[21.5rem]">
+		<img
+			src="/about/astronaut.webp"
+			srcset="/about/astronaut-500.webp 500w, /about/astronaut-800.webp 800w, /about/astronaut.webp 1635w"
+			sizes="(min-width: 64rem) min(35vw, 31.25rem), 12rem"
+			alt=""
+			width="1635"
+			height="1116"
+			loading="lazy"
+			class="absolute top-0 right-0 w-48 lg:w-[35vw] lg:max-w-[31.25rem]"
+		/>
+	</div>
+</Base>
+
+<script>
+	// Starts the About hero scroll effects (rotating title and 3D text crawl).
+	import { initAboutHero } from "../scripts/about-hero";
+
+	initAboutHero();
+</script>

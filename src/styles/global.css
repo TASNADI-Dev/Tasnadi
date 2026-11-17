@@ -44,6 +44,17 @@
 	--color-shadow: var(--color-gray-900);
 
 	--animate-float: float 3s ease-in-out infinite;
+	--animate-nudge-down: nudge-down 2s ease-in-out infinite;
+
+	@keyframes nudge-down {
+		0%,
+		100% {
+			transform: translateY(0);
+		}
+		50% {
+			transform: translateY(0.25rem);
+		}
+	}
 
 	@keyframes float {
 		0%,

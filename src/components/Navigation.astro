@@ -28,6 +28,7 @@ const languageHrefs = {
 	en: withoutTrailingSlash(getRelativeLocaleUrl("en", englishPath)),
 };
 
+const aboutHref = withoutTrailingSlash(getRelativeLocaleUrl(locale, "/about"));
 const contactHref = withoutTrailingSlash(getRelativeLocaleUrl(locale, "/contact"));
 const blogHref = withoutTrailingSlash(getRelativeLocaleUrl(locale, "/blog"));
 const podcastHref = withoutTrailingSlash(getRelativeLocaleUrl(locale, "/podcast"));
@@ -210,7 +211,7 @@ const linkClass =
 				<NavDropdown label={copy.services} groups={toGroups(copy.serviceGroups)} {variant} />
 				<li><a href="#" class={linkClass}>{copy.work}</a></li>
 				<li><a href="#" class={linkClass}>{copy.method}</a></li>
-				<li><a href="#" class={linkClass}>{copy.about}</a></li>
+				<li><a href={aboutHref} class={linkClass}>{copy.about}</a></li>
 				{insightGroups.length > 0 && <NavDropdown label={copy.insights} groups={insightGroups} {variant} />}
 			</ul>
 

@@ -1,4 +1,6 @@
 ---
+import { getRelativeLocaleUrl } from "astro:i18n";
+
 type Locale = "hu" | "en";
 
 type Props = {
@@ -9,6 +11,8 @@ type Props = {
 const { class: className } = Astro.props;
 const locale: Locale =
 	Astro.props.locale ?? (Astro.currentLocale === "en" ? "en" : "hu");
+
+const withoutTrailingSlash = (path: string) => path.replace(/(.)\/$/, "$1");
 
 const currentYear = new Date().getFullYear();
 
@@ -26,7 +30,7 @@ const copy = {
 			"Modern Vállalkozások Programja",
 		],
 		company: "Cég",
-		companyLinks: ["Munkáink", "Módszer", "Rólunk", "Karrier"],
+		companyLinks: [{ label: "Munkáink" }, { label: "Módszer" }, { label: "Rólunk", path: "/about" }, { label: "Karrier" }],
 		contact: "Kapcsolat",
 		country: "Magyarország",
 		follow: "Kövess minket",
@@ -44,7 +48,7 @@ const copy = {
 			"Modern Vállalkozások Programja",
 		],
 		company: "Company",
-		companyLinks: ["Work", "Method", "About", "Careers"],
+		companyLinks: [{ label: "Work" }, { label: "Method" }, { label: "About", path: "/about" }, { label: "Careers" }],
 		contact: "Contact",
 		country: "Hungary",
 		follow: "Follow us on",
@@ -140,8 +144,8 @@ const blockClass = "flex flex-col items-start gap-6";
 			<nav class:list={[blockClass, "lg:col-span-2"]} aria-labelledby="footer-company">
 				<h2 id="footer-company" class={headingClass}>{copy.company}</h2>
 				{
-					copy.companyLinks.map((label) => (
-						<a href="#" class={linkClass}>
+					copy.companyLinks.map(({ label, path }) => (
+						<a href={path ? withoutTrailingSlash(getRelativeLocaleUrl(locale, path)) : "#"} class={linkClass}>
 							{label}
 						</a>
 					))

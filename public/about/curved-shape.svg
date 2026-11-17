@@ -1,0 +1,24 @@
+<svg width="1512" height="161" viewBox="0 0 1512 161" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_3907_2670)">
+<g opacity="0.8" filter="url(#filter0_f_3907_2670)">
+<path d="M0 117.913V34C0 34 271.068 64.9865 769.695 64.9865C1268.32 64.9865 1500.35 40.0251 1500.35 40.0251C1500.35 40.0251 1526.57 123 1500.35 123C688.93 123 0 117.913 0 117.913Z" fill="url(#paint0_diamond_3907_2670)"/>
+</g>
+<path d="M0 34C0 34 265.5 90.5085 756 90.5085C1246.5 90.5085 1512 34 1512 34V161H0V34Z" fill="white"/>
+</g>
+<defs>
+<filter id="filter0_f_3907_2670" x="-50" y="-16" width="1612" height="189" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="25" result="effect1_foregroundBlur_3907_2670"/>
+</filter>
+<radialGradient id="paint0_diamond_3907_2670" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1265.49 -62.1365) rotate(164.858) scale(1094.01 1295.24)">
+<stop offset="0.124705" stop-color="#EA830B"/>
+<stop offset="0.305544" stop-color="#FFB23F"/>
+<stop offset="0.596344" stop-color="white"/>
+<stop offset="0.913618" stop-color="#28ABE3" stop-opacity="0"/>
+</radialGradient>
+<clipPath id="clip0_3907_2670">
+<rect width="1512" height="161" fill="white"/>
+</clipPath>
+</defs>
+</svg>
