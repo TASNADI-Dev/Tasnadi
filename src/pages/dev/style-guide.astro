@@ -4,6 +4,7 @@ import Base from "../../layouts/Base.astro";
 import Button from "../../components/Button.astro";
 import Badge from "../../components/Badge.astro";
 import BlogCard from "../../components/BlogCard.astro";
+import BlogPostHero from "../../components/BlogPostHero.astro";
 import ClientsSection from "../../components/ClientsSection.astro";
 import CaseStudyCard from "../../components/CaseStudyCard.astro";
 import Navigation from "../../components/Navigation.astro";
@@ -282,6 +283,25 @@ const colorGroups = [
 									locale="hu"
 								/>
 							</div>
+						</div>
+					</div>
+				</section>
+			)
+		}
+
+		{
+			samplePost && (
+				<section class="mt-16">
+					<h2 class="mb-8 text-2xl font-bold">Blog post hero</h2>
+
+					<div class="border-t border-border pt-6">
+						<div class="overflow-hidden rounded-[24px] border border-border">
+							<BlogPostHero
+								title={samplePost.data.title}
+								summary={samplePost.data.post_summary}
+								category="Business"
+								image={samplePost.data.image}
+							/>
 						</div>
 					</div>
 				</section>

@@ -1,0 +1,58 @@
+---
+import { getEmDashEntry, getSeoMeta, decodeSlug, getSiteSettings } from "emdash";
+import type { CacheHint } from "emdash";
+import Base from "../../layouts/Base.astro";
+import BlogPostHero from "../../components/BlogPostHero.astro";
+import { loadCategories, translationGroupOf } from "../../utils/blog-posts";
+import { resolveSiteIdentity } from "../../utils/site-identity";
+
+const locale = Astro.currentLocale === "en" ? "en" : "hu";
+const slug = decodeSlug(Astro.params.slug);
+
+if (!slug) {
+	return Astro.rewrite("/404");
+}
+
+// A post is never shown in another language, so a missing English translation is a 404 instead of a Hungarian fallback
+const { entry: post, cacheHint } = await getEmDashEntry("posts", slug, {
+	locale,
+	references: { category: true },
+});
+
+// EmDash falls back to the Hungarian entry when there is no translation, so the entry's own locale is checked too
+if (!post || (post.data as { locale?: string }).locale !== locale) {
+	return Astro.rewrite("/404");
+}
+
+const hints: CacheHint[] = [cacheHint];
+const categories = await loadCategories(locale, hints);
+if (Astro.cache?.enabled) hints.forEach((hint) => Astro.cache.set(hint));
+
+const postCategory = post.references?.category.entries[0];
+const categoryLabel =
+	categories.find((item) => item.group === translationGroupOf(postCategory))?.label ?? postCategory?.data.title;
+
+const { siteTitle } = resolveSiteIdentity(await getSiteSettings());
+
+const seo = getSeoMeta(post, {
+	siteTitle,
+	siteUrl: Astro.url.origin,
+	path: Astro.url.pathname.replace(/\/$/, ""),
+});
+---
+
+<Base
+	title={seo.title}
+	pageTitle={seo.ogTitle}
+	description={seo.description ?? post.data.post_summary}
+	canonical={seo.canonical}
+	content={{ collection: "posts", id: post.data.id, slug }}
+	navVariant="dark"
+>
+	<BlogPostHero
+		title={post.data.title}
+		summary={post.data.post_summary}
+		category={categoryLabel}
+		image={post.data.image}
+	/>
+</Base>

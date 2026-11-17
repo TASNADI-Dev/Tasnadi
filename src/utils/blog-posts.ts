@@ -44,7 +44,7 @@ const normalize = (text: string) =>
 		.toLowerCase();
 
 // Slugs come from the default locale so the filter URLs are the same in every language, labels follow the page locale
-async function loadCategories(locale: Locale, hints: CacheHint[]): Promise<BlogCategory[]> {
+export async function loadCategories(locale: Locale, hints: CacheHint[]): Promise<BlogCategory[]> {
 	const query = (entryLocale: Locale) =>
 		getEmDashCollection("blog_categories", { locale: entryLocale, orderBy: { created_at: "asc" } });
 
