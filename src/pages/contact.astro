@@ -1,0 +1,243 @@
+---
+import Base from "../layouts/Base.astro";
+
+const locale = Astro.currentLocale === "en" ? "en" : "hu";
+
+// Same Formspark endpoint and Cloudflare Turnstile site key as the contact page on the live Webflow site
+const form = {
+	action: "https://submit-form.com/MzUNXdg7N",
+	turnstileSiteKey: "0x4AAAAAACK5HFavcDJe9wjU",
+};
+
+const copy = {
+	hu: {
+		pageTitle: "Kapcsolat",
+		description:
+			"Vegye fel a kapcsolatot, és beszéljük meg márkaépítési, webdesign vagy webfejlesztési igényeit.",
+		title: "Kapcsolatfelvétel",
+		subtitle: "Jelentkezz ingyenes konzultációra!",
+		labels: {
+			firstName: "Keresztnév",
+			lastName: "Vezetéknév",
+			email: "E-mail",
+			phone: "Telefon",
+			message: "Üzenet",
+		},
+		placeholders: {
+			firstName: "János",
+			lastName: "Kovács",
+			email: "kovacs.janos@vallalat.hu",
+			phone: "+36201234567",
+			message: "Rövid leírás a megkeresés céljáról",
+		},
+		consent: "Hozzájárulok személyes adataim marketingcélú feldolgozásához.",
+		submit: "Küldés",
+		success: "Köszönjük! Sikeres küldés.",
+		error: "Sajnos hiba történt az űrlap beküldésekor. Keress minket emailben:",
+		steps: [
+			"Jelentkezz egy ingyenes, kötelezettségmentes beszélgetésre!",
+			"A regisztrációt követő három munkanapon belül felvesszük veled a kapcsolatot.",
+			"Részletesen átbeszéljük az igényeidet, kihívásaidat, és kiderítjük, hogy tudunk-e neked segíteni.",
+		],
+	},
+	en: {
+		pageTitle: "Contact",
+		description:
+			"Get in touch and let’s discuss your branding, web design or web development needs.",
+		title: "Contact Us",
+		subtitle: "Book a free consultation",
+		labels: {
+			firstName: "First Name",
+			lastName: "Last Name",
+			email: "Email",
+			phone: "Phone",
+			message: "Message",
+		},
+		placeholders: {
+			firstName: "John",
+			lastName: "Doe",
+			email: "john.doe@organization.com",
+			phone: "+36201234567",
+			message: "Short description of reason for contacting us",
+		},
+		consent: "I agree with the processing of my personal data for marketing purposes.",
+		submit: "Send",
+		success: "Thank you! Your submission has been received!",
+		error: "Oops! Something went wrong while submitting the form. You can contact us via email:",
+		steps: [
+			"Sign up for a free, no-obligation consultation!",
+			"We will contact you within three business days after your registration.",
+			"We’ll discuss your needs and challenges in detail and determine whether we can help you.",
+		],
+	},
+}[locale];
+
+const labelClass = "text-base leading-[1.625rem] font-medium text-accent";
+const fieldClass =
+	"w-full rounded-[5px] border border-gray-300 bg-white px-3 text-base font-medium text-text placeholder:font-normal placeholder:text-gray-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
+
+const fields = [
+	{ id: "first-name", name: "First-name", type: "text", autocomplete: "given-name", key: "firstName" as const, required: true },
+	{ id: "last-name", name: "Last-name", type: "text", autocomplete: "family-name", key: "lastName" as const, required: true },
+	{ id: "email", name: "Email", type: "email", autocomplete: "email", key: "email" as const, required: true },
+	{ id: "phone", name: "Phone", type: "tel", autocomplete: "tel", key: "phone" as const, required: true },
+];
+---
+
+<Base title={copy.pageTitle} description={copy.description}>
+	<section class="relative overflow-hidden bg-gray-900 pt-[11.25rem] pb-16 max-lg:pt-40">
+		<img
+			src="/contact/bg.webp"
+			alt=""
+			width="1512"
+			height="917"
+			loading="eager"
+			fetchpriority="high"
+			class="absolute inset-0 size-full object-cover"
+		/>
+
+		<div class="relative z-10 mx-auto w-[92%] max-w-[76.875rem]">
+			<h1
+				class="text-[4.375rem] leading-[5.25rem] font-medium tracking-[-0.02em] text-white max-lg:text-[2.1875rem] max-lg:leading-[2.75rem]"
+			>
+				{copy.title}
+			</h1>
+			<p
+				class="mt-5 text-[2.125rem] leading-[2.75rem] font-medium text-primary max-[30rem]:text-[1.75rem] max-[30rem]:leading-9"
+			>
+				{copy.subtitle}
+			</p>
+
+			<div
+				class="mt-16 grid grid-cols-[minmax(0,1fr)_29.8125rem] items-start gap-x-[6.875rem] max-xl:gap-x-12 max-lg:grid-cols-1 max-lg:gap-y-12"
+			>
+				<div>
+					<form
+						action={form.action}
+						method="post"
+						class="grid grid-cols-2 gap-x-9 gap-y-[1.6875rem] max-md:grid-cols-1"
+					>
+						<input type="checkbox" name="_honeypot" tabindex="-1" autocomplete="off" class="hidden" />
+						<input type="hidden" name="utm_source" />
+						<input type="hidden" name="utm_medium" />
+						<input type="hidden" name="utm_campaign" id="utm_campaign" />
+						<input type="hidden" name="utm_term" />
+						<input type="hidden" name="utm_content" />
+
+						{
+							fields.map((field) => (
+								<div class="flex flex-col gap-[0.3125rem]">
+									<label for={`contact-${field.id}`} class={labelClass}>
+										{copy.labels[field.key]}
+									</label>
+									<input
+										id={`contact-${field.id}`}
+										name={field.name}
+										type={field.type}
+										maxlength="256"
+										required={field.required}
+										autocomplete={field.autocomplete}
+										placeholder={copy.placeholders[field.key]}
+										class:list={[fieldClass, "h-[3.25rem]"]}
+									/>
+								</div>
+							))
+						}
+
+						<div class="col-span-full flex flex-col gap-[0.3125rem]">
+							<label for="contact-message" class={labelClass}>{copy.labels.message}</label>
+							<textarea
+								id="contact-message"
+								name="Message"
+								maxlength="5000"
+								placeholder={copy.placeholders.message}
+								class:list={[fieldClass, "min-h-[16.875rem] resize-y py-3"]}
+							></textarea>
+						</div>
+
+						<label class="relative col-span-full flex cursor-pointer items-center gap-3">
+							<input
+								type="checkbox"
+								name="checkbox"
+								required
+								class="peer size-5 shrink-0 cursor-pointer appearance-none rounded-[2px] border border-gray-300 bg-transparent checked:border-primary checked:bg-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+							/>
+							<svg
+								class="pointer-events-none absolute top-1/2 left-0 size-5 -translate-y-1/2 p-1 text-text opacity-0 peer-checked:opacity-100"
+								viewBox="0 0 16 16"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								aria-hidden="true"
+							>
+								<path d="m3 8.5 3.5 3.5L13 4.5"></path>
+							</svg>
+							<span class="text-sm leading-5 font-normal text-white">{copy.consent}</span>
+						</label>
+
+						<div
+							class="cf-turnstile col-span-full"
+							data-sitekey={form.turnstileSiteKey}
+							data-theme="dark"
+						>
+						</div>
+
+						<div class="col-span-full flex items-center gap-4">
+							<button
+								type="submit"
+								class="inline-flex cursor-pointer items-center justify-center rounded-[4px] bg-primary px-8 py-3 text-base leading-5 font-normal tracking-[0.02em] text-text transition duration-200 hover:bg-primary-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent active:shadow-[inset_0_4px_8px_var(--color-orange-700)] disabled:cursor-wait disabled:opacity-70"
+							>
+								{copy.submit}
+							</button>
+							<span
+								data-form-loader
+								role="status"
+								class="hidden size-6 animate-spin rounded-full border-2 border-gray-300 border-t-primary motion-reduce:animate-none"
+							>
+							</span>
+						</div>
+					</form>
+
+					<div
+						data-form-success
+						tabindex="-1"
+						role="status"
+						class="hidden bg-accent p-4 text-center text-xl leading-8 font-medium text-white focus-visible:outline-none"
+					>
+						{copy.success}
+					</div>
+					<div data-form-error role="alert" class="mt-4 hidden text-base leading-[1.625rem] font-medium text-primary">
+						{copy.error}
+						<a href="mailto:hello@tasnadi.net" class="underline">hello@tasnadi.net</a>
+					</div>
+				</div>
+
+				<ol class="flex flex-col gap-2.5 max-lg:max-w-[29.8125rem]">
+					{
+						copy.steps.map((step, index) => (
+							<li class="flex gap-2.5">
+								<span class="text-xl leading-[1.625rem] font-medium text-accent">
+									{String(index + 1).padStart(2, "0")}
+								</span>
+								<span class="text-xl leading-[1.625rem] font-normal text-gray-50">{step}</span>
+							</li>
+						))
+					}
+				</ol>
+			</div>
+		</div>
+	</section>
+</Base>
+
+<script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+<script>
+	// Wires up the contact form: UTM hidden fields and Formspark submission with Turnstile.
+	import { initUtmFields } from "../scripts/utm-fields";
+	import { initFormsparkForms } from "../scripts/formspark-form";
+
+	initUtmFields();
+	initFormsparkForms();
+</script>

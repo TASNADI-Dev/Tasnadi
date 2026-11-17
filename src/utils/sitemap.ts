@@ -33,6 +33,7 @@ const COLLECTION_LABELS: Record<string, { hu: string; en: string }> = {
 
 const STATIC_PAGE_TITLES: Record<string, { hu: string; en: string }> = {
 	"": { hu: "Főoldal", en: "Home" },
+	"/contact": { hu: "Kapcsolat", en: "Contact" },
 };
 
 // Every .astro file under src/pages is picked up automatically; dynamic routes,
