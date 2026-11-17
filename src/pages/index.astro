@@ -331,22 +331,19 @@ const listedCaseStudies = (
 	)
 ).filter((entry) => entry !== undefined);
 
-// Podcasts and blog posts are not translated yet, so English falls back to the Hungarian entries
+// Podcasts and blog posts that are not translated stay out of the English page (the media section hides an empty column)
 const loadLatest = async <T extends "podcasts" | "posts">(collection: T) => {
-	for (const entryLocale of locale === "en" ? ["en", "hu"] : ["hu"]) {
-		const { entries, cacheHint } = await getEmDashCollection(collection, {
-			locale: entryLocale,
-			orderBy: { published_at: "desc" },
-			limit: 3,
-		});
-		if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
-		if (entries.length > 0) return { entries, entryLocale };
-	}
-	return { entries: [], entryLocale: "hu" };
+	const { entries, cacheHint } = await getEmDashCollection(collection, {
+		locale,
+		orderBy: { published_at: "desc" },
+		limit: 3,
+	});
+	if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
+	return entries;
 };
 
-const { entries: latestPodcasts } = await loadLatest("podcasts");
-const { entries: latestPostList, entryLocale: postLocale } = await loadLatest("posts");
+const latestPodcasts = await loadLatest("podcasts");
+const latestPostList = await loadLatest("posts");
 
 const latestPosts = (
 	await Promise.all(
@@ -355,7 +352,7 @@ const latestPosts = (
 			.filter((slug): slug is string => Boolean(slug))
 			.map(async (slug) => {
 				const { entry: post, cacheHint } = await getEmDashEntry("posts", slug, {
-					locale: postLocale,
+					locale,
 					references: { category: true },
 				});
 				if (cacheHint && Astro.cache?.enabled) Astro.cache.set(cacheHint);

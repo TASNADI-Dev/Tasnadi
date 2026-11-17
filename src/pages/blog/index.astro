@@ -1,0 +1,143 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+import Base from "../../layouts/Base.astro";
+import Badge from "../../components/Badge.astro";
+import BlogArticleList from "../../components/BlogArticleList.astro";
+import Button from "../../components/Button.astro";
+import { loadBlogPosts, parseBlogFilters } from "../../utils/blog-posts";
+import { hasLocaleContent } from "../../utils/locale-content";
+
+const locale = Astro.currentLocale === "en" ? "en" : "hu";
+
+// The blog does not exist in a language without posts, so /en/blog is a 404 until the first English post is published
+if (!(await hasLocaleContent("posts", locale))) {
+	return Astro.rewrite("/404");
+}
+
+const copy = {
+	hu: {
+		pageTitle: "Blog",
+		description:
+			"A TASNADI legfrissebb cikkei branding, webdesign, webfejlesztés és digitalizáció témában.",
+		titleStart: "A legfrissebb",
+		titleHighlight: "cikkeink",
+		searchLabel: "Keresés a cikkek címében",
+		searchPlaceholder: "Keresés",
+		categoriesLabel: "Kategóriák",
+		search: "Keresés",
+		reset: "Alaphelyzet",
+	},
+	en: {
+		pageTitle: "Blog",
+		description:
+			"The latest TASNADI articles on branding, web design, web development and digitalization.",
+		titleStart: "Our latest",
+		titleHighlight: "articles",
+		searchLabel: "Search in the article titles",
+		searchPlaceholder: "Search",
+		categoriesLabel: "Categories",
+		search: "Search",
+		reset: "Reset",
+	},
+}[locale];
+
+const filters = parseBlogFilters(Astro.url.searchParams);
+const { posts, nextOffset, categories, activeCategories, hints } = await loadBlogPosts(locale, filters);
+if (Astro.cache?.enabled) hints.forEach((hint) => Astro.cache.set(hint));
+
+// Only valid categories are kept, so a stale or edited URL cannot leave an invisible filter on
+const filtersQuery = new URLSearchParams([
+	...(filters.q ? [["q", filters.q]] : []),
+	...activeCategories.map((slug) => ["category", slug]),
+]).toString();
+
+const blogPath = getRelativeLocaleUrl(locale, "/blog").replace(/(.)\/$/, "$1");
+---
+
+<Base title={copy.pageTitle} description={copy.description}>
+	<section class="relative bg-background pt-[11.25rem] pb-10 max-lg:pt-40">
+		<img
+			src="/blog/hero-bg.webp"
+			srcset="/blog/hero-bg-mobile.webp 800w, /blog/hero-bg.webp 2000w"
+			sizes="100vw"
+			alt=""
+			width="2000"
+			height="1403"
+			loading="eager"
+			fetchpriority="high"
+			class="absolute inset-0 size-full object-cover object-[50%_60%]"
+		/>
+
+		<div class="relative z-10 mx-auto w-[92%] max-w-[76.875rem] text-center">
+			<h1
+				class="mb-[6.25rem] text-[4.375rem] leading-[5.25rem] font-medium tracking-[-0.02em] text-text-inverse max-lg:mb-16 max-lg:text-[2.1875rem] max-lg:leading-[2.75rem]"
+			>
+				{copy.titleStart} <span class="text-primary">{copy.titleHighlight}</span>
+			</h1>
+		</div>
+	</section>
+
+	<section id="filters" class="scroll-mt-28 bg-background pt-4 pb-8">
+		<form
+			data-blog-filters
+			action={`${blogPath}#filters`}
+			method="get"
+			class="mx-auto flex w-[92%] max-w-[32.5rem] flex-col items-center gap-5 rounded-[8px] bg-background p-6 shadow-[0_4px_30px_color-mix(in_srgb,var(--color-shadow)_15%,transparent)]"
+		>
+			<label for="blog-search" class="sr-only">{copy.searchLabel}</label>
+			<input
+				id="blog-search"
+				type="search"
+				name="q"
+				value={filters.q}
+				maxlength="100"
+				autocomplete="off"
+				placeholder={copy.searchPlaceholder}
+				class="h-11 w-full rounded-[5px] border border-border-strong bg-background px-3 text-base font-normal text-text placeholder:text-text-subtle focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+			/>
+
+			<fieldset class="m-0 min-w-0 border-0 p-0">
+				<legend class="sr-only">{copy.categoriesLabel}</legend>
+				<ul class="flex flex-wrap justify-center gap-2">
+					{
+						categories.map((category) => (
+							<li>
+								<label class="cursor-pointer">
+									<input
+										type="checkbox"
+										name="category"
+										value={category.slug}
+										checked={activeCategories.includes(category.slug)}
+										class="peer sr-only"
+									/>
+									<Badge
+										variant="outline"
+										class="transition-colors duration-200 hover:bg-[color-mix(in_srgb,var(--color-accent)_12%,var(--color-background))] peer-checked:bg-accent peer-checked:text-text-inverse peer-checked:hover:bg-accent peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent motion-reduce:transition-none"
+									>
+										{category.label}
+									</Badge>
+								</label>
+							</li>
+						))
+					}
+				</ul>
+			</fieldset>
+
+			<button type="submit" class="sr-only">{copy.search}</button>
+			<Button variant="link" href={`${blogPath}#filters`}>{copy.reset}</Button>
+		</form>
+	</section>
+
+	<BlogArticleList {posts} {categories} {nextOffset} {filtersQuery} {locale} />
+</Base>
+
+<script>
+	// Submits the filter form as soon as a category is toggled (the search box submits on Enter).
+	document
+		.querySelector<HTMLFormElement>("[data-blog-filters]")
+		?.addEventListener("change", (event) => {
+			if ((event.target as HTMLInputElement).type === "checkbox") {
+				(event.currentTarget as HTMLFormElement).requestSubmit();
+			}
+		});
+</script>

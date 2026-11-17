@@ -1,0 +1,105 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+import BlogPostItems from "./BlogPostItems.astro";
+import Button from "./Button.astro";
+import type { ComponentProps } from "astro/types";
+
+type Props = {
+	posts: ComponentProps<typeof BlogPostItems>["posts"];
+	categories: ComponentProps<typeof BlogPostItems>["categories"];
+	/** Offset of the next page, or undefined when every matching post is already shown */
+	nextOffset?: number;
+	/** Active filters as a query string (q and category), passed on to every "load more" request */
+	filtersQuery?: string;
+	locale: "hu" | "en";
+};
+
+const { posts, categories, nextOffset, filtersQuery = "", locale } = Astro.props;
+
+const copy = {
+	hu: {
+		loadMore: "Több cikk betöltése",
+		error: "Nem sikerült betölteni a cikkeket. Próbáld újra!",
+		noResults: "Nincs a keresésnek megfelelő cikk.",
+	},
+	en: {
+		loadMore: "Load more",
+		error: "Couldn't load more articles. Please try again.",
+		noResults: "No articles match your search.",
+	},
+}[locale];
+
+const partialPath = getRelativeLocaleUrl(locale, "/partials/blog-articles").replace(/(.)\/$/, "$1");
+const partialUrl = filtersQuery ? `${partialPath}?${filtersQuery}` : partialPath;
+---
+
+<section class="bg-background pt-4 pb-24 max-lg:pb-16">
+	<div class="mx-auto w-[92%] max-w-[76.875rem]">
+		{
+			posts.length === 0 ? (
+				<p class="text-center text-xl leading-8 font-medium text-text-muted">{copy.noResults}</p>
+			) : (
+				<ul
+					data-blog-grid
+					class="grid grid-cols-3 gap-x-8 gap-y-10 max-lg:grid-cols-2 max-md:grid-cols-1"
+				>
+					<BlogPostItems {posts} {categories} {locale} />
+				</ul>
+			)
+		}
+
+		{
+			nextOffset && (
+				<div data-load-more class="mt-14 flex flex-col items-center gap-4" data-url={partialUrl} data-offset={nextOffset}>
+					<Button variant="secondary" data-load-more-button class="disabled:cursor-wait disabled:opacity-70">
+						{copy.loadMore}
+					</Button>
+					<p data-load-more-error role="alert" class="hidden text-base leading-[1.625rem] font-medium text-text-muted">
+						{copy.error}
+					</p>
+				</div>
+			)
+		}
+	</div>
+</section>
+
+<script>
+	// Fetches the next page of article cards (with the active filters) from the partial route and appends them to the grid.
+	const wrapper = document.querySelector<HTMLElement>("[data-load-more]");
+	const grid = document.querySelector<HTMLElement>("[data-blog-grid]");
+	const button = wrapper?.querySelector<HTMLButtonElement>("[data-load-more-button]");
+	const error = wrapper?.querySelector<HTMLElement>("[data-load-more-error]");
+
+	button?.addEventListener("click", async () => {
+		if (!wrapper || !grid || !error) return;
+		button.disabled = true;
+		error.classList.add("hidden");
+
+		try {
+			const url = new URL(wrapper.dataset.url ?? "", location.origin);
+			url.searchParams.set("offset", wrapper.dataset.offset ?? "0");
+			const response = await fetch(url);
+			if (!response.ok) throw new Error(String(response.status));
+
+			const template = document.createElement("template");
+			template.innerHTML = await response.text();
+			const marker = template.content.querySelector<HTMLElement>("[data-next-offset]");
+			const nextOffset = marker?.dataset.nextOffset ?? "";
+			marker?.remove();
+
+			const firstNewItem = template.content.firstElementChild;
+			grid.append(template.content);
+			firstNewItem?.querySelector<HTMLElement>("a")?.focus();
+
+			if (nextOffset) {
+				wrapper.dataset.offset = nextOffset;
+				button.disabled = false;
+			} else {
+				wrapper.remove();
+			}
+		} catch {
+			error.classList.remove("hidden");
+			button.disabled = false;
+		}
+	});
+</script>

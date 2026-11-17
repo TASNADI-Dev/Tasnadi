@@ -34,12 +34,13 @@ const COLLECTION_LABELS: Record<string, { hu: string; en: string }> = {
 const STATIC_PAGE_TITLES: Record<string, { hu: string; en: string }> = {
 	"": { hu: "Főoldal", en: "Home" },
 	"/contact": { hu: "Kapcsolat", en: "Contact" },
+	"/blog": { hu: "Blog", en: "Blog" },
 };
 
 // Every .astro file under src/pages is picked up automatically; dynamic routes,
 // the 404 page, the dev tools and the sitemap page itself are skipped.
 const pageFiles = Object.keys(import.meta.glob("/src/pages/**/*.astro"));
-const EXCLUDED_STATIC = /(\[|^\/src\/pages\/(404|sitemap|dev\/))/;
+const EXCLUDED_STATIC = /(\[|^\/src\/pages\/(404|sitemap|dev\/|partials\/))/;
 
 function localePrefix(locale: string, defaultLocale: string) {
 	return locale === defaultLocale ? "" : `/${locale}`;

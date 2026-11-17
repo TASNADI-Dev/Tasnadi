@@ -3,6 +3,7 @@ import { getRelativeLocaleUrl } from "astro:i18n";
 import Button from "./Button.astro";
 import LanguageSwitcher from "./LanguageSwitcher.astro";
 import NavDropdown from "./NavDropdown.astro";
+import { hasLocaleContent, isPathAvailable } from "../utils/locale-content";
 
 type Locale = "hu" | "en";
 
@@ -20,12 +21,15 @@ const locale: Locale =
 
 const currentPath = Astro.url.pathname.replace(/^\/en(?=\/|$)/, "") || "/";
 const withoutTrailingSlash = (path: string) => path.replace(/(.)\/$/, "$1");
+// A page that has no English version sends the EN switch to the English home page instead of a missing page
+const englishPath = (await isPathAvailable(currentPath, "en")) ? currentPath : "/";
 const languageHrefs = {
 	hu: withoutTrailingSlash(getRelativeLocaleUrl("hu", currentPath)),
-	en: withoutTrailingSlash(getRelativeLocaleUrl("en", currentPath)),
+	en: withoutTrailingSlash(getRelativeLocaleUrl("en", englishPath)),
 };
 
 const contactHref = withoutTrailingSlash(getRelativeLocaleUrl(locale, "/contact"));
+const blogHref = withoutTrailingSlash(getRelativeLocaleUrl(locale, "/blog"));
 
 const copy = {
 	hu: {
@@ -54,7 +58,14 @@ const copy = {
 				items: [{ label: "Digitalizációs stratégia", badge: "Új" }],
 			},
 		],
-		insightGroups: [{ items: [{ label: "Blog" }, { label: "Podcast" }] }],
+		insightGroups: [
+			{
+				items: [
+					{ label: "Blog", href: blogHref, collection: "posts" },
+					{ label: "Podcast", collection: "podcasts" },
+				],
+			},
+		],
 	},
 	en: {
 		mainNavigation: "Main navigation",
@@ -82,20 +93,44 @@ const copy = {
 				items: [{ label: "Digitalization strategy", badge: "New" }],
 			},
 		],
-		insightGroups: [{ items: [{ label: "Blog" }, { label: "Podcast" }] }],
+		insightGroups: [
+			{
+				items: [
+					{ label: "Blog", href: blogHref, collection: "posts" },
+					{ label: "Podcast", collection: "podcasts" },
+				],
+			},
+		],
 	},
 }[locale];
 
 type CopyGroup = {
 	heading?: string;
-	items: { label: string; badge?: string }[];
+	items: { label: string; href?: string; badge?: string; collection?: string }[];
 };
 
+// Items tied to a collection are hidden while that collection has no entries in the current language
+const collectionsWithContent = new Set(
+	(
+		await Promise.all(
+			["posts", "podcasts"].map(async (collection) =>
+				(await hasLocaleContent(collection, locale)) ? collection : null,
+			),
+		)
+	).filter((collection) => collection !== null),
+);
+
 const toGroups = (groups: CopyGroup[]) =>
-	groups.map((group) => ({
-		...group,
-		items: group.items.map((item) => ({ ...item, href: "#" })),
-	}));
+	groups
+		.map((group) => ({
+			...group,
+			items: group.items
+				.filter((item) => !item.collection || collectionsWithContent.has(item.collection))
+				.map((item) => ({ ...item, href: item.href ?? "#" })),
+		}))
+		.filter((group) => group.items.length > 0);
+
+const insightGroups = toGroups(copy.insightGroups);
 
 const surfaceClass = isDark ? "bg-surface-dark" : "bg-background";
 const textClass = isDark ? "text-text-inverse" : "text-text";
@@ -175,7 +210,7 @@ const linkClass =
 				<li><a href="#" class={linkClass}>{copy.work}</a></li>
 				<li><a href="#" class={linkClass}>{copy.method}</a></li>
 				<li><a href="#" class={linkClass}>{copy.about}</a></li>
-				<NavDropdown label={copy.insights} groups={toGroups(copy.insightGroups)} {variant} />
+				{insightGroups.length > 0 && <NavDropdown label={copy.insights} groups={insightGroups} {variant} />}
 			</ul>
 
 			<div class="flex flex-col gap-6 xl:flex-row xl:items-center xl:gap-5">

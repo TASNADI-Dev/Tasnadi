@@ -7,15 +7,35 @@ type Props = Omit<HTMLAttributes<"article">, "title"> & {
 	href: string;
 	title: string;
 	image: Parameters<typeof Image>[0]["image"];
+	/** "row" = image beside the text (compact lists), "stacked" = image above the text (article grid) */
+	variant?: "row" | "stacked";
 	/** Category name shown as an outline badge over the image */
 	category?: string;
-	/** Publish date, shown below the title */
+	/** Author name, shown before the date */
+	author?: string;
+	/** Publish date, shown below the title (row) or above it (stacked) */
 	date?: Date | null;
+	/** Short teaser text under the title, stacked variant only */
+	summary?: string;
 	/** BCP 47 locale used to format the date, e.g. "hu" */
 	locale?: string;
 };
 
-const { href, title, image, category, date, locale = "hu", class: className, ...rest } = Astro.props;
+const {
+	href,
+	title,
+	image,
+	variant = "row",
+	category,
+	author,
+	date,
+	summary,
+	locale = "hu",
+	class: className,
+	...rest
+} = Astro.props;
+
+const isStacked = variant === "stacked";
 
 const formatter = new Intl.DateTimeFormat(locale, {
 	year: "numeric",
@@ -23,27 +43,60 @@ const formatter = new Intl.DateTimeFormat(locale, {
 	day: "numeric",
 	timeZone: "Europe/Budapest",
 });
+
+const articleClass = {
+	row: "grid min-h-[10.75rem] grid-cols-[1fr_2fr] rounded-[8px] shadow-[0_2px_4px_color-mix(in_srgb,var(--color-shadow)_20%,transparent)] hover:shadow-[0_10px_25px_color-mix(in_srgb,var(--color-shadow)_25%,transparent)] max-[30rem]:grid-cols-1",
+	stacked:
+		"flex h-full flex-col rounded-[20px] shadow-[0_2px_2px_color-mix(in_srgb,var(--color-shadow)_20%,transparent)] hover:shadow-[0_8px_20px_color-mix(in_srgb,var(--color-shadow)_25%,transparent)]",
+}[variant];
+
+const imageWrapClass = isStacked ? "aspect-[3/2]" : "max-[30rem]:aspect-video";
+const imageSizes = isStacked
+	? "(min-width: 64rem) 25rem, (min-width: 40rem) 50vw, 92vw"
+	: "(min-width: 64rem) 13rem, (min-width: 30rem) 30vw, 92vw";
+const bodyClass = isStacked ? "flex flex-1 flex-col gap-3 p-6" : "flex flex-col justify-center gap-2 p-4";
+const titleClass = isStacked
+	? "line-clamp-3 text-xl leading-8 font-medium"
+	: "line-clamp-2 text-xl leading-[1.625rem] font-medium";
+
+const meta = [author, date ? formatter.format(date) : undefined].filter(Boolean);
 ---
 
 <article
 	{...rest}
 	class:list={[
-		"group relative grid min-h-[10.75rem] grid-cols-[1fr_2fr] overflow-hidden rounded-[8px] bg-background text-text shadow-[0_2px_4px_color-mix(in_srgb,var(--color-shadow)_20%,transparent)] transition duration-300 hover:shadow-[0_10px_25px_color-mix(in_srgb,var(--color-shadow)_25%,transparent)] motion-reduce:transition-none max-[30rem]:grid-cols-1",
+		"group relative overflow-hidden bg-background text-text transition duration-300 motion-reduce:transition-none",
+		articleClass,
 		className,
 	]}
 >
-	<div class="relative overflow-hidden bg-surface max-[30rem]:aspect-video">
+	<div class:list={["relative overflow-hidden bg-surface", imageWrapClass]}>
 		<Image
 			image={image}
-			sizes="(min-width: 64rem) 13rem, (min-width: 30rem) 30vw, 92vw"
+			sizes={imageSizes}
 			loading="lazy"
 			class="size-full object-cover transition-transform duration-500 group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
 		/>
-		{category && <Badge variant="outline" class="absolute top-2 left-2">{category}</Badge>}
+		{
+			category && (
+				<Badge variant={isStacked ? "solid" : "outline"} class="absolute top-2 left-2">
+					{category}
+				</Badge>
+			)
+		}
 	</div>
 
-	<div class="flex flex-col justify-center gap-2 p-4">
-		<h3 class="line-clamp-2 text-xl leading-[1.625rem] font-medium">
+	<div class={bodyClass}>
+		{
+			isStacked && meta.length > 0 && (
+				<p class="text-xs leading-4 font-medium text-text-muted">
+					{author}
+					{author && date && " | "}
+					{date && <time datetime={date.toISOString()}>{formatter.format(date)}</time>}
+				</p>
+			)
+		}
+		<h3 class={titleClass}>
 			<a
 				href={href}
 				class="no-underline transition-colors duration-200 group-hover:text-primary after:absolute after:inset-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
@@ -52,7 +105,12 @@ const formatter = new Intl.DateTimeFormat(locale, {
 			</a>
 		</h3>
 		{
-			date && (
+			isStacked && summary && (
+				<p class="line-clamp-3 text-base leading-[1.625rem] font-light text-text-muted">{summary}</p>
+			)
+		}
+		{
+			!isStacked && date && (
 				<time datetime={date.toISOString()} class="text-xs leading-4 font-medium">
 					{formatter.format(date)}
 				</time>

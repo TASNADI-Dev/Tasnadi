@@ -1,0 +1,22 @@
+---
+import BlogPostItems from "../../components/BlogPostItems.astro";
+import { loadBlogPosts, parseBlogFilters, parseOffset } from "../../utils/blog-posts";
+import { hasLocaleContent } from "../../utils/locale-content";
+
+// HTML fragment with the next page of article cards, fetched by the "load more" button on the blog page
+export const partial = true;
+
+const locale = Astro.currentLocale === "en" ? "en" : "hu";
+
+if (!(await hasLocaleContent("posts", locale))) {
+	return new Response(null, { status: 404 });
+}
+
+const filters = parseBlogFilters(Astro.url.searchParams);
+const offset = parseOffset(Astro.url.searchParams.get("offset"));
+
+const { posts, nextOffset, categories } = await loadBlogPosts(locale, filters, offset);
+---
+
+<BlogPostItems {posts} {categories} {locale} />
+<li hidden data-next-offset={nextOffset ?? ""}></li>

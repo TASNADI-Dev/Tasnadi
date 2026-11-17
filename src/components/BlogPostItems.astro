@@ -1,0 +1,37 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+import BlogCard from "./BlogCard.astro";
+import { translationGroupOf, type loadBlogPosts } from "../utils/blog-posts";
+
+type Props = {
+	posts: Awaited<ReturnType<typeof loadBlogPosts>>["posts"];
+	/** Categories in the page locale, so badges are translated even when the post itself falls back to Hungarian */
+	categories: Awaited<ReturnType<typeof loadBlogPosts>>["categories"];
+	locale: "hu" | "en";
+};
+
+const { posts, categories, locale } = Astro.props;
+
+const categoryLabel = (post: (typeof posts)[number]) => {
+	const category = post.references?.category.entries[0];
+	return categories.find((item) => item.group === translationGroupOf(category))?.label ?? category?.data.title;
+};
+---
+
+{
+	posts.map((post) => (
+		<li>
+			<BlogCard
+				variant="stacked"
+				href={getRelativeLocaleUrl(locale, `/blog/${post.data.slug}`)}
+				title={post.data.title}
+				image={post.data.image}
+				category={categoryLabel(post)}
+				author={post.references?.author.entries[0]?.data.title}
+				date={post.data.publishedAt}
+				summary={post.data.post_summary}
+				locale={locale}
+			/>
+		</li>
+	))
+}

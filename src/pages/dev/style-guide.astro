@@ -34,40 +34,11 @@ const samplePost = samplePosts[0];
 
 const serviceIconNames =["branding", "website", "webshop", "consulting", "strategy"] as const;
 
-const serviceIconTones = [
-	{ tone: "primary", description: "Orange circle outline, used for the external digital presence services." },
-	{ tone: "accent", description: "Blue circle outline, used for the internal digital operations services." },
-] as const;
+const serviceIconTones = ["primary", "accent"] as const;
 
-const buttonVariants = [
-	{
-		variant: "primary",
-		description: "Solid orange background. Hover lightens it, active adds an inset shadow.",
-	},
-	{
-		variant: "secondary",
-		description: "Transparent with a 2px orange inset border. Hover fills it with the light orange.",
-	},
-	{
-		variant: "link-arrow",
-		description: "No background, orange underline and a right-pointing arrow.",
-	},
-	{
-		variant: "link",
-		description: "Same as link-arrow, without the arrow icon.",
-	},
-] as const;
+const buttonVariants = ["primary", "secondary", "link-arrow", "link"] as const;
 
-const navigationVariants = [
-	{
-		variant: "light",
-		description: "White bar with a dark logo and dark text. This is the default, for pages with a dark top.",
-	},
-	{
-		variant: "dark",
-		description: "Dark bar with the light logo and white text, for pages with a light top. Set it per page with the navVariant prop of the Base layout.",
-	},
-] as const;
+const navigationVariants = ["light", "dark"] as const;
 
 const baseColors = [
 	{ name: "black", value: "#000000", swatch: "bg-black" },
@@ -109,33 +80,23 @@ const semanticColors = [
 ] as const;
 
 const colorGroups = [
-	{
-		title: "Base colors",
-		description: "The raw palette. Never use these in components, only the semantic colors below.",
-		colors: baseColors,
-	},
-	{
-		title: "Semantic colors",
-		description: "Named by purpose and mapped to a base color.",
-		colors: semanticColors,
-	},
+	{ title: "Base colors", colors: baseColors },
+	{ title: "Semantic colors", colors: semanticColors },
 ];
 ---
 
 <Base title="Style guide">
 	<div class="mx-auto max-w-[1230px] px-6 pt-32 pb-12">
-		<h1 class="mb-2 text-4xl font-bold">Style guide</h1>
-		<p class="mb-12 text-text-muted">Internal reference for the colors and reusable UI components.</p>
+		<h1 class="mb-12 text-4xl font-bold">Style guide</h1>
 
 		<section class="mb-16">
 			<h2 class="mb-8 text-2xl font-bold">Colors</h2>
 
 			<div class="flex flex-col gap-10">
 				{
-					colorGroups.map(({ title, description, colors }) => (
+					colorGroups.map(({ title, colors }) => (
 						<div class="border-t border-border pt-6">
-							<h3 class="mb-1 text-lg font-medium">{title}</h3>
-							<p class="mb-6 text-text-muted">{description}</p>
+							<h3 class="mb-6 text-lg font-medium">{title}</h3>
 							<ul class="grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6">
 								{colors.map(({ name, value, swatch }) => (
 									<li>
@@ -156,12 +117,11 @@ const colorGroups = [
 
 			<div class="flex flex-col gap-10">
 				{
-					buttonVariants.map(({ variant, description }) => (
+					buttonVariants.map((variant) => (
 						<div class="border-t border-border pt-6">
-							<h3 class="mb-1 text-lg font-medium">
+							<h3 class="mb-4 text-lg font-medium">
 								<code>{variant}</code>
 							</h3>
-							<p class="mb-4 text-text-muted">{description}</p>
 							<div class="flex flex-wrap items-center gap-8">
 								<Button variant={variant} href="#">
 									As a link
@@ -179,17 +139,11 @@ const colorGroups = [
 
 			<div class="flex flex-col gap-10">
 				<div class="border-t border-border pt-6">
-					<h3 class="mb-1 text-lg font-medium"><code>variant="solid"</code></h3>
-					<p class="mb-4 text-text-muted">
-						Default. Small blue pill used for section labels and tags like "New".
-					</p>
+					<h3 class="mb-4 text-lg font-medium"><code>variant="solid"</code></h3>
 					<Badge>Our services</Badge>
 				</div>
 				<div class="border-t border-border pt-6">
-					<h3 class="mb-1 text-lg font-medium"><code>variant="outline"</code></h3>
-					<p class="mb-4 text-text-muted">
-						White pill with a thin blue border and light blue text, used for blog categories on top of images.
-					</p>
+					<h3 class="mb-4 text-lg font-medium"><code>variant="outline"</code></h3>
 					<Badge variant="outline">Business</Badge>
 				</div>
 			</div>
@@ -200,12 +154,11 @@ const colorGroups = [
 
 			<div class="flex flex-col gap-10">
 				{
-					serviceIconTones.map(({ tone, description }) => (
+					serviceIconTones.map((tone) => (
 						<div class="border-t border-border pt-6">
-							<h3 class="mb-1 text-lg font-medium">
+							<h3 class="mb-4 text-lg font-medium">
 								<code>tone="{tone}"</code>
 							</h3>
-							<p class="mb-4 text-text-muted">{description}</p>
 							<ul class="flex flex-wrap items-center gap-6">
 								{serviceIconNames.map((name) => (
 									<li class="flex flex-col items-center gap-2">
@@ -225,12 +178,11 @@ const colorGroups = [
 
 			<div class="flex flex-col gap-10">
 				{
-					navigationVariants.map(({ variant, description }) => (
+					navigationVariants.map((variant) => (
 						<div class="border-t border-border pt-6">
-							<h3 class="mb-1 text-lg font-medium">
+							<h3 class="mb-4 text-lg font-medium">
 								<code>variant="{variant}"</code>
 							</h3>
-							<p class="mb-4 text-text-muted">{description}</p>
 							<div
 								class:list={[
 									"relative hidden h-[30rem] [contain:layout] rounded-[24px] xl:block",
@@ -252,8 +204,6 @@ const colorGroups = [
 					<h2 class="mb-8 text-2xl font-bold">Case study card</h2>
 
 					<div class="border-t border-border pt-6">
-						<h3 class="mb-1 text-lg font-medium">Default</h3>
-						<p class="mb-4 text-text-muted">Image, service badges, title and description in one link.</p>
 						<div class="max-w-[24.5rem]">
 							<CaseStudyCard
 								href="#"
@@ -274,8 +224,6 @@ const colorGroups = [
 					<h2 class="mb-8 text-2xl font-bold">Podcast card</h2>
 
 					<div class="border-t border-border pt-6">
-						<h3 class="mb-1 text-lg font-medium">Default</h3>
-						<p class="mb-4 text-text-muted">Image, title and streaming platform links.</p>
 						<div class="inline-block max-w-full rounded-[24px] bg-surface-dark p-8">
 							<div class="w-[36.9rem] max-w-full">
 								<PodcastCard
@@ -302,17 +250,34 @@ const colorGroups = [
 				<section class="mt-16">
 					<h2 class="mb-8 text-2xl font-bold">Blog card</h2>
 
-					<div class="border-t border-border pt-6">
-						<h3 class="mb-1 text-lg font-medium">Default</h3>
-						<p class="mb-4 text-text-muted">Image with category badge, title and publish date.</p>
-						<div class="inline-block max-w-full rounded-[24px] bg-surface-dark p-8">
-							<div class="w-[36.9rem] max-w-full">
+					<div class="flex flex-col gap-10">
+						<div class="border-t border-border pt-6">
+							<h3 class="mb-4 text-lg font-medium"><code>variant="row"</code></h3>
+							<div class="inline-block max-w-full rounded-[24px] bg-surface-dark p-8">
+								<div class="w-[36.9rem] max-w-full">
+									<BlogCard
+										href="#"
+										title={samplePost.data.title}
+										image={samplePost.data.image}
+										category="Business"
+										date={samplePost.data.publishedAt}
+										locale="hu"
+									/>
+								</div>
+							</div>
+						</div>
+						<div class="border-t border-border pt-6">
+							<h3 class="mb-4 text-lg font-medium"><code>variant="stacked"</code></h3>
+							<div class="w-[25rem] max-w-full">
 								<BlogCard
+									variant="stacked"
 									href="#"
 									title={samplePost.data.title}
 									image={samplePost.data.image}
 									category="Business"
+									author="Tasnádi Olivér"
 									date={samplePost.data.publishedAt}
+									summary={samplePost.data.post_summary}
 									locale="hu"
 								/>
 							</div>
@@ -326,8 +291,6 @@ const colorGroups = [
 			<h2 class="mb-8 text-2xl font-bold">Video card</h2>
 
 			<div class="border-t border-border pt-6">
-				<h3 class="mb-1 text-lg font-medium">Default</h3>
-				<p class="mb-4 text-text-muted">Square video with a poster and a custom play button.</p>
 				<div class="inline-block rounded-[24px] bg-surface-dark p-8">
 					<VideoCard
 						src="/home/owner/video-hu.mp4"
@@ -344,8 +307,6 @@ const colorGroups = [
 			<h2 class="mb-8 text-2xl font-bold">Clients section</h2>
 
 			<div class="border-t border-border pt-6">
-				<h3 class="mb-1 text-lg font-medium">Default</h3>
-				<p class="mb-4 text-text-muted">Title and a Swiper slider of native videos. Extra content goes in the default slot.</p>
 				<div class="overflow-hidden rounded-[24px] border border-border">
 					<ClientsSection
 						title={[{ text: "Some of our" }, { text: "happy", tone: "primary" }, { text: "clients" }]}
