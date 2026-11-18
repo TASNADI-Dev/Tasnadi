@@ -1,7 +1,7 @@
 ---
 import { getEmDashEntry, getSeoMeta, decodeSlug, getSiteSettings } from "emdash";
 import type { CacheHint } from "emdash";
-import { Image } from "emdash/ui";
+import { Image, PortableText } from "emdash/ui";
 import { getContentSeo } from "emdash/seo";
 import Base from "../../layouts/Base.astro";
 import Badge from "../../components/Badge.astro";
@@ -32,6 +32,46 @@ const tags = [
 	...(caseStudy.references?.services.entries ?? []),
 	...(caseStudy.references?.industry.entries ?? []),
 ].map((entry) => entry.data.title);
+
+// The three step names are the same on every case study
+const copy = {
+	hu: { strategy: "Stratégia", design: "Design", implementation: "Megvalósítás" },
+	en: { strategy: "Strategy", design: "Design", implementation: "Implementation" },
+}[locale];
+
+// The step name is set above, so a heading left in the CMS left column (the name) is not rendered twice
+const withoutHeadings = <T extends { _type: string; style?: string }>(blocks?: T[] | null): T[] =>
+	(blocks ?? []).filter((block) => !(block._type === "block" && /^h[1-6]$/.test(block.style ?? "")));
+
+const steps = [
+	{
+		label: copy.strategy,
+		left: withoutHeadings(caseStudy.data.step_1_left_column),
+		right: caseStudy.data.step_1_right_column ?? [],
+	},
+	{
+		label: copy.design,
+		left: withoutHeadings(caseStudy.data.step_2_left_column),
+		right: caseStudy.data.step_2_right_column ?? [],
+	},
+	{
+		label: copy.implementation,
+		left: withoutHeadings(caseStudy.data.step_3_left_column),
+		right: caseStudy.data.step_3_right_column ?? [],
+	},
+].filter((step) => step.left.length > 0 || step.right.length > 0);
+
+const stepLeftClass =
+	"text-base leading-[1.625rem] font-medium text-text-muted lg:text-right [&_ul]:m-0 [&_ul]:list-none [&_ul]:p-0 [&_li]:my-2 [&_li]:p-0 [&_p]:my-2";
+const stepRightClass = [
+	"text-base leading-[1.625rem] font-light text-text-muted",
+	"[&>:first-child]:mt-0",
+	"[&_h3]:mt-0 [&_h3]:mb-6 [&_h3]:text-[3rem] [&_h3]:leading-[3.9rem] [&_h3]:font-medium [&_h3]:tracking-[-0.02em] [&_h3]:text-text max-lg:[&_h3]:text-[2.25rem] max-lg:[&_h3]:leading-[2.75rem]",
+	"[&_p]:my-0 [&_p+p]:mt-3",
+	"[&_strong]:font-bold [&_strong]:text-text",
+	"[&_a]:text-accent [&_a]:underline [&_a]:underline-offset-2 [&_a]:transition-colors [&_a]:duration-200 [&_a:hover]:text-primary motion-reduce:[&_a]:transition-none",
+	"[&_ul]:my-3 [&_ul]:list-disc [&_ul]:pl-6 [&_li]:my-1 [&_li]:pl-1 [&_li::marker]:text-text",
+];
 
 const { siteTitle } = resolveSiteIdentity(await getSiteSettings());
 
@@ -102,9 +142,29 @@ const seo = getSeoMeta(caseStudy, {
 						sizes="(min-width: 64rem) 37.5rem, 92vw"
 						loading="eager"
 						fetchpriority="high"
-						class="relative z-20 h-auto w-full lg:-mb-40 max-lg:-mb-[6.5rem]"
+						class="relative z-20 h-auto w-full lg:-mb-40 max-lg:mb-[calc(-4rem_-_11.5%)]"
 					/>
 				)
+			}
+		</div>
+	</section>
+
+	<section class="bg-background pt-28 pb-16 max-lg:pt-24 max-lg:pb-12">
+		<div class="mx-auto flex w-[92%] max-w-[50rem] flex-col gap-16">
+			{
+				steps.map((step) => (
+					<div class="grid gap-x-10 gap-y-4 lg:grid-cols-[11rem_1fr]">
+						<div>
+							<h2 class="mb-3 text-2xl leading-9 font-bold text-primary lg:text-right">{step.label}</h2>
+							<div class={stepLeftClass}>
+								<PortableText value={step.left} />
+							</div>
+						</div>
+						<div class:list={stepRightClass}>
+							<PortableText value={step.right} />
+						</div>
+					</div>
+				))
 			}
 		</div>
 	</section>
