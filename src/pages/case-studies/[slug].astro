@@ -73,6 +73,20 @@ const brandText = caseStudy.data.brand_assets_paragraph;
 const brandImage = caseStudy.data.brand_assets_image;
 const hasBrandSection = Boolean(brandText || brandImage);
 
+// Two alternating rows: text on the left with the image on the right, then the other way around
+const textImageRows = [
+	{
+		text: caseStudy.data.text_left_image_right_text ?? [],
+		image: caseStudy.data.text_left_image_right_image,
+		imageFirst: false,
+	},
+	{
+		text: caseStudy.data.image_left_text_right_text ?? [],
+		image: caseStudy.data.image_left_text_right_image,
+		imageFirst: true,
+	},
+].filter((row) => row.text.length > 0 || row.image);
+
 // The step name is set above, so a heading left in the CMS left column (the name) is not rendered twice
 const withoutHeadings = <T extends { _type: string; style?: string }>(blocks?: T[] | null): T[] =>
 	(blocks ?? []).filter((block) => !(block._type === "block" && /^h[1-6]$/.test(block.style ?? "")));
@@ -97,10 +111,11 @@ const steps = [
 
 const stepLeftClass =
 	"text-base leading-[1.625rem] font-medium text-text-muted lg:text-right [&_ul]:m-0 [&_ul]:list-none [&_ul]:p-0 [&_li]:my-2 [&_li]:p-0 [&_p]:my-2";
-const stepRightClass = [
+// Styles the CMS rich text of the step columns and the text and image rows, whose heading is an h3 or an h2
+const richTextClass = [
 	"text-base leading-[1.625rem] font-light text-text-muted",
 	"[&>:first-child]:mt-0",
-	"[&_h3]:mt-0 [&_h3]:mb-6 [&_h3]:text-[3rem] [&_h3]:leading-[3.9rem] [&_h3]:font-medium [&_h3]:tracking-[-0.02em] [&_h3]:text-text max-lg:[&_h3]:text-[2.25rem] max-lg:[&_h3]:leading-[2.75rem]",
+	"[&_:is(h2,h3)]:mt-0 [&_:is(h2,h3)]:mb-6 [&_:is(h2,h3)]:text-[3rem] [&_:is(h2,h3)]:leading-[3.9rem] [&_:is(h2,h3)]:font-medium [&_:is(h2,h3)]:tracking-[-0.02em] [&_:is(h2,h3)]:text-text max-lg:[&_:is(h2,h3)]:text-[2.25rem] max-lg:[&_:is(h2,h3)]:leading-[2.75rem]",
 	"[&_p]:my-0 [&_p+p]:mt-3",
 	"[&_strong]:font-bold [&_strong]:text-text",
 	"[&_a]:text-accent [&_a]:underline [&_a]:underline-offset-2 [&_a]:transition-colors [&_a]:duration-200 [&_a:hover]:text-primary motion-reduce:[&_a]:transition-none",
@@ -194,7 +209,7 @@ const seo = getSeoMeta(caseStudy, {
 								<PortableText value={step.left} />
 							</div>
 						</div>
-						<div class:list={stepRightClass}>
+						<div class:list={richTextClass}>
 							<PortableText value={step.right} />
 						</div>
 					</div>
@@ -373,6 +388,40 @@ const seo = getSeoMeta(caseStudy, {
 							class="mx-auto mt-12 h-auto w-full max-w-[57.75rem] rounded-[20px] max-lg:mt-8"
 						/>
 					)}
+				</div>
+			</section>
+		)
+	}
+
+	{
+		textImageRows.length > 0 && (
+			<section class="bg-background py-24 max-lg:py-16">
+				<div class="mx-auto flex w-[92%] max-w-[76.875rem] flex-col gap-20 max-lg:gap-14">
+					{textImageRows.map((row) => (
+						<div class="grid items-center gap-x-8 gap-y-8 lg:grid-cols-2">
+							{row.text.length > 0 && (
+								<div
+									class:list={[
+										richTextClass,
+										row.imageFirst ? "lg:col-start-2 lg:row-start-1" : "lg:col-start-1 lg:row-start-1",
+									]}
+								>
+									<PortableText value={row.text} />
+								</div>
+							)}
+							{row.image && (
+								<Image
+									image={row.image}
+									sizes="(min-width: 64rem) 37.5rem, 92vw"
+									loading="lazy"
+									class:list={[
+										"h-auto w-full max-lg:order-first lg:row-start-1",
+										row.imageFirst ? "lg:col-start-1" : "lg:col-start-2",
+									]}
+								/>
+							)}
+						</div>
+					))}
 				</div>
 			</section>
 		)
