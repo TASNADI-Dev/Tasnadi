@@ -2,6 +2,7 @@
 import { getEmDashEntry, getSeoMeta, decodeSlug, getSiteSettings } from "emdash";
 import type { CacheHint } from "emdash";
 import { Image, PortableText } from "emdash/ui";
+import { getContentSeo } from "emdash/seo";
 import Base from "../../layouts/Base.astro";
 import Badge from "../../components/Badge.astro";
 import BlogPostItems from "../../components/BlogPostItems.astro";
@@ -65,6 +66,7 @@ const seo = getSeoMeta(post, {
 
 <Base
 	title={seo.title}
+	titleOverride={getContentSeo(post)?.title}
 	pageTitle={seo.ogTitle}
 	description={seo.description ?? post.data.post_summary}
 	canonical={seo.canonical}

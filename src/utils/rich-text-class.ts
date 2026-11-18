@@ -4,7 +4,7 @@ export const richTextClass = [
 	"[--emdash-caption-color:var(--color-text-muted)]",
 	"[&>:first-child]:mt-0",
 	"[&_p]:my-5",
-	"[&_strong]:font-bold [&_strong]:text-text",
+	"[&_strong]:font-bold [&_strong]:text-text [&_a_strong]:text-inherit",
 	"[&_a]:text-accent [&_a]:underline [&_a]:underline-offset-2 [&_a]:transition-colors [&_a]:duration-200 [&_a:hover]:text-primary motion-reduce:[&_a]:transition-none",
 	"[&_h2]:mt-12 [&_h2]:mb-4 [&_h2]:text-[1.75rem] [&_h2]:leading-9 [&_h2]:font-medium [&_h2]:text-text max-lg:[&_h2]:text-2xl max-lg:[&_h2]:leading-8",
 	"[&_h3]:mt-10 [&_h3]:mb-3 [&_h3]:text-[1.375rem] [&_h3]:leading-8 [&_h3]:font-medium [&_h3]:text-text max-lg:[&_h3]:text-xl max-lg:[&_h3]:leading-7",

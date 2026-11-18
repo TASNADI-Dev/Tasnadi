@@ -1,6 +1,7 @@
 ---
 import { getEmDashCollection, getEmDashEntry, getSeoMeta, decodeSlug, getSiteSettings } from "emdash";
 import { Image, PortableText } from "emdash/ui";
+import { getContentSeo } from "emdash/seo";
 import Base from "../../layouts/Base.astro";
 import NewsletterSection from "../../components/NewsletterSection.astro";
 import PlatformLinks from "../../components/PlatformLinks.astro";
@@ -67,6 +68,7 @@ const seo = getSeoMeta(episode, {
 
 <Base
 	title={seo.title}
+	titleOverride={getContentSeo(episode)?.title}
 	pageTitle={seo.ogTitle}
 	description={seo.description}
 	canonical={seo.canonical}

@@ -1,6 +1,7 @@
 ---
 import { getEmDashEntry, getSeoMeta, decodeSlug, getSiteSettings } from "emdash";
 import { PortableText } from "emdash/ui";
+import { getContentSeo } from "emdash/seo";
 import Base from "../layouts/Base.astro";
 import { resolveSiteIdentity } from "../utils/site-identity";
 
@@ -28,6 +29,7 @@ const seo = getSeoMeta(page, {
 
 <Base
 	title={seo.title}
+	titleOverride={getContentSeo(page)?.title}
 	pageTitle={seo.ogTitle}
 	description={seo.description}
 	canonical={seo.canonical}

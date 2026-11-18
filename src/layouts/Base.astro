@@ -9,6 +9,8 @@ import "../styles/global.css";
 
 interface Props {
 	title: string;
+	/** Title typed into the EmDash SEO title field: shown as the whole tab title, without the site name suffix */
+	titleOverride?: string | null;
 	pageTitle?: string | null;
 	description?: string | null;
 	image?: string | null;
@@ -21,6 +23,7 @@ interface Props {
 
 const {
 	title,
+	titleOverride,
 	pageTitle,
 	description,
 	image,
@@ -35,9 +38,15 @@ const { siteTitle, siteTagline } = resolveSiteIdentity(
 	settingsResult.data,
 );
 // Browser tab title pattern: "Page name | TASNADI"
-const titleIncludesSiteName =
-	title === siteTitle || title.endsWith(` | ${siteTitle}`);
-const fullTitle = titleIncludesSiteName ? title : `${title} | ${siteTitle}`;
+// A CMS SEO title may already end with the site name, so every trailing copy is stripped before adding it once
+const titleSuffix = ` | ${siteTitle}`;
+let pageName = title;
+while (pageName.endsWith(titleSuffix)) {
+	pageName = pageName.slice(0, -titleSuffix.length);
+}
+const fullTitle =
+	titleOverride?.trim() ||
+	(pageName === siteTitle || pageName === "" ? siteTitle : `${pageName}${titleSuffix}`);
 const pageDescription = description ?? siteTagline;
 
 const pageCtx = createPublicPageContext({
