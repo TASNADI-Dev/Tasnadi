@@ -488,16 +488,27 @@ const valueTabs = [
 			<div
 				class="mt-10 flex items-center justify-between gap-8 max-lg:flex-col lg:mt-10"
 			>
-				<img
-					src="/about/team.webp"
-					srcset="/about/team-500.webp 500w, /about/team-800.webp 800w, /about/team.webp 1024w"
-					sizes="(min-width: 64rem) 30rem, 92vw"
-					alt={copy.human.teamAlt}
-					width="1024"
-					height="683"
-					loading="lazy"
-					class="aspect-[3/2] w-full max-w-[30rem] rounded-[300px] object-cover max-lg:max-w-none max-lg:rounded-[7.5rem]"
-				/>
+				<div
+					data-halftone
+					class="relative aspect-[3/2] w-full max-w-[30rem] [--halftone-back:var(--color-surface)] [--halftone-c:var(--color-accent)] [--halftone-k:var(--color-surface-dark)] [--halftone-m:var(--color-primary-hover)] [--halftone-y:var(--color-primary)] overflow-hidden rounded-[20px] max-lg:max-w-none"
+				>
+					<img
+						src="/about/team.webp"
+						srcset="/about/team-500.webp 500w, /about/team-800.webp 800w, /about/team.webp 1024w"
+						sizes="(min-width: 64rem) 30rem, 92vw"
+						alt={copy.human.teamAlt}
+						width="1024"
+						height="683"
+						loading="lazy"
+						class="size-full object-cover"
+					/>
+					<div
+						data-halftone-target
+						aria-hidden="true"
+						class="absolute inset-0 opacity-0 transition-opacity duration-500 data-[ready]:opacity-100 motion-reduce:transition-none"
+					>
+					</div>
+				</div>
 
 				<div
 					class="flex max-w-[30.875rem] flex-col gap-5 text-base leading-[1.625rem] text-text-muted"
@@ -637,12 +648,14 @@ const valueTabs = [
 </Base>
 
 <script>
-	// Starts the About page scripts: hero scroll effects, the sliding astronaut and the value tabs.
+	// Starts the About page scripts: hero scroll effects, the sliding astronaut, the halftone team photo and the value tabs.
 	import { initAboutAstronaut } from "../scripts/about-astronaut";
 	import { initAboutHero } from "../scripts/about-hero";
+	import { initHalftoneImages } from "../scripts/halftone-image";
 	import { initTabs } from "../scripts/tabs";
 
 	initAboutHero();
 	initAboutAstronaut();
+	initHalftoneImages();
 	document.querySelectorAll<HTMLElement>("[data-tabs]").forEach(initTabs);
 </script>
