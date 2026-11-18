@@ -480,13 +480,7 @@ const valueTabs = [
 // Language-independent data of the awards, in the same order as `copy.awards.items`
 const awardItems = [
 	{ type: "award", image: "clutch-logo-design-2023.webp", width: 500, height: 541 },
-	{
-		type: "qualification",
-		image: "bkik-trust-mark.webp",
-		width: 500,
-		height: 500,
-		href: "https://bkik.hu/hu/kamarai-tagsag-ketto/kamarai-bizalom-vedjegy",
-	},
+	{ type: "qualification", image: "bkik-trust-mark.webp", width: 500, height: 500 },
 	{ type: "publication", image: "magyar-tervezografika-2023.webp", width: 292, height: 292 },
 	{ type: "publication", image: "aranyrajzszog-2019.webp", width: 312, height: 226 },
 	{ type: "award", image: "clutch-top-company-2022.webp", width: 500, height: 675 },
@@ -905,13 +899,9 @@ const team = [...teamEntries].sort((a, b) => rank(a.data.slug) - rank(b.data.slu
 						{
 							copy.awards.items.map((item, index) => {
 								const award = awardItems[index];
-								const Tag = "href" in award ? "a" : "div";
 								return (
 									<li class="swiper-slide">
-										<Tag
-											class="flex flex-col items-center px-4 text-center"
-											{...("href" in award ? { href: award.href, target: "_blank", rel: "noopener" } : {})}
-										>
+										<div class="flex flex-col items-center px-4 text-center">
 											<p class="mb-2 text-xs leading-4 font-medium tracking-[0.03em] text-primary uppercase">
 												{copy.awards.types[award.type]}
 											</p>
@@ -926,7 +916,7 @@ const team = [...teamEntries].sort((a, b) => rank(a.data.slug) - rank(b.data.slu
 												loading="lazy"
 												class="h-auto w-[9.75rem]"
 											/>
-										</Tag>
+										</div>
 									</li>
 								);
 							})
