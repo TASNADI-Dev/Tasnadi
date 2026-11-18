@@ -1,7 +1,7 @@
 ---
 import type { HTMLAttributes } from "astro/types";
 
-type Variant = "primary" | "secondary" | "link-arrow" | "link";
+type Variant = "primary" | "secondary" | "light" | "link-arrow" | "link";
 
 type Props = Omit<HTMLAttributes<"a">, "type"> & {
 	variant?: Variant;
@@ -29,6 +29,8 @@ const variants: Record<Variant, string> = {
 		"rounded-[4px] bg-primary px-8 py-3 font-normal text-text hover:bg-primary-hover active:shadow-[inset_0_4px_8px_var(--color-primary-active)]",
 	secondary:
 		"rounded-[4px] px-8 py-3 font-normal text-text shadow-[inset_0_0_0_2px_var(--color-primary)] hover:bg-primary-hover hover:shadow-[inset_0_0_0_2px_var(--color-primary-hover)] active:shadow-[inset_0_0_0_2px_var(--color-primary-hover),inset_0_4px_8px_var(--color-primary-active)]",
+	light:
+		"rounded-[4px] bg-background px-8 py-3 font-normal text-text hover:bg-surface active:shadow-[inset_0_4px_8px_var(--color-border-strong)]",
 	"link-arrow":
 		"gap-4 border-b-2 border-primary font-medium text-primary hover:text-primary-hover active:text-primary-active",
 	link: "border-b-2 border-primary font-medium text-primary hover:text-primary-hover active:text-primary-active",

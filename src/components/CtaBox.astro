@@ -1,0 +1,74 @@
+---
+import { getEmDashEntry } from "emdash";
+import { Image } from "emdash/ui";
+import Button from "./Button.astro";
+
+type Props = {
+	title: string;
+	text: string;
+	buttonLabel: string;
+	buttonHref: string;
+	/** Slug of the team member shown in the box; name, position and both photos come from the CMS */
+	personSlug?: string;
+	class?: string;
+};
+
+const {
+	title,
+	text,
+	buttonLabel,
+	buttonHref,
+	personSlug = "oliver-tasnadi",
+	class: className,
+} = Astro.props;
+
+const locale = Astro.currentLocale === "en" ? "en" : "hu";
+const { entry: person, cacheHint } = await getEmDashEntry("team_members", personSlug, { locale });
+if (cacheHint && Astro.cache?.enabled) Astro.cache.set(cacheHint);
+---
+
+<div
+	class:list={[
+		"mx-auto flex max-w-[45.875rem] items-center justify-between gap-6 rounded-[20px] border-2 border-border bg-[linear-gradient(90deg,var(--color-primary-hover),var(--color-primary)_11%,var(--color-background)_80%,var(--color-primary))] px-6 pt-8 pb-10 text-text max-md:flex-col-reverse md:px-[3.125rem] md:pt-5",
+		className,
+	]}
+>
+	<div class="max-w-[26rem] max-md:text-center">
+		<h2 class="text-[1.75rem] leading-9 font-medium md:text-[2.125rem] md:leading-[2.75rem]">{title}</h2>
+		<p class="mt-6 text-base leading-[1.625rem]">{text}</p>
+		<Button variant="light" href={buttonHref} class="mt-10 max-md:mt-8">{buttonLabel}</Button>
+	</div>
+
+	{
+		person && (
+			<div class="group shrink-0 text-center">
+				<div class="relative mx-auto size-40 overflow-hidden rounded-full md:size-48">
+					<Image
+						image={person.data.default_image}
+						alt={person.data.default_image?.alt || person.data.title}
+						sizes="12rem"
+						loading="lazy"
+						class="size-full object-cover"
+					/>
+					{person.data.hover_image && (
+						<Image
+							image={person.data.hover_image}
+							alt=""
+							sizes="12rem"
+							loading="lazy"
+							class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100 motion-reduce:transition-none"
+						/>
+					)}
+				</div>
+				<p {...person.edit.title} class="mt-3 text-xl leading-[1.625rem] font-medium">
+					{person.data.title}
+				</p>
+				{person.data.position && (
+					<p {...person.edit.position} class="text-sm leading-5">
+						{person.data.position}
+					</p>
+				)}
+			</div>
+		)
+	}
+</div>

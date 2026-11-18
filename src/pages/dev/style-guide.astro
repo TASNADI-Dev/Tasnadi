@@ -7,6 +7,7 @@ import BlogCard from "../../components/BlogCard.astro";
 import ClientsSection from "../../components/ClientsSection.astro";
 import ClutchReviews from "../../components/ClutchReviews.astro";
 import CaseStudyCard from "../../components/CaseStudyCard.astro";
+import CtaBox from "../../components/CtaBox.astro";
 import Navigation from "../../components/Navigation.astro";
 import NewsletterSection from "../../components/NewsletterSection.astro";
 import type { ComponentProps } from "astro/types";
@@ -45,7 +46,7 @@ const serviceIconNames =["branding", "website", "webshop", "consulting", "strate
 
 const serviceIconTones = ["primary", "accent"] as const;
 
-const buttonVariants = ["primary", "secondary", "link-arrow", "link"] as const;
+const buttonVariants = ["primary", "secondary", "light", "link-arrow", "link"] as const;
 
 const navigationVariants = ["light", "dark"] as const;
 
@@ -131,7 +132,12 @@ const colorGroups = [
 							<h3 class="mb-4 text-lg font-medium">
 								<code>{variant}</code>
 							</h3>
-							<div class="flex flex-wrap items-center gap-8">
+							<div
+								class:list={[
+									"flex flex-wrap items-center gap-8",
+									variant === "light" && "rounded-[10px] bg-primary p-6",
+								]}
+							>
 								<Button variant={variant} href="#">
 									As a link
 								</Button>
@@ -353,6 +359,23 @@ const colorGroups = [
 						]}
 					/>
 				</div>
+			</div>
+		</section>
+
+		<section class="mt-16">
+			<h2 class="mb-8 text-2xl font-bold">CTA box</h2>
+
+			<div class="border-t border-border pt-6">
+				<p class="mb-4 text-sm text-text-muted">
+					Call-to-action box with a button and a team member from the CMS (the <code>personSlug</code> prop, default
+					<code>oliver-tasnadi</code>). Title, text and button come in as props.
+				</p>
+				<CtaBox
+					title="Interested?"
+					text="Let’s have a conversation and see how we can help boost your brand."
+					buttonLabel="Sounds interesting; let’s chat!"
+					buttonHref="#"
+				/>
 			</div>
 		</section>
 

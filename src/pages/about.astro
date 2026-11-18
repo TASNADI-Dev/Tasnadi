@@ -4,6 +4,7 @@ import { Image } from "emdash/ui";
 import Base from "../layouts/Base.astro";
 import ClientsSection from "../components/ClientsSection.astro";
 import ClutchReviews from "../components/ClutchReviews.astro";
+import CtaBox from "../components/CtaBox.astro";
 import { clientVideos } from "../utils/client-videos";
 import { sliderArrowClass } from "../utils/slider-arrow";
 
@@ -215,6 +216,12 @@ const copy = {
 				{ title: "Clutch Awards\nMagyarország legjobb marketingügynöksége 2021", alt: "A Clutch tanúsítványa: Magyarország legjobb marketingügynöksége 2021" },
 			],
 		},
+		cta: {
+			title: "Érdekel a szolgáltatásunk?",
+			text: "Jelentkezz egy ingyenes konzultációra, ahol felmérjük az elakadásaid, üzleti céljaid, és meghatározzuk a stratégiai lehetőségeket!",
+			buttonLabel: "Ajánlatot kérek",
+			astronautAlt: "Űrhajós szívekkel",
+		},
 	},
 	en: {
 		pageTitle: "About",
@@ -422,6 +429,12 @@ const copy = {
 				{ title: "Clutch Awards\nTop Marketing Agency in Hungary 2021", alt: "Clutch certificate: Top Marketing Agency in Hungary 2021" },
 			],
 		},
+		cta: {
+			title: "Interested?",
+			text: "Let’s have a conversation and see how we can help boost your brand.",
+			buttonLabel: "Sounds interesting; let’s chat!",
+			astronautAlt: "Astronaut with hearts",
+		},
 	},
 }[locale] as {
 	pageTitle: string;
@@ -464,6 +477,12 @@ const copy = {
 		nextLabel: string;
 		types: { award: string; qualification: string; publication: string };
 		items: { title: string; alt: string }[];
+	};
+	cta: {
+		title: string;
+		text: string;
+		buttonLabel: string;
+		astronautAlt: string;
 	};
 };
 
@@ -939,6 +958,34 @@ const team = [...teamEntries].sort((a, b) => rank(a.data.slug) - rank(b.data.slu
 			</div>
 		</div>
 	</ClientsSection>
+
+	<section class="relative overflow-x-clip bg-background pt-48 pb-24 lg:pt-[13.75rem] lg:pb-[10rem]">
+		<img
+			src="/about/cta/planet-bg.svg"
+			alt=""
+			width="1512"
+			height="600"
+			loading="lazy"
+			class="pointer-events-none absolute inset-x-0 top-0 h-auto w-full"
+		/>
+		<img
+			src="/about/cta/astronaut-hearts.webp"
+			alt={copy.cta.astronautAlt}
+			width="230"
+			height="315"
+			loading="lazy"
+			class="absolute top-8 left-1/2 w-32 -translate-x-[calc(50%+3rem)] lg:w-[14.375rem] lg:-translate-x-[11.5rem]"
+		/>
+
+		<div class="relative mx-auto w-[92%] max-w-[76.875rem]">
+			<CtaBox
+				title={copy.cta.title}
+				text={copy.cta.text}
+				buttonLabel={copy.cta.buttonLabel}
+				buttonHref={`${locale === "en" ? "/en" : ""}/contact`}
+			/>
+		</div>
+	</section>
 </Base>
 
 <script>
