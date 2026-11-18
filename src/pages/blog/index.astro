@@ -61,7 +61,7 @@ const blogPath = getRelativeLocaleUrl(locale, "/blog").replace(/(.)\/$/, "$1");
 
 	<section id="filters" class="scroll-mt-28 bg-background pt-4 pb-8">
 		<form
-			data-blog-filters
+			data-list-filters
 			action={`${blogPath}#filters`}
 			method="get"
 			class="mx-auto flex w-[92%] max-w-[32.5rem] flex-col items-center gap-5 rounded-[8px] bg-background p-6 shadow-[0_4px_30px_color-mix(in_srgb,var(--color-shadow)_15%,transparent)]"
@@ -106,7 +106,7 @@ const blogPath = getRelativeLocaleUrl(locale, "/blog").replace(/(.)\/$/, "$1");
 			</fieldset>
 
 			<button type="submit" class="sr-only">{copy.search}</button>
-			<Button variant="link" href={`${blogPath}#filters`} data-blog-reset>{copy.reset}</Button>
+			<Button variant="link" href={`${blogPath}#filters`} data-list-reset>{copy.reset}</Button>
 		</form>
 	</section>
 
@@ -116,6 +116,6 @@ const blogPath = getRelativeLocaleUrl(locale, "/blog").replace(/(.)\/$/, "$1");
 </Base>
 
 <script>
-	// Loads the in-place blog filtering (no page reload when searching or toggling categories).
-	import "../../scripts/blog-filters";
+	// Loads the in-place list filtering (no page reload when searching or toggling categories).
+	import "../../scripts/list-filters";
 </script>

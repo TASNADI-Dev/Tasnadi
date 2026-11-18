@@ -1,29 +1,28 @@
-// Applies the blog filters without reloading the page: fetches the filtered results, swaps them in and updates the address bar.
-const form = document.querySelector<HTMLFormElement>("[data-blog-filters]");
-const resultsSelector = "[data-blog-results]";
+// Applies a list's filters (search field and checkboxes) without reloading the page: fetches the filtered results, swaps them in and updates the address bar.
+const form = document.querySelector<HTMLFormElement>("[data-list-filters]");
+const resultsSelector = "[data-list-results]";
 const searchDelay = 350;
 
 let controller: AbortController | undefined;
 let searchTimer: number | undefined;
 
-const search = form?.querySelector<HTMLInputElement>('input[name="q"]');
-const checkboxes = [...(form?.querySelectorAll<HTMLInputElement>('input[name="category"]') ?? [])];
+const fields = [...(form?.querySelectorAll<HTMLInputElement>("input[name]") ?? [])];
+const checkboxes = fields.filter((field) => field.type === "checkbox");
+const search = fields.find((field) => field.type === "search");
 const currentUrl = () => `${location.pathname}${location.search}`;
 
 function urlFromForm() {
 	const params = new URLSearchParams();
-	const query = search?.value.trim();
-	if (query) params.set("q", query);
-	checkboxes.filter((box) => box.checked).forEach((box) => params.append("category", box.value));
+	if (search?.value.trim()) params.set(search.name, search.value.trim());
+	checkboxes.filter((box) => box.checked).forEach((box) => params.append(box.name, box.value));
 	const queryString = params.toString();
 	return `${location.pathname}${queryString ? `?${queryString}` : ""}`;
 }
 
 function syncFormWithUrl() {
 	const params = new URLSearchParams(location.search);
-	if (search) search.value = params.get("q") ?? "";
-	const selected = params.getAll("category");
-	checkboxes.forEach((box) => (box.checked = selected.includes(box.value)));
+	if (search) search.value = params.get(search.name) ?? "";
+	checkboxes.forEach((box) => (box.checked = params.getAll(box.name).includes(box.value)));
 }
 
 async function apply(url: string, pushHistory = true) {
@@ -58,7 +57,7 @@ form?.addEventListener("submit", (event) => {
 });
 
 form?.addEventListener("change", (event) => {
-	if ((event.target as HTMLInputElement).name === "category") apply(urlFromForm());
+	if ((event.target as HTMLInputElement).type === "checkbox") apply(urlFromForm());
 });
 
 search?.addEventListener("input", () => {
@@ -66,7 +65,7 @@ search?.addEventListener("input", () => {
 	searchTimer = window.setTimeout(() => apply(urlFromForm()), searchDelay);
 });
 
-form?.querySelector("[data-blog-reset]")?.addEventListener("click", (event) => {
+form?.querySelector("[data-list-reset]")?.addEventListener("click", (event) => {
 	event.preventDefault();
 	if (search) search.value = "";
 	checkboxes.forEach((box) => (box.checked = false));

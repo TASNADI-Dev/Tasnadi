@@ -7,6 +7,7 @@ const DEFAULT_LOCALE: Locale = "hu";
 
 /** Site sections whose pages only make sense in a locale that has entries in the collection */
 const SECTION_COLLECTIONS: Record<string, string> = {
+	"/projects": "case_studies",
 	"/blog": "posts",
 	"/podcast": "podcasts",
 };

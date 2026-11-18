@@ -1,6 +1,7 @@
 // Loads one page of blog posts (with category and author resolved), filtered by title search and categories, for the blog list and its "load more" partial.
 import { getEmDashCollection, getEmDashEntry } from "emdash";
 import type { CacheHint } from "emdash";
+import { loadFilterOptions, translationGroupOf, type FilterOption } from "./filter-options";
 
 export const POSTS_PER_PAGE = 12;
 
@@ -13,16 +14,9 @@ export interface BlogFilters {
 	categories: string[];
 }
 
-export interface BlogCategory {
-	slug: string;
-	label: string;
-	/** Shared by the translations of the category, used to match the category stored on a post */
-	group: string;
-}
+export type BlogCategory = FilterOption;
 
-// The translation group exists on every entry at runtime but is missing from the generated collection types
-export const translationGroupOf = (entry?: { data: object } | null) =>
-	(entry?.data as { translationGroup?: string | null } | undefined)?.translationGroup ?? "";
+export { translationGroupOf };
 
 export function parseBlogFilters(params: URLSearchParams): BlogFilters {
 	return {
@@ -43,27 +37,8 @@ const normalize = (text: string) =>
 		.replace(/\p{M}/gu, "")
 		.toLowerCase();
 
-// Slugs come from the default locale so the filter URLs are the same in every language, labels follow the page locale
-export async function loadCategories(locale: Locale, hints: CacheHint[]): Promise<BlogCategory[]> {
-	const query = (entryLocale: Locale) =>
-		getEmDashCollection("blog_categories", { locale: entryLocale, orderBy: { created_at: "asc" } });
-
-	const { entries: defaults, cacheHint } = await query("hu");
-	hints.push(cacheHint);
-
-	let labels = new Map<string, string>();
-	if (locale === "en") {
-		const { entries: translated, cacheHint: translatedHint } = await query("en");
-		hints.push(translatedHint);
-		labels = new Map(translated.map((entry) => [translationGroupOf(entry), entry.data.title]));
-	}
-
-	return defaults.map((entry) => ({
-		slug: entry.data.slug ?? "",
-		label: labels.get(translationGroupOf(entry)) ?? entry.data.title,
-		group: translationGroupOf(entry),
-	}));
-}
+export const loadCategories = (locale: Locale, hints: CacheHint[]) =>
+	loadFilterOptions("blog_categories", locale, hints);
 
 async function loadAllPosts(entryLocale: Locale, hints: CacheHint[]) {
 	const all = [];
