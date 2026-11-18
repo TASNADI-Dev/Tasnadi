@@ -35,9 +35,37 @@ const tags = [
 
 // The three step names are the same on every case study
 const copy = {
-	hu: { strategy: "Stratégia", design: "Design", implementation: "Megvalósítás" },
-	en: { strategy: "Strategy", design: "Design", implementation: "Implementation" },
+	hu: {
+		strategy: "Stratégia",
+		design: "Design",
+		implementation: "Megvalósítás",
+		startedTitle: "Honnan indultunk – hová érkeztünk",
+		compareLabel: "Előtte-utána összehasonlítás",
+	},
+	en: {
+		strategy: "Strategy",
+		design: "Design",
+		implementation: "Implementation",
+		startedTitle: "Where we started – where we arrived",
+		compareLabel: "Before and after comparison",
+	},
 }[locale];
+
+// The comparison needs both screenshots and the testimonial needs a quote, otherwise they are hidden
+const startedText = caseStudy.data.where_we_started_paragraph;
+const previousVersion = caseStudy.data.where_we_started_previous_version;
+const newVersion = caseStudy.data.where_we_started_new_version;
+const hasComparison = Boolean(previousVersion && newVersion);
+
+// The first paragraph of the quote is the highlighted one, the rest is shown smaller under it
+const [quoteLead, ...quoteRest] = (caseStudy.data.testimonial_quote ?? "")
+	.split(/\n+/)
+	.map((paragraph) => paragraph.trim())
+	.filter(Boolean);
+const testimonialName = caseStudy.data.testimonial_name;
+const testimonialPosition = caseStudy.data.testimonial_position;
+
+const hasStartedSection = Boolean(startedText || hasComparison || quoteLead);
 
 // The step name is set above, so a heading left in the CMS left column (the name) is not rendered twice
 const withoutHeadings = <T extends { _type: string; style?: string }>(blocks?: T[] | null): T[] =>
@@ -168,4 +196,135 @@ const seo = getSeoMeta(caseStudy, {
 			}
 		</div>
 	</section>
+
+	{
+		hasStartedSection && (
+			<section class="bg-background pb-24 max-lg:pb-16">
+				<div class="mx-auto flex w-[92%] max-w-[50rem] justify-end">
+					<svg
+						aria-hidden="true"
+						viewBox="0 0 69 72"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg"
+						class="h-auto w-[4.25rem] max-lg:w-14"
+					>
+						<path
+							class="fill-accent"
+							d="M48.1831 2.67429C48.4969 1.78439 49.7555 1.78439 50.0693 2.67429L54.5147 15.2803C54.6065 15.5405 54.8017 15.7513 55.0542 15.8626L66.6117 20.9605C67.4069 21.3112 67.4069 22.4396 66.6117 22.7904L55.0542 27.8882C54.8017 27.9995 54.6065 28.2103 54.5147 28.4706L50.0693 41.0765C49.7555 41.9664 48.4969 41.9664 48.1831 41.0765L43.7377 28.4706C43.6459 28.2103 43.4507 27.9995 43.1982 27.8882L31.6407 22.7904C30.8455 22.4396 30.8455 21.3112 31.6407 20.9605L43.1982 15.8626C43.4507 15.7513 43.6459 15.5405 43.7377 15.2803L48.1831 2.67429Z"
+						/>
+						<path
+							class="fill-primary"
+							d="M14.0378 45.5582C14.3836 44.7485 15.5314 44.7485 15.8772 45.5582L19.0179 52.914C19.1265 53.1683 19.3355 53.3663 19.5953 53.4609L27.3358 56.2808C28.2127 56.6002 28.2127 57.8405 27.3358 58.1599L19.5953 60.9798C19.3355 61.0744 19.1265 61.2724 19.0179 61.5267L15.8772 68.8825C15.5314 69.6922 14.3836 69.6922 14.0378 68.8825L10.8971 61.5267C10.7885 61.2724 10.5795 61.0744 10.3197 60.9798L2.5792 58.1599C1.70225 57.8405 1.70225 56.6002 2.5792 56.2808L10.3197 53.4609C10.5795 53.3663 10.7885 53.1683 10.8971 52.914L14.0378 45.5582Z"
+						/>
+					</svg>
+				</div>
+
+				<div class="mx-auto mt-8 w-[92%] max-w-[76.875rem] max-lg:mt-6">
+					<h2 class="mx-auto text-center text-[3rem] leading-[3.9rem] font-medium tracking-[-0.02em] max-lg:text-[2.25rem] max-lg:leading-[2.75rem]">
+						{copy.startedTitle}
+					</h2>
+
+					{
+						hasComparison && (
+							<div
+								data-compare
+								style="--position: 50%"
+								class="relative mt-10 overflow-hidden rounded-[20px] shadow-[0_4px_30px_color-mix(in_srgb,var(--color-shadow)_15%,transparent)] select-none max-lg:mt-8"
+							>
+								<Image
+									image={newVersion}
+									sizes="(min-width: 64rem) 76.875rem, 92vw"
+									loading="lazy"
+									class="block h-auto w-full"
+								/>
+								<Image
+									image={previousVersion}
+									sizes="(min-width: 64rem) 76.875rem, 92vw"
+									loading="lazy"
+									class="absolute inset-0 size-full [clip-path:inset(0_calc(100%_-_var(--position))_0_0)] object-cover"
+								/>
+								<input
+									type="range"
+									min="0"
+									max="100"
+									step="0.1"
+									value="50"
+									aria-label={copy.compareLabel}
+									class="peer absolute inset-0 z-20 size-full cursor-ew-resize touch-pan-y opacity-0"
+								/>
+								<div
+									aria-hidden="true"
+									class="pointer-events-none absolute inset-y-0 left-[var(--position)] z-10 w-0.5 -translate-x-1/2 bg-background shadow-[0_0_8px_color-mix(in_srgb,var(--color-shadow)_40%,transparent)] peer-focus-visible:[&_div]:outline-2 peer-focus-visible:[&_div]:outline-offset-2 peer-focus-visible:[&_div]:outline-accent"
+								>
+									<div class="absolute top-1/2 left-1/2 flex size-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-background text-text shadow-[0_2px_12px_color-mix(in_srgb,var(--color-shadow)_30%,transparent)] lg:size-20">
+										<svg width="28" height="16" viewBox="0 0 28 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M9 2 3 8l6 6M19 2l6 6-6 6"
+												stroke="currentColor"
+												stroke-width="2.5"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+											/>
+										</svg>
+									</div>
+								</div>
+							</div>
+						)
+					}
+
+					{
+						startedText && (
+							<p class="mx-auto mt-8 max-w-[43rem] text-center text-base leading-[1.625rem] font-light text-text-muted">
+								{startedText}
+							</p>
+						)
+					}
+
+					{
+						quoteLead && (
+							<figure class="mx-auto mt-12 flex flex-col items-center rounded-[24px] border border-primary/50 bg-linear-to-br from-primary/10 via-background via-25% to-accent/10 px-8 py-6 text-center max-lg:px-5 max-lg:mt-10">
+								<svg
+									aria-hidden="true"
+									width="32"
+									height="32"
+									viewBox="0 0 24 24"
+									class="fill-primary"
+									xmlns="http://www.w3.org/2000/svg"
+								>
+									<path d="M12 0c.6 6.5 5.5 11.4 12 12-6.5.6-11.4 5.5-12 12-.6-6.5-5.5-11.4-12-12C6.5 11.4 11.4 6.5 12 0Z" />
+								</svg>
+								<blockquote class="mt-2 max-w-[54.75rem]">
+									<p class="text-[2.125rem] leading-[2.75rem] font-medium text-text max-lg:text-2xl max-lg:leading-8">
+										{quoteLead}
+									</p>
+									{quoteRest.map((paragraph) => (
+										<p class="mx-auto mt-3 max-w-[32.5rem] text-base leading-[1.625rem] font-light text-text-muted">
+											{paragraph}
+										</p>
+									))}
+								</blockquote>
+								{(testimonialName || testimonialPosition) && (
+									<figcaption class="mt-3 text-base leading-[1.625rem] text-text">
+										{testimonialName && <strong class="block font-bold">{testimonialName}</strong>}
+										{testimonialPosition && <em class="block font-light">{testimonialPosition}</em>}
+									</figcaption>
+								)}
+							</figure>
+						)
+					}
+				</div>
+			</section>
+		)
+	}
 </Base>
+
+<script>
+	// Moves the before/after divider of the comparison slider with its range input.
+	document.querySelectorAll<HTMLElement>("[data-compare]").forEach((root) => {
+		const input = root.querySelector<HTMLInputElement>("input");
+		if (!input) return;
+		const update = () => root.style.setProperty("--position", `${input.value}%`);
+		input.addEventListener("input", update);
+		update();
+	});
+</script>
