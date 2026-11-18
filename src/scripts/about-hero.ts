@@ -8,6 +8,8 @@ const TILT = Math.PI / 4;
 const REST_LINE = 0.7;
 // Gap between the crawl's resting bottom edge and the end of the section (rem)
 const END_GAP = 8;
+// Share of the crawl, at its end, over which the text fades to opacity 0
+const FADE_OUT = 0.2;
 
 export function initAboutHero() {
 	const hero = document.querySelector<HTMLElement>("[data-about-hero]");
@@ -51,6 +53,7 @@ export function initAboutHero() {
 		frame = 0;
 		const progress = Math.min(Math.max(-track.getBoundingClientRect().top / travel.range, 0), 1);
 		crawl.style.setProperty("--crawl-y", `${travel.start + (travel.end - travel.start) * progress}px`);
+		crawl.style.opacity = String(Math.min(1, (1 - progress) / FADE_OUT));
 		hero.dataset.scrolled = String(window.scrollY > 8);
 	};
 
