@@ -1,10 +1,10 @@
 ---
 import { getEmDashCollection } from "emdash";
-import { Image } from "emdash/ui";
 import Base from "../layouts/Base.astro";
 import ClientsSection from "../components/ClientsSection.astro";
 import ClutchReviews from "../components/ClutchReviews.astro";
 import CtaBox from "../components/CtaBox.astro";
+import TeamList from "../components/TeamList.astro";
 import { clientVideos } from "../utils/client-videos";
 import { sliderArrowClass } from "../utils/slider-arrow";
 
@@ -827,40 +827,7 @@ const team = [...teamEntries].sort((a, b) => rank(a.data.slug) - rank(b.data.slu
 				</p>
 			</div>
 
-			<ul role="list" class="mt-12 flex flex-wrap justify-center gap-x-4 gap-y-10 lg:mt-16 lg:gap-y-[3.1875rem]">
-				{
-					team.map((person) => (
-						<li class="group w-[calc(50%-0.5rem)] text-center lg:w-[calc((100%-2rem)/3)]">
-							<div class="relative mx-auto aspect-square w-full max-w-[18.25rem] overflow-hidden rounded-full">
-								<Image
-									image={person.data.default_image}
-									alt={person.data.default_image?.alt || person.data.title}
-									sizes="(min-width: 64rem) 18.25rem, 46vw"
-									loading="lazy"
-									class="size-full object-cover"
-								/>
-								{person.data.hover_image && (
-									<Image
-										image={person.data.hover_image}
-										alt=""
-										sizes="(min-width: 64rem) 18.25rem, 46vw"
-										loading="lazy"
-										class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100 motion-reduce:transition-none"
-									/>
-								)}
-							</div>
-							<p {...person.edit.title} class="mt-5 text-base leading-[1.625rem] font-bold text-text">
-								{person.data.title}
-							</p>
-							{person.data.position && (
-								<p {...person.edit.position} class="text-base leading-[1.625rem] font-light text-text">
-									{person.data.position}
-								</p>
-							)}
-						</li>
-					))
-				}
-			</ul>
+			<TeamList people={team} class="mt-12 lg:mt-16" />
 		</div>
 	</section>
 

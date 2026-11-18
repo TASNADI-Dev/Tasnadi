@@ -13,6 +13,7 @@ import NewsletterSection from "../../components/NewsletterSection.astro";
 import type { ComponentProps } from "astro/types";
 import PodcastCard from "../../components/PodcastCard.astro";
 import ServiceIcon from "../../components/ServiceIcon.astro";
+import TeamList from "../../components/TeamList.astro";
 import VideoCard from "../../components/VideoCard.astro";
 
 const { entries: sampleCaseStudies } = await getEmDashCollection("case_studies", {
@@ -21,6 +22,11 @@ const { entries: sampleCaseStudies } = await getEmDashCollection("case_studies",
 	limit: 1,
 });
 const sampleCaseStudy = sampleCaseStudies[0];
+
+const { entries: sampleTeam } = await getEmDashCollection("team_members", {
+	locale: "hu",
+	limit: 3,
+});
 
 const { entries: samplePodcasts } = await getEmDashCollection("podcasts", {
 	locale: "hu",
@@ -312,6 +318,14 @@ const colorGroups = [
 				</section>
 			)
 		}
+
+		<section class="mt-16">
+			<h2 class="mb-8 text-2xl font-bold">Team list</h2>
+
+			<div class="border-t border-border pt-6">
+				<TeamList people={sampleTeam} />
+			</div>
+		</section>
 
 		<section class="mt-16">
 			<h2 class="mb-8 text-2xl font-bold">Video card</h2>

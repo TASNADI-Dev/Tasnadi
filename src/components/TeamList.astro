@@ -1,0 +1,68 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { Image } from "emdash/ui";
+
+type CmsImage = Parameters<typeof Image>[0]["image"];
+
+type Person = {
+	data: {
+		title: string;
+		position?: string | null;
+		default_image?: CmsImage;
+		hover_image?: CmsImage;
+	};
+	/** Visual editing attributes of the entry, only present on entries loaded as a collection */
+	edit?: { title?: object; position?: object };
+};
+
+type Props = HTMLAttributes<"ul"> & {
+	people: Person[];
+};
+
+const { people, class: className, ...rest } = Astro.props;
+
+// The CMS alt text of a portrait, or the person's name when it is not filled in
+const altOf = (person: Person) => {
+	const image = person.data.default_image;
+	return (typeof image === "object" && image?.alt) || person.data.title;
+};
+---
+
+<ul
+	role="list"
+	{...rest}
+	class:list={["flex flex-wrap justify-center gap-x-4 gap-y-10 lg:gap-y-[3.1875rem]", className]}
+>
+	{
+		people.map((person) => (
+			<li class="group w-[calc(50%-0.5rem)] text-center lg:w-[calc((100%-2rem)/3)]">
+				<div class="relative mx-auto aspect-square w-full max-w-[18.25rem] overflow-hidden rounded-full">
+					<Image
+						image={person.data.default_image}
+						alt={altOf(person)}
+						sizes="(min-width: 64rem) 18.25rem, 46vw"
+						loading="lazy"
+						class="size-full object-cover"
+					/>
+					{person.data.hover_image && (
+						<Image
+							image={person.data.hover_image}
+							alt=""
+							sizes="(min-width: 64rem) 18.25rem, 46vw"
+							loading="lazy"
+							class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100 motion-reduce:transition-none"
+						/>
+					)}
+				</div>
+				<p {...person.edit?.title} class="mt-5 text-base leading-[1.625rem] font-bold text-text">
+					{person.data.title}
+				</p>
+				{person.data.position && (
+					<p {...person.edit?.position} class="text-base leading-[1.625rem] font-light text-text">
+						{person.data.position}
+					</p>
+				)}
+			</li>
+		))
+	}
+</ul>

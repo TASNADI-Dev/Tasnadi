@@ -5,6 +5,7 @@ import { Image, PortableText } from "emdash/ui";
 import { getContentSeo } from "emdash/seo";
 import Base from "../../layouts/Base.astro";
 import Badge from "../../components/Badge.astro";
+import TeamList from "../../components/TeamList.astro";
 import { mediaFileUrl } from "../../utils/media-url";
 import { resolveSiteIdentity } from "../../utils/site-identity";
 
@@ -18,7 +19,7 @@ if (!slug) {
 // A case study is never shown in another language, so a missing English translation is a 404 instead of a Hungarian fallback
 const { entry: caseStudy, cacheHint } = await getEmDashEntry("case_studies", slug, {
 	locale,
-	references: { services: true, industry: true },
+	references: { services: true, industry: true, our_team: true },
 });
 
 // EmDash falls back to the Hungarian entry when there is no translation, so the entry's own locale is checked too
@@ -38,13 +39,16 @@ const tags = [
 const copy = {
 	hu: {
 		strategy: "Stratégia",
-		design: "Design",
-		implementation: "Megvalósítás",
-		startedTitle: "Honnan indultunk – hová érkeztünk",
+		design: "Tervezés",
+		implementation: "Kivitelezés",
+		startedTitle: "Honnan indultunk – hová jutottunk",
 		compareLabel: "Előtte-utána összehasonlítás",
-		brandTitle: "Arculati elemek",
-		overviewTitle: "Oldalak áttekintése",
-		summaryTitle: "Összefoglaló",
+		brandTitle: "Arculati alapok",
+		overviewTitle: "Az oldalak áttekintése",
+		summaryTitle: "Összegzés",
+		behindTitle: "A színfalak mögött: valódi szakemberek, több éves tapasztalattal",
+		behindText:
+			"A TASNADI csapatában a szakmai fejlődés, szakértelem és maximális figyelem alapértékek. Nem érjük be az átlagossal: a közös munkának nem csak az elkészült oldal kiváló, de a közös munka folyamata is legendás élmény az ügyfeleink számára.",
 		lightboxClose: "Bezárás",
 		lightboxPrev: "Előző kép",
 		lightboxNext: "Következő kép",
@@ -58,6 +62,9 @@ const copy = {
 		brandTitle: "Brand assets",
 		overviewTitle: "Page Overview",
 		summaryTitle: "Summary",
+		behindTitle: "Behind the scenes: real experts with years of experience",
+		behindText:
+			"At TASNADI, professional growth, expertise, and attention to detail are core values. We never settle for average — every project is not only about the exceptional end result, but about creating a legendary client experience throughout the process.",
 		lightboxClose: "Close",
 		lightboxPrev: "Previous image",
 		lightboxNext: "Next image",
@@ -92,6 +99,9 @@ const hasOverviewSection = Boolean(overviewText || screenshots.length > 0);
 const summaryText = caseStudy.data.summary_paragraph;
 const summaryImages = (caseStudy.data.summary_images ?? []).map((item) => item.image).filter(Boolean);
 const hasSummarySection = Boolean(summaryText || summaryImages.length > 0);
+
+// The team members of the project; the section is hidden when none is selected
+const team = caseStudy.references?.our_team.entries ?? [];
 
 // Two alternating rows: text on the left with the image on the right, then the other way around
 const textImageRows = [
@@ -540,6 +550,22 @@ const seo = getSeoMeta(caseStudy, {
 							))}
 						</ul>
 					)}
+				</div>
+			</section>
+		)
+	}
+
+	{
+		team.length > 0 && (
+			<section class="bg-background pt-8 pb-24 max-lg:pb-16">
+				<div class="mx-auto w-[92%] max-w-[76.875rem]">
+					<h2 class="mx-auto max-w-[56.5rem] text-center text-[3rem] leading-[3.9rem] font-medium tracking-[-0.02em] max-lg:text-[2.25rem] max-lg:leading-[2.75rem]">
+						{copy.behindTitle}
+					</h2>
+					<p class="mx-auto mt-8 max-w-[38rem] text-center text-base leading-[1.625rem] font-light text-text">
+						{copy.behindText}
+					</p>
+					<TeamList people={team} class="mt-12 max-lg:mt-8" />
 				</div>
 			</section>
 		)
