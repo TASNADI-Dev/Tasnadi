@@ -5,6 +5,7 @@ import { Image, PortableText } from "emdash/ui";
 import { getContentSeo } from "emdash/seo";
 import Base from "../../layouts/Base.astro";
 import Badge from "../../components/Badge.astro";
+import { mediaFileUrl } from "../../utils/media-url";
 import { resolveSiteIdentity } from "../../utils/site-identity";
 
 const locale = Astro.currentLocale === "en" ? "en" : "hu";
@@ -42,6 +43,10 @@ const copy = {
 		startedTitle: "Honnan indultunk – hová érkeztünk",
 		compareLabel: "Előtte-utána összehasonlítás",
 		brandTitle: "Arculati elemek",
+		overviewTitle: "Oldalak áttekintése",
+		lightboxClose: "Bezárás",
+		lightboxPrev: "Előző kép",
+		lightboxNext: "Következő kép",
 	},
 	en: {
 		strategy: "Strategy",
@@ -50,6 +55,10 @@ const copy = {
 		startedTitle: "Where we started – where we arrived",
 		compareLabel: "Before and after comparison",
 		brandTitle: "Brand assets",
+		overviewTitle: "Page Overview",
+		lightboxClose: "Close",
+		lightboxPrev: "Previous image",
+		lightboxNext: "Next image",
 	},
 }[locale];
 
@@ -72,6 +81,11 @@ const hasStartedSection = Boolean(startedText || hasComparison || quoteLead);
 const brandText = caseStudy.data.brand_assets_paragraph;
 const brandImage = caseStudy.data.brand_assets_image;
 const hasBrandSection = Boolean(brandText || brandImage);
+
+const overviewText = caseStudy.data.page_overview_paragraph;
+const screenshots = (caseStudy.data.page_overview_screenshots ?? []).map((item) => item.image).filter(Boolean);
+const useWhiteOverview = Boolean(caseStudy.data.page_overview_use_white_background);
+const hasOverviewSection = Boolean(overviewText || screenshots.length > 0);
 
 // Two alternating rows: text on the left with the image on the right, then the other way around
 const textImageRows = [
@@ -426,6 +440,55 @@ const seo = getSeoMeta(caseStudy, {
 			</section>
 		)
 	}
+
+	{
+		hasOverviewSection && (
+			<section
+				class:list={[
+					"py-16 max-lg:py-12",
+					useWhiteOverview ? "bg-background text-text" : "bg-background-dark text-text-inverse",
+				]}
+			>
+				<div class="mx-auto w-[92%] max-w-[76.875rem]">
+					<h2 class="mx-auto text-center text-[3rem] leading-[3.9rem] font-medium tracking-[-0.02em] max-lg:text-[2.25rem] max-lg:leading-[2.75rem]">
+						{copy.overviewTitle}
+					</h2>
+
+					{overviewText && (
+						<p class="mx-auto mt-8 max-w-[35.5rem] text-center text-base leading-[1.625rem] font-light">
+							{overviewText}
+						</p>
+					)}
+
+					{screenshots.length > 0 && (
+						<div
+							data-lightbox
+							data-close-label={copy.lightboxClose}
+							data-prev-label={copy.lightboxPrev}
+							data-next-label={copy.lightboxNext}
+							class="mt-12 columns-3 gap-10 max-lg:mt-8 max-lg:columns-2 max-sm:columns-1"
+						>
+							{screenshots.map((image) => (
+								<a
+									href={mediaFileUrl(image)}
+									data-pswp-width={image.width}
+									data-pswp-height={image.height}
+									class="mb-10 block cursor-zoom-in break-inside-avoid focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+								>
+									<Image
+										image={image}
+										sizes="(min-width: 64rem) 25rem, (min-width: 40rem) 50vw, 92vw"
+										loading="lazy"
+										class="block h-auto w-full"
+									/>
+								</a>
+							))}
+						</div>
+					)}
+				</div>
+			</section>
+		)
+	}
 </Base>
 
 <script>
@@ -437,4 +500,9 @@ const seo = getSeoMeta(caseStudy, {
 		input.addEventListener("input", update);
 		update();
 	});
+</script>
+
+<script>
+	// Loads the lightbox that opens the page overview screenshots.
+	import "../../scripts/image-lightbox";
 </script>
