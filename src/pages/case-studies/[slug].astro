@@ -41,6 +41,7 @@ const copy = {
 		implementation: "Megvalósítás",
 		startedTitle: "Honnan indultunk – hová érkeztünk",
 		compareLabel: "Előtte-utána összehasonlítás",
+		brandTitle: "Arculati elemek",
 	},
 	en: {
 		strategy: "Strategy",
@@ -48,6 +49,7 @@ const copy = {
 		implementation: "Implementation",
 		startedTitle: "Where we started – where we arrived",
 		compareLabel: "Before and after comparison",
+		brandTitle: "Brand assets",
 	},
 }[locale];
 
@@ -66,6 +68,10 @@ const testimonialName = caseStudy.data.testimonial_name;
 const testimonialPosition = caseStudy.data.testimonial_position;
 
 const hasStartedSection = Boolean(startedText || hasComparison || quoteLead);
+
+const brandText = caseStudy.data.brand_assets_paragraph;
+const brandImage = caseStudy.data.brand_assets_image;
+const hasBrandSection = Boolean(brandText || brandImage);
 
 // The step name is set above, so a heading left in the CMS left column (the name) is not rendered twice
 const withoutHeadings = <T extends { _type: string; style?: string }>(blocks?: T[] | null): T[] =>
@@ -282,7 +288,7 @@ const seo = getSeoMeta(caseStudy, {
 
 					{
 						quoteLead && (
-							<figure class="mx-auto mt-12 flex flex-col items-center rounded-[24px] border border-primary/50 bg-linear-to-br from-primary/10 via-background via-25% to-accent/10 px-8 py-6 text-center max-lg:px-5 max-lg:mt-10">
+							<figure class="relative z-10 mx-auto mt-12 flex flex-col items-center rounded-[24px] border border-primary/50 bg-background bg-linear-to-br from-primary/10 via-background via-25% to-accent/10 px-8 py-6 text-center max-lg:px-5 max-lg:mt-10">
 								<svg
 									aria-hidden="true"
 									width="32"
@@ -312,6 +318,61 @@ const seo = getSeoMeta(caseStudy, {
 							</figure>
 						)
 					}
+				</div>
+			</section>
+		)
+	}
+
+	{
+		hasBrandSection && (
+			<section
+				class:list={[
+					"relative bg-background-dark pb-24 max-lg:pt-32 max-lg:pb-16",
+					// The testimonial card above reaches over the curve, which is 6vw tall, so the pull-up grows with the width
+					quoteLead
+						? "-mt-[calc(6rem_+_6vw_+_0.5rem)] pt-[12.5rem] max-lg:-mt-[calc(4rem_+_6vw_+_0.5rem)]"
+						: "pt-36",
+				]}
+			>
+				<img
+					src="/global/images/space-bg.webp"
+					alt=""
+					width="1512"
+					height="1294"
+					loading="lazy"
+					class="absolute inset-0 size-full object-cover object-center"
+				/>
+
+				<svg
+					aria-hidden="true"
+					viewBox="0 0 1512 91"
+					preserveAspectRatio="none"
+					fill="none"
+					xmlns="http://www.w3.org/2000/svg"
+					class="absolute inset-x-0 -top-px h-auto w-full"
+				>
+					<path class="fill-background" d="M0 0H1512V34C1512 34 1246.5 90.5 756 90.5C265.5 90.5 0 34 0 34V0Z" />
+				</svg>
+
+				<div class="relative mx-auto w-[92%] max-w-[76.875rem] text-text-inverse">
+					<h2 class="mx-auto text-center text-[3rem] leading-[3.9rem] font-medium tracking-[-0.02em] max-lg:text-[2.25rem] max-lg:leading-[2.75rem]">
+						{copy.brandTitle}
+					</h2>
+
+					{brandText && (
+						<p class="mx-auto mt-8 max-w-[43rem] text-center text-base leading-[1.625rem] font-light">
+							{brandText}
+						</p>
+					)}
+
+					{brandImage && (
+						<Image
+							image={brandImage}
+							sizes="(min-width: 64rem) 57.75rem, 92vw"
+							loading="lazy"
+							class="mx-auto mt-12 h-auto w-full max-w-[57.75rem] rounded-[20px] max-lg:mt-8"
+						/>
+					)}
 				</div>
 			</section>
 		)
