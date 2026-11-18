@@ -12,7 +12,7 @@ import ServiceIcon from "../components/ServiceIcon.astro";
 import { hasLocaleContent } from "../utils/locale-content";
 import { resolveSiteIdentity } from "../utils/site-identity";
 
-const { siteTitle, siteTagline } = resolveSiteIdentity(
+const { siteTagline } = resolveSiteIdentity(
 	await getSiteSettings(),
 );
 
@@ -26,6 +26,7 @@ const contactForm = {
 
 const copy = {
 	hu: {
+		pageTitle: "Webdizájn és branding ügynökség",
 		titleStart: "Egyszerűen",
 		titleHighlight: "jobb üzlet.",
 		text: "Digitális megoldások kívül-belül: több ügyfél, kevesebb káosz.",
@@ -149,6 +150,7 @@ const copy = {
 		},
 	},
 	en: {
+		pageTitle: "Web design and branding agency",
 		titleStart: "Simply",
 		titleHighlight: "better business.",
 		text: "Digital solutions, inside and out: more clients, less chaos.",
@@ -419,7 +421,7 @@ const cardClass =
 	"flex flex-col gap-3 rounded-[20px] bg-background p-6 text-text shadow-[0_2px_2px_color-mix(in_srgb,var(--color-shadow)_20%,transparent)] transition-shadow";
 ---
 
-<Base title={siteTitle} description={siteTagline}>
+<Base title={copy.pageTitle} description={siteTagline}>
 	<section
 		class="relative overflow-hidden pt-[11.875rem] pb-[12.25rem]"
 	>

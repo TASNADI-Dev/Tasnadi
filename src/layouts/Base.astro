@@ -34,11 +34,10 @@ if (Astro.cache?.enabled) Astro.cache.set(settingsResult.cacheHint);
 const { siteTitle, siteTagline } = resolveSiteIdentity(
 	settingsResult.data,
 );
+// Browser tab title pattern: "Page name | TASNADI"
 const titleIncludesSiteName =
-	title === siteTitle ||
-	title.endsWith(` | ${siteTitle}`) ||
-	title.endsWith(` – ${siteTitle}`);
-const fullTitle = titleIncludesSiteName ? title : `${title} – ${siteTitle}`;
+	title === siteTitle || title.endsWith(` | ${siteTitle}`);
+const fullTitle = titleIncludesSiteName ? title : `${title} | ${siteTitle}`;
 const pageDescription = description ?? siteTagline;
 
 const pageCtx = createPublicPageContext({

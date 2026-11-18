@@ -17,7 +17,8 @@ const DEFAULT_SITE_TAGLINE = "Egyszerűen jobb üzlet.";
 
 export function resolveSiteIdentity(settings?: SiteIdentitySettings) {
 	return {
-		siteTitle: settings?.title ?? DEFAULT_SITE_TITLE,
+		// The brand name in page titles is always uppercase ("Page name | TASNADI")
+		siteTitle: (settings?.title ?? DEFAULT_SITE_TITLE).toUpperCase(),
 		siteTagline: settings?.tagline ?? DEFAULT_SITE_TAGLINE,
 		siteLogo: settings?.logo?.url ? settings.logo : null,
 	};

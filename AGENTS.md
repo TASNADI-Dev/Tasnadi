@@ -15,6 +15,13 @@ The main goal of this project is to migrate an existing Webflow site to Astro an
 * **English for Development:** Everything development-related must be in English, even though the site's main language is Hungarian. This includes class names, component names, file and folder names, variable and function names, props, routes/slugs in code, and any other identifiers. Only user-visible content is Hungarian (or its English translation).
 * **Dashes in Hungarian:** There are three dash lengths: the hyphen `-` (short), the en dash `–` (medium) and the em dash `—` (long). In Hungarian text we never use the em dash `—`; only the hyphen `-` and the en dash `–`. Wherever the em dash appears in user-visible content (including page titles), replace it with the en dash `–`.
 
+## Page Titles (Meta Title)
+
+* **Pattern:** Every page's browser tab title (`<title>`) is `Page name | TASNADI`: the page name, then a space, a vertical bar `|`, a space, and `TASNADI` in capital letters without accents (copied from the original site, e.g. `Podcast | TASNADI`, `Rólunk | TASNADI`, `Webdizájn és branding ügynökség | TASNADI`).
+* **Implementation:** `src/layouts/Base.astro` appends ` | TASNADI` (the site title from the site settings) automatically, so a page passes only the page name as `title` (e.g. `<Base title={copy.pageTitle}>`) and never adds the suffix, the brand name or any other separator itself. Pages whose title comes from EmDash (`getSeoMeta`) already get the same pattern.
+* **Every New Page:** Follow this pattern for every new page, in both languages (the page name follows the active locale). The home page uses the descriptive title, not just the brand name.
+* **Dashes:** The page name follows the dash rule above (no em dash `—`).
+
 ## Design System & Styling Rules
 
 * **Tailwind Configuration:** Define custom colors and fonts in `src/styles/global.css` via `@theme` (Tailwind v4). Do not add a `tailwind.config.mjs`.
