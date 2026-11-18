@@ -44,6 +44,7 @@ const copy = {
 		compareLabel: "Előtte-utána összehasonlítás",
 		brandTitle: "Arculati elemek",
 		overviewTitle: "Oldalak áttekintése",
+		summaryTitle: "Összefoglaló",
 		lightboxClose: "Bezárás",
 		lightboxPrev: "Előző kép",
 		lightboxNext: "Következő kép",
@@ -56,6 +57,7 @@ const copy = {
 		compareLabel: "Before and after comparison",
 		brandTitle: "Brand assets",
 		overviewTitle: "Page Overview",
+		summaryTitle: "Summary",
 		lightboxClose: "Close",
 		lightboxPrev: "Previous image",
 		lightboxNext: "Next image",
@@ -86,6 +88,10 @@ const overviewText = caseStudy.data.page_overview_paragraph;
 const screenshots = (caseStudy.data.page_overview_screenshots ?? []).map((item) => item.image).filter(Boolean);
 const useWhiteOverview = Boolean(caseStudy.data.page_overview_use_white_background);
 const hasOverviewSection = Boolean(overviewText || screenshots.length > 0);
+
+const summaryText = caseStudy.data.summary_paragraph;
+const summaryImages = (caseStudy.data.summary_images ?? []).map((item) => item.image).filter(Boolean);
+const hasSummarySection = Boolean(summaryText || summaryImages.length > 0);
 
 // Two alternating rows: text on the left with the image on the right, then the other way around
 const textImageRows = [
@@ -489,6 +495,55 @@ const seo = getSeoMeta(caseStudy, {
 			</section>
 		)
 	}
+
+	{
+		hasSummarySection && (
+			<section class="relative overflow-x-clip bg-background pt-32 pb-24 lg:pt-[11.25rem] max-lg:pb-16">
+				<img
+					data-about-astronaut
+					data-direction="right"
+					src="/global/images/astronaut-black.webp"
+					alt=""
+					width="296"
+					height="264"
+					loading="lazy"
+					class="pointer-events-none absolute top-0 left-4 z-10 w-28 will-change-transform sm:w-36 lg:left-[4.5rem] lg:w-[11.25rem]"
+				/>
+
+				<div class="relative mx-auto w-[92%] max-w-[76.875rem]">
+					<h2 class="mx-auto text-center text-[3rem] leading-[3.9rem] font-medium tracking-[-0.02em] max-lg:text-[2.25rem] max-lg:leading-[2.75rem]">
+						{copy.summaryTitle}
+					</h2>
+
+					{summaryText && (
+						<p class="mx-auto mt-8 max-w-[43rem] text-center text-base leading-[1.625rem] font-light text-text">
+							{summaryText}
+						</p>
+					)}
+
+					{summaryImages.length > 0 && (
+						<ul class="mx-auto mt-12 flex max-w-[69.5rem] flex-col gap-12 max-lg:mt-8 max-lg:gap-8">
+							{summaryImages.map((image) => (
+								<li>
+									<figure>
+										<Image
+											image={image}
+											sizes="(min-width: 76.875rem) 69.5rem, 92vw"
+											loading="lazy"
+											class="h-auto w-full rounded-[20px]"
+										/>
+										{image.caption && (
+											<figcaption class="mt-3 text-center text-sm leading-5 text-text">{image.caption}</figcaption>
+										)}
+									</figure>
+								</li>
+							))}
+						</ul>
+					)}
+				</div>
+			</section>
+		)
+	}
 </Base>
 
 <script>
@@ -505,4 +560,11 @@ const seo = getSeoMeta(caseStudy, {
 <script>
 	// Loads the lightbox that opens the page overview screenshots.
 	import "../../scripts/image-lightbox";
+</script>
+
+<script>
+	// Slides the flying astronaut of the summary section across the screen as the page scrolls.
+	import { initAboutAstronaut } from "../../scripts/about-astronaut";
+
+	initAboutAstronaut();
 </script>
