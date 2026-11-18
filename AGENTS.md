@@ -53,7 +53,7 @@ The main goal of this project is to migrate an existing Webflow site to Astro an
 
 * **File Structure:** Place all reusable `.astro` components in `src/components/`, page layouts in `src/layouts/`, and pages in `src/pages/`.
 * **Islands Architecture:** Keep server-first rendering by default. Only use interactive client directives (`client:load`, `client:idle`, `client:visible`) when strictly necessary for JavaScript interactivity.
-* **Style guide:** `src/pages/dev/style-guide.astro` is the internal reference for colors and reusable UI components. Whenever you create or update a UI component (or add a variant), also add it to this page. Keep it out of the main nav, group by component with every variant visible, and write the page itself in English.
+* **Style guide:** `src/pages/dev/style-guide.astro` is the internal reference for colors and reusable UI components. Whenever you create or update a UI component (or add a variant), also add it to this page. Keep it out of the main nav, group by component with every variant visible, and write the page itself in English. Do not add descriptions under a component's heading; show only the component and its variants. The only exception is a short help note about behavior the preview cannot show (e.g. a component that renders in Hungarian only).
 
 ## JavaScript Organization & Formatting
 
