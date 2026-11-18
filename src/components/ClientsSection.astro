@@ -1,4 +1,6 @@
 ---
+import { sliderArrowClass } from "../utils/slider-arrow";
+
 type TitlePart = { text: string; tone?: "primary" | "accent" };
 
 type ClientVideo = {
@@ -17,9 +19,6 @@ type Props = {
 };
 
 const { title, items, prevLabel, nextLabel, class: className } = Astro.props;
-
-const arrowClass =
-	"flex size-[3.125rem] cursor-pointer items-center justify-center rounded-full border-2 border-primary bg-transparent text-primary transition-colors duration-200 hover:bg-primary/10 active:bg-primary active:text-text-inverse disabled:cursor-default disabled:opacity-40 disabled:hover:bg-transparent motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
 ---
 
 <section
@@ -44,38 +43,40 @@ const arrowClass =
 			}
 		</h2>
 
-		<div class="swiper mt-8" data-clients-slider>
-			<ul class="swiper-wrapper">
-				{
-					items.map((item) => (
-						<li class="swiper-slide">
-							<video
-								class="aspect-video w-full rounded-[20px] bg-surface-dark object-cover"
-								controls
-								playsinline
-								preload="metadata"
-								poster={item.poster}
-								src={item.src}
-								aria-label={item.name}
-							/>
-							<p class="mt-3 text-center text-base leading-6 font-medium text-text">{item.name}</p>
-						</li>
-					))
-				}
-			</ul>
-		</div>
+		<div data-slider>
+			<div class="swiper mt-8" data-slider-viewport>
+				<ul class="swiper-wrapper">
+					{
+						items.map((item) => (
+							<li class="swiper-slide">
+								<video
+									class="aspect-video w-full rounded-[20px] bg-surface-dark object-cover"
+									controls
+									playsinline
+									preload="metadata"
+									poster={item.poster}
+									src={item.src}
+									aria-label={item.name}
+								/>
+								<p class="mt-3 text-center text-base leading-6 font-medium text-text">{item.name}</p>
+							</li>
+						))
+					}
+				</ul>
+			</div>
 
-		<div class="mt-8 flex items-center justify-center gap-4">
-			<button type="button" aria-label={prevLabel} data-clients-prev class={arrowClass}>
-				<svg width="23" height="15" viewBox="0 0 23 15" fill="currentColor" aria-hidden="true">
-					<path d="M21.387 8.451a1 1 0 0 0 0-2v2ZM1.2 6.744a1 1 0 0 0 0 1.414l6.364 6.364a1 1 0 0 0 1.414-1.414L3.32 7.451l5.657-5.657A1 1 0 0 0 7.563.38L1.2 6.744Zm20.187-.293H1.906v2h19.48v-2Z"></path>
-				</svg>
-			</button>
-			<button type="button" aria-label={nextLabel} data-clients-next class={arrowClass}>
-				<svg width="23" height="15" viewBox="0 0 23 15" fill="currentColor" aria-hidden="true">
-					<path d="M1.906 6.451a1 1 0 0 0 0 2v-2Zm20.188 1.707a1 1 0 0 0 0-1.414L15.73.38a1 1 0 0 0-1.414 1.414l5.657 5.657-5.657 5.657a1 1 0 0 0 1.414 1.414l6.364-6.364ZM1.906 8.451h19.48v-2H1.906v2Z"></path>
-				</svg>
-			</button>
+			<div class="mt-8 flex items-center justify-center gap-4">
+				<button type="button" aria-label={prevLabel} data-slider-prev class={sliderArrowClass}>
+					<svg width="23" height="15" viewBox="0 0 23 15" fill="currentColor" aria-hidden="true">
+						<path d="M21.387 8.451a1 1 0 0 0 0-2v2ZM1.2 6.744a1 1 0 0 0 0 1.414l6.364 6.364a1 1 0 0 0 1.414-1.414L3.32 7.451l5.657-5.657A1 1 0 0 0 7.563.38L1.2 6.744Zm20.187-.293H1.906v2h19.48v-2Z"></path>
+					</svg>
+				</button>
+				<button type="button" aria-label={nextLabel} data-slider-next class={sliderArrowClass}>
+					<svg width="23" height="15" viewBox="0 0 23 15" fill="currentColor" aria-hidden="true">
+						<path d="M1.906 6.451a1 1 0 0 0 0 2v-2Zm20.188 1.707a1 1 0 0 0 0-1.414L15.73.38a1 1 0 0 0-1.414 1.414l5.657 5.657-5.657 5.657a1 1 0 0 0 1.414 1.414l6.364-6.364ZM1.906 8.451h19.48v-2H1.906v2Z"></path>
+					</svg>
+				</button>
+			</div>
 		</div>
 
 		<slot />
@@ -85,17 +86,17 @@ const arrowClass =
 </section>
 
 <script>
-	// Sets up the client video slider with Swiper and pauses a video once its slide scrolls away.
+	// Sets up every Swiper slider on the page (client videos, awards) and pauses a video once its slide scrolls away.
 	import Swiper from "swiper";
 	import { Navigation } from "swiper/modules";
 	import "swiper/css";
 
 	const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-	document.querySelectorAll<HTMLElement>("[data-clients]").forEach((section) => {
-		const slider = section.querySelector<HTMLElement>("[data-clients-slider]");
-		const prevEl = section.querySelector<HTMLElement>("[data-clients-prev]");
-		const nextEl = section.querySelector<HTMLElement>("[data-clients-next]");
+	document.querySelectorAll<HTMLElement>("[data-slider]").forEach((group) => {
+		const slider = group.querySelector<HTMLElement>("[data-slider-viewport]");
+		const prevEl = group.querySelector<HTMLElement>("[data-slider-prev]");
+		const nextEl = group.querySelector<HTMLElement>("[data-slider-next]");
 		if (!slider || !prevEl || !nextEl) return;
 
 		const swiper = new Swiper(slider, {

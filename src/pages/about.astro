@@ -5,6 +5,7 @@ import Base from "../layouts/Base.astro";
 import ClientsSection from "../components/ClientsSection.astro";
 import ClutchReviews from "../components/ClutchReviews.astro";
 import { clientVideos } from "../utils/client-videos";
+import { sliderArrowClass } from "../utils/slider-arrow";
 
 const locale = Astro.currentLocale === "en" ? "en" : "hu";
 
@@ -199,6 +200,21 @@ const copy = {
 			prevLabel: "Előző videó",
 			nextLabel: "Következő videó",
 		},
+		awards: {
+			title: "Díjak és elismerések",
+			prevLabel: "Előző díj",
+			nextLabel: "Következő díj",
+			types: { award: "Díj", qualification: "Képesítés", publication: "Megjelenés" },
+			items: [
+				{ title: "Top Logótervező cég Magyarországon 2023", alt: "Clutch jelvény: Top Logótervező cég Magyarországon 2023" },
+				{ title: "BKIK Kamarai Bizalom Védjegy 2023-2024", alt: "BKIK Kamarai Bizalom Védjegy jelvény" },
+				{ title: "Magyar\nTervezőgrafika 2023 Kitüntetett", alt: "Magyar Tervezőgrafika 2023 díj" },
+				{ title: "Aranyrajzszög\n2019", alt: "Aranyrajzszög díj" },
+				{ title: "Clutch Awards\nMagyarország legjobb vállalata 2022", alt: "Clutch jelvény: Magyarország legjobb vállalata 2022" },
+				{ title: "Legtöbbet értékelt\nDigitális tervezés\nTanácsadók Magyarországon", alt: "A legtöbbet értékelt tervezőiroda tanúsítványa" },
+				{ title: "Clutch Awards\nMagyarország legjobb marketingügynöksége 2021", alt: "A Clutch tanúsítványa: Magyarország legjobb marketingügynöksége 2021" },
+			],
+		},
 	},
 	en: {
 		pageTitle: "About",
@@ -391,6 +407,21 @@ const copy = {
 			prevLabel: "Previous video",
 			nextLabel: "Next video",
 		},
+		awards: {
+			title: "Awards and acknowledgments",
+			prevLabel: "Previous award",
+			nextLabel: "Next award",
+			types: { award: "Award", qualification: "Qualification", publication: "Publication" },
+			items: [
+				{ title: "Top Logo Design Company in Hungary 2023", alt: "Clutch badge: Top Logo Design Company in Hungary 2023" },
+				{ title: "BKIK Kamarai Bizalom Védjegy 2023-2024", alt: "BKIK Chamber Trust Mark badge" },
+				{ title: "Magyar\nTervezőgrafika 2023 Kitüntetett", alt: "Magyar Tervezőgrafika 2023 award" },
+				{ title: "Aranyrajzszög\n2019", alt: "Aranyrajzszög award" },
+				{ title: "Clutch Awards\nTop Company in Hungary 2022", alt: "Clutch badge: Top Company in Hungary 2022" },
+				{ title: "Most Reviewed\nDigital Design\nConsultants in Hungary", alt: "Most Reviewed Design Agency certificate" },
+				{ title: "Clutch Awards\nTop Marketing Agency in Hungary 2021", alt: "Clutch certificate: Top Marketing Agency in Hungary 2021" },
+			],
+		},
 	},
 }[locale] as {
 	pageTitle: string;
@@ -427,6 +458,13 @@ const copy = {
 		prevLabel: string;
 		nextLabel: string;
 	};
+	awards: {
+		title: string;
+		prevLabel: string;
+		nextLabel: string;
+		types: { award: string; qualification: string; publication: string };
+		items: { title: string; alt: string }[];
+	};
 };
 
 // Language-independent data of the value tabs, in the same order as `copy.values.tabs`
@@ -438,6 +476,23 @@ const valueTabs = [
 	{ id: "accountability", image: "accountability.png" },
 	{ id: "independence", image: "independence.webp" },
 ];
+
+// Language-independent data of the awards, in the same order as `copy.awards.items`
+const awardItems = [
+	{ type: "award", image: "clutch-logo-design-2023.webp", width: 500, height: 541 },
+	{
+		type: "qualification",
+		image: "bkik-trust-mark.webp",
+		width: 500,
+		height: 500,
+		href: "https://bkik.hu/hu/kamarai-tagsag-ketto/kamarai-bizalom-vedjegy",
+	},
+	{ type: "publication", image: "magyar-tervezografika-2023.webp", width: 292, height: 292 },
+	{ type: "publication", image: "aranyrajzszog-2019.webp", width: 312, height: 226 },
+	{ type: "award", image: "clutch-top-company-2022.webp", width: 500, height: 675 },
+	{ type: "award", image: "clutch-most-reviewed.webp", width: 238, height: 328 },
+	{ type: "award", image: "clutch-top-marketing-2021.webp", width: 306, height: 328 },
+] as const;
 
 // Team members flagged "Show on the About page" in the CMS, in the order of the original site; anyone not listed goes last
 const teamOrder = [
@@ -564,8 +619,8 @@ const team = [...teamEntries].sort((a, b) => rank(a.data.slug) - rank(b.data.slu
 			class="absolute inset-x-0 bottom-0 z-0 -mb-px h-auto w-full"
 		/>
 		<img
-			src="/about/astronaut.webp"
-			srcset="/about/astronaut-500.webp 500w, /about/astronaut-800.webp 800w, /about/astronaut.webp 1635w"
+			src="/about/team/astronaut.webp"
+			srcset="/about/team/astronaut-500.webp 500w, /about/team/astronaut-800.webp 800w, /about/team/astronaut.webp 1635w"
 			sizes="(min-width: 64rem) min(35vw, 31.25rem), 12rem"
 			alt=""
 			width="1635"
@@ -594,8 +649,8 @@ const team = [...teamEntries].sort((a, b) => rank(a.data.slug) - rank(b.data.slu
 					class="relative aspect-[3/2] w-full max-w-[30rem] [--halftone-back:var(--color-surface)] [--halftone-c:var(--color-accent)] [--halftone-k:var(--color-surface-dark)] [--halftone-m:var(--color-primary-hover)] [--halftone-y:var(--color-primary)] overflow-hidden rounded-[20px] max-lg:max-w-none"
 				>
 					<img
-						src="/about/team.webp"
-						srcset="/about/team-500.webp 500w, /about/team-800.webp 800w, /about/team.webp 1024w"
+						src="/about/team/team.webp"
+						srcset="/about/team/team-500.webp 500w, /about/team/team-800.webp 800w, /about/team/team.webp 1024w"
 						sizes="(min-width: 64rem) 30rem, 92vw"
 						alt={copy.human.teamAlt}
 						width="1024"
@@ -838,6 +893,61 @@ const team = [...teamEntries].sort((a, b) => rank(a.data.slug) - rank(b.data.slu
 
 	<ClientsSection {...copy.clients} items={clientVideos}>
 		<ClutchReviews />
+
+		<div class="mt-10">
+			<h2 class="text-center text-[3rem] leading-normal font-medium text-text max-[30rem]:text-[1.875rem]">
+				{copy.awards.title}
+			</h2>
+
+			<div data-slider>
+				<div class="swiper mt-8" data-slider-viewport>
+					<ul class="swiper-wrapper">
+						{
+							copy.awards.items.map((item, index) => {
+								const award = awardItems[index];
+								const Tag = "href" in award ? "a" : "div";
+								return (
+									<li class="swiper-slide">
+										<Tag
+											class="flex flex-col items-center px-4 text-center"
+											{...("href" in award ? { href: award.href, target: "_blank", rel: "noopener" } : {})}
+										>
+											<p class="mb-2 text-xs leading-4 font-medium tracking-[0.03em] text-primary uppercase">
+												{copy.awards.types[award.type]}
+											</p>
+											<h3 class="mb-6 text-xl leading-[1.625rem] font-medium whitespace-pre-line text-text">
+												{item.title}
+											</h3>
+											<img
+												src={`/about/awards/${award.image}`}
+												alt={item.alt}
+												width={award.width}
+												height={award.height}
+												loading="lazy"
+												class="h-auto w-[9.75rem]"
+											/>
+										</Tag>
+									</li>
+								);
+							})
+						}
+					</ul>
+				</div>
+
+				<div class="mt-8 flex items-center justify-center gap-4">
+					<button type="button" aria-label={copy.awards.prevLabel} data-slider-prev class={sliderArrowClass}>
+						<svg width="23" height="15" viewBox="0 0 23 15" fill="currentColor" aria-hidden="true">
+							<path d="M21.387 8.451a1 1 0 0 0 0-2v2ZM1.2 6.744a1 1 0 0 0 0 1.414l6.364 6.364a1 1 0 0 0 1.414-1.414L3.32 7.451l5.657-5.657A1 1 0 0 0 7.563.38L1.2 6.744Zm20.187-.293H1.906v2h19.48v-2Z"></path>
+						</svg>
+					</button>
+					<button type="button" aria-label={copy.awards.nextLabel} data-slider-next class={sliderArrowClass}>
+						<svg width="23" height="15" viewBox="0 0 23 15" fill="currentColor" aria-hidden="true">
+							<path d="M1.906 6.451a1 1 0 0 0 0 2v-2Zm20.188 1.707a1 1 0 0 0 0-1.414L15.73.38a1 1 0 0 0-1.414 1.414l5.657 5.657-5.657 5.657a1 1 0 0 0 1.414 1.414l6.364-6.364ZM1.906 8.451h19.48v-2H1.906v2Z"></path>
+						</svg>
+					</button>
+				</div>
+			</div>
+		</div>
 	</ClientsSection>
 </Base>
 
