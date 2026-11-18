@@ -86,9 +86,9 @@ const { title, items, prevLabel, nextLabel, class: className } = Astro.props;
 </section>
 
 <script>
-	// Sets up every Swiper slider on the page (client videos, awards) and pauses a video once its slide scrolls away.
+	// Sets up every Swiper slider on the page (client videos, awards), auto-advancing those with data-slider-autoplay, and pauses a video once its slide scrolls away.
 	import Swiper from "swiper";
-	import { Navigation } from "swiper/modules";
+	import { Autoplay, Navigation } from "swiper/modules";
 	import "swiper/css";
 
 	const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -99,13 +99,21 @@ const { title, items, prevLabel, nextLabel, class: className } = Astro.props;
 		const nextEl = group.querySelector<HTMLElement>("[data-slider-next]");
 		if (!slider || !prevEl || !nextEl) return;
 
+		// Optional auto-advance: the delay in ms from data-slider-autoplay; it rewinds to the first slide at the end and is skipped with reduced motion
+		const autoplayDelay = Number(group.dataset.sliderAutoplay);
+		const autoplay = autoplayDelay > 0 && !reduceMotion;
+
 		const swiper = new Swiper(slider, {
-			modules: [Navigation],
+			modules: [Navigation, Autoplay],
 			slidesPerView: 1,
 			spaceBetween: 16,
 			speed: reduceMotion ? 0 : 300,
 			simulateTouch: false,
 			navigation: { prevEl, nextEl },
+			...(autoplay && {
+				rewind: true,
+				autoplay: { delay: autoplayDelay, disableOnInteraction: false, pauseOnMouseEnter: true },
+			}),
 			breakpoints: {
 				768: { slidesPerView: 2 },
 				992: { slidesPerView: 3 },
