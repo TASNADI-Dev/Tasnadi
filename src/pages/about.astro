@@ -1,4 +1,6 @@
 ---
+import { getEmDashCollection } from "emdash";
+import { Image } from "emdash/ui";
 import Base from "../layouts/Base.astro";
 
 const locale = Astro.currentLocale === "en" ? "en" : "hu";
@@ -163,6 +165,32 @@ const copy = {
 				},
 			],
 		},
+		team: {
+			title: "Ismerd meg csapatunkat",
+			intro:
+				"Szakértőink sokszínű csoportja összhangban dolgozik a kiemelkedő eredmények elérése érdekében.",
+		},
+		story: {
+			title: "Történetünk",
+			items: [
+				{
+					year: "2018",
+					text: "2018-ban a TASNADI hagyományos tervezőstúdióként indult, helyi éttermek márkaarculatára és webdesignjára specializálódva. Ügyfeleink imádták a munkánkat, mi pedig büszkék voltunk a hatásunkra. De 2020-ban lecsapott a világjárvány, és a világ megváltozott.",
+				},
+				{
+					year: "2020",
+					text: "A kemény valóság hirtelen ütött be. Számos ügyfelünk zárta be kapuit, ezért az új kliensek megszerzéséhez alkalmazott, ajánláson alapuló megközelítésünk hirtelen megingott. Válaszúthoz érkeztünk, hiszen egy teljesen új környezetben kellett eligazodnunk.",
+				},
+				{
+					year: "2021",
+					text: "Ez a sorsfordító pillanat arra késztetett minket, hogy újragondoljuk magunkat. Rájöttünk, hogy kizárólag az ajánlásokra támaszkodni nem fenntartható. Éppen ezért új iparágakba merültünk, és elkezdtük elemezni a legsikeresebb ügyfeleink igényeit és motivációit. Kihívásaik megértésével olyan új kommunikációs megközelítést dolgoztunk ki, ami nemcsak vonzotta, hanem kíváncsivá is tette a potenciális ügyfeleket.",
+				},
+				{
+					year: "Ma",
+					text: "Mára kis csapatból sokoldalú tervezőstúdióvá váltunk, amely készen áll arra, hogy a kihívások széles skáláját új szempontokkal és innovatív megoldásokkal kezelje.",
+				},
+			],
+		},
 	},
 	en: {
 		pageTitle: "About",
@@ -324,6 +352,32 @@ const copy = {
 				},
 			],
 		},
+		team: {
+			title: "Meet our team",
+			intro:
+				"Our diverse group of experts work in harmony to achieve outstanding results.",
+		},
+		story: {
+			title: "Our story",
+			items: [
+				{
+					year: "2018",
+					text: "In 2018, TASNADI began as a traditional design studio, specializing in brand identity and web design for local restaurants. Our clients loved our work, and we were proud of the impact we made. But in 2020, the pandemic hit, and the world changed.",
+				},
+				{
+					year: "2020",
+					text: "The reality check was sudden and stark. Many of our clients closed their doors, and our usual referral-based approach to acquiring new business suddenly faltered. We found ourselves at a crossroads, facing the challenge of navigating a new landscape.",
+				},
+				{
+					year: "2021",
+					text: "This pivotal moment pushed us to rethink and reinvent. We realized that relying solely on referrals was not sustainable. So, we expanded our horizons, diving into new industries and analyzing the needs and motivations of our most successful clients. By understanding their pain points, we crafted a new approach to communication that not only attracted but also intrigued potential clients.",
+				},
+				{
+					year: "Today",
+					text: "Today, our journey has transformed us from a small team into a versatile design studio, ready to tackle a wide range of challenges with fresh perspectives and innovative solutions.",
+				},
+			],
+		},
 	},
 }[locale] as {
 	pageTitle: string;
@@ -347,6 +401,14 @@ const copy = {
 		intro: string;
 		tabs: { label: string; items: { title: string; text: string }[] }[];
 	};
+	team: {
+		title: string;
+		intro: string;
+	};
+	story: {
+		title: string;
+		items: { year: string; text: string }[];
+	};
 };
 
 // Language-independent data of the value tabs, in the same order as `copy.values.tabs`
@@ -358,6 +420,27 @@ const valueTabs = [
 	{ id: "accountability", image: "accountability.png" },
 	{ id: "independence", image: "independence.webp" },
 ];
+
+// Team members flagged "Show on the About page" in the CMS, in the order of the original site; anyone not listed goes last
+const teamOrder = [
+	"oliver-tasnadi",
+	"balazs-marton",
+	"milan-somhegyi",
+	"marci-fekete",
+	"peter-madacsi",
+	"attila-toth",
+	"alexandra-gulyas",
+];
+const { entries: teamEntries, cacheHint: teamHint } = await getEmDashCollection("team_members", {
+	where: { show_on_about: true },
+	locale,
+});
+if (teamHint && Astro.cache?.enabled) Astro.cache.set(teamHint);
+const rank = (slug: string) => {
+	const index = teamOrder.indexOf(slug);
+	return index === -1 ? teamOrder.length : index;
+};
+const team = [...teamEntries].sort((a, b) => rank(a.data.slug) - rank(b.data.slug));
 ---
 
 <Base title={copy.pageTitle} description={copy.description}>
@@ -526,7 +609,6 @@ const valueTabs = [
 		</div>
 	</section>
 	<section
-		data-about-values
 		class="relative overflow-x-clip bg-background-dark pt-32 pb-16 text-text-inverse lg:pt-[11.25rem] lg:pb-[6.25rem]"
 	>
 		<img
@@ -643,6 +725,96 @@ const valueTabs = [
 					}
 				</div>
 			</div>
+		</div>
+	</section>
+
+	<section class="bg-background py-16 lg:py-[6.25rem]">
+		<div class="mx-auto w-[92%] max-w-[76.875rem]">
+			<div class="mx-auto max-w-[39.125rem] text-center">
+				<h2
+					class="text-[2rem] leading-[2.75rem] font-medium tracking-[-0.02em] text-text lg:text-[3rem] lg:leading-[4.5rem]"
+				>
+					{copy.team.title}
+				</h2>
+				<p class="mx-auto mt-4 max-w-[25rem] text-base leading-[1.625rem] font-medium text-text-muted">
+					{copy.team.intro}
+				</p>
+			</div>
+
+			<ul role="list" class="mt-12 flex flex-wrap justify-center gap-x-4 gap-y-10 lg:mt-16 lg:gap-y-[3.1875rem]">
+				{
+					team.map((person) => (
+						<li class="group w-[calc(50%-0.5rem)] text-center lg:w-[calc((100%-2rem)/3)]">
+							<div class="relative mx-auto aspect-square w-full max-w-[18.25rem] overflow-hidden rounded-full">
+								<Image
+									image={person.data.default_image}
+									alt={person.data.default_image?.alt || person.data.title}
+									sizes="(min-width: 64rem) 18.25rem, 46vw"
+									loading="lazy"
+									class="size-full object-cover"
+								/>
+								{person.data.hover_image && (
+									<Image
+										image={person.data.hover_image}
+										alt=""
+										sizes="(min-width: 64rem) 18.25rem, 46vw"
+										loading="lazy"
+										class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100 motion-reduce:transition-none"
+									/>
+								)}
+							</div>
+							<p {...person.edit.title} class="mt-5 text-base leading-[1.625rem] font-bold text-text">
+								{person.data.title}
+							</p>
+							{person.data.position && (
+								<p {...person.edit.position} class="text-base leading-[1.625rem] font-light text-text">
+									{person.data.position}
+								</p>
+							)}
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+
+	<section class="relative overflow-x-clip bg-background pt-32 pb-16 lg:pt-[11.25rem] lg:pb-[6.25rem]">
+		<img
+			data-about-astronaut
+			data-direction="right"
+			src="/about/story/astronaut-black.webp"
+			alt=""
+			width="296"
+			height="264"
+			loading="lazy"
+			class="pointer-events-none absolute top-0 left-4 z-10 w-28 -scale-x-100 will-change-transform sm:w-36 lg:left-[4.5rem] lg:w-[11.25rem]"
+		/>
+
+		<div class="relative mx-auto w-[92%] max-w-[76.875rem]">
+			<h2
+				class="text-center text-[2rem] leading-[2.75rem] font-medium tracking-[-0.02em] text-text lg:text-[3rem] lg:leading-[4.5rem]"
+			>
+				{copy.story.title}
+			</h2>
+
+			<ol role="list" class="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-4 xl:gap-10">
+				{
+					copy.story.items.map((item, index) => (
+						<li
+							class:list={[
+								"rounded-[20px] border-2 p-8 shadow-[0_1px_4px_0_color-mix(in_srgb,var(--color-shadow)_20%,transparent)]",
+								index === copy.story.items.length - 1 ? "border-primary" : "border-transparent",
+							]}
+						>
+							<div class="flex items-center gap-3">
+								<h3 class="text-[1.75rem] leading-[2.1rem] font-semibold text-primary">{item.year}</h3>
+								<div aria-hidden="true" class="h-1 flex-1 border-t-2 border-border" />
+							</div>
+							<p class="mt-2.5 text-base leading-[1.625rem] text-text-muted">{item.text}</p>
+						</li>
+					))
+				}
+			</ol>
 		</div>
 	</section>
 </Base>
