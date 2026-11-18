@@ -1,0 +1,47 @@
+---
+import Button from "./Button.astro";
+
+const locale = Astro.currentLocale === "en" ? "en" : "hu";
+
+const copy = {
+	hu: {
+		caption:
+			"A Clutch egy megbízható értékelési platform, amely hiteles, részletes ügyfélvéleményeket gyűjt vezető szolgáltatókról és cégekről, így biztosítva az autentikusságot.",
+		ctaLabel: "További vélemények a Clutchon",
+	},
+	en: {
+		caption:
+			"Clutch is a trusted review platform that provides verified, in-depth client feedback on top service providers and companies, ensuring authenticity.",
+		ctaLabel: "More reviews on Clutch",
+	},
+}[locale];
+
+const ctaHref =
+	"https://clutch.co/profile/tasnadi-co?utm_source=widget&utm_medium=1&utm_campaign=widget&utm_content=num_reviews&utm_term=www.tasnadi.co#reviews";
+---
+
+<div class="mx-auto mt-[7.5rem] max-w-[57.1875rem] max-md:mt-16">
+	<div
+		class="clutch-widget"
+		data-url="https://widget.clutch.co"
+		data-widget-type="8"
+		data-height="300"
+		data-nofollow="true"
+		data-expandifr="true"
+		data-scale="100"
+		data-reviews="280099,229842,193827,167574,164224,149271"
+		data-clutchcompany-id="853898"
+	>
+	</div>
+	<script is:inline async src="https://widget.clutch.co/static/js/widget.js"></script>
+</div>
+
+<p class="mx-auto mt-6 max-w-[40rem] text-center text-sm leading-5 font-light text-text italic">
+	{copy.caption}
+</p>
+
+<div class="mt-16 flex items-center justify-center max-md:mt-10">
+	<Button variant="secondary" href={ctaHref} target="_blank" rel="noopener">
+		{copy.ctaLabel}
+	</Button>
+</div>

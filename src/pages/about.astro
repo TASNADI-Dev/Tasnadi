@@ -2,6 +2,9 @@
 import { getEmDashCollection } from "emdash";
 import { Image } from "emdash/ui";
 import Base from "../layouts/Base.astro";
+import ClientsSection from "../components/ClientsSection.astro";
+import ClutchReviews from "../components/ClutchReviews.astro";
+import { clientVideos } from "../utils/client-videos";
 
 const locale = Astro.currentLocale === "en" ? "en" : "hu";
 
@@ -191,6 +194,11 @@ const copy = {
 				},
 			],
 		},
+		clients: {
+			title: [{ text: "Néhány" }, { text: "elégedett", tone: "primary" as const }, { text: "ügyfelünk" }],
+			prevLabel: "Előző videó",
+			nextLabel: "Következő videó",
+		},
 	},
 	en: {
 		pageTitle: "About",
@@ -378,6 +386,11 @@ const copy = {
 				},
 			],
 		},
+		clients: {
+			title: [{ text: "Some of our" }, { text: "happy", tone: "primary" as const }, { text: "clients" }],
+			prevLabel: "Previous video",
+			nextLabel: "Next video",
+		},
 	},
 }[locale] as {
 	pageTitle: string;
@@ -408,6 +421,11 @@ const copy = {
 	story: {
 		title: string;
 		items: { year: string; text: string }[];
+	};
+	clients: {
+		title: { text: string; tone?: "primary" | "accent" }[];
+		prevLabel: string;
+		nextLabel: string;
 	};
 };
 
@@ -817,6 +835,10 @@ const team = [...teamEntries].sort((a, b) => rank(a.data.slug) - rank(b.data.slu
 			</ol>
 		</div>
 	</section>
+
+	<ClientsSection {...copy.clients} items={clientVideos}>
+		<ClutchReviews />
+	</ClientsSection>
 </Base>
 
 <script>

@@ -5,6 +5,7 @@ import Button from "../../components/Button.astro";
 import Badge from "../../components/Badge.astro";
 import BlogCard from "../../components/BlogCard.astro";
 import ClientsSection from "../../components/ClientsSection.astro";
+import ClutchReviews from "../../components/ClutchReviews.astro";
 import CaseStudyCard from "../../components/CaseStudyCard.astro";
 import Navigation from "../../components/Navigation.astro";
 import NewsletterSection from "../../components/NewsletterSection.astro";
@@ -345,12 +346,25 @@ const colorGroups = [
 						prevLabel="Previous video"
 						nextLabel="Next video"
 						items={[
-							{ name: "Client one", src: "/home/testimonials/citi-kert.mp4" },
-							{ name: "Client two", src: "/home/testimonials/ravenwood.mp4" },
-							{ name: "Client three", src: "/home/testimonials/premiomed.mp4" },
-							{ name: "Client four", src: "/home/testimonials/bookkeepie.mp4" },
+							{ name: "Client one", src: "/global/testimonials/citi-kert.mp4" },
+							{ name: "Client two", src: "/global/testimonials/ravenwood.mp4" },
+							{ name: "Client three", src: "/global/testimonials/premiomed.mp4" },
+							{ name: "Client four", src: "/global/testimonials/bookkeepie.mp4" },
 						]}
 					/>
+				</div>
+			</div>
+		</section>
+
+		<section class="mt-16">
+			<h2 class="mb-8 text-2xl font-bold">Clutch reviews</h2>
+
+			<div class="border-t border-border pt-6">
+				<p class="mb-4 text-sm text-text-muted">
+					Clutch review widget with its caption and the link button. Texts follow the active locale.
+				</p>
+				<div class="overflow-hidden rounded-[24px] border border-border pb-16">
+					<ClutchReviews />
 				</div>
 			</div>
 		</section>
