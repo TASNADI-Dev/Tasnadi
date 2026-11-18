@@ -1,0 +1,109 @@
+---
+import { getEmDashEntry, getSeoMeta, decodeSlug, getSiteSettings } from "emdash";
+import type { CacheHint } from "emdash";
+import { Image } from "emdash/ui";
+import Base from "../../layouts/Base.astro";
+import Badge from "../../components/Badge.astro";
+import { resolveSiteIdentity } from "../../utils/site-identity";
+
+const locale = Astro.currentLocale === "en" ? "en" : "hu";
+const slug = decodeSlug(Astro.params.slug);
+
+if (!slug) {
+	return Astro.rewrite("/404");
+}
+
+// A case study is never shown in another language, so a missing English translation is a 404 instead of a Hungarian fallback
+const { entry: caseStudy, cacheHint } = await getEmDashEntry("case_studies", slug, {
+	locale,
+	references: { services: true, industry: true },
+});
+
+// EmDash falls back to the Hungarian entry when there is no translation, so the entry's own locale is checked too
+if (!caseStudy || (caseStudy.data as { locale?: string }).locale !== locale) {
+	return Astro.rewrite("/404");
+}
+
+const hints: CacheHint[] = [cacheHint];
+if (Astro.cache?.enabled) hints.forEach((hint) => Astro.cache.set(hint));
+
+const tags = [
+	...(caseStudy.references?.services.entries ?? []),
+	...(caseStudy.references?.industry.entries ?? []),
+].map((entry) => entry.data.title);
+
+const { siteTitle } = resolveSiteIdentity(await getSiteSettings());
+
+const seo = getSeoMeta(caseStudy, {
+	siteTitle,
+	siteUrl: Astro.url.origin,
+	path: Astro.url.pathname.replace(/\/$/, ""),
+});
+---
+
+<Base
+	title={seo.title}
+	pageTitle={seo.ogTitle}
+	description={seo.description ?? caseStudy.data.short_description}
+	canonical={seo.canonical}
+	content={{ collection: "case_studies", id: caseStudy.data.id, slug }}
+	navVariant="dark"
+>
+	<section class="relative bg-background-dark pt-[11.25rem] pb-28 max-lg:pt-40 max-lg:pb-16">
+		<img
+			src="/global/images/space-bg.webp"
+			alt=""
+			width="1512"
+			height="1294"
+			loading="eager"
+			fetchpriority="high"
+			class="absolute inset-0 size-full object-cover object-center"
+		/>
+
+		<div
+			aria-hidden="true"
+			class="absolute inset-x-0 bottom-0 z-10 h-12 rounded-t-[50%_100%] bg-background max-lg:h-8"
+		>
+		</div>
+
+		<div
+			class="relative mx-auto grid w-[92%] max-w-[76.875rem] items-end gap-x-8 gap-y-10 text-text-inverse lg:grid-cols-2"
+		>
+			<div class="flex flex-col items-start gap-5">
+				{
+					tags.length > 0 && (
+						<ul class="flex flex-wrap gap-2">
+							{tags.map((tag) => (
+								<li>
+									<Badge>{tag}</Badge>
+								</li>
+							))}
+						</ul>
+					)
+				}
+				<h1
+					class="text-[3rem] leading-[3.6rem] font-medium tracking-[-0.02em] max-lg:text-[2.25rem] max-lg:leading-[2.75rem]"
+				>
+					{caseStudy.data.hero_text}
+				</h1>
+				{
+					caseStudy.data.short_description && (
+						<p class="text-base leading-[1.625rem] font-light">{caseStudy.data.short_description}</p>
+					)
+				}
+			</div>
+
+			{
+				caseStudy.data.image && (
+					<Image
+						image={caseStudy.data.image}
+						sizes="(min-width: 64rem) 37.5rem, 92vw"
+						loading="eager"
+						fetchpriority="high"
+						class="relative z-20 h-auto w-full lg:-mb-40 max-lg:-mb-[6.5rem]"
+					/>
+				)
+			}
+		</div>
+	</section>
+</Base>
