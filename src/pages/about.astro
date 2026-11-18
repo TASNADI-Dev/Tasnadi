@@ -364,59 +364,63 @@ const valueTabs = [
 	<section
 		data-about-hero
 		data-title="main"
-		class="group/hero relative h-[200vh] overflow-clip bg-background-dark pt-[11.25rem] text-center motion-reduce:h-auto motion-reduce:pb-48"
+		class="group/hero relative overflow-clip bg-background-dark text-center"
 	>
-		<div
-			data-title-bar
-			class="sticky top-0 z-20 flex flex-col items-center bg-linear-to-b from-background-dark from-40% to-transparent py-40 motion-reduce:static"
-		>
-			<h1
-				class="inline-flex items-start justify-center text-[4.375rem] leading-[5.25rem] font-medium tracking-[-0.02em] text-text-inverse max-lg:text-[2.1875rem] max-lg:leading-[2.75rem]"
-			>
-				{copy.titlePrefix && <span class="mr-5 max-lg:mr-4">{copy.titlePrefix}</span>}
-				<span
-					class:list={[
-						"inline-grid overflow-hidden",
-						copy.titlePrefix ? "justify-items-start" : "justify-items-center",
-					]}
+		<div data-crawl-track class="h-[200vh] pt-[11.25rem] motion-reduce:h-auto motion-reduce:pb-32">
+			<div class="sticky top-0 h-screen motion-reduce:static motion-reduce:h-auto">
+				<div
+					data-title-bar
+					class="absolute inset-x-0 top-0 z-20 flex flex-col items-center bg-linear-to-b from-background-dark from-40% to-transparent py-40 motion-reduce:static"
 				>
-					<span
-						data-title-word="main"
-						class="col-start-1 row-start-1 group-data-[title=alt]/hero:-translate-y-full"
+					<h1
+						class="inline-flex items-start justify-center text-[4.375rem] leading-[5.25rem] font-medium tracking-[-0.02em] text-text-inverse max-lg:text-[2.1875rem] max-lg:leading-[2.75rem]"
 					>
-						{copy.titleWords[0]}
-					</span>
-					<span
-						data-title-word="alt"
-						aria-hidden="true"
-						class="col-start-1 row-start-1 -translate-y-full text-primary group-data-[title=alt]/hero:translate-y-0 motion-reduce:hidden"
-					>
-						{copy.titleWords[1]}
-					</span>
-				</span>
-			</h1>
-		</div>
+						{copy.titlePrefix && <span class="mr-5 max-lg:mr-4">{copy.titlePrefix}</span>}
+						<span
+							class:list={[
+								"inline-grid overflow-hidden",
+								copy.titlePrefix ? "justify-items-start" : "justify-items-center",
+							]}
+						>
+							<span
+								data-title-word="main"
+								class="col-start-1 row-start-1 group-data-[title=alt]/hero:-translate-y-full"
+							>
+								{copy.titleWords[0]}
+							</span>
+							<span
+								data-title-word="alt"
+								aria-hidden="true"
+								class="col-start-1 row-start-1 -translate-y-full text-primary group-data-[title=alt]/hero:translate-y-0 motion-reduce:hidden"
+							>
+								{copy.titleWords[1]}
+							</span>
+						</span>
+					</h1>
+				</div>
 
-		<div
-			class="sticky top-0 z-10 mx-auto max-w-[19.375rem] perspective-[50rem] max-md:max-w-[15.625rem] max-md:perspective-[62.5rem] motion-reduce:static motion-reduce:perspective-none"
-		>
-			<div
-				data-about-crawl
-				class="flex origin-center transform-3d flex-col gap-[1.625rem] text-base leading-[1.625rem] font-light text-text-inverse [transform:rotateX(45deg)_translateY(var(--crawl-y,100vh))] motion-reduce:[transform:none]"
-			>
-				{
-					copy.paragraphs.map((paragraph, index) => (
-						<p>
-							{paragraph}
-							{index === copy.paragraphs.length - 1 && (
-								<>
-									<br />
-									<span class="text-primary">{copy.highlight}</span>
-								</>
-							)}
-						</p>
-					))
-				}
+				<div
+					class="absolute inset-x-0 top-0 z-10 mx-auto max-w-[19.375rem] perspective-[50rem] max-md:max-w-[15.625rem] max-md:perspective-[62.5rem] motion-reduce:static motion-reduce:perspective-none"
+				>
+					<div
+						data-about-crawl
+						class="flex origin-center transform-3d flex-col gap-[1.625rem] text-base leading-[1.625rem] font-light text-text-inverse [transform:rotateX(45deg)_translateY(var(--crawl-y,100vh))] motion-reduce:[transform:none]"
+					>
+						{
+							copy.paragraphs.map((paragraph, index) => (
+								<p>
+									{paragraph}
+									{index === copy.paragraphs.length - 1 && (
+										<>
+											<br />
+											<span class="text-primary">{copy.highlight}</span>
+										</>
+									)}
+								</p>
+							))
+						}
+					</div>
+				</div>
 			</div>
 		</div>
 
@@ -439,12 +443,13 @@ const valueTabs = [
 		</div>
 
 		<img
+			data-crawl-end
 			src="/about/curved-shape.svg"
 			alt=""
 			width="1512"
 			height="161"
 			loading="eager"
-			class="absolute inset-x-0 bottom-0 z-0 -mb-px h-auto w-full max-sm:-bottom-1.5"
+			class="relative z-30 -mb-px block h-auto w-full"
 		/>
 	</section>
 
