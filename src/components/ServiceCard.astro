@@ -1,0 +1,49 @@
+---
+import Button from "./Button.astro";
+import ServiceIcon from "./ServiceIcon.astro";
+
+type Props = {
+	icon: "branding" | "website" | "webshop" | "consulting" | "strategy";
+	title: string;
+	text: string;
+	href?: string;
+	/** Label of the "find out more" link */
+	moreLabel: string;
+	/** "stacked" puts the icon above the text, "inline" puts it beside the text */
+	layout?: "stacked" | "inline";
+	class?: string;
+};
+
+const {
+	icon,
+	title,
+	text,
+	href = "#",
+	moreLabel,
+	layout = "stacked",
+	class: className,
+} = Astro.props;
+---
+
+<li
+	class:list={[
+		"group relative flex gap-3 rounded-[20px] bg-background p-6 text-text shadow-[0_2px_2px_color-mix(in_srgb,var(--color-shadow)_20%,transparent)] transition-shadow hover:shadow-[0_2px_6px_color-mix(in_srgb,var(--color-shadow)_30%,transparent)] motion-reduce:transition-none",
+		layout === "stacked" ? "flex-col" : "flex-row max-[30rem]:flex-col",
+		className,
+	]}
+>
+	<ServiceIcon name={icon} />
+	<div class="flex min-w-0 flex-1 flex-col items-start">
+		<h3 class="text-2xl leading-[2.125rem] font-medium">{title}</h3>
+		<p class="mt-2 mb-2.5 text-base leading-[1.625rem] font-light text-text-muted">
+			{text}
+		</p>
+		<Button
+			variant="link-arrow"
+			{href}
+			class="mt-2 after:absolute after:inset-0 after:rounded-[20px] group-hover:text-primary-hover"
+		>
+			{moreLabel}
+		</Button>
+	</div>
+</li>

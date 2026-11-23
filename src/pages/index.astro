@@ -9,7 +9,7 @@ import ClutchReviews from "../components/ClutchReviews.astro";
 import Button from "../components/Button.astro";
 import MediaSection from "../components/MediaSection.astro";
 import CaseStudyCard from "../components/CaseStudyCard.astro";
-import ServiceIcon from "../components/ServiceIcon.astro";
+import ServiceCard from "../components/ServiceCard.astro";
 import { clientVideos } from "../utils/client-videos";
 import { hasLocaleContent } from "../utils/locale-content";
 import { resolveSiteIdentity } from "../utils/site-identity";
@@ -354,9 +354,6 @@ const mediaSection = {
 const labelClass = "text-base leading-[1.625rem] font-medium text-accent";
 const fieldClass =
 	"w-full rounded-[5px] border border-border-strong bg-background px-3 text-base font-medium text-text placeholder:font-normal placeholder:text-text-subtle focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
-
-const cardClass =
-	"flex flex-col gap-3 rounded-[20px] bg-background p-6 text-text shadow-[0_2px_2px_color-mix(in_srgb,var(--color-shadow)_20%,transparent)] transition-shadow";
 ---
 
 <Base title={copy.pageTitle} description={siteTagline}>
@@ -472,24 +469,12 @@ const cardClass =
 			<ul class="relative z-10 flex flex-col gap-6">
 				{
 					copy.services.items.map((item) => (
-						<li class={`${cardClass} group relative hover:shadow-[0_2px_6px_color-mix(in_srgb,var(--color-shadow)_30%,transparent)]`}>
-							<ServiceIcon name={item.icon} />
-							<div class="flex flex-col items-start">
-								<h3 class="text-2xl leading-[2.125rem] font-medium">
-									{item.title}
-								</h3>
-								<p class="mt-2 mb-2.5 text-base leading-[1.625rem] font-light text-text-muted">
-									{item.text}
-								</p>
-								<Button
-									variant="link-arrow"
-									href="#"
-									class="mt-2 after:absolute after:inset-0 after:rounded-[20px] group-hover:text-primary-hover"
-								>
-									{copy.services.moreCta}
-								</Button>
-							</div>
-						</li>
+						<ServiceCard
+							icon={item.icon}
+							title={item.title}
+							text={item.text}
+							moreLabel={copy.services.moreCta}
+						/>
 					))
 				}
 			</ul>

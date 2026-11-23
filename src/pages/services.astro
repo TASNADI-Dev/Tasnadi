@@ -1,5 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
+import ServiceCard from "../components/ServiceCard.astro";
 
 const locale = Astro.currentLocale === "en" ? "en" : "hu";
 
@@ -14,6 +15,33 @@ const copy = {
 			src: "/services/hero/services-hero-hu.webp",
 			alt: "Szolgáltatásaink pályadiagramja: webshop, brand, webdizájn és fejlesztés, tanácsadás",
 		},
+		services: {
+			title: [{ text: "Fedezd fel" }, { text: "szolgáltatásainkat", tone: "primary" }],
+			text: "Integrált megközelítést alkalmazunk minden egyes szolgáltatási területünkön.",
+			moreCta: "Bővebben",
+			items: [
+				{
+					icon: "website" as const,
+					title: "Weboldalak",
+					text: "Gondoskodunk róla, hogy weboldalad leadeket generáljon, és céged megbízhatónak tűnjön.",
+				},
+				{
+					icon: "webshop" as const,
+					title: "Webshopok",
+					text: "Hatékony és erős webshop megoldással indítjuk be az online értékesítésedet.",
+				},
+				{
+					icon: "branding" as const,
+					title: "Branding",
+					text: "Megkönnyítjük ügyfeleidnek, hogy megértsék: te vagy a legjobb választás számukra.",
+				},
+				{
+					icon: "consulting" as const,
+					title: "Tanácsadás",
+					text: "Segítünk a megfelelő stratégia kidolgozásában, hogy kitűnj a piacon.",
+				},
+			],
+		},
 	},
 	en: {
 		pageTitle: "Services",
@@ -24,6 +52,33 @@ const copy = {
 		image: {
 			src: "/services/hero/services-hero-en.webp",
 			alt: "Orbit diagram of our services: e-commerce, brand, web design and development, consulting",
+		},
+		services: {
+			title: [{ text: "Explore our" }, { text: "services", tone: "primary" }],
+			text: "We apply our integrated approach to each of our service lines.",
+			moreCta: "Find out more",
+			items: [
+				{
+					icon: "website" as const,
+					title: "Websites",
+					text: "We make sure your website generates leads and makes your company look trustworthy.",
+				},
+				{
+					icon: "webshop" as const,
+					title: "E-commerce",
+					text: "We launch your online sales with an efficient and powerful e-commerce solution.",
+				},
+				{
+					icon: "branding" as const,
+					title: "Branding",
+					text: "We make it easy for your customers to understand: you are their best choice.",
+				},
+				{
+					icon: "consulting" as const,
+					title: "Consulting",
+					text: "We help you create a strategy for standing out in your market.",
+				},
+			],
 		},
 	},
 }[locale];
@@ -78,5 +133,43 @@ const copy = {
 		>
 			<path d="M0 34C0 34 265.5 90.5 756 90.5C1246.5 90.5 1512 34 1512 34V161H0V34Z"></path>
 		</svg>
+	</section>
+	<section class="relative -mt-px bg-surface pt-12 pb-24 max-lg:pt-8 max-lg:pb-16">
+		<div class="mx-auto w-[92%] max-w-[76.875rem]">
+			<div class="mx-auto flex max-w-[30.8125rem] flex-col items-center gap-6 text-center">
+				<h2
+					class="text-[3rem] leading-[3.625rem] font-medium text-text max-[30rem]:text-[1.875rem] max-[30rem]:leading-normal"
+				>
+					{
+						copy.services.title.map((part) => (
+							<>
+								<span class:list={[part.tone === "primary" && "text-primary"]}>
+									{part.text}
+								</span>{" "}
+							</>
+						))
+					}
+				</h2>
+				<p class="text-base leading-[1.625rem] font-light text-text">
+					{copy.services.text}
+				</p>
+			</div>
+
+			<ul
+				class="mx-auto mt-16 grid max-w-[62rem] grid-cols-2 gap-x-[5.9375rem] gap-y-16 max-xl:gap-x-8 max-xl:gap-y-8 max-md:mt-10 max-md:grid-cols-1 max-md:gap-y-6"
+			>
+				{
+					copy.services.items.map((item) => (
+						<ServiceCard
+							icon={item.icon}
+							title={item.title}
+							text={item.text}
+							moreLabel={copy.services.moreCta}
+							layout="inline"
+						/>
+					))
+				}
+			</ul>
+		</div>
 	</section>
 </Base>
