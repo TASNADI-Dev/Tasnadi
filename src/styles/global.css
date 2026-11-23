@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 @theme {
+	--breakpoint-nav: 66rem;
 	--font-sans: "Museo Sans", sans-serif;
 	--font-heading: "Museo Sans", sans-serif;
 

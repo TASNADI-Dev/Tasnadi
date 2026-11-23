@@ -109,7 +109,7 @@ const textClass = isDark ? "text-text-inverse" : "text-text";
 const logoSrc = isDark ? "/global/branding/logo-light.svg" : "/global/branding/logo.svg";
 
 const linkClass =
-	`block rounded-full px-5 py-2 xl:px-4 text-base font-medium ${textClass} transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent`;
+	`block rounded-full px-5 py-2 nav:px-4 text-base font-medium ${textClass} transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent`;
 ---
 
 <header
@@ -121,7 +121,7 @@ const linkClass =
 	<nav
 		aria-label={copy.mainNavigation}
 		class:list={[
-			"pointer-events-auto relative mx-auto flex h-[4.125rem] max-w-[70rem] items-center justify-between rounded-full pr-3 pl-6 max-[22.5rem]:pr-1 max-[22.5rem]:pl-4 shadow-[0_4px_30px_color-mix(in_srgb,var(--color-shadow)_10%,transparent)] xl:pr-8 xl:pl-8",
+			"pointer-events-auto relative mx-auto flex h-[4.125rem] max-w-[70rem] items-center justify-between rounded-full pr-3 pl-6 max-[22.5rem]:pr-1 max-[22.5rem]:pl-4 shadow-[0_4px_30px_color-mix(in_srgb,var(--color-shadow)_10%,transparent)] nav:pr-8 nav:pl-8",
 			surfaceClass,
 		]}
 	>
@@ -139,11 +139,11 @@ const linkClass =
 			/>
 		</a>
 
-		<div class="flex items-center gap-1 max-[22.5rem]:gap-0 xl:hidden">
+		<div class="flex items-center gap-1 max-[22.5rem]:gap-0 nav:hidden">
 			<Button
 				variant="primary"
 				href={contactHref}
-				class="whitespace-nowrap max-xl:px-5 max-xl:py-2.5 max-sm:px-4 max-sm:py-2 max-sm:text-sm max-[22.5rem]:px-3"
+				class="whitespace-nowrap max-nav:px-5 max-nav:py-2.5 max-sm:px-4 max-sm:py-2 max-sm:text-sm max-[22.5rem]:px-3"
 			>
 				{copy.cta}
 			</Button>
@@ -173,11 +173,11 @@ const linkClass =
 		<div
 			id="site-nav-panel"
 			class:list={[
-				"absolute inset-x-0 top-full mt-3 hidden flex-col gap-6 rounded-[24px] p-6 shadow-[0_4px_30px_color-mix(in_srgb,var(--color-shadow)_10%,transparent)] group-data-[menu-open=true]/nav:flex max-xl:max-h-[calc(100dvh-7rem)] max-xl:overflow-y-auto max-xl:overscroll-contain xl:static xl:mt-0 xl:flex xl:flex-row xl:items-center xl:gap-4 xl:rounded-none xl:bg-transparent xl:p-0 xl:shadow-none",
+				"absolute inset-x-0 top-full mt-3 hidden flex-col gap-6 rounded-[24px] p-6 shadow-[0_4px_30px_color-mix(in_srgb,var(--color-shadow)_10%,transparent)] group-data-[menu-open=true]/nav:flex max-nav:max-h-[calc(100dvh-7rem)] max-nav:overflow-y-auto max-nav:overscroll-contain nav:static nav:mt-0 nav:flex nav:flex-row nav:items-center nav:gap-4 nav:rounded-none nav:bg-transparent nav:p-0 nav:shadow-none",
 				surfaceClass,
 			]}
 		>
-			<ul class="flex flex-col gap-1 xl:flex-row xl:items-center xl:gap-0">
+			<ul class="flex flex-col gap-1 nav:flex-row nav:items-center nav:gap-0">
 				<li><a href={servicesHref} class={linkClass}>{copy.services}</a></li>
 				<li><a href={workHref} class={linkClass}>{copy.work}</a></li>
 				<li><a href="#" class={linkClass}>{copy.method}</a></li>
@@ -185,8 +185,8 @@ const linkClass =
 				{insightGroups.length > 0 && <NavDropdown label={copy.insights} groups={insightGroups} {variant} />}
 			</ul>
 
-			<div class="flex flex-col gap-6 xl:flex-row xl:items-center xl:gap-5">
-				<Button variant="primary" href={contactHref} class="w-full xl:w-auto">
+			<div class="flex flex-col gap-6 nav:flex-row nav:items-center nav:gap-5">
+				<Button variant="primary" href={contactHref} class="w-full nav:w-auto">
 					{copy.cta}
 				</Button>
 				<LanguageSwitcher
@@ -254,7 +254,7 @@ const linkClass =
 	const toggle = nav?.querySelector<HTMLButtonElement>("[data-nav-toggle]");
 
 	if (nav && toggle) {
-		const desktop = window.matchMedia("(min-width: 80rem)");
+		const desktop = window.matchMedia("(min-width: 66rem)");
 
 		const setOpen = (open: boolean) => {
 			nav.dataset.menuOpen = String(open);

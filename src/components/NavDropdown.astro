@@ -16,7 +16,7 @@ const { label, groups, variant = "light" } = Astro.props;
 const isDark = variant === "dark";
 
 const textClass = isDark ? "text-text-inverse" : "text-text";
-const panelClass = isDark ? "xl:bg-surface-dark" : "xl:bg-background";
+const panelClass = isDark ? "nav:bg-surface-dark" : "nav:bg-background";
 const dividerClass = isDark ? "border-border-inverse" : "border-border";
 const headingClass = isDark ? "text-text-inverse-subtle" : "text-text-subtle";
 const itemHoverClass = isDark ? "hover:bg-surface-dark-hover" : "hover:bg-surface";
@@ -26,13 +26,13 @@ const itemHoverClass = isDark ? "hover:bg-surface-dark-hover" : "hover:bg-surfac
 	<button
 		type="button"
 		class:list={[
-			"flex w-full cursor-pointer items-center gap-2 rounded-full px-5 py-2 text-left text-base font-medium transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent group-focus-within/dropdown:text-primary max-xl:group-data-[open=true]/dropdown:text-primary xl:w-auto xl:px-4",
+			"flex w-full cursor-pointer items-center gap-2 rounded-full px-5 py-2 text-left text-base font-medium transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent group-focus-within/dropdown:text-primary max-nav:group-data-[open=true]/dropdown:text-primary nav:w-auto nav:px-4",
 			textClass,
 		]}
 	>
 		{label}
 		<svg
-			class="shrink-0 transition-transform duration-200 group-focus-within/dropdown:rotate-180 group-hover/dropdown:rotate-180 max-xl:group-data-[open=true]/dropdown:rotate-180"
+			class="shrink-0 transition-transform duration-200 group-focus-within/dropdown:rotate-180 group-hover/dropdown:rotate-180 max-nav:group-data-[open=true]/dropdown:rotate-180"
 			width="10"
 			height="6"
 			viewBox="0 0 10 6"
@@ -48,11 +48,11 @@ const itemHoverClass = isDark ? "hover:bg-surface-dark-hover" : "hover:bg-surfac
 	</button>
 
 	<div
-		class="hidden group-data-[open=true]/dropdown:block xl:pointer-events-none xl:absolute xl:block xl:top-full xl:left-0 xl:translate-y-1 xl:pt-3 xl:opacity-0 xl:transition xl:duration-200 xl:group-focus-within/dropdown:pointer-events-auto xl:group-focus-within/dropdown:translate-y-0 xl:group-focus-within/dropdown:opacity-100 xl:group-hover/dropdown:pointer-events-auto xl:group-hover/dropdown:translate-y-0 xl:group-hover/dropdown:opacity-100"
+		class="hidden group-data-[open=true]/dropdown:block nav:pointer-events-none nav:absolute nav:block nav:top-full nav:left-0 nav:translate-y-1 nav:pt-3 nav:opacity-0 nav:transition nav:duration-200 nav:group-focus-within/dropdown:pointer-events-auto nav:group-focus-within/dropdown:translate-y-0 nav:group-focus-within/dropdown:opacity-100 nav:group-hover/dropdown:pointer-events-auto nav:group-hover/dropdown:translate-y-0 nav:group-hover/dropdown:opacity-100"
 	>
 		<ul
 			class:list={[
-				"flex flex-col max-xl:ml-5 max-xl:border-l xl:min-w-[15rem] xl:rounded-[16px] xl:p-2 xl:shadow-[0_4px_30px_color-mix(in_srgb,var(--color-shadow)_12%,transparent)]",
+				"flex flex-col max-nav:ml-5 max-nav:border-l nav:min-w-[15rem] nav:rounded-[16px] nav:p-2 nav:shadow-[0_4px_30px_color-mix(in_srgb,var(--color-shadow)_12%,transparent)]",
 				dividerClass,
 				panelClass,
 			]}
@@ -63,7 +63,7 @@ const itemHoverClass = isDark ? "hover:bg-surface-dark-hover" : "hover:bg-surfac
 						{group.heading && (
 							<li
 								class:list={[
-									"mt-2 px-4 pb-1 text-sm font-medium xl:-mx-2 xl:mt-2 xl:border-t xl:px-4 xl:pt-3 xl:pb-1",
+									"mt-2 px-4 pb-1 text-sm font-medium nav:-mx-2 nav:mt-2 nav:border-t nav:px-4 nav:pt-3 nav:pb-1",
 									headingClass,
 									dividerClass,
 								]}
@@ -76,7 +76,7 @@ const itemHoverClass = isDark ? "hover:bg-surface-dark-hover" : "hover:bg-surfac
 								<a
 									href={item.href}
 									class:list={[
-										"flex items-center gap-3 rounded-[8px] px-4 py-2 text-base font-medium whitespace-nowrap transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent xl:px-2 xl:py-2.5",
+										"flex items-center gap-3 rounded-[8px] px-4 py-2 text-base font-medium whitespace-nowrap transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent nav:px-2 nav:py-2.5",
 										textClass,
 										itemHoverClass,
 									]}
@@ -96,7 +96,7 @@ const itemHoverClass = isDark ? "hover:bg-surface-dark-hover" : "hover:bg-surfac
 <script>
 	// Expands and collapses the dropdowns in the mobile navigation (desktop uses hover and focus via CSS).
 	const dropdowns = document.querySelectorAll<HTMLElement>("[data-dropdown]");
-	const desktop = window.matchMedia("(min-width: 80rem)");
+	const desktop = window.matchMedia("(min-width: 66rem)");
 
 	const setOpen = (dropdown: HTMLElement, open: boolean) => {
 		const button = dropdown.querySelector("button");
