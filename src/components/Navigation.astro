@@ -31,6 +31,7 @@ const languageHrefs = {
 const aboutHref = withoutTrailingSlash(getRelativeLocaleUrl(locale, "/about"));
 const contactHref = withoutTrailingSlash(getRelativeLocaleUrl(locale, "/contact"));
 const blogHref = withoutTrailingSlash(getRelativeLocaleUrl(locale, "/blog"));
+const servicesHref = withoutTrailingSlash(getRelativeLocaleUrl(locale, "/services"));
 const workHref = withoutTrailingSlash(getRelativeLocaleUrl(locale, "/projects"));
 const podcastHref = withoutTrailingSlash(getRelativeLocaleUrl(locale, "/podcast"));
 
@@ -45,22 +46,6 @@ const copy = {
 		about: "Rólunk",
 		insights: "Tudástár",
 		cta: "Beszélgessünk!",
-		serviceGroups: [
-			{ items: [{ label: "Áttekintés" }] },
-			{
-				heading: "Külső digitális jelenlét",
-				items: [
-					{ label: "Branding" },
-					{ label: "Weboldalak" },
-					{ label: "Webshopok" },
-					{ label: "Tanácsadás" },
-				],
-			},
-			{
-				heading: "Belső digitális működés",
-				items: [{ label: "Digitalizációs stratégia", badge: "Új" }],
-			},
-		],
 		insightGroups: [
 			{
 				items: [
@@ -80,22 +65,6 @@ const copy = {
 		about: "About",
 		insights: "Insights",
 		cta: "Let's talk!",
-		serviceGroups: [
-			{ items: [{ label: "Overview" }] },
-			{
-				heading: "External digital presence",
-				items: [
-					{ label: "Branding" },
-					{ label: "Websites" },
-					{ label: "Webshops" },
-					{ label: "Consulting" },
-				],
-			},
-			{
-				heading: "Internal digital operations",
-				items: [{ label: "Digitalization strategy", badge: "New" }],
-			},
-		],
 		insightGroups: [
 			{
 				items: [
@@ -209,7 +178,7 @@ const linkClass =
 			]}
 		>
 			<ul class="flex flex-col gap-1 xl:flex-row xl:items-center xl:gap-0">
-				<NavDropdown label={copy.services} groups={toGroups(copy.serviceGroups)} {variant} />
+				<li><a href={servicesHref} class={linkClass}>{copy.services}</a></li>
 				<li><a href={workHref} class={linkClass}>{copy.work}</a></li>
 				<li><a href="#" class={linkClass}>{copy.method}</a></li>
 				<li><a href={aboutHref} class={linkClass}>{copy.about}</a></li>
