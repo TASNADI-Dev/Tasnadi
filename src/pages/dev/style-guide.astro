@@ -17,24 +17,66 @@ import ServiceIcon from "../../components/ServiceIcon.astro";
 import TeamList from "../../components/TeamList.astro";
 import VideoCard from "../../components/VideoCard.astro";
 
+const locale = Astro.currentLocale === "en" ? "en" : "hu";
+
+const copy = {
+	hu: {
+		services: ["Weboldalak", "Branding"],
+		listenLabel: "Podcast meghallgatása:",
+		category: "Üzlet",
+		video: { playLabel: "Videó lejátszása", name: "Név Vezetéknév", role: "Beosztás" },
+		cta: {
+			title: "Érdekel a szolgáltatásunk?",
+			text: "Jelentkezz egy ingyenes konzultációra, ahol felmérjük az elakadásaid, üzleti céljaid, és meghatározzuk a stratégiai lehetőségeket!",
+			buttonLabel: "Ajánlatot kérek",
+		},
+		clients: {
+			title: [{ text: "Néhány" }, { text: "elégedett", tone: "primary" as const }, { text: "ügyfelünk" }],
+			prevLabel: "Előző videó",
+			nextLabel: "Következő videó",
+			names: ["Első ügyfél", "Második ügyfél", "Harmadik ügyfél", "Negyedik ügyfél"],
+		},
+	},
+	en: {
+		services: ["Websites", "Branding"],
+		listenLabel: "Listen on",
+		category: "Business",
+		video: { playLabel: "Play video", name: "Name Surname", role: "Role" },
+		cta: {
+			title: "Interested?",
+			text: "Let’s have a conversation and see how we can help boost your brand.",
+			buttonLabel: "Sounds interesting; let’s chat!",
+		},
+		clients: {
+			title: [{ text: "Some of our" }, { text: "happy", tone: "primary" as const }, { text: "clients" }],
+			prevLabel: "Previous video",
+			nextLabel: "Next video",
+			names: ["Client one", "Client two", "Client three", "Client four"],
+		},
+	},
+}[locale];
+
 const { entries: sampleCaseStudies } = await getEmDashCollection("case_studies", {
-	locale: "hu",
+	locale,
 	orderBy: { published_at: "desc" },
 	limit: 1,
 });
 const sampleCaseStudy = sampleCaseStudies[0];
 
 const { entries: sampleTeam } = await getEmDashCollection("team_members", {
-	locale: "hu",
+	locale,
 	limit: 3,
 });
 
 const { entries: samplePodcasts } = await getEmDashCollection("podcasts", {
-	locale: "hu",
+	locale,
 	orderBy: { published_at: "desc" },
 	limit: 1,
 });
-const samplePodcast = samplePodcasts[0];
+// There are no English podcast episodes or posts yet, so those samples fall back to the Hungarian entry
+const samplePodcast =
+	samplePodcasts[0] ??
+	(await getEmDashCollection("podcasts", { locale: "hu", orderBy: { published_at: "desc" }, limit: 1 })).entries[0];
 const podcastLinks: ComponentProps<typeof PodcastCard>["links"] = [
 	{ platform: "spotify", url: "#" },
 	{ platform: "youtube", url: "#" },
@@ -43,11 +85,13 @@ const podcastLinks: ComponentProps<typeof PodcastCard>["links"] = [
 ];
 
 const { entries: samplePosts } = await getEmDashCollection("posts", {
-	locale: "hu",
+	locale,
 	orderBy: { published_at: "desc" },
 	limit: 1,
 });
-const samplePost = samplePosts[0];
+const samplePost =
+	samplePosts[0] ??
+	(await getEmDashCollection("posts", { locale: "hu", orderBy: { published_at: "desc" }, limit: 1 })).entries[0];
 
 const serviceIconNames =["branding", "website", "webshop", "consulting", "strategy"] as const;
 
@@ -257,7 +301,7 @@ const colorGroups = [
 								title={sampleCaseStudy.data.hero_text}
 								description={sampleCaseStudy.data.short_description}
 								image={sampleCaseStudy.data.thumbnail}
-								services={["Website", "Branding"]}
+								services={copy.services}
 							/>
 						</div>
 					</div>
@@ -279,7 +323,7 @@ const colorGroups = [
 										href="#"
 										title={samplePodcast.data.title}
 										image={samplePodcast.data.image}
-										listenLabel="Listen on"
+										listenLabel={copy.listenLabel}
 										links={podcastLinks}
 									/>
 								</div>
@@ -293,7 +337,7 @@ const colorGroups = [
 									href="#"
 									title={samplePodcast.data.title}
 									image={samplePodcast.data.image}
-									listenLabel="Listen on"
+									listenLabel={copy.listenLabel}
 									links={podcastLinks}
 								/>
 							</div>
@@ -317,9 +361,9 @@ const colorGroups = [
 										href="#"
 										title={samplePost.data.title}
 										image={samplePost.data.image}
-										category="Business"
+										category={copy.category}
 										date={samplePost.data.publishedAt}
-										locale="hu"
+										locale={locale}
 									/>
 								</div>
 							</div>
@@ -332,11 +376,11 @@ const colorGroups = [
 									href="#"
 									title={samplePost.data.title}
 									image={samplePost.data.image}
-									category="Business"
+									category={copy.category}
 									author="Tasnádi Olivér"
 									date={samplePost.data.publishedAt}
 									summary={samplePost.data.post_summary}
-									locale="hu"
+									locale={locale}
 								/>
 							</div>
 						</div>
@@ -359,11 +403,11 @@ const colorGroups = [
 			<div class="border-t border-border pt-6">
 				<div class="inline-block rounded-[24px] bg-surface-dark p-8">
 					<VideoCard
-						src="/home/owner/video-hu.mp4"
+						src={`/home/owner/video-${locale}.mp4`}
 						poster="/home/owner/video-poster.webp"
-						playLabel="Play video"
-						name="Name Surname"
-						role="Role"
+						playLabel={copy.video.playLabel}
+						name={copy.video.name}
+						role={copy.video.role}
 					/>
 				</div>
 			</div>
@@ -374,7 +418,7 @@ const colorGroups = [
 
 			<div class="border-t border-border pt-6">
 				<p class="mb-4 text-sm text-text-muted">
-					Hungarian only (renders nothing on the English site). The form is live: it posts to Formspark.
+					Follows the page language (switch to English to see the English copy). The form is live: it posts to Formspark.
 				</p>
 				<div class="overflow-hidden rounded-[24px] border border-border">
 					<NewsletterSection />
@@ -388,14 +432,14 @@ const colorGroups = [
 			<div class="border-t border-border pt-6">
 				<div class="overflow-hidden rounded-[24px] border border-border">
 					<ClientsSection
-						title={[{ text: "Some of our" }, { text: "happy", tone: "primary" }, { text: "clients" }]}
-						prevLabel="Previous video"
-						nextLabel="Next video"
+						title={copy.clients.title}
+						prevLabel={copy.clients.prevLabel}
+						nextLabel={copy.clients.nextLabel}
 						items={[
-							{ name: "Client one", src: "/global/testimonials/citi-kert.mp4" },
-							{ name: "Client two", src: "/global/testimonials/ravenwood.mp4" },
-							{ name: "Client three", src: "/global/testimonials/premiomed.mp4" },
-							{ name: "Client four", src: "/global/testimonials/bookkeepie.mp4" },
+							{ name: copy.clients.names[0], src: "/global/testimonials/citi-kert.mp4" },
+							{ name: copy.clients.names[1], src: "/global/testimonials/ravenwood.mp4" },
+							{ name: copy.clients.names[2], src: "/global/testimonials/premiomed.mp4" },
+							{ name: copy.clients.names[3], src: "/global/testimonials/bookkeepie.mp4" },
 						]}
 					/>
 				</div>
@@ -407,9 +451,9 @@ const colorGroups = [
 
 			<div class="border-t border-border pt-6">
 				<CtaBox
-					title="Interested?"
-					text="Let’s have a conversation and see how we can help boost your brand."
-					buttonLabel="Sounds interesting; let’s chat!"
+					title={copy.cta.title}
+					text={copy.cta.text}
+					buttonLabel={copy.cta.buttonLabel}
 					buttonHref="#"
 				/>
 			</div>

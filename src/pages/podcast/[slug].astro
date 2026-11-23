@@ -151,5 +151,5 @@ const seo = getSeoMeta(episode, {
 		)
 	}
 
-	<NewsletterSection />
+	{Astro.currentLocale !== "en" && <NewsletterSection />}
 </Base>

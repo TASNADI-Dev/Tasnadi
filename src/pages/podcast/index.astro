@@ -73,5 +73,5 @@ do {
 		</div>
 	</section>
 
-	<NewsletterSection />
+	{Astro.currentLocale !== "en" && <NewsletterSection />}
 </Base>
