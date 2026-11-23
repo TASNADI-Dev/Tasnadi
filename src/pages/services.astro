@@ -1,4 +1,6 @@
 ---
+import { getEmDashEntry } from "emdash";
+import { Image } from "emdash/ui";
 import Base from "../layouts/Base.astro";
 import ServiceCard from "../components/ServiceCard.astro";
 
@@ -14,6 +16,42 @@ const copy = {
 		image: {
 			src: "/services/hero/services-hero-hu.webp",
 			alt: "Szolgáltatásaink pályadiagramja: webshop, brand, webdizájn és fejlesztés, tanácsadás",
+		},
+		benefits: {
+			quote: [
+				{ text: "Világos üzenetekkel, vonzó vizuális megoldásokkal és zökkenőmentes technológiával segítünk " },
+				{ text: "a legjobb ügyfelek", tone: "primary" },
+				{ text: " megnyerésében – és abban, hogy " },
+				{ text: "kevesebb káosszal", tone: "primary" },
+				{ text: " működj." },
+			],
+			title: [{ text: "Megközelítésünk" }, { text: "előnyei", tone: "primary" }],
+			items: [
+				{
+					title: "Legendás ügyfélélmény",
+					text: "Csapatunk figyelmes és proaktív támogatást nyújt, biztosítva, hogy partnerségünk során teljesítjük az igényeidet és felülmúljuk a várakozásaidat, legyen szó egyszerű weboldal készítésről, komplex webfejlesztési projektről vagy céged működésének digitalizációjáról.",
+				},
+				{
+					title: "Átfogó szolgáltatások",
+					text: "Túlmutatunk a weboldalfejlesztésen, és a megoldások teljes spektrumát kínáljuk, beleértve a brandinget, a designt, a stratégiai tanácsadást és a belső folyamatok digitalizációját. Célunk, hogy a weboldal készítéstől az automatizálásig mi legyünk a digitális partnered.",
+				},
+				{
+					title: "Brandépítés",
+					text: "Építs felismerhető és egységes márkaidentitást minden platformon, közönséged bizalmát és hűségét növelve ezzel.",
+				},
+				{
+					title: "Stratégiai szemlélet",
+					text: "Szerezz értékes piaci ismereteket, ismerd meg célközönségedet, és finomítsd egyedi értékesítési ajánlatodat a maximális hatás érdekében.",
+				},
+				{
+					title: "Fókuszban a növekedés",
+					text: "Kifejezetten olyan kkv-k számára tervezzük szolgáltatásainkat, amelyek hosszú távban gondolkodnak, és arra összpontosítanak, hogy valódi értéket nyújtsanak ügyfeleiknek, és elősegítsék a fenntartható növekedést. Ide tartozik az egyedi honlapkészítés és céged működésének digitalizációja is.",
+				},
+				{
+					title: "Partneri kapcsolat",
+					text: "Mondj búcsút a más fejlesztőcégeknél szerzett frusztráló tapasztalatoknak; mi minden egyes lépésnél melletted leszünk a sikeredhez és elégedettségedhez vezető úton.",
+				},
+			],
 		},
 		services: {
 			title: [{ text: "Fedezd fel" }, { text: "szolgáltatásainkat", tone: "primary" }],
@@ -53,6 +91,42 @@ const copy = {
 			src: "/services/hero/services-hero-en.webp",
 			alt: "Orbit diagram of our services: e-commerce, brand, web design and development, consulting",
 		},
+		benefits: {
+			quote: [
+				{ text: "We help you attract " },
+				{ text: "the best customers", tone: "primary" },
+				{ text: " and run with " },
+				{ text: "less chaos", tone: "primary" },
+				{ text: " – with clear messaging, appealing visuals and smooth technology." },
+			],
+			title: [{ text: "Benefits", tone: "primary" }, { text: "of our approach" }],
+			items: [
+				{
+					title: "Exceptional Client Experience",
+					text: "Our team provides attentive and proactive support, ensuring we meet your needs and exceed your expectations throughout our partnership – whether for a simple website creation, a complex web development project or the digitalization of your operations.",
+				},
+				{
+					title: "Comprehensive Services",
+					text: "We go beyond website development, offering a full spectrum of solutions including branding, design, strategic consulting and the digitalization of your internal processes. Our goal is to be your go-to digital partner, from website creation to automation.",
+				},
+				{
+					title: "Consistent Branding",
+					text: "Build a recognizable and unified brand image across all platforms, enhancing trust and loyalty among your audience.",
+				},
+				{
+					title: "Strategic insight",
+					text: "Gain valuable market insights, understand your target audience, and refine your unique selling proposition for maximum impact.",
+				},
+				{
+					title: "Tailored for growth",
+					text: "We design our services specifically for SMEs with a long-term vision that focuses on delivering real value to their customers and fostering sustainable growth. This includes custom website creation and the digitalization of your operations.",
+				},
+				{
+					title: "Reliable partnership",
+					text: "Say goodbye to frustrating experiences with other development companies; we're committed to your success and satisfaction every step of the way.",
+				},
+			],
+		},
 		services: {
 			title: [{ text: "Explore our" }, { text: "services", tone: "primary" }],
 			text: "We apply our integrated approach to each of our service lines.",
@@ -82,6 +156,12 @@ const copy = {
 		},
 	},
 }[locale];
+
+// The testimonial shows the owner; name, position and both photos come from the team members collection
+const { entry: owner, cacheHint: ownerHint } = await getEmDashEntry("team_members", "oliver-tasnadi", {
+	locale,
+});
+if (ownerHint && Astro.cache?.enabled) Astro.cache.set(ownerHint);
 ---
 
 <Base title={copy.pageTitle} description={copy.description}>
@@ -170,6 +250,118 @@ const copy = {
 					))
 				}
 			</ul>
+		</div>
+	</section>
+
+	<section class="relative bg-surface pb-[6.25rem] max-lg:pb-20">
+		<img
+			src="/services/benefits/bg-bottom.webp"
+			alt=""
+			width="3018"
+			height="2710"
+			loading="lazy"
+			class="absolute inset-0 size-full object-cover object-[50%_0]"
+		/>
+		<img
+			src="/services/benefits/bg-top.webp"
+			alt=""
+			width="1512"
+			height="173"
+			loading="lazy"
+			class="absolute inset-x-0 top-0 h-auto w-full"
+		/>
+
+		<div class="relative z-10 mx-auto w-[92%] max-w-[76.875rem]">
+			{
+				owner && (
+					<div
+						class="group mx-auto flex max-w-[44.5rem] items-center gap-10 rounded-[20px] bg-surface py-8 pr-[6.25rem] pl-8 shadow-[0_4px_4px_color-mix(in_srgb,var(--color-shadow)_10%,transparent),0_10px_25px_color-mix(in_srgb,var(--color-shadow)_20%,transparent)] max-lg:pr-8 max-md:flex-col max-md:items-start max-md:p-6"
+					>
+						<div class="flex w-[8.125rem] shrink-0 flex-col items-center text-center max-md:w-auto max-md:items-start max-md:text-left">
+							<div class="relative size-[6.875rem] overflow-hidden rounded-full">
+								<Image
+									image={owner.data.default_image}
+									alt={owner.data.default_image?.alt || owner.data.title}
+									sizes="7rem"
+									loading="lazy"
+									class="size-full object-cover"
+								/>
+								<Image
+									image={owner.data.hover_image}
+									alt=""
+									sizes="7rem"
+									loading="lazy"
+									class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100 motion-reduce:transition-none"
+								/>
+							</div>
+							<p {...owner.edit.title} class="mt-3 text-xl leading-[1.625rem] font-normal text-text">
+								{owner.data.title}
+							</p>
+							{owner.data.position && (
+								<p {...owner.edit.position} class="mt-2 text-sm leading-5 text-primary">
+									{owner.data.position}
+								</p>
+							)}
+						</div>
+						<p class="text-2xl leading-[2.125rem] font-medium text-text">
+							{copy.benefits.quote.map((part) => (
+								<span class:list={[part.tone === "primary" && "text-primary"]}>{part.text}</span>
+							))}
+						</p>
+					</div>
+				)
+			}
+
+			<div class="mt-20 flex justify-between gap-[7.5rem] max-xl:gap-16 max-lg:flex-col max-lg:gap-14">
+				<div class="lg:sticky lg:top-[8.75rem] lg:max-w-[31.625rem] lg:flex-1 lg:self-start">
+					<h2
+						class="text-[3rem] leading-[4.5rem] font-medium text-text-inverse max-[30rem]:text-[1.875rem] max-[30rem]:leading-[2.8125rem]"
+					>
+						{
+							copy.benefits.title.map((part) => (
+								<>
+									<span class:list={[part.tone === "primary" && "text-primary"]}>
+										{part.text}
+									</span>{" "}
+								</>
+							))
+						}
+					</h2>
+					<img
+						src="/services/benefits/spaceship.webp"
+						alt=""
+						width="394"
+						height="436"
+						loading="lazy"
+						class="mt-12 h-auto w-[10.125rem] max-lg:hidden"
+					/>
+				</div>
+
+				<ul class="flex flex-col gap-16 max-lg:gap-10 lg:w-[33.4375rem] lg:shrink-0">
+					{
+						copy.benefits.items.map((item) => (
+							<li class="flex gap-3">
+								<img
+									src="/services/benefits/icon.webp"
+									alt=""
+									width="26"
+									height="26"
+									loading="lazy"
+									class="size-[1.625rem] shrink-0"
+								/>
+								<div>
+									<h3 class="text-2xl leading-[2.125rem] font-medium text-text-inverse">
+										{item.title}
+									</h3>
+									<p class="mt-2 text-base leading-[1.625rem] font-light text-text-inverse-muted">
+										{item.text}
+									</p>
+								</div>
+							</li>
+						))
+					}
+				</ul>
+			</div>
 		</div>
 	</section>
 </Base>
