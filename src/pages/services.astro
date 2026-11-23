@@ -3,6 +3,7 @@ import { getEmDashEntry } from "emdash";
 import { Image } from "emdash/ui";
 import Base from "../layouts/Base.astro";
 import ClutchReviews from "../components/ClutchReviews.astro";
+import NewsletterSection from "../components/NewsletterSection.astro";
 import ServiceCard from "../components/ServiceCard.astro";
 
 const locale = Astro.currentLocale === "en" ? "en" : "hu";
@@ -369,4 +370,6 @@ if (ownerHint && Astro.cache?.enabled) Astro.cache.set(ownerHint);
 	<section class="flow-root bg-background pb-24 max-lg:pb-16">
 		<ClutchReviews />
 	</section>
+
+	<NewsletterSection />
 </Base>

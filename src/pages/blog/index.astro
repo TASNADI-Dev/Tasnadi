@@ -113,7 +113,7 @@ const blogPath = getRelativeLocaleUrl(locale, "/blog").replace(/(.)\/$/, "$1");
 
 	<BlogArticleList {posts} {categories} {nextOffset} {filtersQuery} {locale} />
 
-	{Astro.currentLocale !== "en" && <NewsletterSection />}
+	<NewsletterSection />
 </Base>
 
 <script>
