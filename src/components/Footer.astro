@@ -55,6 +55,7 @@ const copy = {
 	},
 }[locale];
 
+const servicesHref = withoutTrailingSlash(getRelativeLocaleUrl(locale, "/services"));
 const email = "hello@tasnadi.net";
 const mapUrl = "https://goo.gl/maps/uZG2rTDrfRunMMeDA";
 const addressLines = ["Bajcsy-Zsilinszky út 58. 1054 Budapest,", copy.country];
@@ -131,7 +132,14 @@ const blockClass = "flex flex-col items-start gap-6";
 			</div>
 
 			<nav class:list={[blockClass, "lg:col-span-2 lg:col-start-5"]} aria-labelledby="footer-services">
-				<h2 id="footer-services" class={headingClass}>{copy.services}</h2>
+				<h2 id="footer-services" class={headingClass}>
+					<a
+						href={servicesHref}
+						class="transition-colors hover:text-primary-hover focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+					>
+						{copy.services}
+					</a>
+				</h2>
 				{
 					copy.serviceLinks.map((label) => (
 						<a href="#" class={linkClass}>

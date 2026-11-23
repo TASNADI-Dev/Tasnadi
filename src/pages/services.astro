@@ -1,0 +1,82 @@
+---
+import Base from "../layouts/Base.astro";
+
+const locale = Astro.currentLocale === "en" ? "en" : "hu";
+
+const copy = {
+	hu: {
+		pageTitle: "Szolgáltatásaink",
+		description:
+			"Weboldalak, webshopok, branding és tanácsadás: átfogó megoldások az online sikeredért.",
+		title: "Több, mint weboldal",
+		text: "Átfogó megoldásokat alkotunk az online sikeredért.",
+		image: {
+			src: "/services/hero/services-hero-hu.webp",
+			alt: "Szolgáltatásaink pályadiagramja: webshop, brand, webdizájn és fejlesztés, tanácsadás",
+		},
+	},
+	en: {
+		pageTitle: "Services",
+		description:
+			"Websites, e-commerce, branding and consulting: comprehensive solutions for your online success.",
+		title: "Beyond website",
+		text: "Crafting comprehensive solutions for your online success.",
+		image: {
+			src: "/services/hero/services-hero-en.webp",
+			alt: "Orbit diagram of our services: e-commerce, brand, web design and development, consulting",
+		},
+	},
+}[locale];
+---
+
+<Base title={copy.pageTitle} description={copy.description}>
+	<section class="relative overflow-hidden bg-surface-dark pt-[9.5rem] max-lg:pt-32">
+		<img
+			src="/services/hero/bg.webp"
+			srcset="/services/hero/bg-mobile.webp 800w, /services/hero/bg.webp 2000w"
+			sizes="100vw"
+			alt=""
+			width="2000"
+			height="1070"
+			loading="eager"
+			fetchpriority="high"
+			class="absolute inset-0 size-full object-cover object-[100%_100%]"
+		/>
+
+		<div
+			class="relative z-10 mx-auto grid w-[92%] max-w-[76.875rem] grid-cols-[1.2fr_1fr] items-center gap-x-8 gap-y-10 pb-6 max-lg:grid-cols-1"
+		>
+			<div class="max-w-[34rem]">
+				<h1
+					class="text-[4.375rem] leading-[5.25rem] font-medium tracking-[-0.02em] text-text-inverse max-lg:text-[2.1875rem] max-lg:leading-[2.75rem]"
+				>
+					{copy.title}
+				</h1>
+				<p class="mt-6 text-2xl leading-[2.125rem] font-light text-text-inverse-muted max-lg:mt-4 max-lg:text-xl max-lg:leading-8">
+					{copy.text}
+				</p>
+			</div>
+
+			<img
+				src={copy.image.src}
+				alt={copy.image.alt}
+				width="1027"
+				height="897"
+				loading="eager"
+				class="h-auto w-full max-w-[32rem] justify-self-end max-lg:mx-auto max-lg:max-w-[24rem]"
+			/>
+		</div>
+
+		<svg
+			viewBox="0 0 1512 161"
+			preserveAspectRatio="none"
+			fill="currentColor"
+			xmlns="http://www.w3.org/2000/svg"
+			aria-hidden="true"
+			focusable="false"
+			class="relative z-10 -mb-px block h-12 w-full text-surface lg:-mt-6 lg:h-auto"
+		>
+			<path d="M0 34C0 34 265.5 90.5 756 90.5C1246.5 90.5 1512 34 1512 34V161H0V34Z"></path>
+		</svg>
+	</section>
+</Base>
