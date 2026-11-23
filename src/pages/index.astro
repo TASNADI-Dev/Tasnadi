@@ -37,34 +37,24 @@ const copy = {
 		services: {
 			badge: "Szolgáltatásaink",
 			title: [
-				{ text: "Kívül", tone: "primary" },
-				{ text: "erősebb." },
-				{ text: "Belül", tone: "accent" },
-				{ text: "gördülékenyebb." },
+				{ text: "Így tesszük jobbá", tone: "primary" },
+				{ text: "digitális jelenlétedet" },
 			],
-			external: {
-				eyebrow: "Külső digitális jelenlét",
-				title: "Hogyan legyen több és jobb ügyfelem?",
-			},
-			internal: {
-				eyebrow: "Belső digitális működés",
-				title: "Hogyan tudunk kevesebb káosszal és manuális munkával nőni?",
-			},
 			items: [
-				{
-					icon: "branding" as const,
-					title: "Branding",
-					text: "Megkönnyítjük ügyfeleidnek, hogy megértsék: te vagy a legjobb választás számukra. Szakértelmünkkel az online branding terén biztosítjuk, hogy márkád felismerhető és vonzó legyen.",
-				},
 				{
 					icon: "website" as const,
 					title: "Weboldalak",
-					text: "Digitális ügynökségként gondoskodunk arról, hogy honlapod leadeket generáljon, céged pedig megbízhatónak tűnjön.",
+					text: "Gondoskodunk róla, hogy weboldalad könnyen érthető legyen, és cégedet megbízhatónak mutassa.",
 				},
 				{
 					icon: "webshop" as const,
 					title: "Webshopok",
-					text: "Hatékony webshoppal segítjük online értékesítésedet, amely nemcsak esztétikus, hanem rendkívül funkcionális is, növelve konverzióidat.",
+					text: "Hatékony és erős webshop megoldással indítjuk be az online értékesítésedet.",
+				},
+				{
+					icon: "branding" as const,
+					title: "Branding",
+					text: "Megkönnyítjük ügyfeleidnek, hogy megértsék: te vagy a legjobb választás számukra.",
 				},
 				{
 					icon: "consulting" as const,
@@ -73,18 +63,6 @@ const copy = {
 				},
 			],
 			moreCta: "Bővebben",
-			strategy: {
-				badge: "Új",
-				title: "Digitalizációs stratégia",
-				text: "Feltárjuk, hol lassítja a manuális munka a növekedést, majd megvalósítható tervet készítünk. Nem szoftvert sózunk rád.",
-				listTitle: "Ismerős?",
-				list: [
-					"Fél óra megtalálni egy fél éve elküldött szerződést.",
-					"Az ügyféladatok Excelben, e-mailben és a kollégák fejében vannak.",
-					"Több ügyfél, több káosz.",
-				],
-				quizCta: "Kitöltöm a 3 perces kvízt",
-			},
 		},
 		caseStudy: {
 			title: [{ text: "Sikertörténeteink", tone: "primary" }],
@@ -155,54 +133,32 @@ const copy = {
 		services: {
 			badge: "Our services",
 			title: [
-				{ text: "Stronger" },
-				{ text: "outside.", tone: "primary" },
-				{ text: "Smoother" },
-				{ text: "inside.", tone: "accent" },
+				{ text: "Here’s how we enhance", tone: "primary" },
+				{ text: "your digital presence" },
 			],
-			external: {
-				eyebrow: "External digital presence",
-				title: "How do we get more and better clients?",
-			},
-			internal: {
-				eyebrow: "Internal digital operations",
-				title: "How can we grow with less chaos and manual work?",
-			},
 			items: [
-				{
-					icon: "branding" as const,
-					title: "Branding",
-					text: "We make it easy for your customers to understand that you are the best choice for them. With our expertise in online branding, we ensure your brand is recognizable and attractive.",
-				},
 				{
 					icon: "website" as const,
 					title: "Websites",
-					text: "As a digital agency, we ensure your website generates leads and your company appears trustworthy.",
+					text: "We make sure your website is easy to comprehend and makes your company look trustworthy.",
 				},
 				{
 					icon: "webshop" as const,
-					title: "Webshops",
-					text: "We support your online sales with an effective online store that is not only aesthetic but also highly functional, increasing your conversions.",
+					title: "E-commerce",
+					text: "We launch your online sales with an efficient and powerful e-commerce solution.",
+				},
+				{
+					icon: "branding" as const,
+					title: "Branding",
+					text: "We make it easy for your customers to understand: you are their best choice.",
 				},
 				{
 					icon: "consulting" as const,
 					title: "Consulting",
-					text: "We help you develop the right strategy to stand out in the market.",
+					text: "We help you create a strategy for standing out in your market.",
 				},
 			],
 			moreCta: "Find out more",
-			strategy: {
-				badge: "New",
-				title: "Digitalization strategy",
-				text: "We find where manual work is slowing your growth, then build a plan you can actually implement. No software sales pitch.",
-				listTitle: "Sounds familiar?",
-				list: [
-					"Finding a contract from six months ago takes half an hour.",
-					"Client data lives in Excel, email and your colleagues’ heads.",
-					"More clients means more chaos.",
-				],
-				quizCta: "Take the 3-min quiz",
-			},
 		},
 		caseStudy: {
 			title: [
@@ -481,7 +437,7 @@ const cardClass =
 
 	<section
 		id="services"
-		class="relative bg-surface-dark pt-10 pb-20 max-[30rem]:pt-[3.125rem]"
+		class="relative bg-surface-dark py-20 max-[30rem]:py-[3.125rem]"
 	>
 		<img
 			src="/global/images/space-bg.webp"
@@ -492,107 +448,51 @@ const cardClass =
 			class="absolute inset-0 size-full object-cover object-top max-[30rem]:object-bottom"
 		/>
 
-		<div class="relative z-10 mx-auto w-[92%] max-w-[76.875rem]">
-			<Badge class="align-top">{copy.services.badge}</Badge>
+		<div
+			class="relative z-10 mx-auto grid w-[92%] max-w-[76.875rem] grid-cols-[1.2fr_1fr] items-start gap-8 max-lg:grid-cols-1"
+		>
+			<div class="top-28 self-start lg:sticky">
+				<Badge class="align-top">{copy.services.badge}</Badge>
 
-			<h2
-				class="mt-5 mb-2.5 text-[3rem] leading-normal font-medium text-text-inverse max-[30rem]:text-[1.875rem]"
-			>
-				{
-					copy.services.title.map((part) => (
-						<>
-							<span
-								class:list={[
-									part.tone === "primary" && "text-primary",
-									part.tone === "accent" && "text-accent",
-								]}
-							>
-								{part.text}
-							</span>{" "}
-						</>
-					))
-				}
-			</h2>
-
-			<div class="grid grid-cols-[2fr_1fr] gap-8 pt-[1.875rem] max-lg:grid-cols-1">
-				<div>
-					<p class="text-sm leading-5 font-medium text-primary uppercase">
-						{copy.services.external.eyebrow}
-					</p>
-					<h3 class="mt-2.5 mb-2.5 text-2xl leading-[2.125rem] font-medium text-text-inverse">
-						{copy.services.external.title}
-					</h3>
-				</div>
-				<div>
-					<p class="text-sm leading-5 font-medium text-accent uppercase">
-						{copy.services.internal.eyebrow}
-					</p>
-					<h3 class="mt-2.5 mb-2.5 text-2xl leading-[2.125rem] font-medium text-text-inverse">
-						{copy.services.internal.title}
-					</h3>
-				</div>
-
-				<ul class="grid grid-cols-2 gap-4 max-md:grid-cols-1">
+				<h2
+					class="mt-5 max-w-[30rem] text-[3rem] leading-[1.25] font-medium text-text-inverse max-[30rem]:text-[1.875rem]"
+				>
 					{
-						copy.services.items.map((item) => (
-							<li class={`${cardClass} group relative hover:shadow-[0_2px_6px_color-mix(in_srgb,var(--color-shadow)_30%,transparent)]`}>
-								<ServiceIcon name={item.icon} />
-								<div class="flex flex-col items-start">
-									<h4 class="text-2xl leading-[2.125rem] font-medium">
-										{item.title}
-									</h4>
-									<p class="mt-2 mb-2.5 text-base leading-[1.625rem] font-light text-text-muted">
-										{item.text}
-									</p>
-									<Button
-										variant="link-arrow"
-										href="#"
-										class="mt-2 after:absolute after:inset-0 after:rounded-[20px] group-hover:text-primary-hover"
-									>
-										{copy.services.moreCta}
-									</Button>
-								</div>
-							</li>
+						copy.services.title.map((part) => (
+							<>
+								<span class:list={[part.tone === "primary" && "text-primary"]}>
+									{part.text}
+								</span>{" "}
+							</>
 						))
 					}
-				</ul>
-
-				<div class={cardClass}>
-					<div class="flex items-center justify-between gap-4">
-						<ServiceIcon name="strategy" tone="accent" />
-						<Badge>{copy.services.strategy.badge}</Badge>
-					</div>
-					<div class="flex flex-col items-start">
-						<h4 class="text-2xl leading-[2.125rem] font-medium">
-							{copy.services.strategy.title}
-						</h4>
-						<p class="mt-2 mb-2.5 text-base leading-[1.625rem] font-light text-text-muted">
-							{copy.services.strategy.text}
-						</p>
-					</div>
-					<hr class="border-t border-border-strong" />
-					<div class="pt-2">
-						<p class="text-sm leading-5 font-bold">
-							{copy.services.strategy.listTitle}
-						</p>
-						<ul class="mt-2 list-disc pl-4 marker:text-accent">
-							{
-								copy.services.strategy.list.map((text) => (
-									<li class="mb-3 text-sm leading-normal font-light">{text}</li>
-								))
-							}
-						</ul>
-					</div>
-					<div class="mt-auto flex flex-col items-start gap-4">
-						<Button variant="primary" href="#">
-							{copy.services.strategy.quizCta}
-						</Button>
-						<Button variant="link-arrow" href="#">
-							{copy.services.moreCta}
-						</Button>
-					</div>
-				</div>
+				</h2>
 			</div>
+
+			<ul class="relative z-10 flex flex-col gap-6">
+				{
+					copy.services.items.map((item) => (
+						<li class={`${cardClass} group relative hover:shadow-[0_2px_6px_color-mix(in_srgb,var(--color-shadow)_30%,transparent)]`}>
+							<ServiceIcon name={item.icon} />
+							<div class="flex flex-col items-start">
+								<h3 class="text-2xl leading-[2.125rem] font-medium">
+									{item.title}
+								</h3>
+								<p class="mt-2 mb-2.5 text-base leading-[1.625rem] font-light text-text-muted">
+									{item.text}
+								</p>
+								<Button
+									variant="link-arrow"
+									href="#"
+									class="mt-2 after:absolute after:inset-0 after:rounded-[20px] group-hover:text-primary-hover"
+								>
+									{copy.services.moreCta}
+								</Button>
+							</div>
+						</li>
+					))
+				}
+			</ul>
 		</div>
 	</section>
 
