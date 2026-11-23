@@ -10,12 +10,13 @@ import CtaBox from "../../components/CtaBox.astro";
 import TeamList from "../../components/TeamList.astro";
 import { mediaFileUrl } from "../../utils/media-url";
 import { resolveSiteIdentity } from "../../utils/site-identity";
+import { rewriteToNotFound } from "../../utils/not-found";
 
 const locale = Astro.currentLocale === "en" ? "en" : "hu";
 const slug = decodeSlug(Astro.params.slug);
 
 if (!slug) {
-	return Astro.rewrite("/404");
+	return rewriteToNotFound(Astro);
 }
 
 // A case study is never shown in another language, so a missing English translation is a 404 instead of a Hungarian fallback
@@ -26,7 +27,7 @@ const { entry: caseStudy, cacheHint } = await getEmDashEntry("case_studies", slu
 
 // EmDash falls back to the Hungarian entry when there is no translation, so the entry's own locale is checked too
 if (!caseStudy || (caseStudy.data as { locale?: string }).locale !== locale) {
-	return Astro.rewrite("/404");
+	return rewriteToNotFound(Astro);
 }
 
 const hints: CacheHint[] = [cacheHint];

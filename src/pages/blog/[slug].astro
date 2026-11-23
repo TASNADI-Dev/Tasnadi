@@ -10,12 +10,13 @@ import NewsletterSection from "../../components/NewsletterSection.astro";
 import { loadCategories, loadRelatedPosts, translationGroupOf } from "../../utils/blog-posts";
 import { richTextClass as contentClass } from "../../utils/rich-text-class";
 import { resolveSiteIdentity } from "../../utils/site-identity";
+import { rewriteToNotFound } from "../../utils/not-found";
 
 const locale = Astro.currentLocale === "en" ? "en" : "hu";
 const slug = decodeSlug(Astro.params.slug);
 
 if (!slug) {
-	return Astro.rewrite("/404");
+	return rewriteToNotFound(Astro);
 }
 
 // A post is never shown in another language, so a missing English translation is a 404 instead of a Hungarian fallback
@@ -26,7 +27,7 @@ const { entry: post, cacheHint } = await getEmDashEntry("posts", slug, {
 
 // EmDash falls back to the Hungarian entry when there is no translation, so the entry's own locale is checked too
 if (!post || (post.data as { locale?: string }).locale !== locale) {
-	return Astro.rewrite("/404");
+	return rewriteToNotFound(Astro);
 }
 
 const hints: CacheHint[] = [cacheHint];

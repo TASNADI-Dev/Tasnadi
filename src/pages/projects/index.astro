@@ -8,12 +8,13 @@ import CtaBox from "../../components/CtaBox.astro";
 import PageHero from "../../components/PageHero.astro";
 import { loadCaseStudies, parseProjectFilters } from "../../utils/case-studies";
 import { hasLocaleContent } from "../../utils/locale-content";
+import { rewriteToNotFound } from "../../utils/not-found";
 
 const locale = Astro.currentLocale === "en" ? "en" : "hu";
 
 // There is no projects page in a language without case studies, so /en/projects is a 404 until the first English one is published
 if (!(await hasLocaleContent("case_studies", locale))) {
-	return Astro.rewrite("/404");
+	return rewriteToNotFound(Astro);
 }
 
 const copy = {

@@ -5,10 +5,11 @@ import NewsletterSection from "../../components/NewsletterSection.astro";
 import PageHero from "../../components/PageHero.astro";
 import PodcastCard from "../../components/PodcastCard.astro";
 import { hasLocaleContent } from "../../utils/locale-content";
+import { rewriteToNotFound } from "../../utils/not-found";
 
 // The podcast is Hungarian only, so /en/podcast is a 404 instead of a Hungarian fallback
 if (!(await hasLocaleContent("podcasts", "hu")) || Astro.currentLocale === "en") {
-	return Astro.rewrite("/404");
+	return rewriteToNotFound(Astro);
 }
 
 const copy = {

@@ -1,9 +1,65 @@
 ---
+import { getRelativeLocaleUrl } from "astro:i18n";
 import Base from "../layouts/Base.astro";
+
+const locale = Astro.currentLocale === "en" ? "en" : "hu";
+const homeHref = getRelativeLocaleUrl(locale, "/").replace(/(.)\/$/, "$1");
+
+const copy = {
+	hu: {
+		pageTitle: "Nem található",
+		title: "A keresett oldal nem létezik, de nem veszett el.",
+		textLine1: "A megfelelő helyen jársz, hogy feldobd a márkádat.",
+		textLine2Start: "Kezdj a",
+		homeLink: "kezdőlapon",
+		textLine2End: ".",
+	},
+	en: {
+		pageTitle: "Not Found",
+		title: "The page you’re looking for doesn’t exist, but you’re not lost",
+		textLine1: "You’re in the right place to boost your brand.",
+		textLine2Start: "Head to the",
+		homeLink: "home page",
+		textLine2End: " to begin.",
+	},
+}[locale];
 ---
 
-<Base title="Not Found">
-	<h1>Page not found</h1>
-	<p>The page you're looking for doesn't exist.</p>
-	<a href="/">Go home</a>
+<Base title={copy.pageTitle}>
+	<section
+		class="relative min-h-lvh overflow-hidden bg-surface-dark pt-[30svh] max-lg:pt-[9.5rem]"
+	>
+		<img
+			src="/not-found/bg.webp"
+			alt=""
+			width="2268"
+			height="1224"
+			loading="eager"
+			fetchpriority="high"
+			class="absolute inset-0 size-full object-cover object-[50%_50%] max-lg:object-[70%_50%]"
+		/>
+
+		<div class="relative z-10 mx-auto w-[92%] max-w-[76.875rem]">
+			<h1
+				class="mb-2.5 text-[4.375rem] leading-[5.25rem] font-medium tracking-[-0.02em] text-text-inverse max-lg:text-[2.1875rem] max-lg:leading-[2.75rem]"
+			>
+				404
+			</h1>
+			<h2
+				class="max-w-[32.5rem] text-[2.125rem] leading-[2.75rem] font-medium text-primary max-lg:text-[1.625rem] max-lg:leading-9"
+			>
+				{copy.title}
+			</h2>
+			<p class="mt-2.5 text-xl leading-[1.625rem] font-bold text-text-inverse">
+				{copy.textLine1}<br />
+				{copy.textLine2Start}{" "}
+				<a
+					href={homeHref}
+					class="text-text-inverse underline-offset-4 transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+				>
+					{copy.homeLink}
+				</a>{copy.textLine2End}
+			</p>
+		</div>
+	</section>
 </Base>

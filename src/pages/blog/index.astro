@@ -8,12 +8,13 @@ import PageHero from "../../components/PageHero.astro";
 import NewsletterSection from "../../components/NewsletterSection.astro";
 import { loadBlogPosts, parseBlogFilters } from "../../utils/blog-posts";
 import { hasLocaleContent } from "../../utils/locale-content";
+import { rewriteToNotFound } from "../../utils/not-found";
 
 const locale = Astro.currentLocale === "en" ? "en" : "hu";
 
 // The blog does not exist in a language without posts, so /en/blog is a 404 until the first English post is published
 if (!(await hasLocaleContent("posts", locale))) {
-	return Astro.rewrite("/404");
+	return rewriteToNotFound(Astro);
 }
 
 const copy = {

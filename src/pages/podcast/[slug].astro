@@ -8,18 +8,19 @@ import PlatformLinks from "../../components/PlatformLinks.astro";
 import PodcastCard from "../../components/PodcastCard.astro";
 import { richTextClass } from "../../utils/rich-text-class";
 import { resolveSiteIdentity } from "../../utils/site-identity";
+import { rewriteToNotFound } from "../../utils/not-found";
 
 const slug = decodeSlug(Astro.params.slug);
 
 // The podcast is Hungarian only, so an episode never exists under /en
 if (!slug || Astro.currentLocale === "en") {
-	return Astro.rewrite("/404");
+	return rewriteToNotFound(Astro);
 }
 
 const { entry: episode, cacheHint } = await getEmDashEntry("podcasts", slug, { locale: "hu" });
 
 if (!episode) {
-	return Astro.rewrite("/404");
+	return rewriteToNotFound(Astro);
 }
 
 if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
