@@ -23,11 +23,11 @@ const copy = {
 		terms: "Általános Szerződési Feltételek",
 		services: "Szolgáltatásaink",
 		serviceLinks: [
-			"Weboldalak",
-			"Webshopok",
-			"Branding",
-			"Tanácsadás",
-			"Modern Vállalkozások Programja",
+			{ label: "Weboldalak", path: "/services/website" },
+			{ label: "Webshopok", path: "/services/webshops" },
+			{ label: "Branding", path: "/services/branding" },
+			{ label: "Tanácsadás", path: "/services/consulting" },
+			{ label: "Modern Vállalkozások Programja" },
 		],
 		company: "Cég",
 		companyLinks: [{ label: "Munkáink", path: "/projects" }, { label: "Módszer" }, { label: "Rólunk", path: "/about" }, { label: "Karrier" }],
@@ -41,11 +41,11 @@ const copy = {
 		terms: "General Terms & Conditions",
 		services: "Services",
 		serviceLinks: [
-			"Websites",
-			"Webshops",
-			"Branding",
-			"Consulting",
-			"Modern Vállalkozások Programja",
+			{ label: "Websites", path: "/services/website" },
+			{ label: "Webshops", path: "/services/webshops" },
+			{ label: "Branding", path: "/services/branding" },
+			{ label: "Consulting", path: "/services/consulting" },
+			{ label: "Modern Vállalkozások Programja" },
 		],
 		company: "Company",
 		companyLinks: [{ label: "Work", path: "/projects" }, { label: "Method" }, { label: "About", path: "/about" }, { label: "Careers" }],
@@ -141,8 +141,8 @@ const blockClass = "flex flex-col items-start gap-6";
 					</a>
 				</h2>
 				{
-					copy.serviceLinks.map((label) => (
-						<a href="#" class={linkClass}>
+					copy.serviceLinks.map(({ label, path }) => (
+						<a href={path ? withoutTrailingSlash(getRelativeLocaleUrl(locale, path)) : "#"} class={linkClass}>
 							{label}
 						</a>
 					))

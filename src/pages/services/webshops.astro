@@ -1,0 +1,14 @@
+---
+import Base from "../../layouts/Base.astro";
+
+const locale = Astro.currentLocale === "en" ? "en" : "hu";
+
+const copy = {
+	hu: { pageTitle: "Webshopok" },
+	en: { pageTitle: "E-commerce" },
+}[locale];
+---
+
+<Base title={copy.pageTitle}>
+	<main></main>
+</Base>

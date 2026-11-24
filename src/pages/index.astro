@@ -43,21 +43,25 @@ const copy = {
 			items: [
 				{
 					icon: "website" as const,
+					slug: "website",
 					title: "Weboldalak",
 					text: "Gondoskodunk róla, hogy weboldalad könnyen érthető legyen, és cégedet megbízhatónak mutassa.",
 				},
 				{
 					icon: "webshop" as const,
+					slug: "webshops",
 					title: "Webshopok",
 					text: "Hatékony és erős webshop megoldással indítjuk be az online értékesítésedet.",
 				},
 				{
 					icon: "branding" as const,
+					slug: "branding",
 					title: "Branding",
 					text: "Megkönnyítjük ügyfeleidnek, hogy megértsék: te vagy a legjobb választás számukra.",
 				},
 				{
 					icon: "consulting" as const,
+					slug: "consulting",
 					title: "Tanácsadás",
 					text: "Segítünk a megfelelő stratégia kidolgozásában, hogy kitűnj a piacon.",
 				},
@@ -139,21 +143,25 @@ const copy = {
 			items: [
 				{
 					icon: "website" as const,
+					slug: "website",
 					title: "Websites",
 					text: "We make sure your website is easy to comprehend and makes your company look trustworthy.",
 				},
 				{
 					icon: "webshop" as const,
+					slug: "webshops",
 					title: "E-commerce",
 					text: "We launch your online sales with an efficient and powerful e-commerce solution.",
 				},
 				{
 					icon: "branding" as const,
+					slug: "branding",
 					title: "Branding",
 					text: "We make it easy for your customers to understand: you are their best choice.",
 				},
 				{
 					icon: "consulting" as const,
+					slug: "consulting",
 					title: "Consulting",
 					text: "We help you create a strategy for standing out in your market.",
 				},
@@ -473,6 +481,7 @@ const fieldClass =
 							icon={item.icon}
 							title={item.title}
 							text={item.text}
+							href={`${localePrefix}/services/${item.slug}`}
 							moreLabel={copy.services.moreCta}
 						/>
 					))
