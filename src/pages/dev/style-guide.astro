@@ -12,7 +12,9 @@ import Navigation from "../../components/Navigation.astro";
 import NewsletterSection from "../../components/NewsletterSection.astro";
 import type { ComponentProps } from "astro/types";
 import PodcastCard from "../../components/PodcastCard.astro";
+import InfoTooltip from "../../components/InfoTooltip.astro";
 import ServiceCard from "../../components/ServiceCard.astro";
+import ServicePackage from "../../components/ServicePackage.astro";
 import ProcessTimeline from "../../components/ProcessTimeline.astro";
 import ServiceIcon from "../../components/ServiceIcon.astro";
 import TeamList from "../../components/TeamList.astro";
@@ -145,6 +147,7 @@ const semanticColors = [
 	{ name: "text-inverse", value: "white", swatch: "bg-text-inverse" },
 	{ name: "text-inverse-muted", value: "gray-300", swatch: "bg-text-inverse-muted" },
 	{ name: "text-inverse-subtle", value: "gray-400", swatch: "bg-text-inverse-subtle" },
+	{ name: "text-disabled", value: "gray-300", swatch: "bg-text-disabled" },
 	{ name: "border", value: "gray-200", swatch: "bg-border" },
 	{ name: "border-strong", value: "gray-300", swatch: "bg-border-strong" },
 	{ name: "border-inverse", value: "gray-600", swatch: "bg-border-inverse" },
@@ -296,6 +299,36 @@ const colorGroups = [
 								/>
 							</ul>
 						</div>
+					))
+				}
+			</div>
+		</section>
+
+		<section class="mt-16">
+			<h2 class="mb-8 text-2xl font-bold">Info tooltip</h2>
+
+			<div class="border-t border-border pt-6">
+				<InfoTooltip text="A short explanation of the item." label="More info" />
+			</div>
+		</section>
+
+		<section class="mt-16">
+			<h2 class="mb-8 text-2xl font-bold">Service package</h2>
+
+			<div class="grid grid-cols-3 gap-8 border-t border-border pt-6 max-lg:grid-cols-1">
+				{
+					[false, true].map((highlighted) => (
+						<ServicePackage
+							title={highlighted ? "Highlighted package" : "Package"}
+							text="Short description of who the package is for."
+							tooltipLabel="More info"
+							{highlighted}
+							items={[
+								{ label: "Included item", included: true, tooltip: "What this item means." },
+								{ label: "Not included item", included: false, tooltip: "What this item means." },
+								{ label: "Included item", included: true, tooltip: "What this item means." },
+							]}
+						/>
 					))
 				}
 			</div>

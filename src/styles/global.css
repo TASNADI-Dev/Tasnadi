@@ -35,6 +35,7 @@
 	--color-text-inverse: var(--color-white);
 	--color-text-inverse-muted: var(--color-gray-300);
 	--color-text-inverse-subtle: var(--color-gray-400);
+	--color-text-disabled: var(--color-gray-300);
 	--color-border: var(--color-gray-200);
 	--color-border-strong: var(--color-gray-300);
 	--color-border-inverse: var(--color-gray-600);

@@ -1,0 +1,69 @@
+---
+import InfoTooltip from "./InfoTooltip.astro";
+
+type Item = {
+	label: string;
+	/** Whether the package includes this item (check) or not (cross, greyed out) */
+	included: boolean;
+	/** Short explanation shown in the info tooltip */
+	tooltip: string;
+};
+
+type Props = {
+	title: string;
+	text: string;
+	items: Item[];
+	/** Accessible name of each info button */
+	tooltipLabel: string;
+	/** Emphasizes the package with the primary color and a stronger shadow */
+	highlighted?: boolean;
+	class?: string;
+};
+
+const { title, text, items, tooltipLabel, highlighted = false, class: className } = Astro.props;
+---
+
+<article
+	class:list={[
+		"flex flex-col overflow-hidden rounded-[20px] bg-background",
+		highlighted
+			? "shadow-[0_2px_40px_color-mix(in_srgb,var(--color-shadow)_30%,transparent),0_40px_30px_color-mix(in_srgb,var(--color-shadow)_10%,transparent)]"
+			: "shadow-[0_2px_2px_color-mix(in_srgb,var(--color-shadow)_20%,transparent)]",
+		className,
+	]}
+>
+	<header class:list={["py-3 pr-2.5 pl-3 text-center text-text-inverse", highlighted ? "bg-primary" : "bg-accent"]}>
+		<h3 class="text-base leading-5 font-medium">{title}</h3>
+		<p class="mt-0.5 text-xs leading-4 font-light">{text}</p>
+	</header>
+
+	<ul>
+		{
+			items.map((item) => (
+				<li class="flex items-center gap-2.5 bg-surface px-2.5 py-3 text-sm leading-5 font-bold even:bg-background">
+					{item.included ? (
+						<svg viewBox="0 0 14 11" fill="none" aria-hidden="true" class="h-[0.6875rem] w-3.5 shrink-0 text-accent">
+							<path
+								d="M4.48879 7.9759L11.8969 0.567825C12.1271 0.337631 12.42 0.222534 12.7758 0.222534C13.1315 0.222534 13.4245 0.337631 13.6547 0.567825C13.8849 0.798019 14 1.09099 14 1.44675C14 1.8025 13.8849 2.09548 13.6547 2.32567L5.36771 10.6127C5.11659 10.8638 4.82362 10.9893 4.48879 10.9893C4.15396 10.9893 3.86099 10.8638 3.60987 10.6127L0.345291 7.34809C0.115097 7.1179 0 6.82492 0 6.46917C0 6.11342 0.115097 5.82044 0.345291 5.59025C0.575485 5.36005 0.86846 5.24496 1.22422 5.24496C1.57997 5.24496 1.87294 5.36005 2.10314 5.59025L4.48879 7.9759Z"
+								fill="currentColor"
+							/>
+						</svg>
+					) : (
+						<svg viewBox="0 0 11 12" fill="none" aria-hidden="true" class="h-[0.6875rem] w-3.5 shrink-0 text-primary">
+							<path
+								fill-rule="evenodd"
+								clip-rule="evenodd"
+								d="M10.6282 0.477703C11.1238 0.973365 11.1238 1.77699 10.6282 2.27265L7.29486 5.60596L10.6282 8.93926C11.1238 9.43492 11.1238 10.2385 10.6282 10.7342C10.1325 11.2299 9.32888 11.2299 8.83322 10.7342L5.49992 7.40091L2.1667 10.7341C1.67103 11.2298 0.867408 11.2298 0.371746 10.7341C-0.123915 10.2385 -0.123915 9.43484 0.371746 8.93918L3.70497 5.60596L0.371746 2.27274C-0.123915 1.77708 -0.123915 0.973449 0.371746 0.477787C0.867408 -0.0178742 1.67103 -0.0178742 2.1667 0.477787L5.49992 3.81101L8.83322 0.477703C9.32888 -0.0179584 10.1325 -0.0179584 10.6282 0.477703Z"
+								fill="currentColor"
+							/>
+						</svg>
+					)}
+					<span class="flex items-center gap-1.5">
+						<span class={item.included ? "text-text" : "text-text-disabled"}>{item.label}</span>
+						<InfoTooltip text={item.tooltip} label={tooltipLabel} />
+					</span>
+				</li>
+			))
+		}
+	</ul>
+</article>

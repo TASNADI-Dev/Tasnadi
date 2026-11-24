@@ -1,0 +1,14 @@
+---
+import Base from "../../../layouts/Base.astro";
+
+const locale = Astro.currentLocale === "en" ? "en" : "hu";
+
+const copy = {
+	hu: { pageTitle: "Webflow fejlesztés – Honlapkészítés Webflow rendszerben" },
+	en: { pageTitle: "Webflow development – Web page creation in Webflow system" },
+}[locale];
+---
+
+<Base title={copy.pageTitle}>
+	<main></main>
+</Base>

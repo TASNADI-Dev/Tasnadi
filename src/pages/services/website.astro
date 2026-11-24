@@ -2,6 +2,9 @@
 import { getRelativeLocaleUrl } from "astro:i18n";
 import Base from "../../layouts/Base.astro";
 import Button from "../../components/Button.astro";
+import ClutchReviews from "../../components/ClutchReviews.astro";
+import CtaBox from "../../components/CtaBox.astro";
+import ServicePackage from "../../components/ServicePackage.astro";
 import ProcessTimeline from "../../components/ProcessTimeline.astro";
 import VideoCard from "../../components/VideoCard.astro";
 
@@ -75,6 +78,65 @@ const copy = {
 				},
 			],
 		},
+		cta: {
+			title: "Érdekel a szolgáltatásunk?",
+			text: "Jelentkezz egy ingyenes konzultációra, ahol felmérjük az elakadásaid, üzleti céljaid, és meghatározzuk a stratégiai lehetőségeket!",
+			buttonLabel: "Ajánlatot kérek",
+		},
+		packages: {
+			title: "Szolgáltatásaink",
+			tooltipLabel: "További információ",
+			items: [
+				{ label: "Start Meeting", tooltip: "Az első lépés, ahol átbeszéljük a legfontosabb kérdéseket, elvárásokat és a projekt időzítését." },
+				{ label: "Workshop", tooltip: "Egy fókuszált beszélgetés, amely során közösen pontosítjuk, mire van szüksége a vállalkozásodnak, és mit szeretnél elérni." },
+				{ label: "Versenytárselemzés", tooltip: "Megvizsgáljuk a hazai és nemzetközi konkurenciád, inspirációt gyűjtünk és megnézzük, hogy hol és hogyan tudnál igazán kiemelkedni." },
+				{ label: "Márkaidentitás", tooltip: "Meghatározzuk, hogyan nézzen ki a céged online megjelenése, mit kommunikálj, ezt pedig rögzítjük, hogy minden más tartalmat ehhez igazítva tudj elkészíteni a jövőben." },
+				{ label: "Sitemap", tooltip: "Megtervezzük a weboldalad felépítését a célközönséged igényeit és a felhasználói élményt szem előtt tartva." },
+				{ label: "Drótvázak", tooltip: "Ez lesz a weboldalad “alaprajza” – pontosan kidolgozzuk, hol és milyen tartalmak és funkciók fognak elhelyezkedni." },
+				{ label: "Prototípus", tooltip: "Itt áll össze minden – a dizájn, a színek, a képek és a szövegek –, mielőtt bármit is véglegesítenénk, már láthatod, hogyan fog kinézni az új weboldalad." },
+				{ label: "Szövegírás", tooltip: "Megírjuk a weboldalad szövegezését, amely nemcsak jól hangzik, hanem marketing-, UX- és SEO-szempontból is hatékony." },
+			],
+			template: { label: "Weboldal sablon alapján", tooltip: "Elkészítjük az előre megalkotott vázra épülő honlapodat." },
+			custom: {
+				label: "Egyedi weboldal fejlesztés",
+				tooltip: "Elkészítjük az egyedi weboldalad, amit nemcsak a Te igényeidhez és a céged stílusához igazítunk, hanem UX/UI szempontból is optimalizálunk, hogy valóban hatékonyan támogassa az üzleti céljaid.",
+			},
+			cards: [
+				{ title: "Egyszerű weboldal", text: "Ha egy gyors, költséghatékony megoldást keresel, ami mégis professzionális. A honlapkészítés árak ebben az esetben rendkívül kedvezőek." },
+				{ title: "Egyedi weboldal", text: "Ha egy egyedülálló webhelyet szeretnél, nulla kompromisszummal. Ide tartozik a profi webfejlesztés és az egyedi honlapkészítés." },
+				{ title: "Landing page", text: "Ha egy egyoldalas, magas konverziós hatású erőműre van szükséged a weblap fejlesztés keretében." },
+			],
+		},
+		further: {
+			title: "További szolgáltatásaink",
+			more: "Tovább",
+			items: ["Weboldal tervezés", "UX / UI tervezés", "Webflow fejlesztés", "Wordpress fejlesztés"],
+		},
+		why: {
+			title: "A nagy kérdés:",
+			titleHighlight: "miért minket válassz?",
+			items: [
+				{
+					title: "0% stressz, 100%-os hatékonyság",
+					text: "Egyszerűen működünk: rád és az eredményekre fókuszálunk. Webfejlesztés szolgáltatásunkat úgy fejlesztettük ki, hogy számodra a lehető legkényelmesebb, emellett pedig gördülékeny legyen az együttműködés – minderről a dedikált projektmenedzsered fog gondoskodni, aki folyamatosan tartani fogja veled a kapcsolatot.",
+				},
+				{
+					title: "Többek vagyunk, mint végrehajtók",
+					text: "A partnerségben hiszünk. Nem akarjuk csak letudni a feladatot, azt akarjuk, hogy a segítségünkkel elérd az üzleti céljaid. A marketing minden területéről van partnerünk (SEO, PPC, branding, PR), hogy a weboldalad a marketing rendszered része legyen.",
+				},
+				{
+					title: "Azt adjuk, ami a sikeredhez kell.",
+					text: "Mit sem ér egy szép weboldal, ha az nem hoz ügyfeleket, ezt pontosan tudjuk. Épp ezért kiemelt figyelmet fordítunk a stratégiai fázisra. Megismerjük a célközönséged, az ő igényeiket és egy olyan weboldalt alkotunk számodra, ami elhivatott jelentkezőket generál, akikből könnyedén fizető ügyfelek lesznek.",
+				},
+			],
+			note: ["Ezt viszont kizárólag úgy tudjuk maradéktalanul biztosítani, ha határokat húzunk.", "Ezért egy hónapban csak 4-6 új ügyfelet tudunk vállalni, hogy minden website készítés projektnek megadjuk a szükséges figyelmet."],
+		},
+		technologies: {
+			title: "Kizárólag",
+			titleHighlight: "modern, megbízható technológiákkal",
+			titleEnd: "dolgozunk.",
+			text: "Ezek a technológiák garantálják, hogy az oldalad gyönyörű, hatékony, ugyanakkor egyszerűen karbantartható és frissíthető legyen. Mindig az adott projekthez legmegfelelőbb eszközt és szoftvert használjuk. Mindezt veled is megbeszéljük, elmondjuk azok előnyeit és hátrányait, hogy ne csak támaszkodhass ránk, de értsd is, mit, miért csinálunk.",
+		},
 	},
 	en: {
 		pageTitle: "Web development & professional website design",
@@ -143,8 +205,82 @@ const copy = {
 				},
 			],
 		},
+		cta: {
+			title: "Interested?",
+			text: "Let’s have a conversation and see how we can help boost your brand.",
+			buttonLabel: "Sounds interesting; let’s chat!",
+		},
+		packages: {
+			title: "Our services",
+			tooltipLabel: "More info",
+			items: [
+				{ label: "Start meeting", tooltip: "Kickoff session to align on goals, expectations, and timeline." },
+				{ label: "Workshop", tooltip: "A focused conversation to uncover what your business truly needs - so your website works, not just looks good." },
+				{ label: "Competitor analysis", tooltip: "We’ll dig deep into local and international players, uncovering how you can truly stand out." },
+				{ label: "Brandguide", tooltip: "We’ll define your company’s online identity and messaging and create a playbook to keep future content consistent." },
+				{ label: "Sitemap", tooltip: "A user-centric plan that sets the foundation for a seamless experience." },
+				{ label: "Wireframes", tooltip: "The blueprint for where every piece of content and functionality will live." },
+				{ label: "Visuals", tooltip: "See your new site take shape before we finalize anything." },
+				{ label: "Copywriting", tooltip: "Words that not only sound good but drive action - built for marketing, UX, and SEO." },
+			],
+			template: { label: "Website template", tooltip: "Built on a proven, flexible framework for speed and efficiency." },
+			custom: { label: "Custom website development", tooltip: "A handcrafted site tailored exactly to your needs and your brand’s essence." },
+			cards: [
+				{ title: "Simple website", text: "If you’re looking for a quick, cost-effective, yet professional launchpad. In this case, our website creation prices are extremely favorable." },
+				{ title: "Custom website", text: "If you demand a one-of-a-kind site with zero compromises. Our professional web development process is ideal for custom website creation." },
+				{ title: "Landing page", text: "If you need a one-page, high-converting powerhouse, we offer custom landing page design as part of our web page development services." },
+			],
+		},
+		further: {
+			title: "Our further services",
+			more: "Learn more",
+			items: ["Website design", "UX / UI design", "Webflow development", "Wordpress development"],
+		},
+		why: {
+			title: "The big question:",
+			titleHighlight: "why choose us?",
+			items: [
+				{
+					title: "0% stress, 100% results",
+					text: "We keep it clean and simple: focus on you and your goals. With a dedicated project manager by your side, communication stays smooth and painless.",
+				},
+				{
+					title: "More than just executors",
+					text: "We’re your strategic partners. From SEO to PPC, branding to PR, we connect the dots so your website fits into a winning marketing system.",
+				},
+				{
+					title: "We deliver what actually matters",
+					text: "A beautiful site is useless if it doesn’t bring clients. We get that. That’s why strategy leads everything we do - understanding your audience, anticipating their needs, and creating a site that turns visitors into loyal customers.",
+				},
+			],
+			note: ["But excellence demands focus.", "That’s why we limit ourselves to just 4–6 new clients a month, ensuring every website creation project receives the dedicated attention it deserves."],
+		},
+		technologies: {
+			title: "We work exclusively with",
+			titleHighlight: "modern, trusted technologies.",
+			titleEnd: "",
+			text: "These tools don’t just make your website beautiful and powerful - they make it easy to manage and future-proof. We’ll walk you through every decision, so you’ll always know exactly why we recommend what we do. No mystery, just smart, strategic choices.",
+		},
 	},
 }[locale];
+
+const technologies = [
+	{ name: "Webflow", src: "/global/technologies/webflow.webp" },
+	{ name: "WordPress", src: "/global/technologies/wordpress.webp" },
+	{ name: "HTML", src: "/global/technologies/html.webp" },
+	{ name: "CSS", src: "/global/technologies/css.webp" },
+	{ name: "JavaScript", src: "/global/technologies/javascript.webp" },
+];
+
+const packageIncluded = [
+	[true, false, true, false, true, false, false, true, true],
+	[true, true, true, true, true, true, true, true, true],
+	[true, true, true, false, false, true, true, true, true],
+] as const;
+
+const packageLastItem = ["template", "custom", "custom"] as const;
+
+const furtherServices = ["website-design", "ux-ui-design", "webflow-development", "wordpress-development"];
 
 const weeks = Array.from({ length: 15 }, (_, index) => copy.process.week(String(index + 1).padStart(2, "0")));
 
@@ -168,6 +304,14 @@ const stepLayout = [
 ] as const;
 
 const contactHref = getRelativeLocaleUrl(locale, "/contact").replace(/(.)\/$/, "$1");
+
+const packages = copy.packages.cards.map((card, index) => ({
+	...card,
+	items: [...copy.packages.items, copy.packages[packageLastItem[index]]].map((item, itemIndex) => ({
+		...item,
+		included: packageIncluded[index][itemIndex],
+	})),
+}));
 ---
 
 <Base title={copy.pageTitle}>
@@ -342,5 +486,145 @@ const contactHref = getRelativeLocaleUrl(locale, "/contact").replace(/(.)\/$/, "
 			loading="lazy"
 			class="pointer-events-none absolute bottom-0 left-0 h-auto w-[39.1875rem] max-w-full"
 		/>
+	</section>
+	<section class="bg-background py-24 max-lg:py-16">
+		<div class="mx-auto w-[92%] max-w-[76.875rem]">
+			<CtaBox
+				title={copy.cta.title}
+				text={copy.cta.text}
+				buttonLabel={copy.cta.buttonLabel}
+				buttonHref={contactHref}
+			/>
+		</div>
+	</section>
+
+	<section
+		class="bg-background bg-[url(/services/website/technologies-bg.webp)] bg-[length:79.125rem_auto] bg-[position:50%_5.625rem] bg-no-repeat pt-[11.25rem] pb-16 max-lg:pt-32 max-md:bg-[length:60rem_auto] max-md:pt-24"
+	>
+		<div class="mx-auto w-[92%] max-w-[76.875rem] text-center">
+			<h2 class="mx-auto max-w-[44rem] font-medium text-text text-heading">
+				{copy.technologies.title}{" "}
+				<span class="text-primary">{copy.technologies.titleHighlight}</span>
+				{copy.technologies.titleEnd && ` ${copy.technologies.titleEnd}`}
+			</h2>
+
+			<ul class="mt-12 flex flex-wrap items-center justify-center gap-x-10 gap-y-8 max-md:mt-8 max-md:gap-x-6">
+				{
+					technologies.map((tech) => (
+						<li>
+							<img
+								src={tech.src}
+								alt={tech.name}
+								width="220"
+								height="220"
+								loading="lazy"
+								class="h-auto w-[8.5rem] max-md:w-[6.5rem]"
+							/>
+						</li>
+					))
+				}
+			</ul>
+
+			<p class="mx-auto mt-10 max-w-[35.5625rem] text-base leading-[1.625rem] font-light text-text">
+				{copy.technologies.text}
+			</p>
+		</div>
+	</section>
+	<section class="bg-background pt-16 pb-24 max-lg:pb-16">
+		<div class="mx-auto w-[92%] max-w-[76.875rem]">
+			<h2 class="text-center font-medium text-text text-heading">{copy.packages.title}</h2>
+
+			<div class="mx-auto mt-16 grid max-w-[61.9375rem] grid-cols-3 gap-[2.1875rem] max-lg:gap-6 max-md:mt-10 max-md:grid-cols-1">
+				{
+					packages.map((pkg, index) => (
+						<ServicePackage
+							title={pkg.title}
+							text={pkg.text}
+							items={pkg.items}
+							tooltipLabel={copy.packages.tooltipLabel}
+							highlighted={index === 1}
+						/>
+					))
+				}
+			</div>
+
+			<div class="mx-auto mt-[7.5rem] max-w-[56.5rem] max-md:mt-20">
+				<h3 class="text-center text-2xl leading-[2.125rem] font-medium text-text">{copy.further.title}</h3>
+
+				<ul class="mt-11 grid grid-cols-4 gap-16 max-lg:grid-cols-2 max-lg:gap-10 max-sm:grid-cols-1">
+					{
+						furtherServices.map((slug, index) => (
+							<li class="flex items-start gap-3">
+								<img
+									src="/services/website/further-service-icon.svg"
+									alt=""
+									width="26"
+									height="28"
+									loading="lazy"
+									class="h-7 w-[1.625rem] shrink-0"
+								/>
+								<div>
+									<h4 class="mb-3 text-xl leading-[1.625rem] font-medium text-text">{copy.further.items[index]}</h4>
+									<Button
+										variant="link-arrow"
+										href={getRelativeLocaleUrl(locale, `/services/website/${slug}`).replace(/(.)\/$/, "$1")}
+									>
+										{copy.further.more}
+									</Button>
+								</div>
+							</li>
+						))
+					}
+				</ul>
+			</div>
+		</div>
+	</section>
+
+	<section class="flow-root bg-surface pb-24 max-lg:pb-16 [&_.clutch-widget]:overflow-hidden [&_.clutch-widget]:rounded-[20px]">
+		<ClutchReviews />
+	</section>
+
+	<section class="bg-surface pb-16">
+		<div class="mx-auto w-[92%] max-w-[63.4375rem]">
+			<h2 class="text-center font-medium text-text text-heading">
+				{copy.why.title} <span class="text-primary">{copy.why.titleHighlight}</span>
+			</h2>
+
+			<ul class="mt-16 grid grid-cols-3 gap-6 max-md:mt-10 max-md:grid-cols-1">
+				{
+					copy.why.items.map((item) => (
+						<li class="flex items-start gap-3">
+							<img
+								src="/global/images/star-icon.webp"
+								alt=""
+								width="26"
+								height="26"
+								loading="lazy"
+								class="size-[1.625rem] shrink-0"
+							/>
+							<div>
+								<h3 class="text-xl leading-[1.625rem] font-medium text-text">{item.title}</h3>
+								<p class="mt-2 text-base leading-[1.625rem] font-light text-text-muted">{item.text}</p>
+							</div>
+						</li>
+					))
+				}
+			</ul>
+
+			<p class="mx-auto mt-16 max-w-[40rem] text-center text-2xl leading-[2.125rem] font-normal text-text max-md:mt-10 max-md:text-xl max-md:leading-8">
+				{copy.why.note[0]}<br class="max-md:hidden" />{" "}{copy.why.note[1]}
+			</p>
+		</div>
+	</section>
+
+	<section class="bg-surface py-10">
+		<div class="mx-auto w-[92%] max-w-[76.875rem]">
+			<CtaBox
+				title={copy.cta.title}
+				text={copy.cta.text}
+				buttonLabel={copy.cta.buttonLabel}
+				buttonHref={contactHref}
+			/>
+		</div>
 	</section>
 </Base>

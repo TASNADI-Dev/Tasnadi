@@ -1,0 +1,79 @@
+---
+type Props = {
+	/** Tooltip text shown in the native popover */
+	text: string;
+	/** Accessible name of the info button */
+	label: string;
+	class?: string;
+};
+
+const { text, label, class: className } = Astro.props;
+const id = `tooltip-${crypto.randomUUID().slice(0, 8)}`;
+---
+
+<span class:list={["inline-flex", className]}>
+	<button
+		type="button"
+		data-tooltip-trigger
+		aria-label={label}
+		aria-describedby={id}
+		class="inline-flex size-4 cursor-help rounded-full text-text-disabled transition-colors duration-200 hover:text-text-muted focus-visible:text-text-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+	>
+		<svg viewBox="0 0 16 17" fill="none" aria-hidden="true" class="size-full">
+			<path d="M7 5.37546V3.79346H8.764V5.37546H7ZM7 13.7335V6.59346H8.778V13.7335H7Z" fill="currentColor"></path>
+			<path
+				d="M15.4 8.79346C15.4 12.8804 12.0869 16.1935 8 16.1935C3.91309 16.1935 0.6 12.8804 0.6 8.79346C0.6 4.70655 3.91309 1.39346 8 1.39346C12.0869 1.39346 15.4 4.70655 15.4 8.79346Z"
+				stroke="currentColor"
+				stroke-width="1.2"></path>
+		</svg>
+	</button>
+	<div
+		id={id}
+		role="tooltip"
+		popover="manual"
+		class="m-0 max-w-[min(18rem,calc(100vw-1rem))] inset-auto overflow-visible rounded-[4px] bg-surface-dark px-[0.5625rem] py-[0.3125rem] text-sm leading-[1.4] font-normal text-text-inverse"
+	>
+		{text}
+	</div>
+</span>
+
+<script>
+	// Opens native popover tooltips on hover, focus or tap and positions them above (or below) the info button.
+	const gap = 8;
+	const triggers = document.querySelectorAll<HTMLButtonElement>("[data-tooltip-trigger]");
+
+	const popoverOf = (trigger: HTMLElement) => document.getElementById(trigger.getAttribute("aria-describedby") ?? "");
+
+	const show = (trigger: HTMLElement) => {
+		const popover = popoverOf(trigger);
+		if (!popover || popover.matches(":popover-open")) return;
+		popover.showPopover();
+		const anchor = trigger.getBoundingClientRect();
+		const box = popover.getBoundingClientRect();
+		const left = Math.min(Math.max(anchor.left + anchor.width / 2 - box.width / 2, gap), window.innerWidth - box.width - gap);
+		const above = anchor.top - box.height - gap;
+		popover.style.left = `${left}px`;
+		popover.style.top = `${above >= gap ? above : anchor.bottom + gap}px`;
+	};
+
+	const hide = (trigger: HTMLElement) => {
+		const popover = popoverOf(trigger);
+		if (popover?.matches(":popover-open")) popover.hidePopover();
+	};
+
+	triggers.forEach((trigger) => {
+		trigger.addEventListener("pointerenter", (event) => event.pointerType === "mouse" && show(trigger));
+		trigger.addEventListener("pointerleave", (event) => event.pointerType === "mouse" && hide(trigger));
+		trigger.addEventListener("focus", () => trigger.matches(":focus-visible") && show(trigger));
+		trigger.addEventListener("blur", () => hide(trigger));
+		trigger.addEventListener("click", (event) => {
+			if (event.pointerType === "mouse") return;
+			popoverOf(trigger)?.matches(":popover-open") ? hide(trigger) : show(trigger);
+		});
+	});
+
+	document.addEventListener("pointerdown", (event) => {
+		triggers.forEach((trigger) => event.target !== trigger && !trigger.contains(event.target as Node) && hide(trigger));
+	});
+	document.addEventListener("keydown", (event) => event.key === "Escape" && triggers.forEach(hide));
+</script>
