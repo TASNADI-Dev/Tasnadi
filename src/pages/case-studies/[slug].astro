@@ -155,7 +155,7 @@ const stepLeftClass =
 const richTextClass = [
 	"text-base leading-[1.625rem] font-light text-text-muted",
 	"[&>:first-child]:mt-0",
-	"[&_:is(h2,h3)]:mt-0 [&_:is(h2,h3)]:mb-6 [&_:is(h2,h3)]:text-[3rem] [&_:is(h2,h3)]:leading-[3.9rem] [&_:is(h2,h3)]:font-medium [&_:is(h2,h3)]:tracking-[-0.02em] [&_:is(h2,h3)]:text-text max-lg:[&_:is(h2,h3)]:text-[2.25rem] max-lg:[&_:is(h2,h3)]:leading-[2.75rem]",
+	"[&_:is(h2,h3)]:mt-0 [&_:is(h2,h3)]:mb-6 [&_:is(h2,h3)]:text-heading [&_:is(h2,h3)]:font-medium [&_:is(h2,h3)]:text-text",
 	"[&_p]:my-0 [&_p+p]:mt-3",
 	"[&_strong]:font-bold [&_strong]:text-text",
 	"[&_a]:text-accent [&_a]:underline [&_a]:underline-offset-2 [&_a]:transition-colors [&_a]:duration-200 [&_a:hover]:text-primary motion-reduce:[&_a]:transition-none",
@@ -213,7 +213,7 @@ const seo = getSeoMeta(caseStudy, {
 					)
 				}
 				<h1
-					class="text-[3rem] leading-[3.6rem] font-medium tracking-[-0.02em] max-lg:text-[2.25rem] max-lg:leading-[2.75rem]"
+					class="font-medium text-heading"
 				>
 					{caseStudy.data.hero_text}
 				</h1>
@@ -281,7 +281,7 @@ const seo = getSeoMeta(caseStudy, {
 				</div>
 
 				<div class="mx-auto mt-8 w-[92%] max-w-[76.875rem] max-lg:mt-6">
-					<h2 class="mx-auto text-center text-[3rem] leading-[3.9rem] font-medium tracking-[-0.02em] max-lg:text-[2.25rem] max-lg:leading-[2.75rem]">
+					<h2 class="mx-auto text-center font-medium text-heading">
 						{copy.startedTitle}
 					</h2>
 
@@ -410,7 +410,7 @@ const seo = getSeoMeta(caseStudy, {
 				</svg>
 
 				<div class="relative mx-auto w-[92%] max-w-[76.875rem] text-text-inverse">
-					<h2 class="mx-auto text-center text-[3rem] leading-[3.9rem] font-medium tracking-[-0.02em] max-lg:text-[2.25rem] max-lg:leading-[2.75rem]">
+					<h2 class="mx-auto text-center font-medium text-heading">
 						{copy.brandTitle}
 					</h2>
 
@@ -476,7 +476,7 @@ const seo = getSeoMeta(caseStudy, {
 				]}
 			>
 				<div class="mx-auto w-[92%] max-w-[76.875rem]">
-					<h2 class="mx-auto text-center text-[3rem] leading-[3.9rem] font-medium tracking-[-0.02em] max-lg:text-[2.25rem] max-lg:leading-[2.75rem]">
+					<h2 class="mx-auto text-center font-medium text-heading">
 						{copy.overviewTitle}
 					</h2>
 
@@ -531,7 +531,7 @@ const seo = getSeoMeta(caseStudy, {
 				/>
 
 				<div class="relative mx-auto w-[92%] max-w-[76.875rem]">
-					<h2 class="mx-auto text-center text-[3rem] leading-[3.9rem] font-medium tracking-[-0.02em] max-lg:text-[2.25rem] max-lg:leading-[2.75rem]">
+					<h2 class="mx-auto text-center font-medium text-heading">
 						{copy.summaryTitle}
 					</h2>
 
@@ -569,7 +569,7 @@ const seo = getSeoMeta(caseStudy, {
 		team.length > 0 && (
 			<section class="bg-background pt-8 pb-24 max-lg:pb-16">
 				<div class="mx-auto w-[92%] max-w-[76.875rem]">
-					<h2 class="mx-auto max-w-[56.5rem] text-center text-[3rem] leading-[3.9rem] font-medium tracking-[-0.02em] max-lg:text-[2.25rem] max-lg:leading-[2.75rem]">
+					<h2 class="mx-auto max-w-[56.5rem] text-center font-medium text-heading">
 						{copy.behindTitle}
 					</h2>
 					<p class="mx-auto mt-8 max-w-[38rem] text-center text-base leading-[1.625rem] font-light text-text">

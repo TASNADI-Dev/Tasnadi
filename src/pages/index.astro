@@ -115,7 +115,7 @@ const copy = {
 				successMessage: "Vissza",
 				labels: { name: "Név", phone: "Telefon", email: "E-mail", message: "Üzenet" },
 				placeholders: {
-					name: "János Kovács",
+					name: "Kovács János",
 					phone: "+36201234567",
 					email: "kovacs.janos@vallalat.hu",
 					message: "Rövid leírás a megkeresés céljáról",
@@ -413,7 +413,7 @@ const fieldClass =
 
 		<div class="relative z-10 mx-auto w-[92%] max-w-[76.875rem]">
 			<h1
-				class="max-w-[32.5rem] pr-10 text-[4.375rem] leading-[5.25rem] font-medium tracking-[-0.02em] text-text max-lg:text-[2.1875rem] max-lg:leading-[2.75rem]"
+				class="max-w-[32.5rem] pr-10 font-medium text-text text-display"
 			>
 				{copy.titleStart}{" "}
 				<span class="text-primary">{copy.titleHighlight}</span>
@@ -460,7 +460,7 @@ const fieldClass =
 				<Badge class="align-top">{copy.services.badge}</Badge>
 
 				<h2
-					class="mt-5 max-w-[30rem] text-[3rem] leading-[1.25] font-medium text-text-inverse max-[30rem]:text-[1.875rem]"
+					class="mt-5 max-w-[30rem] font-medium text-text-inverse text-heading"
 				>
 					{
 						copy.services.title.map((part) => (
@@ -511,7 +511,7 @@ const fieldClass =
 			/>
 
 			<div class="relative z-10 mx-auto w-[92%] max-w-[76.875rem]">
-				<h2 class="text-[3rem] leading-normal font-medium text-text max-[30rem]:text-[1.875rem]">
+				<h2 class="font-medium text-text text-heading">
 					{copy.caseStudy.title.map((part) => (
 						<>
 							<span
@@ -646,7 +646,7 @@ const fieldClass =
 			/>
 
 			<div class="relative z-10 mx-auto w-[92%] max-w-[76.875rem]">
-				<h2 class="mb-12 text-[3rem] leading-normal font-medium text-text-inverse max-[30rem]:text-[1.875rem]">
+				<h2 class="mb-12 font-medium text-text-inverse text-heading">
 					{
 						copy.contact.title.map((part) => (
 							<>

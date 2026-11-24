@@ -194,7 +194,7 @@ if (ownerHint && Astro.cache?.enabled) Astro.cache.set(ownerHint);
 		>
 			<div class="max-w-[34rem]">
 				<h1
-					class="text-[4.375rem] leading-[5.25rem] font-medium tracking-[-0.02em] text-text-inverse max-lg:text-[2.1875rem] max-lg:leading-[2.75rem]"
+					class="font-medium text-text-inverse text-display"
 				>
 					{copy.title}
 				</h1>
@@ -229,7 +229,7 @@ if (ownerHint && Astro.cache?.enabled) Astro.cache.set(ownerHint);
 		<div class="mx-auto w-[92%] max-w-[76.875rem]">
 			<div class="mx-auto flex max-w-[30.8125rem] flex-col items-center gap-6 text-center">
 				<h2
-					class="text-[3rem] leading-[3.625rem] font-medium text-text max-[30rem]:text-[1.875rem] max-[30rem]:leading-normal"
+					class="font-medium text-text text-heading"
 				>
 					{
 						copy.services.title.map((part) => (
@@ -327,7 +327,7 @@ if (ownerHint && Astro.cache?.enabled) Astro.cache.set(ownerHint);
 			<div class="mt-20 flex justify-between gap-[7.5rem] max-xl:gap-16 max-lg:flex-col max-lg:gap-14">
 				<div class="lg:sticky lg:top-[8.75rem] lg:max-w-[31.625rem] lg:flex-1 lg:self-start">
 					<h2
-						class="text-[3rem] leading-[4.5rem] font-medium text-text-inverse max-[30rem]:text-[1.875rem] max-[30rem]:leading-[2.8125rem]"
+						class="font-medium text-text-inverse text-heading"
 					>
 						{
 							copy.benefits.title.map((part) => (
@@ -354,7 +354,7 @@ if (ownerHint && Astro.cache?.enabled) Astro.cache.set(ownerHint);
 						copy.benefits.items.map((item) => (
 							<li class="flex gap-3">
 								<img
-									src="/services/benefits/icon.webp"
+									src="/global/images/star-icon.webp"
 									alt=""
 									width="26"
 									height="26"

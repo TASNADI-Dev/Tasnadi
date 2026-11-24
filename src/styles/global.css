@@ -80,6 +80,31 @@
 	}
 }
 
+/* Heading scale shared by every page: page titles (display) and section titles (heading) */
+@utility text-display {
+	font-size: 4.375rem;
+	line-height: 5.25rem;
+	letter-spacing: -0.02em;
+	@media (width < 64rem) {
+		font-size: 2.1875rem;
+		line-height: 2.75rem;
+	}
+}
+
+@utility text-heading {
+	font-size: 3rem;
+	line-height: 4.5rem;
+	letter-spacing: -0.02em;
+	@media (width < 64rem) {
+		font-size: 2.25rem;
+		line-height: 3.25rem;
+	}
+	@media (width < 30rem) {
+		font-size: 1.875rem;
+		line-height: 2.8125rem;
+	}
+}
+
 body {
 	background-color: var(--color-background);
 	color: var(--color-text);

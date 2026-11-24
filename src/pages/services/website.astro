@@ -1,14 +1,187 @@
 ---
+import { getRelativeLocaleUrl } from "astro:i18n";
 import Base from "../../layouts/Base.astro";
+import Button from "../../components/Button.astro";
+import VideoCard from "../../components/VideoCard.astro";
 
 const locale = Astro.currentLocale === "en" ? "en" : "hu";
 
 const copy = {
-	hu: { pageTitle: "Weboldalak" },
-	en: { pageTitle: "Websites" },
+	hu: {
+		pageTitle: "Webfejlesztés és profi weboldal készítés",
+		title: "Weboldalak",
+		text: "Egyedi, az üzleti céljaid támogató weboldalt készítünk, ami minőségi ügyfeleket hoz, és amit más vállalkozók referenciaként fognak küldeni a webesüknek.",
+		video: { src: "/services/website/intro-hu.mp4", playLabel: "Videó lejátszása" },
+		pain: {
+			title: "Van már weboldalad, de nem hoz eredményeket?",
+			titleHighlight: "Vagy nincs még honlapod?",
+			items: [
+				"Tudod, hogy kell egy jó weboldal, csak fogalmad sincs, merre indulj el?",
+				"Egy vagyont költesz hirdetésekre, sok a kattintás, de kevés a jelentkező?",
+				"Ajánlásból van egy jó ügyfélköröd, de szeretnél lépni és online skálázni a céged?",
+				"A honlapod nem elég hatékony, nem vagy rá büszke (pedig profi weboldal készítő cég csinálta), ezért újat akarsz?",
+			],
+			lead: "Neked is lehet olyan weboldalad, amit nem felejtenek el a látogatók, és ami a legfontosabb: ",
+			leadHighlight: "pénzt termel és marketing költséget spórol.",
+			paragraphs: [
+				"De ahogy a vállalkozó barátaid történeteiből – talán épp saját tapasztalataidból – tudhatod: ehhez nem elég egy gyorsan összekattintgatott weboldal.",
+				"Egy olyan csapatra van szükséged, akik egyedi weboldal készítésével, profi weboldalt alkotnak számodra. Akik nem állnak meg a UX/UI tervezésnél, hanem továbbmennek, és a vállalkozásod, célközönséged megismerése és megértése után egy olyan honlapot hoznak létre, ami valóban minőségi jelentkezőket hoz, akikből fizető ügyfelek válnak.",
+			],
+			cta: "Erre van szükségem!",
+		},
+		offer: {
+			title: "Mi azoknak a vállalkozásoknak kínálunk megoldást, akik nem érik be az átlagossal semmilyen téren sem.",
+			items: [
+				"Megismerjük a vállalkozásod, az üzleti stratégiád és a célpiacod, piackutatást végzünk.",
+				"Elkészítjük azt a weboldalt, amire büszke leszel, és amivel a marketinged is sikeresebb lesz.",
+				"Olyan UX és UI designt tervezünk, amely nemcsak szép és profi, de a látogatókból ügyfeleket csinál.",
+				"Kitaláljuk, hogyan kelthetsz profi benyomást online úgy, hogy közben az a célközönséged számára is vonzó és meggyőző legyen.",
+			],
+		},
+	},
+	en: {
+		pageTitle: "Web development & professional website design",
+		title: "Websites",
+		text: "We create custom websites that fuel your business goals, attract top-tier clients, and become the gold standard other entrepreneurs show their web designers.",
+		video: { src: "/services/website/intro-en.mp4", playLabel: "Play video" },
+		pain: {
+			title: "Already have a website that’s falling flat?",
+			titleHighlight: "No website yet?",
+			items: [
+				"Know you need a strong online presence but have no clue where to start?",
+				"Burning cash on ads, getting clicks but barely any leads?",
+				"Building on referrals but ready to scale bigger, faster?",
+				"Feeling embarrassed by a website you can't stand behind (even though a professional website creation company built it)?",
+			],
+			lead: "You deserve a website that visitors will never forget - and most importantly: One that ",
+			leadHighlight: "drives revenue and slashes marketing costs.",
+			paragraphs: [
+				"But if you’ve heard stories from fellow entrepreneurs - or lived through it yourself - you know success doesn’t come from a rush job.",
+				"You need a team that specializes in custom website creation, digging deep into your business and audience to build a professional site from the ground up that pulls in quality leads and turns them into loyal clients.",
+			],
+			cta: "Let’s do it!",
+		},
+		offer: {
+			title: "We create for businesses that refuse to settle for “good enough.”",
+			items: [
+				"We dive into your business, your strategy, your target market - and conduct razor-sharp competitor research.",
+				"We figure out how to make your brand impossible to ignore, ensuring your website speaks directly to the people you want to reach.",
+				"We design a visual identity that’s not just beautiful and polished, but built to convert visitors into buyers.",
+				"We’ll craft a website you’ll be proud to show off - and one that amplifies your marketing success.",
+			],
+		},
+	},
 }[locale];
+
+const contactHref = getRelativeLocaleUrl(locale, "/contact").replace(/(.)\/$/, "$1");
 ---
 
-<Base title={copy.pageTitle}>
-	<main></main>
+<Base title={copy.pageTitle} navVariant="dark">
+	<section class="bg-background pt-[8.75rem] max-lg:pt-32">
+		<div
+			class="mx-auto flex w-[92%] max-w-[76.875rem] items-start justify-between gap-x-12 gap-y-10 max-lg:flex-col"
+		>
+			<div class="max-w-[39rem]">
+				<h1
+					class="font-medium text-text text-display"
+				>
+					{copy.title}
+				</h1>
+				<p class="mt-4 text-2xl leading-9 font-normal text-text max-lg:text-xl max-lg:leading-8">
+					{copy.text}
+				</p>
+			</div>
+
+			<VideoCard
+				src={copy.video.src}
+				poster="/services/website/video-poster.webp"
+				playLabel={copy.video.playLabel}
+				class="shrink-0"
+			/>
+		</div>
+	</section>
+
+	<section class="bg-background pt-10 pb-[7.5rem] max-lg:pb-20">
+		<div class="relative mx-auto w-[92%] max-w-[76.875rem]">
+			<img
+				src="/services/website/shape.webp"
+				alt=""
+				width="1512"
+				height="400"
+				loading="lazy"
+				class="pointer-events-none absolute top-[12.75rem] left-1/2 h-auto w-[min(80rem,100vw)] max-w-none -translate-x-1/2 max-md:hidden"
+			/>
+
+			<div class="relative flex flex-col items-center text-center">
+				<img
+					src="/services/website/planet.webp"
+					alt=""
+					width="83"
+					height="83"
+					loading="lazy"
+					class="mb-5 size-[2.625rem]"
+				/>
+				<h2
+					class="max-w-[37.375rem] font-medium text-text text-heading"
+				>
+					{copy.pain.title}<br />
+					<span class="text-primary">{copy.pain.titleHighlight}</span>
+				</h2>
+
+				<ul
+					class="mt-10 grid w-full max-w-[60.625rem] grid-cols-4 gap-6 max-lg:grid-cols-2 max-md:grid-cols-1"
+				>
+					{
+						copy.pain.items.map((item) => (
+							<li class="flex min-h-[13.375rem] items-center justify-center rounded-[20px] bg-background px-4 py-6 text-center text-base leading-6 font-normal text-text shadow-[0_4px_4px_color-mix(in_srgb,var(--color-shadow)_10%,transparent),0_10px_25px_color-mix(in_srgb,var(--color-shadow)_20%,transparent)] max-md:min-h-0">
+								{item}
+							</li>
+						))
+					}
+				</ul>
+
+				<p class="mt-8 max-w-[43rem] text-2xl leading-[2.125rem] font-normal text-text max-lg:text-xl max-lg:leading-8">
+					{copy.pain.lead}<span class="text-primary">{copy.pain.leadHighlight}</span>
+				</p>
+
+				<div class="mt-6 flex max-w-[46.25rem] flex-col gap-4 text-base leading-[1.625rem] font-light text-text">
+					{copy.pain.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+				</div>
+
+				<Button variant="primary" href={contactHref} class="mt-6">
+					{copy.pain.cta}
+				</Button>
+			</div>
+		</div>
+	</section>
+
+	<section class="bg-background pb-24 max-lg:pb-16">
+		<div class="mx-auto w-[92%] max-w-[76.875rem]">
+			<h2
+				class="mx-auto max-w-[56.5rem] text-center font-medium text-text text-heading"
+			>
+				{copy.offer.title}
+			</h2>
+
+			<ul
+				class="mx-auto mt-16 grid max-w-[53rem] grid-cols-2 gap-x-16 gap-y-10 max-lg:mt-10 max-lg:gap-x-8 max-md:grid-cols-1"
+			>
+				{
+					copy.offer.items.map((item) => (
+						<li class="flex gap-3">
+							<img
+								src="/global/images/star-icon.webp"
+								alt=""
+								width="26"
+								height="26"
+								loading="lazy"
+								class="size-[1.625rem] shrink-0"
+							/>
+							<p class="text-xl leading-[1.625rem] font-medium text-text">{item}</p>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
 </Base>

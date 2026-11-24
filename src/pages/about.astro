@@ -542,7 +542,7 @@ const team = [...teamEntries].sort((a, b) => rank(a.data.slug) - rank(b.data.slu
 					class="absolute inset-x-0 top-0 z-20 flex flex-col items-center bg-linear-to-b from-background-dark from-40% to-transparent py-40 motion-reduce:static"
 				>
 					<h1
-						class="inline-flex items-start justify-center text-[4.375rem] leading-[5.25rem] font-medium tracking-[-0.02em] text-text-inverse max-lg:text-[2.1875rem] max-lg:leading-[2.75rem]"
+						class="inline-flex items-start justify-center font-medium text-text-inverse text-display"
 					>
 						{copy.titlePrefix && <span class="mr-5 max-lg:mr-4">{copy.titlePrefix}</span>}
 						<span
@@ -645,7 +645,7 @@ const team = [...teamEntries].sort((a, b) => rank(a.data.slug) - rank(b.data.slu
 		<div class="relative mx-auto w-[92%] max-w-[76.875rem]">
 			<div class="max-w-[39.125rem] pt-32 lg:pt-0">
 				<h2
-					class="text-[2rem] leading-[2.75rem] font-medium tracking-[-0.02em] text-text lg:text-[3rem] lg:leading-[4.5rem]"
+					class="font-medium text-text text-heading"
 				>
 					{copy.human.title}
 				</h2>
@@ -710,7 +710,7 @@ const team = [...teamEntries].sort((a, b) => rank(a.data.slug) - rank(b.data.slu
 		<div class="relative mx-auto w-[92%] max-w-[76.875rem]">
 			<div class="mx-auto max-w-[56.5625rem] text-center">
 				<h2
-					class="text-[2rem] leading-[2.75rem] font-medium tracking-[-0.02em] lg:text-[3rem] lg:leading-[4.5rem]"
+					class="font-medium text-heading"
 				>
 					{copy.values.title[0]}<span class="text-primary">{copy.values.title[1]}</span
 					>{copy.values.title[2]}
@@ -818,7 +818,7 @@ const team = [...teamEntries].sort((a, b) => rank(a.data.slug) - rank(b.data.slu
 		<div class="mx-auto w-[92%] max-w-[76.875rem]">
 			<div class="mx-auto max-w-[39.125rem] text-center">
 				<h2
-					class="text-[2rem] leading-[2.75rem] font-medium tracking-[-0.02em] text-text lg:text-[3rem] lg:leading-[4.5rem]"
+					class="font-medium text-text text-heading"
 				>
 					{copy.team.title}
 				</h2>
@@ -845,7 +845,7 @@ const team = [...teamEntries].sort((a, b) => rank(a.data.slug) - rank(b.data.slu
 
 		<div class="relative mx-auto w-[92%] max-w-[76.875rem]">
 			<h2
-				class="text-center text-[2rem] leading-[2.75rem] font-medium tracking-[-0.02em] text-text lg:text-[3rem] lg:leading-[4.5rem]"
+				class="text-center font-medium text-text text-heading"
 			>
 				{copy.story.title}
 			</h2>
@@ -875,7 +875,7 @@ const team = [...teamEntries].sort((a, b) => rank(a.data.slug) - rank(b.data.slu
 		<ClutchReviews />
 
 		<div class="mt-[7.5rem] max-md:mt-16">
-			<h2 class="text-center text-[3rem] leading-normal font-medium text-text max-[30rem]:text-[1.875rem]">
+			<h2 class="text-center font-medium text-text text-heading">
 				{copy.awards.title}
 			</h2>
 

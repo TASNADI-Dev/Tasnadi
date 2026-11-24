@@ -173,6 +173,23 @@ const colorGroups = [
 			</div>
 		</section>
 
+		<section class="mb-16">
+			<h2 class="mb-8 text-2xl font-bold">Headings</h2>
+
+			<div class="flex flex-col gap-10">
+				{
+					["text-display", "text-heading"].map((utility) => (
+						<div class="border-t border-border pt-6">
+							<h3 class="mb-4 text-lg font-medium">
+								<code>{utility}</code>
+							</h3>
+							<p class:list={[utility, "font-medium"]}>Egyszerűen jobb üzlet.</p>
+						</div>
+					))
+				}
+			</div>
+		</section>
+
 		<section>
 			<h2 class="mb-8 text-2xl font-bold">Button</h2>
 

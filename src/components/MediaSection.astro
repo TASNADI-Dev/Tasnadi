@@ -41,7 +41,7 @@ const columns = [
 		{
 			columns.map((column) => (
 				<div class="flex min-w-0 flex-col">
-					<h2 class="mb-10 text-[3rem] leading-normal font-medium text-text-inverse max-[30rem]:mb-6 max-[30rem]:text-[1.875rem]">
+					<h2 class="mb-10 font-medium text-text-inverse max-[30rem]:mb-6 text-heading">
 						{column.title.map((part) => (
 							<>
 								<span class:list={[part.tone === "primary" && "text-primary"]}>{part.text}</span>{" "}
