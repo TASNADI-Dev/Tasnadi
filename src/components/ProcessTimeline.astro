@@ -1,0 +1,122 @@
+---
+type Tone = 1 | 2 | 3 | 4;
+
+type Phase = {
+	label: string;
+	/** Number of week columns the phase covers */
+	span: number;
+	tone: Tone;
+};
+
+type Step = {
+	title: string;
+	text: string;
+	tone: Tone;
+	/** First week column of the step (1-based) */
+	column: number;
+	/** Number of week columns the step covers */
+	span: number;
+	/** Step row (1-based, below the phase row) */
+	row: number;
+};
+
+type Props = {
+	weeks: string[];
+	phases: Phase[];
+	steps: Step[];
+	/** Accessible name of the scrollable region */
+	label: string;
+	class?: string;
+};
+
+const { weeks, phases, steps, label, class: className } = Astro.props;
+
+const rowCount = Math.max(...steps.map((step) => step.row));
+
+const tones: Record<Tone, { phase: string; step: string }> = {
+	1: { phase: "bg-process-phase-1 text-text-inverse", step: "border-process-phase-1" },
+	2: { phase: "bg-process-phase-2 text-text-inverse", step: "border-process-phase-2" },
+	3: { phase: "bg-process-phase-3 text-text-inverse", step: "border-process-phase-3" },
+	4: { phase: "bg-process-phase-4 text-text", step: "border-process-phase-4" },
+};
+---
+
+<div
+	data-drag-scroll
+	role="region"
+	aria-label={label}
+	tabindex="0"
+	class:list={[
+		"cursor-grab overflow-x-auto overscroll-x-contain [scrollbar-width:none] focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent data-dragging:cursor-grabbing data-dragging:select-none [&::-webkit-scrollbar]:hidden",
+		className,
+	]}
+>
+	<div class="w-max px-[max(4%,calc((100%_-_76.875rem)/2))]">
+		<div
+			class="grid gap-x-px gap-y-1 rounded-[10px] border border-border-inverse bg-[repeating-linear-gradient(90deg,transparent_0_200px,var(--color-process-grid-line)_200px_201px)]"
+			style={`grid-template-columns: repeat(${weeks.length}, 200px); grid-template-rows: auto auto repeat(${rowCount}, 1fr);`}
+		>
+			{
+				weeks.map((week) => (
+					<div class="flex items-center justify-center px-3 py-1 text-sm text-text-inverse">{week}</div>
+				))
+			}
+
+			{
+				phases.map((phase) => (
+					<div
+						class:list={["rounded-[10px] px-3 py-0.5 text-base leading-5 font-medium", tones[phase.tone].phase]}
+						style={`grid-column: span ${phase.span};`}
+					>
+						{phase.label}
+					</div>
+				))
+			}
+
+			{
+				steps.map((step) => (
+					<div
+						class:list={["rounded-[10px] border-t-[3px] bg-surface-dark p-3", tones[step.tone].step]}
+						style={`grid-column: ${step.column} / span ${step.span}; grid-row: ${step.row + 2};`}
+					>
+						<h3 class="text-base leading-5 font-light text-text-inverse">{step.title}</h3>
+						<p class="mt-2.5 mb-2.5 text-xs font-light text-text-subtle">{step.text}</p>
+					</div>
+				))
+			}
+		</div>
+	</div>
+</div>
+
+<script>
+	// Lets mouse users drag the timeline sideways (touch and trackpads scroll it natively).
+	document.querySelectorAll<HTMLElement>("[data-drag-scroll]").forEach((scroller) => {
+		let pointerId: number | null = null;
+		let startX = 0;
+		let startScroll = 0;
+
+		scroller.addEventListener("pointerdown", (event) => {
+			if (event.pointerType !== "mouse" || event.button !== 0) return;
+			pointerId = event.pointerId;
+			startX = event.clientX;
+			startScroll = scroller.scrollLeft;
+			scroller.setPointerCapture(pointerId);
+			scroller.dataset.dragging = "";
+		});
+
+		scroller.addEventListener("pointermove", (event) => {
+			if (event.pointerId !== pointerId) return;
+			event.preventDefault();
+			scroller.scrollLeft = startScroll - (event.clientX - startX) * 2;
+		});
+
+		const stop = (event: PointerEvent) => {
+			if (event.pointerId !== pointerId) return;
+			pointerId = null;
+			delete scroller.dataset.dragging;
+		};
+		scroller.addEventListener("pointerup", stop);
+		scroller.addEventListener("pointercancel", stop);
+		scroller.addEventListener("lostpointercapture", stop);
+	});
+</script>

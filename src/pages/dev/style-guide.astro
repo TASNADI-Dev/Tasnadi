@@ -13,6 +13,7 @@ import NewsletterSection from "../../components/NewsletterSection.astro";
 import type { ComponentProps } from "astro/types";
 import PodcastCard from "../../components/PodcastCard.astro";
 import ServiceCard from "../../components/ServiceCard.astro";
+import ProcessTimeline from "../../components/ProcessTimeline.astro";
 import ServiceIcon from "../../components/ServiceIcon.astro";
 import TeamList from "../../components/TeamList.astro";
 import VideoCard from "../../components/VideoCard.astro";
@@ -36,6 +37,13 @@ const copy = {
 			nextLabel: "Következő videó",
 			names: ["Első ügyfél", "Második ügyfél", "Harmadik ügyfél", "Negyedik ügyfél"],
 		},
+		process: {
+			label: "Folyamat idővonala",
+			weeks: ["01. hét", "02. hét", "03. hét", "04. hét", "05. hét"],
+			phases: ["Stratégia", "Tervezés", "Kivitelezés", "Hosting"],
+			stepTitle: "Lépés neve",
+			stepText: "A lépés rövid leírása, ami akár két sorba is tördelődhet.",
+		},
 	},
 	en: {
 		services: ["Websites", "Branding"],
@@ -52,6 +60,13 @@ const copy = {
 			prevLabel: "Previous video",
 			nextLabel: "Next video",
 			names: ["Client one", "Client two", "Client three", "Client four"],
+		},
+		process: {
+			label: "Process timeline",
+			weeks: ["Week 01", "Week 02", "Week 03", "Week 04", "Week 05"],
+			phases: ["Strategy", "Design", "Implementation", "Hosting"],
+			stepTitle: "Step name",
+			stepText: "A short description of the step that may wrap onto two lines.",
 		},
 	},
 }[locale];
@@ -138,6 +153,11 @@ const semanticColors = [
 	{ name: "primary-active", value: "orange-700", swatch: "bg-primary-active" },
 	{ name: "accent", value: "blue-500", swatch: "bg-accent" },
 	{ name: "shadow", value: "gray-900", swatch: "bg-shadow" },
+	{ name: "process-phase-1", value: "blue-500", swatch: "bg-process-phase-1" },
+	{ name: "process-phase-2", value: "orange-500", swatch: "bg-process-phase-2" },
+	{ name: "process-phase-3", value: "gray-600", swatch: "bg-process-phase-3" },
+	{ name: "process-phase-4", value: "gray-400", swatch: "bg-process-phase-4" },
+	{ name: "process-grid-line", value: "gray-500", swatch: "bg-process-grid-line" },
 ] as const;
 
 const colorGroups = [
@@ -425,6 +445,31 @@ const colorGroups = [
 						playLabel={copy.video.playLabel}
 						name={copy.video.name}
 						role={copy.video.role}
+					/>
+				</div>
+			</div>
+		</section>
+
+		<section class="mt-16">
+			<h2 class="mb-8 text-2xl font-bold">Process timeline</h2>
+
+			<div class="border-t border-border pt-6">
+				<div class="overflow-hidden rounded-[24px] bg-surface-dark py-8">
+					<ProcessTimeline
+						label={copy.process.label}
+						weeks={copy.process.weeks}
+						phases={[
+							{ label: copy.process.phases[0], span: 1, tone: 1 },
+							{ label: copy.process.phases[1], span: 2, tone: 2 },
+							{ label: copy.process.phases[2], span: 1, tone: 3 },
+							{ label: copy.process.phases[3], span: 1, tone: 4 },
+						]}
+						steps={[
+							{ title: copy.process.stepTitle, text: copy.process.stepText, tone: 1, column: 1, span: 1, row: 1 },
+							{ title: copy.process.stepTitle, text: copy.process.stepText, tone: 2, column: 2, span: 2, row: 2 },
+							{ title: copy.process.stepTitle, text: copy.process.stepText, tone: 3, column: 4, span: 1, row: 3 },
+							{ title: copy.process.stepTitle, text: copy.process.stepText, tone: 4, column: 5, span: 1, row: 4 },
+						]}
 					/>
 				</div>
 			</div>

@@ -2,6 +2,7 @@
 import { getRelativeLocaleUrl } from "astro:i18n";
 import Base from "../../layouts/Base.astro";
 import Button from "../../components/Button.astro";
+import ProcessTimeline from "../../components/ProcessTimeline.astro";
 import VideoCard from "../../components/VideoCard.astro";
 
 const locale = Astro.currentLocale === "en" ? "en" : "hu";
@@ -38,6 +39,42 @@ const copy = {
 				"Kitaláljuk, hogyan kelthetsz profi benyomást online úgy, hogy közben az a célközönséged számára is vonzó és meggyőző legyen.",
 			],
 		},
+		process: {
+			title: "Folyamatunk",
+			lead: "Velünk elfelejtheted a nem időben teljesített projekt, költségkeret-túllépés, végtelen módosítási kör miatti stresszt.",
+			text: "A vállalkozók problémáit megértve, rengeteg együttműködésből tanulva, olyan folyamatot alakítottunk ki, amelynek fókuszában Te, a nyugalmad és az eredmények állnak. Strukturált munkafolyamatot követünk, hogy az új weboldalad és az odáig vezető utat is szeresd. Ez a professzionális weboldal készítés garanciája.",
+			timelineLabel: "Weboldal készítés folyamata hétről hétre",
+			week: (week: string) => `${week}. hét`,
+			phases: ["Stratégia", "Tervezés", "Kivitelezés", "Hosting"],
+			steps: [
+				["Információgyűjtés", "Beszélgetés az érintettekkel, workshopok szervezése és ügyfélinterjúk lefolytatása."],
+				["Versenytárselemzés", "A versenytársak weboldalainak vizsgálata, és a legjobb tartalmi, szerkezeti és megjelenési gyakorlatok azonosítása."],
+				["A struktúra tervezése", "A weboldal információs architektúrájának megtervezése, és az egyes oldalak drótvázainak megalkotása. Ez a weboldal tervezés alapja."],
+				["Megjelenés tervezése", "Az egyes oldalak kinézetének és hangulatának megtervezése, az úgynevezett prototípus. Ez tükrözi a leendő weboldal megjelenését."],
+				["Szövegírás", "A szöveges tartalom a weboldal meghatározó eleme. Szakértőnk a drótvázak és a kulcsszókutatás alapján magával ragadó, mégis praktikus tartalmat ír."],
+				["Webfejlesztés", "A megfelelő technológia kiválasztása és a weboldal felépítése. Ez a webfejlesztés szívét jelenti."],
+				["SEO (technikai)", "Gondoskodunk arról, hogy az oldal SEO-kész és keresőmotor-barát legyen."],
+				["Tesztelés és átadás", "Házon belüli tesztelést végzünk, és elvégezzük a szükséges kiigazításokat. Az oldal az ügyfelünk megerősítését követően indul el."],
+				["Üzemeltetés", "A weboldal karbantartása: gondoskodunk a biztonságos, folyamatos üzemeltetésről és a szükséges frissítésekről."],
+			],
+		},
+		expect: {
+			title: "Mire számíthatsz, ha ránk bízod a webfejlesztést?",
+			items: [
+				{
+					title: "Több ügyfélre, akár kevesebb marketing költségből.",
+					text: "Az új oldalad úgy lesz felépítve, hogy az konvertáljon: tehát nem csak felkelti a célközönséged érdeklődését – meg is győzi őket arról, hogy jelentkezzenek. Ugyanannyi oldallátogatóból több ügyfeled lehet, így a weboldal készítés árak hamar megtérülnek.",
+				},
+				{
+					title: "Egyszerűbb értékesítésre.",
+					text: "Az emberek a weboldalra érkezve egy perc alatt meg fogják érteni, hogy miért vagy jó, profi, hála az érthető, hiteles és hatásos kommunikációnak, valamint az átgondolt UI/UX design-nak. Elkezdenek bízni benned, és nem úgy lesznek, hogy “talán adok nekik egy esélyt”, hanem úgy, hogy “velük akarok dolgozni!”. Így eladni sem lesz nehéz nekik.",
+				},
+				{
+					title: "Nagyobb szabadságra.",
+					text: "Képzeld el, hogy folyamatosan jönnek be az ügyfelek. Nem kell nap mint nap azon stresszelned, hogy mennyien jelentkeztek, végre elkezdheted a céged skálázni, fejleszteni. Olyan jól konvertáló oldalt fejlesztünk számodra, ami megadja ezt a biztonságot és szabadságot.",
+				},
+			],
+		},
 	},
 	en: {
 		pageTitle: "Web development & professional website design",
@@ -70,13 +107,70 @@ const copy = {
 				"We’ll craft a website you’ll be proud to show off - and one that amplifies your marketing success.",
 			],
 		},
+		process: {
+			title: "Our process",
+			lead: "Working with us means no missed deadlines. No budget shocks. No endless revisions.",
+			text: "We understand entrepreneurs' pain points - and we’ve built a process that puts you first. Our structured workflow guarantees that your new website - and the entire journey to create it - will be something you love. This is our guarantee of a professional website creation process.",
+			timelineLabel: "Website creation process week by week",
+			week: (week: string) => `Week ${week}`,
+			phases: ["Strategy", "Design", "Implementation", "Hosting"],
+			steps: [
+				["Collecting information", "Speaking with the relevant stakeholders, organizing workshops, and conducting customer interviews."],
+				["Competitor analysis", "Inspecting competitors’ websites and identifying best practices for content, structure, & appearance."],
+				["Designing structure", "Planning the information architecture of the website and designing wireframes for each page. This is the foundation of professional website design."],
+				["Designing appearance", "Designing the look & feel of each page, the so-called prototype. This reflects the appearance of the future website."],
+				["Copywriting", "The textual content is a defining element of the website. Our expert writes engaging yet practical content based on wireframes and keyword research."],
+				["Web development", "Selecting the appropriate technology and building the website. This represents the heart of web development."],
+				["SEO (Technical)", "We make sure that the site is SEO-ready and search engine-friendly."],
+				["Testing and handover", "We conduct in-house testing and make necessary adjustments. The site launches after receiving confirmation from our client."],
+				["Maintenance", "Maintaining the website: we ensure safe, continuous operation and necessary updates."],
+			],
+		},
+		expect: {
+			title: "What can you expect when you entrust us with web development?",
+			items: [
+				{
+					title: "More clients, lower marketing costs",
+					text: "Your new custom website won’t just look good - it’ll work hard to convert. It won’t just attract your target audience's interest—it will convince them to take action. This means you get more clients from the same amount of traffic, ensuring your website creation costs deliver a fast return on investment.",
+				},
+				{
+					title: "Easier sales",
+					text: "When people land on your site, they’ll immediately get why you’re the best choice. They'll think, \"I need to work with them\" - not \"maybe I'll give them a shot.\" Selling just got a whole lot easier.",
+				},
+				{
+					title: "Greater freedom",
+					text: "Picture this: a steady stream of clients flowing in. No more daily worry about sign-ups. You’re finally free to scale and grow without limits. We’ll create a high-converting website that brings you peace of mind and the freedom to dream bigger.",
+				},
+			],
+		},
 	},
 }[locale];
+
+const weeks = Array.from({ length: 15 }, (_, index) => copy.process.week(String(index + 1).padStart(2, "0")));
+
+const phases = [
+	{ span: 2, tone: 1 },
+	{ span: 6, tone: 2 },
+	{ span: 5, tone: 3 },
+	{ span: 2, tone: 4 },
+] as const;
+
+const stepLayout = [
+	{ tone: 1, column: 1, span: 2, row: 1 },
+	{ tone: 1, column: 1, span: 2, row: 2 },
+	{ tone: 2, column: 3, span: 2, row: 2 },
+	{ tone: 2, column: 5, span: 4, row: 2 },
+	{ tone: 2, column: 5, span: 4, row: 3 },
+	{ tone: 3, column: 9, span: 3, row: 3 },
+	{ tone: 3, column: 9, span: 3, row: 4 },
+	{ tone: 3, column: 12, span: 2, row: 5 },
+	{ tone: 4, column: 14, span: 2, row: 6 },
+] as const;
 
 const contactHref = getRelativeLocaleUrl(locale, "/contact").replace(/(.)\/$/, "$1");
 ---
 
-<Base title={copy.pageTitle} navVariant="dark">
+<Base title={copy.pageTitle}>
 	<section class="bg-background pt-[8.75rem] max-lg:pt-32">
 		<div
 			class="mx-auto flex w-[92%] max-w-[76.875rem] items-start justify-between gap-x-12 gap-y-10 max-lg:flex-col"
@@ -183,5 +277,70 @@ const contactHref = getRelativeLocaleUrl(locale, "/contact").replace(/(.)\/$/, "
 				}
 			</ul>
 		</div>
+	</section>
+	<section
+		class="bg-surface-dark bg-[url(/services/website/process-bg.png)] bg-contain bg-[position:50%_0] bg-no-repeat pt-[8.75rem] max-lg:pb-6 max-md:pt-[6.25rem]"
+	>
+		<div class="mx-auto w-[92%] max-w-[76.875rem]">
+			<h2 class="font-medium text-text-inverse text-heading">{copy.process.title}</h2>
+			<div class="mt-6 grid grid-cols-2 gap-10 max-md:grid-cols-1">
+				<p class="text-xl leading-[1.625rem] font-bold text-text-inverse">{copy.process.lead}</p>
+				<p class="text-base leading-[1.625rem] font-light text-text-inverse">{copy.process.text}</p>
+			</div>
+		</div>
+
+		<ProcessTimeline
+			label={copy.process.timelineLabel}
+			weeks={weeks}
+			phases={phases.map((phase, index) => ({ ...phase, label: copy.process.phases[index] }))}
+			steps={stepLayout.map((layout, index) => ({
+				...layout,
+				title: copy.process.steps[index][0],
+				text: copy.process.steps[index][1],
+			}))}
+			class="mt-[4.125rem]"
+		/>
+	</section>
+
+	<section class="relative overflow-hidden bg-surface-dark pt-[5.25rem] pb-80">
+		<div class="relative z-10 mx-auto w-[92%] max-w-[76.875rem]">
+			<h2 class="mx-auto max-w-[56.5625rem] text-center font-medium text-text-inverse text-heading">
+				{copy.expect.title}
+			</h2>
+
+			<ul class="mx-auto mt-[4.625rem] grid max-w-[69.25rem] grid-cols-3 gap-8 max-md:grid-cols-1">
+				{
+					copy.expect.items.map((item) => (
+						<li class="flex items-start gap-3">
+							<svg
+								viewBox="0 0 42 42"
+								fill="none"
+								aria-hidden="true"
+								class="mt-1 size-[2.625rem] shrink-0 text-primary"
+							>
+								<circle cx="21" cy="21" r="20" stroke="currentColor" stroke-width="2" />
+								<path
+									d="M31.1957 18.9987L27.6478 15.2812C27.5626 15.1921 27.4612 15.1214 27.3494 15.0731C27.2377 15.0249 27.1179 15 26.9969 15C26.8758 15 26.756 15.0249 26.6443 15.0731C26.5326 15.1214 26.4312 15.1921 26.346 15.2812C26.1752 15.4594 26.0794 15.7003 26.0794 15.9515C26.0794 16.2027 26.1752 16.4437 26.346 16.6218L29.6097 20.035L10.9168 20.035C10.6736 20.035 10.4404 20.1352 10.2685 20.3135C10.0966 20.4918 10 20.7336 10 20.9857C10 21.2379 10.0966 21.4797 10.2685 21.658C10.4404 21.8363 10.6736 21.9365 10.9168 21.9365L29.6647 21.9365L26.346 25.3687C26.26 25.4571 26.1918 25.5622 26.1453 25.6781C26.0987 25.794 26.0748 25.9182 26.0748 26.0437C26.0748 26.1692 26.0987 26.2935 26.1453 26.4094C26.1918 26.5252 26.26 26.6304 26.346 26.7188C26.4312 26.8079 26.5326 26.8786 26.6443 26.9269C26.756 26.9751 26.8758 27 26.9969 27C27.1179 27 27.2377 26.9751 27.3494 26.9269C27.4612 26.8786 27.5625 26.8079 27.6478 26.7188L31.1957 23.0299C31.7107 22.4951 32 21.7701 32 21.0143C32 20.2584 31.7107 19.5335 31.1957 18.9987Z"
+									fill="currentColor"
+								/>
+							</svg>
+							<div>
+								<h3 class="mt-2.5 text-2xl leading-[2.125rem] font-medium text-text-inverse">{item.title}</h3>
+								<p class="mt-[1.125rem] mb-2.5 text-base leading-[1.625rem] font-light text-text-inverse">{item.text}</p>
+							</div>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+
+		<img
+			src="/services/website/astronaut.webp"
+			alt=""
+			width="627"
+			height="383"
+			loading="lazy"
+			class="pointer-events-none absolute bottom-0 left-0 h-auto w-[39.1875rem] max-w-full"
+		/>
 	</section>
 </Base>
