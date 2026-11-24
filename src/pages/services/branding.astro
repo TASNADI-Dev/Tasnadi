@@ -1,14 +1,456 @@
 ---
+import { getRelativeLocaleUrl } from "astro:i18n";
 import Base from "../../layouts/Base.astro";
+import Button from "../../components/Button.astro";
+import ClutchReviews from "../../components/ClutchReviews.astro";
+import CtaBox from "../../components/CtaBox.astro";
+import ProcessTimeline from "../../components/ProcessTimeline.astro";
+import ServicePackage from "../../components/ServicePackage.astro";
+import VideoCard from "../../components/VideoCard.astro";
 
 const locale = Astro.currentLocale === "en" ? "en" : "hu";
 
 const copy = {
-	hu: { pageTitle: "Branding" },
-	en: { pageTitle: "Branding" },
+	hu: {
+		pageTitle: "Branding design – Arculattervezés a profi megjelenésért",
+		title: "Branding",
+		text: "Megkönnyítjük ügyfeleidnek, hogy megértsék: te vagy a legjobb választás számukra. A márkaépítés, avagy brandépítés kulcsfontosságú a piacon.",
+		video: { src: "/services/branding/intro-hu.mp4", playLabel: "Videó lejátszása" },
+		pain: {
+			title: "Van egy nagyszerű márkád, amelyet szeretnél terjeszteni?",
+			items: [
+				"Nehezen tudod megkülönböztetni márkádat a versenytársakétól a zsúfolt piacon?",
+				"Márkaarculatod következetlen vagy nincs világos vizuális iránya?",
+				"Nehezedre esik rezonálni a célközönségedre, esetleg emlékezetes márkamegjelenést kialakítani?",
+			],
+			lead: "Talán egyáltalán nincs is márkaidentitásod?",
+		},
+		great: {
+			title: "Tudjuk, mitől lesz",
+			titleHighlight: "nagyszerű",
+			titleMiddle: "egy",
+			titleHighlightEnd: "márka",
+			lead: "Azt is megértjük, mi a legfontosabb számodra.",
+			text: "A márkaépítés és arculattervezés nem pusztán kreatív feladat. Mi üzleti gondolkodásmóddal dolgozunk, hogy a brand ne csak vizuálisan tetszetős, de hasznos is legyen.",
+			items: [
+				"Megvizsgáljuk célközönségedet és üzleti igényeidet.",
+				"Olyan egyedi designt hozunk létre, amely ideális vásárlóidnak is tetszeni fog.",
+				"Tervet dolgozunk ki a kettő összehangolására és a szükséges tartalom létrehozására, garantálva a professzionális céges arculattervezést.",
+				"A weboldalt a leghatékonyabb technológiával készítjük el, amely könnyen karbantartható és frissíthető.",
+			],
+		},
+		process: {
+			title: "Folyamatunk",
+			text: "Online arculattervezés terén sikeredre egyszerűsített folyamatunk a garancia: kevesebb stresszt jelent neked, és jobb eredményeket vállalkozásodnak.",
+			timelineLabel: "Arculattervezés folyamata hétről hétre",
+			week: (week: string) => `${week}. hét`,
+			phases: ["Stratégia", "Tervezés"],
+			steps: [
+				["Információgyűjtés", "Beszélgetés az érintettekkel, workshopok szervezése és ügyfélinterjúk lefolytatása."],
+				["Márkapozicionálás workshop", "Fontolóra vesszük a márka szubjektív és objektív meghatározóit, úgymint értékek, személyiség és célközönség. Ez a márkaépítés alappillére."],
+				["Vizuális koncepció", "Hangulattáblákat (grafikai tervezés) készítünk, hogy konceptualizáljuk a márka megjelenésének és hangulatának különböző lehetőségeit. Ez a visual branding legfontosabb része."],
+				["Márkaidentitás", "Megtervezzük a vállalat márkaidentitását, és márkaútmutatót készítünk annak hitelesítésére."],
+			],
+		},
+		expect: {
+			title: "Mire számíthatok?",
+			items: [
+				{
+					title: "Egyediséged világos megértése",
+					text: "Fantasztikus vagy abban, amit csinálsz, ehhez kétség sem férhet. De azt is tudod, hogyan kommunikáld ezt? Meglepő módon a legtöbb vállalat nem tudja. Hogy kiderítsük, beszélünk a kollégáiddal és az ügyfeleiddel, és végzünk némi piackutatást is. A Márkastratégiában rögzítjük mindezt.",
+				},
+				{
+					title: "Az ideális márkaarculat",
+					text: "Tudod, hogy profi vagy, és ezt a meglévő ügyfeleid is tudják. De mi a helyzet a jövőbeli ügyfelekkel? Hogyan bízhatnának meg benned, ha nem győzöd meg őket profizmusodról? Olyanra tervezzük céged megjelenését, hogy az megfeleljen a kínált termékek típusának.",
+				},
+				{
+					title: "A nagyszerű márka alapjai",
+					text: "Mi nem építhetjük föl a márkádat, de az alapokat lerakhatjuk. Átadunk egy útmutatót, amely tartalmazza a márkastratégiát és a vizuális identitást. Használd ezt az arculatot következetesen, hogy minden platformon és csatornán bizalmat és ismertséget építs az ügyfelekkel.",
+				},
+			],
+		},
+		packages: {
+			title: "Szolgáltatásaink",
+			items: ["Start Meeting", "Márkapozicionálás workshop", "Pozicionálás workshop", "Vizuális koncepció", "Márkaútmutató"],
+			cards: ["Márkajellemzők workshop", "Márkaidentitás"],
+			cta: "Ajánlatot kérek",
+		},
+		why: {
+			title: "Miért érdemes",
+			titleHighlight: "velünk",
+			titleEnd: "együttműködni?",
+			items: [
+				{
+					title: "Zökkenőmentes munka, jobb eredmények",
+					text: "Egyszerűsített folyamatunk kevesebb stresszt jelent neked, vállalkozásod számára pedig jobb eredményeket. Lehetővé tesszük, hogy a márkád felvirágoztatására koncentrálhass.",
+				},
+				{
+					title: "Konverzióközpontú tervezés",
+					text: "A digitális értékesítési eszközöket a közönségedre szabjuk, növelve ezzel az elköteleződést és a bevételt. Stratégiai megközelítésünk biztosítja, hogy webhelyed értékes eszköz legyen vállalkozásod számára.",
+				},
+				{
+					title: "Hosszú távú partnerségek",
+					text: "Többek vagyunk, mint pusztán a tervezőid – a szövetségeseid vagyunk a növekedésedben, az előttünk álló úton. A sikeredet tartva elsődleges célunknak együtt navigálunk az örökké fejlődő-változó piacon, és folyamatos támogatást nyújtunk vállalkozásod virágzásához.",
+				},
+			],
+			note: "Kérj tőlünk ajánlatot logó tervezés árak és arculattervezés árak kapcsán is!",
+		},
+		cta: {
+			title: "Érdekel a szolgáltatásunk?",
+			text: "Jelentkezz egy ingyenes konzultációra, ahol felmérjük az elakadásaid, üzleti céljaid, és meghatározzuk a stratégiai lehetőségeket!",
+			buttonLabel: "Ajánlatot kérek",
+		},
+	},
+	en: {
+		pageTitle: "Branding design – Creating a professional image",
+		title: "Branding",
+		text: "We make it easy for your customers to understand that you are their best choice. In today’s market, effective brand building is crucial for success.",
+		video: { src: "/services/branding/intro-en.mp4", playLabel: "Play video" },
+		pain: {
+			title: "Do you have a great brand that you want to expand?",
+			items: [
+				"Struggling to differentiate your brand from competitors in a crowded market?",
+				"Is your brand identity inconsistent or lacking a clear visual direction?",
+				"Do you find it difficult to resonate with your target audience or establish a memorable brand presence?",
+			],
+			lead: "Do you not have a brand identity at all?",
+		},
+		great: {
+			title: "We know what makes a",
+			titleHighlight: "great brand",
+			titleMiddle: "",
+			titleHighlightEnd: "",
+			lead: "We also understand what’s most important to you.",
+			text: "Designing a brand identity isn’t merely a creative task. We bring a business mindset to the table to give you something that’s not only visually pleasing but useful, too.",
+			items: [
+				"We investigate your target audience and business needs.",
+				"We create a unique design that will appeal to your ideal customers.",
+				"We develop a plan to align your business needs and target audience, guaranteeing professional corporate identity design.",
+				"We build the website using the most efficient technology that’s easy to maintain and update.",
+			],
+		},
+		process: {
+			title: "Our process",
+			text: "When it comes to online identity design, our proven process guarantees success - delivering better results for your business with less stress for you.",
+			timelineLabel: "Branding process week by week",
+			week: (week: string) => `Week ${week}`,
+			phases: ["Strategy", "Design"],
+			steps: [
+				["Collecting information", "Speaking with the relevant stakeholders, organizing workshops and conducting customer interviews."],
+				["Brand positioning workshop", "We think about subjective and objective defining characteristics of your brand, such as values, personality and target audience. This is the cornerstone of brand building."],
+				["Visual concept", "We create mood boards (graphic design) to conceptualize different possibilities for your brand’s look & feel. This is the most important part of visual branding."],
+				["Brand identity", "We design your company’s brand identity and create a brand guide to codify it."],
+			],
+		},
+		expect: {
+			title: "What to expect?",
+			items: [
+				{
+					title: "A clear understanding of what makes you unique",
+					text: "You’re awesome at what you do; there's no doubt about it. But do you know how to communicate that? Surprisingly, most companies don’t. We speak to your relevant colleagues and clients to find out, and we do some market research. Then we lay it out in your Brand Strategy.",
+				},
+				{
+					title: "A brand identity that looks the part",
+					text: "You know you’re professional, and your existing clients know it too. What about your future clients? How should they trust you if you don’t show them? We design a look and feel for your company that’s appropriate for the kind of service you provide.",
+				},
+				{
+					title: "The foundations for a great brand",
+					text: "We can’t build your brand for you, but we can lay the foundations. We’ll provide you with a guide that contains your brand strategy and visual identity. Use this guide consistently to build trust and familiarity with customers across all platforms & channels.",
+				},
+			],
+		},
+		packages: {
+			title: "Our services",
+			items: ["Start meeting", "Brand positioning workshop", "Positioning workshop", "Visual concept", "Brand guide"],
+			cards: ["Brand essentials workshop", "Brand identity"],
+			cta: "Sounds interesting; let’s chat!",
+		},
+		why: {
+			title: "Why partner",
+			titleHighlight: "with us?",
+			titleEnd: "",
+			items: [
+				{
+					title: "Smooth journey, better results",
+					text: "Our streamlined process means less stress for you and better results for your business. We keep it simple, so you can focus on growing your brand.",
+				},
+				{
+					title: "Conversion-centric design",
+					text: "We tailor digital sales tools to your audience, boosting engagement and revenue. Our strategic approach ensures your website is a valuable asset for your business.",
+				},
+				{
+					title: "Long-term partnerships",
+					text: "We're more than just your designers; we're your growth allies for the journey ahead. With your success as our priority, we navigate the evolving market together, offering ongoing support to ensure your business continues to thrive.",
+				},
+			],
+			note: "Contact us for a quote on our logo design prices and identity design prices!",
+		},
+		cta: {
+			title: "Interested?",
+			text: "Let’s have a conversation and see how we can help boost your brand.",
+			buttonLabel: "Sounds interesting; let’s chat!",
+		},
+	},
 }[locale];
+
+const packageIncluded = [
+	[true, true, false, false, false],
+	[true, true, true, true, true],
+] as const;
+
+const packages = copy.packages.cards.map((title, index) => ({
+	title,
+	items: copy.packages.items.map((label, itemIndex) => ({ label, included: packageIncluded[index][itemIndex] })),
+}));
+
+const weeks = Array.from({ length: 6 }, (_, index) => copy.process.week(String(index + 1).padStart(2, "0")));
+
+const phases = [
+	{ span: 2, tone: 1 },
+	{ span: 4, tone: 2 },
+] as const;
+
+const stepLayout = [
+	{ tone: 1, column: 1, span: 1, row: 1 },
+	{ tone: 1, column: 2, span: 1, row: 2 },
+	{ tone: 2, column: 3, span: 2, row: 3 },
+	{ tone: 2, column: 5, span: 2, row: 4 },
+] as const;
+
+const contactHref = getRelativeLocaleUrl(locale, "/contact").replace(/(.)\/$/, "$1");
 ---
 
 <Base title={copy.pageTitle}>
-	<main></main>
+	<section class="bg-background pt-[8.75rem] max-lg:pt-32">
+		<div
+			class="mx-auto flex w-[92%] max-w-[76.875rem] items-start justify-between gap-x-12 gap-y-10 max-lg:flex-col"
+		>
+			<div class="max-w-[39rem]">
+				<h1 class="font-medium text-text text-display">
+					{copy.title}
+				</h1>
+				<p class="mt-4 text-2xl leading-9 font-normal text-text max-lg:text-xl max-lg:leading-8">
+					{copy.text}
+				</p>
+			</div>
+
+			<VideoCard
+				src={copy.video.src}
+				poster="/global/images/service-video-poster.webp"
+				playLabel={copy.video.playLabel}
+				class="shrink-0"
+			/>
+		</div>
+	</section>
+
+	<section class="bg-background pt-10 pb-[7.5rem] max-lg:pb-20">
+		<div class="relative mx-auto w-[92%] max-w-[76.875rem]">
+			<img
+				src="/global/images/service-shape.webp"
+				alt=""
+				width="1512"
+				height="400"
+				loading="lazy"
+				class="pointer-events-none absolute top-[12.75rem] left-1/2 h-auto w-[min(80rem,100vw)] max-w-none -translate-x-1/2 max-md:hidden"
+			/>
+
+			<div class="relative flex flex-col items-center text-center">
+				<img
+					src="/global/images/service-planet.webp"
+					alt=""
+					width="83"
+					height="83"
+					loading="lazy"
+					class="mb-5 size-[2.625rem]"
+				/>
+				<h2 class="max-w-[44rem] font-medium text-text text-heading">
+					{copy.pain.title}
+				</h2>
+
+				<ul
+					class="mt-10 grid w-full max-w-[60.625rem] grid-cols-3 gap-6 max-lg:grid-cols-2 max-md:grid-cols-1"
+				>
+					{
+						copy.pain.items.map((item) => (
+							<li class="flex min-h-[8.75rem] items-center justify-center rounded-[20px] bg-background px-4 py-6 text-center text-base leading-6 font-normal text-text shadow-[0_4px_4px_color-mix(in_srgb,var(--color-shadow)_10%,transparent),0_10px_25px_color-mix(in_srgb,var(--color-shadow)_20%,transparent)] max-md:min-h-0">
+								{item}
+							</li>
+						))
+					}
+				</ul>
+
+				<p class="mt-10 max-w-[43rem] text-2xl leading-[2.125rem] font-normal text-text max-lg:text-xl max-lg:leading-8">
+					{copy.pain.lead}
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="bg-background pb-24 max-lg:pb-16">
+		<div class="mx-auto w-[92%] max-w-[76.875rem]">
+			<div class="text-center">
+				<h2 class="mx-auto max-w-[56.5rem] font-medium text-text text-heading">
+					{copy.great.title}{" "}
+					<span class="text-primary">{copy.great.titleHighlight}</span>
+					{copy.great.titleMiddle && ` ${copy.great.titleMiddle} `}
+					{copy.great.titleHighlightEnd && <span class="text-primary">{copy.great.titleHighlightEnd}</span>}
+				</h2>
+				<p class="mt-6 text-base leading-[1.625rem] font-light text-text">{copy.great.lead}</p>
+				<p class="mx-auto mt-6 max-w-[40rem] text-base leading-[1.625rem] font-light text-text">
+					{copy.great.text}
+				</p>
+			</div>
+
+			<ul
+				class="mx-auto mt-16 grid max-w-[53rem] grid-cols-2 gap-x-16 gap-y-10 max-lg:mt-10 max-lg:gap-x-8 max-md:grid-cols-1"
+			>
+				{
+					copy.great.items.map((item) => (
+						<li class="flex gap-3">
+							<img
+								src="/global/images/star-icon.webp"
+								alt=""
+								width="26"
+								height="26"
+								loading="lazy"
+								class="size-[1.625rem] shrink-0"
+							/>
+							<p class="text-xl leading-[1.625rem] font-medium text-text">{item}</p>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+
+	<section
+		class="bg-surface-dark bg-[url(/global/images/service-process-bg.png)] bg-contain bg-[position:50%_0] bg-no-repeat pt-[8.75rem] max-lg:pb-6 max-md:pt-[6.25rem]"
+	>
+		<div class="mx-auto w-[92%] max-w-[76.875rem]">
+			<div class="max-w-[26.375rem]">
+				<h2 class="font-medium text-text-inverse text-heading">{copy.process.title}</h2>
+				<p class="mt-6 text-base leading-[1.625rem] font-light text-text-inverse">{copy.process.text}</p>
+			</div>
+		</div>
+
+		<ProcessTimeline
+			label={copy.process.timelineLabel}
+			fitContent
+			weeks={weeks}
+			phases={phases.map((phase, index) => ({ ...phase, label: copy.process.phases[index] }))}
+			steps={stepLayout.map((layout, index) => ({
+				...layout,
+				title: copy.process.steps[index][0],
+				text: copy.process.steps[index][1],
+			}))}
+			class="mt-[4.125rem]"
+		/>
+	</section>
+
+	<section class="relative overflow-hidden bg-surface-dark pt-[5.25rem] pb-80">
+		<div class="relative z-10 mx-auto w-[92%] max-w-[76.875rem]">
+			<h2 class="mx-auto max-w-[56.5625rem] text-center font-medium text-text-inverse text-heading">
+				{copy.expect.title}
+			</h2>
+
+			<ul class="mx-auto mt-[4.625rem] grid max-w-[69.25rem] grid-cols-3 gap-8 max-md:grid-cols-1">
+				{
+					copy.expect.items.map((item) => (
+						<li class="flex items-start gap-3">
+							<svg
+								viewBox="0 0 42 42"
+								fill="none"
+								aria-hidden="true"
+								class="mt-1 size-[2.625rem] shrink-0 text-primary"
+							>
+								<circle cx="21" cy="21" r="20" stroke="currentColor" stroke-width="2" />
+								<path
+									d="M31.1957 18.9987L27.6478 15.2812C27.5626 15.1921 27.4612 15.1214 27.3494 15.0731C27.2377 15.0249 27.1179 15 26.9969 15C26.8758 15 26.756 15.0249 26.6443 15.0731C26.5326 15.1214 26.4312 15.1921 26.346 15.2812C26.1752 15.4594 26.0794 15.7003 26.0794 15.9515C26.0794 16.2027 26.1752 16.4437 26.346 16.6218L29.6097 20.035L10.9168 20.035C10.6736 20.035 10.4404 20.1352 10.2685 20.3135C10.0966 20.4918 10 20.7336 10 20.9857C10 21.2379 10.0966 21.4797 10.2685 21.658C10.4404 21.8363 10.6736 21.9365 10.9168 21.9365L29.6647 21.9365L26.346 25.3687C26.26 25.4571 26.1918 25.5622 26.1453 25.6781C26.0987 25.794 26.0748 25.9182 26.0748 26.0437C26.0748 26.1692 26.0987 26.2935 26.1453 26.4094C26.1918 26.5252 26.26 26.6304 26.346 26.7188C26.4312 26.8079 26.5326 26.8786 26.6443 26.9269C26.756 26.9751 26.8758 27 26.9969 27C27.1179 27 27.2377 26.9751 27.3494 26.9269C27.4612 26.8786 27.5625 26.8079 27.6478 26.7188L31.1957 23.0299C31.7107 22.4951 32 21.7701 32 21.0143C32 20.2584 31.7107 19.5335 31.1957 18.9987Z"
+									fill="currentColor"
+								/>
+							</svg>
+							<div>
+								<h3 class="mt-2.5 text-2xl leading-[2.125rem] font-medium text-text-inverse">{item.title}</h3>
+								<p class="mt-[1.125rem] mb-2.5 text-base leading-[1.625rem] font-light text-text-inverse">{item.text}</p>
+							</div>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+
+		<img
+			src="/global/images/service-astronaut.webp"
+			alt=""
+			width="627"
+			height="383"
+			loading="lazy"
+			class="pointer-events-none absolute bottom-0 left-0 h-auto w-[39.1875rem] max-w-full"
+		/>
+	</section>
+
+	<section class="bg-background pt-24 pb-24 max-lg:py-16">
+		<div class="mx-auto w-[92%] max-w-[76.875rem]">
+			<h2 class="text-center font-medium text-text text-heading">{copy.packages.title}</h2>
+
+			<div class="mx-auto mt-16 grid max-w-[37.6875rem] grid-cols-2 gap-[2.1875rem] max-lg:gap-6 max-md:mt-10 max-md:grid-cols-1">
+				{packages.map((pkg) => <ServicePackage title={pkg.title} items={pkg.items} />)}
+			</div>
+
+			<div class="mt-16 flex justify-center max-md:mt-10">
+				<Button variant="link-arrow" href={contactHref}>
+					{copy.packages.cta}
+				</Button>
+			</div>
+		</div>
+	</section>
+
+	<section class="flow-root bg-surface pb-24 max-lg:pb-16 [&_.clutch-widget]:overflow-hidden [&_.clutch-widget]:rounded-[20px]">
+		<ClutchReviews />
+	</section>
+
+	<section class="bg-surface pb-16">
+		<div class="mx-auto w-[92%] max-w-[63.4375rem]">
+			<h2 class="text-center font-medium text-text text-heading">
+				{copy.why.title} <span class="text-primary">{copy.why.titleHighlight}</span>
+				{copy.why.titleEnd && ` ${copy.why.titleEnd}`}
+			</h2>
+
+			<ul class="mt-16 grid grid-cols-3 gap-6 max-md:mt-10 max-md:grid-cols-1">
+				{
+					copy.why.items.map((item) => (
+						<li class="flex items-start gap-3">
+							<img
+								src="/global/images/star-icon.webp"
+								alt=""
+								width="26"
+								height="26"
+								loading="lazy"
+								class="size-[1.625rem] shrink-0"
+							/>
+							<div>
+								<h3 class="text-xl leading-[1.625rem] font-medium text-text">{item.title}</h3>
+								<p class="mt-2 text-base leading-[1.625rem] font-light text-text-muted">{item.text}</p>
+							</div>
+						</li>
+					))
+				}
+			</ul>
+
+			<p class="mx-auto mt-16 max-w-[40rem] text-center text-2xl leading-[2.125rem] font-normal text-text max-md:mt-10 max-md:text-xl max-md:leading-8">
+				{copy.why.note}
+			</p>
+		</div>
+	</section>
+
+	<section class="bg-surface py-10">
+		<div class="mx-auto w-[92%] max-w-[76.875rem]">
+			<CtaBox
+				title={copy.cta.title}
+				text={copy.cta.text}
+				buttonLabel={copy.cta.buttonLabel}
+				buttonHref={contactHref}
+			/>
+		</div>
+	</section>
 </Base>

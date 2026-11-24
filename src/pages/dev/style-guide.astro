@@ -331,6 +331,14 @@ const colorGroups = [
 						/>
 					))
 				}
+				<ServicePackage
+					title="Package without description"
+					items={[
+						{ label: "Included item", included: true },
+						{ label: "Not included item", included: false },
+						{ label: "Included item", included: true },
+					]}
+				/>
 			</div>
 		</section>
 
@@ -489,6 +497,31 @@ const colorGroups = [
 			<div class="border-t border-border pt-6">
 				<div class="overflow-hidden rounded-[24px] bg-surface-dark py-8">
 					<ProcessTimeline
+						label={copy.process.label}
+						weeks={copy.process.weeks}
+						phases={[
+							{ label: copy.process.phases[0], span: 1, tone: 1 },
+							{ label: copy.process.phases[1], span: 2, tone: 2 },
+							{ label: copy.process.phases[2], span: 1, tone: 3 },
+							{ label: copy.process.phases[3], span: 1, tone: 4 },
+						]}
+						steps={[
+							{ title: copy.process.stepTitle, text: copy.process.stepText, tone: 1, column: 1, span: 1, row: 1 },
+							{ title: copy.process.stepTitle, text: copy.process.stepText, tone: 2, column: 2, span: 2, row: 2 },
+							{ title: copy.process.stepTitle, text: copy.process.stepText, tone: 3, column: 4, span: 1, row: 3 },
+							{ title: copy.process.stepTitle, text: copy.process.stepText, tone: 4, column: 5, span: 1, row: 4 },
+						]}
+					/>
+				</div>
+			</div>
+
+			<div class="mt-10 border-t border-border pt-6">
+				<h3 class="mb-4 text-lg font-medium">
+					<code>fitContent</code>
+				</h3>
+				<div class="overflow-hidden rounded-[24px] bg-surface-dark py-8">
+					<ProcessTimeline
+						fitContent
 						label={copy.process.label}
 						weeks={copy.process.weeks}
 						phases={[

@@ -5,22 +5,23 @@ type Item = {
 	label: string;
 	/** Whether the package includes this item (check) or not (cross, greyed out) */
 	included: boolean;
-	/** Short explanation shown in the info tooltip */
-	tooltip: string;
+	/** Short explanation shown in the info tooltip (no info button without it) */
+	tooltip?: string;
 };
 
 type Props = {
 	title: string;
-	text: string;
+	/** Short description under the title (omitted when empty) */
+	text?: string;
 	items: Item[];
 	/** Accessible name of each info button */
-	tooltipLabel: string;
+	tooltipLabel?: string;
 	/** Emphasizes the package with the primary color and a stronger shadow */
 	highlighted?: boolean;
 	class?: string;
 };
 
-const { title, text, items, tooltipLabel, highlighted = false, class: className } = Astro.props;
+const { title, text, items, tooltipLabel = "", highlighted = false, class: className } = Astro.props;
 ---
 
 <article
@@ -34,7 +35,7 @@ const { title, text, items, tooltipLabel, highlighted = false, class: className 
 >
 	<header class:list={["py-3 pr-2.5 pl-3 text-center text-text-inverse", highlighted ? "bg-primary" : "bg-accent"]}>
 		<h3 class="text-base leading-5 font-medium">{title}</h3>
-		<p class="mt-0.5 text-xs leading-4 font-light">{text}</p>
+		{text && <p class="mt-0.5 text-xs leading-4 font-light">{text}</p>}
 	</header>
 
 	<ul>
@@ -60,7 +61,7 @@ const { title, text, items, tooltipLabel, highlighted = false, class: className 
 					)}
 					<span class="flex items-center gap-1.5">
 						<span class={item.included ? "text-text" : "text-text-disabled"}>{item.label}</span>
-						<InfoTooltip text={item.tooltip} label={tooltipLabel} />
+						{item.tooltip && <InfoTooltip text={item.tooltip} label={tooltipLabel} />}
 					</span>
 				</li>
 			))

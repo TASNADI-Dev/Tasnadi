@@ -26,18 +26,20 @@ type Props = {
 	steps: Step[];
 	/** Accessible name of the scrollable region */
 	label: string;
+	/** Sizes each step row to its own content instead of making all rows as tall as the tallest one */
+	fitContent?: boolean;
 	class?: string;
 };
 
-const { weeks, phases, steps, label, class: className } = Astro.props;
+const { weeks, phases, steps, label, fitContent = false, class: className } = Astro.props;
 
 const rowCount = Math.max(...steps.map((step) => step.row));
 
 const tones: Record<Tone, { phase: string; step: string }> = {
-	1: { phase: "bg-process-phase-1 text-text-inverse", step: "border-process-phase-1" },
-	2: { phase: "bg-process-phase-2 text-text-inverse", step: "border-process-phase-2" },
-	3: { phase: "bg-process-phase-3 text-text-inverse", step: "border-process-phase-3" },
-	4: { phase: "bg-process-phase-4 text-text", step: "border-process-phase-4" },
+	1: { phase: "bg-process-phase-1 text-text-inverse", step: "border-t-process-phase-1" },
+	2: { phase: "bg-process-phase-2 text-text-inverse", step: "border-t-process-phase-2" },
+	3: { phase: "bg-process-phase-3 text-text-inverse", step: "border-t-process-phase-3" },
+	4: { phase: "bg-process-phase-4 text-text", step: "border-t-process-phase-4" },
 };
 ---
 
@@ -54,7 +56,7 @@ const tones: Record<Tone, { phase: string; step: string }> = {
 	<div class="w-max px-[max(4%,calc((100%_-_76.875rem)/2))]">
 		<div
 			class="grid gap-x-px gap-y-1 rounded-[10px] border border-border-inverse bg-[repeating-linear-gradient(90deg,transparent_0_200px,var(--color-process-grid-line)_200px_201px)]"
-			style={`grid-template-columns: repeat(${weeks.length}, 200px); grid-template-rows: auto auto repeat(${rowCount}, 1fr);`}
+			style={`grid-template-columns: repeat(${weeks.length}, 200px); grid-template-rows: auto auto repeat(${rowCount}, ${fitContent ? "auto" : "1fr"});`}
 		>
 			{
 				weeks.map((week) => (
@@ -76,7 +78,7 @@ const tones: Record<Tone, { phase: string; step: string }> = {
 			{
 				steps.map((step) => (
 					<div
-						class:list={["rounded-[10px] border-t-[3px] bg-surface-dark p-3", tones[step.tone].step]}
+						class:list={["rounded-[10px] border border-t-[3px] border-surface-dark-hover bg-surface-dark p-3", tones[step.tone].step]}
 						style={`grid-column: ${step.column} / span ${step.span}; grid-row: ${step.row + 2};`}
 					>
 						<h3 class="text-base leading-5 font-light text-text-inverse">{step.title}</h3>
