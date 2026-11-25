@@ -499,7 +499,7 @@ const packages = copy.packages.cards.map((card, index) => ({
 	</section>
 
 	<section
-		class="bg-background bg-[url(/services/website/technologies-bg.webp)] bg-[length:79.125rem_auto] bg-[position:50%_5.625rem] bg-no-repeat pt-[11.25rem] pb-16 max-lg:pt-32 max-md:bg-[length:60rem_auto] max-md:pt-24"
+		class="bg-background bg-[url(/global/images/service-technologies-bg.webp)] bg-[length:79.125rem_auto] bg-[position:50%_5.625rem] bg-no-repeat pt-[11.25rem] pb-16 max-lg:pt-32 max-md:bg-[length:60rem_auto] max-md:pt-40"
 	>
 		<div class="mx-auto w-[92%] max-w-[76.875rem] text-center">
 			<h2 class="mx-auto max-w-[44rem] font-medium text-text text-heading">
@@ -508,17 +508,17 @@ const packages = copy.packages.cards.map((card, index) => ({
 				{copy.technologies.titleEnd && ` ${copy.technologies.titleEnd}`}
 			</h2>
 
-			<ul class="mt-12 flex flex-wrap items-center justify-center gap-x-10 gap-y-8 max-md:mt-8 max-md:gap-x-6">
+			<ul class="mx-auto mt-12 grid max-w-[76.875rem] grid-cols-5 items-center gap-x-10 max-lg:gap-x-6 max-md:mt-8 max-md:grid-cols-2 max-md:gap-y-2 max-[26rem]:grid-cols-1">
 				{
 					technologies.map((tech) => (
-						<li>
+						<li class="min-[26rem]:max-md:last:col-span-2">
 							<img
 								src={tech.src}
 								alt={tech.name}
-								width="220"
+								width="440"
 								height="220"
 								loading="lazy"
-								class="h-auto w-[8.5rem] max-md:w-[6.5rem]"
+								class="mx-auto h-auto w-full max-w-[17rem] max-md:max-w-[13.75rem]"
 							/>
 						</li>
 					))
@@ -556,7 +556,7 @@ const packages = copy.packages.cards.map((card, index) => ({
 						furtherServices.map((slug, index) => (
 							<li class="flex items-start gap-3">
 								<img
-									src="/services/website/further-service-icon.svg"
+									src="/global/images/service-further-icon.svg"
 									alt=""
 									width="26"
 									height="28"
@@ -581,7 +581,9 @@ const packages = copy.packages.cards.map((card, index) => ({
 	</section>
 
 	<section class="flow-root bg-surface pb-24 max-lg:pb-16 [&_.clutch-widget]:overflow-hidden [&_.clutch-widget]:rounded-[20px]">
-		<ClutchReviews />
+		<div class="mx-auto w-[92%]">
+			<ClutchReviews />
+		</div>
 	</section>
 
 	<section class="bg-surface pb-16">
