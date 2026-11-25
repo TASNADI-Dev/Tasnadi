@@ -1,5 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
+import { localizePath } from "../i18n/routes";
+import Button from "../components/Button.astro";
 import VideoCard from "../components/VideoCard.astro";
 
 const locale = Astro.currentLocale === "en" ? "en" : "hu";
@@ -12,6 +14,110 @@ const copy = {
 		text: "Képzelj el egy olyan weboldalt, ami nem csupán kielégíti vevőid elvárásait, de a készítés folyamata is stresszmentes számodra. A legjobb helyen jársz ahhoz, hogy mindez megvalósuljon.",
 		question: "Hogyan készítünk olyan weboldalt, amit nem csak létrehozni nagyszerű, de használni is öröm?",
 		video: { src: "/method/intro-hu.mp4", playLabel: "Videó lejátszása" },
+		process: {
+			titleHighlight: "Folyamatunk",
+			titleRest: " biztosítja, hogy weboldalad gördülékenyen elkészül",
+			steps: [
+				{ name: "Üzleti igény", icon: null, items: [] },
+				{
+					name: "Tisztázás",
+					icon: "chat",
+					items: [
+						{
+							title: "A probléma megértése",
+							text: "Megragadjuk vállalkozásodat, ügyfeleidet, és meghatározzuk az általad kínált alapvető értékeket.",
+						},
+						{
+							title: "Stratégia kidolgozása: személyiségekre szabottan",
+							text: "Hatékony tervet készítünk értékeid kommunikálására különböző személyiségekre szabottan.",
+						},
+					],
+				},
+				{
+					name: "Tervezés",
+					icon: "bulb",
+					items: [
+						{
+							title: "Tartomány bővítése",
+							text: "Folyamatosan ötletelünk és kutatunk, hogy a legjobb lehetőségeket fedezzük fel.",
+						},
+						{
+							title: "Fókusz szűkítése",
+							text: "A stratégia és a tapasztalat alapján kritikusan finomítjuk az ötleteket.",
+						},
+					],
+				},
+				{
+					name: "Kivitelezés",
+					icon: "screen",
+					items: [
+						{
+							title: "Végrehajtás",
+							text: "Olyan megoldást kínálunk, amely minden anyagra kiterjedően javítja az értékesítési folyamatot.",
+						},
+						{
+							title: "Tesztelés és iterálás",
+							text: "Az optimális eredmények érdekében teszteljük, kiigazítjuk, és folyamatosan javítjuk a stratégiát.",
+						},
+					],
+				},
+			],
+		},
+		guarantees: {
+			title: "A zökkenőmentes együttműködés garanciái",
+			items: [
+				{
+					title: "Átfogó kezdeti értékelés",
+					text: "Részletes felmérés igényeidnek megértéséhez, és a siker alapjainak megteremtéséhez.",
+				},
+				{
+					title: "Start Meeting",
+					text: "Együttműködésünk egy fókuszált megbeszéléssel kezdődik, hogy összehangoljuk a célokat.",
+				},
+				{
+					title: "Szoros együttműködés",
+					text: "Kívül-belül ismered a vállalkozásod, ezért a legjobb eredmény érdekében kombináljuk a te tudásodat a mi szakértelmünkkel.",
+				},
+				{
+					title: "Heti\nstátuszmeeting",
+					text: "Rendszeres megbeszéléseket tartunk, hogy mindig naprakész legyél folyamataink kapcsán, és megbeszélhessük a további teendőket.",
+				},
+				{
+					title: "Dedikált projektmenedzser",
+					text: "Projektmenedzserünk az egyetlen kapcsolattartó, aki felügyeli a projekteket, és biztosítja, hogy a folyamatok zökkenőmentesen és zavartalanul működjenek.",
+				},
+				{
+					title: "Fokozatos megközelítés mérföldkövekkel",
+					text: "A projekteket jól meghatározott szakaszokra bontjuk, minden egyes szakaszhoz világos határidőket rendelünk.",
+				},
+				{
+					title: "Módosítási körök",
+					text: "Strukturált lehetőségek az eredmény finomítására és tökéletesítésére, az időben történő átadás biztosítása mellett.",
+				},
+			],
+		},
+		why: {
+			title: "Miért működik ez a módszer?",
+			quote:
+				"Nem számoltam ki, hogy hány-száz százalékkal nőtt meg az ajánlatkérések száma a tavalyi év azonos időszakához képest, de nem kicsit. Nagyon. Szóval csak annyi, hogy tényleg köszönöm! Ez bejött. :)",
+			author: "Szabó Zoltán",
+			role: "tulajdonos, Csarnok.hu",
+			cta: "Érdekesen hangzik, beszélgessünk!",
+			items: [
+				{
+					title: "Rövidebb határidők",
+					text: "Hatékony eljárásunkkal gyorsabban fejlesztjük kiváló minőségű weboldalainkat, így a minőség feláldozása nélkül segítünk neked betartani a szoros határidőket.",
+				},
+				{
+					title: "Költségkereten belüli teljesítés",
+					text: "Strukturált megközelítésünk biztosítja a költségek kiszámíthatóságát, minimalizálja a váratlan kiadásokat, és a projektek költségvetésének betartását.",
+				},
+				{
+					title: "Kevesebb módosítás, jobb eredmények",
+					text: "Előzetesen összegyűjtjük az egyértelmű követelményeket, így csökkentjük a gyakori módosítási kérelmek szükségességét, és biztosítjuk, hogy a végtermék már a kezdetektől fogva megfeleljen a te elvárásaidnak.",
+				},
+			],
+		},
 	},
 	en: {
 		pageTitle: "Method",
@@ -20,8 +126,114 @@ const copy = {
 		text: "Imagine a website that not only meets your customers' expectations but also leaves you stress-free throughout the entire process. You’re in the perfect place to make it happen.",
 		question: "How do we craft a website that's not just great to create, but a joy to use?",
 		video: { src: "/method/intro-en.mp4", playLabel: "Play video" },
+		process: {
+			titleHighlight: "Our process",
+			titleRest: " ensures seamless collaboration on your website",
+			steps: [
+				{ name: "Business need", icon: null, items: [] },
+				{
+					name: "Clarify",
+					icon: "chat",
+					items: [
+						{
+							title: "Understanding the problem",
+							text: "We grasp your business and clients, distilling the core value you offer.",
+						},
+						{
+							title: "Developing a strategy",
+							text: "We craft a plan to communicate your value effectively, tailored to different personas.",
+						},
+					],
+				},
+				{
+					name: "Design",
+					icon: "bulb",
+					items: [
+						{ title: "Expanding range", text: "We brainstorm and research to explore all possibilities." },
+						{
+							title: "Narrowing focus",
+							text: "We critically refine ideas based on strategy and experience.",
+						},
+					],
+				},
+				{
+					name: "Implement",
+					icon: "screen",
+					items: [
+						{
+							title: "Execution",
+							text: "We deliver a solution that enhances your sales process across all materials.",
+						},
+						{
+							title: "Testing and iterating",
+							text: "We test, adjust, and continually improve the strategy for optimal results.",
+						},
+					],
+				},
+			],
+		},
+		guarantees: {
+			title: "Guarantees of smooth collaboration",
+			items: [
+				{
+					title: "A comprehensive initial evaluation",
+					text: "A detailed assessment to understand your needs and set the foundation for success.",
+				},
+				{
+					title: "Start meeting",
+					text: "Launching our collaboration with a focused discussion to align goals.",
+				},
+				{
+					title: "Tight collaboration",
+					text: "You know your business inside and out - we combine your knowledge with our expertise for the best result.",
+				},
+				{
+					title: "Weekly\nstatus meeting",
+					text: "Regular meetings to keep you up-to-date and discuss what needs to be done next.",
+				},
+				{
+					title: "Dedicated project manager",
+					text: "A single point of contact to oversee the project and ensure smooth execution.",
+				},
+				{
+					title: "Phased approach with milestones",
+					text: "Breaking the project into manageable stages with clear deadlines for each.",
+				},
+				{
+					title: "Modification rounds",
+					text: "Structured opportunities to refine and perfect the outcome, while ensuring timely delivery.",
+				},
+			],
+		},
+		why: {
+			title: "Why This Method Works",
+			quote:
+				"I haven't calculated how many percent the number of requests for quotes has increased compared to the same period last year, but it's not a small amount. It's a lot. So, I just want to say thank you very much! It worked. :)",
+			author: "Zoltán Szabó",
+			role: "owner, Csarnok.hu",
+			cta: "Sounds interesting, let's chat!",
+			items: [
+				{
+					title: "Shorter Timelines",
+					text: "By using an efficient process, we deliver high-quality websites faster, helping you meet tight deadlines without sacrificing quality.",
+				},
+				{
+					title: "On-Budget Delivery",
+					text: "Our structured approach ensures cost predictability, minimizing unexpected expenses and keeping projects on budget.",
+				},
+				{
+					title: "Fewer Revisions, Better Results",
+					text: "We gather clear requirements upfront, reducing the need for excessive modification requests and ensuring that the final product meets your expectations from the start.",
+				},
+			],
+		},
 	},
 }[locale];
+
+const stepColumn = ["lg:col-start-1", "lg:col-start-3", "lg:col-start-5", "lg:col-start-7"];
+const arrowColumn = ["", "lg:col-start-2", "lg:col-start-4", "lg:col-start-6"];
+const contactHref = localizePath("/contact", locale);
+const whyIcons = ["clock", "arrow", "check"];
 ---
 
 <Base title={copy.pageTitle} navVariant="light">
@@ -51,6 +263,232 @@ const copy = {
 				playLabel={copy.video.playLabel}
 				class="mt-10 shrink-0"
 			/>
+		</div>
+	</section>
+
+	<section class="overflow-x-clip pt-16 pb-[11.875rem] max-lg:pb-24">
+		<div class="mx-auto w-[92%] max-w-[76.875rem]">
+			<h2 class="mx-auto max-w-[46.25rem] text-center font-medium text-text text-heading">
+				<span class="text-primary">{copy.process.titleHighlight}</span>{copy.process.titleRest}
+			</h2>
+
+			<div
+				class="mt-8 grid gap-4 rounded-3xl border-2 border-accent bg-accent/10 p-10 lg:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] max-md:p-6"
+			>
+				{
+					copy.process.steps.map((step, index) => (
+						<>
+							{index > 0 && (
+								<div
+									class:list={[
+										"flex items-center justify-center max-lg:h-14 lg:row-start-1",
+										arrowColumn[index],
+									]}
+									aria-hidden="true"
+								>
+									<svg
+										width="48"
+										height="16"
+										viewBox="0 0 55 16"
+										fill="none"
+										class="h-4 w-12 text-accent max-lg:rotate-90"
+									>
+										<path
+											fill-rule="evenodd"
+											clip-rule="evenodd"
+											d="M48.3431 0.92888L54.7071 7.29284C55.0976 7.68336 55.0976 8.31653 54.7071 8.70705L48.3431 15.071C47.9526 15.4615 47.3195 15.4615 46.9289 15.071C46.5384 14.6805 46.5384 14.0473 46.9289 13.6568L51.5858 8.99995H0V6.99995H51.5858L46.9289 2.34309C46.5384 1.95257 46.5384 1.3194 46.9289 0.92888C47.3195 0.538355 47.9526 0.538355 48.3431 0.92888Z"
+											fill="currentColor"
+										/>
+									</svg>
+								</div>
+							)}
+							<div
+								class:list={[
+									"flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-base leading-5 font-medium text-text uppercase lg:row-start-1",
+									stepColumn[index],
+								]}
+							>
+								{step.icon === "chat" && (
+									<svg width="27" height="26" viewBox="0 0 27 26" fill="none" class="shrink-0" aria-hidden="true">
+										<path
+											d="M25.6169 14.9112C25.6169 10.9824 21.9918 7.78591 17.5273 7.78591C17.3666 7.78591 17.2148 7.78591 17.063 7.79484C16.3398 4.4733 12.9825 2 9.10742 2C4.63405 2.00893 1 5.20547 1 9.13417C1 10.7503 1.62502 12.3218 2.76792 13.5807L2.16075 17.1702C2.1429 17.2952 2.19647 17.4291 2.30362 17.5005C2.41076 17.572 2.55362 17.5809 2.66077 17.5095L5.80373 15.6433C6.83948 16.054 7.95559 16.2594 9.10742 16.2594C9.16992 16.2594 9.22349 16.2594 9.28599 16.2594H9.38421C9.45564 16.2594 9.51815 16.2326 9.57172 16.188C10.2503 19.5095 13.5629 22.0453 17.5273 22.0453C18.6792 22.0453 19.7863 21.84 20.8221 21.4292L23.9651 23.2954C24.0186 23.3311 24.0722 23.34 24.1347 23.34C24.1972 23.34 24.2686 23.3222 24.3222 23.2775C24.4294 23.2061 24.4829 23.0721 24.4651 22.9471L23.8579 19.3577C25.0008 18.0988 25.6258 16.5273 25.6258 14.9112H25.6169ZM22.5632 20.6703L21.0721 19.7863C21.0185 19.7506 20.965 19.7417 20.9025 19.7417C20.8578 19.7417 20.8132 19.7506 20.7685 19.7685L20.5899 19.8488C19.6435 20.2685 18.6077 20.4828 17.5273 20.4828C13.8844 20.4828 10.92 17.9916 10.92 14.9201C10.92 11.8485 13.8844 9.35739 17.5273 9.35739C21.1703 9.35739 24.1347 11.8485 24.1347 14.9201C24.1347 16.2416 23.5722 17.5273 22.5454 18.5273L22.3757 18.697C22.2954 18.7774 22.2596 18.8845 22.2775 18.9916L22.5632 20.6703ZM9.44671 14.7326C9.39314 14.7058 9.33957 14.6969 9.26814 14.6879C9.26814 14.6879 9.11635 14.6879 9.10742 14.6879C8.02702 14.6879 6.99127 14.4736 6.03588 14.054L5.85731 13.9736C5.75909 13.929 5.64301 13.9379 5.55373 13.9915L4.05367 14.8754L4.3394 13.1968C4.35726 13.0897 4.32154 12.9825 4.24118 12.9022L4.07153 12.7325C3.04471 11.7235 2.48219 10.4467 2.48219 9.12524C2.48219 6.06264 5.45551 3.56255 9.10742 3.56255C12.2325 3.56255 14.9469 5.44655 15.5808 7.99127C12.0718 8.75916 9.536 11.5271 9.44671 14.7236V14.7326Z"
+											fill="currentColor"
+										/>
+										<path
+											d="M7.68336 6.87409C7.78926 6.59747 8.20553 6.59747 8.31143 6.87409L8.74961 8.03521C8.77882 8.11717 8.84455 8.18205 8.92854 8.2162L10.1335 8.7148C10.3965 8.82408 10.3965 9.17583 10.1335 9.28512L8.92854 9.78371C8.84455 9.81786 8.77882 9.88275 8.74961 9.96471L8.31143 11.1258C8.20553 11.4024 7.78926 11.4024 7.68336 11.1258L7.24518 9.96471C7.21597 9.88275 7.15024 9.81786 7.06625 9.78371L5.86125 9.28512C5.59833 9.17583 5.59833 8.82408 5.86125 8.7148L7.06625 8.2162C7.15024 8.18205 7.21597 8.11717 7.24518 8.03521L7.68336 6.87409Z"
+											fill="currentColor"
+										/>
+										<ellipse cx="14.125" cy="15.25" rx="1.125" ry="1.25" fill="currentColor" />
+										<ellipse cx="17.5" cy="15.25" rx="1.125" ry="1.25" fill="currentColor" />
+										<ellipse cx="20.875" cy="15.25" rx="1.125" ry="1.25" fill="currentColor" />
+									</svg>
+								)}
+								{step.icon === "bulb" && (
+									<svg width="26" height="26" viewBox="0 0 26 26" fill="none" class="shrink-0" aria-hidden="true">
+										<path
+											d="M10.179 19.7468C9.84983 19.7468 9.57549 19.4786 9.56939 19.1494C9.545 17.8508 9.09387 16.7291 7.91115 15.0099C6.66137 13.1992 5.94808 11.0411 6.00295 9.23652C6.12488 5.18236 9.35601 2.0061 13.3553 2C17.3546 2 20.5857 5.18236 20.7077 9.23652C20.7625 11.0411 20.0492 13.1992 18.7995 15.0099C17.6167 16.7291 17.1656 17.8447 17.1412 19.1494C17.1351 19.4847 16.8486 19.759 16.5194 19.7468C16.1841 19.7408 15.9158 19.4603 15.9219 19.125C15.9585 17.3387 16.6962 15.9122 17.7996 14.321C18.9092 12.7115 19.5432 10.8277 19.4945 9.2792C19.3908 5.88955 16.6962 3.23149 13.3614 3.22539C10.0266 3.22539 7.33198 5.88955 7.22834 9.2792C7.17957 10.8338 7.8136 12.7176 8.92316 14.321C10.0266 15.9183 10.7643 17.3448 10.8009 19.125C10.807 19.4603 10.5387 19.7408 10.2034 19.7468H10.1912H10.179Z"
+											fill="currentColor"
+										/>
+										<path
+											d="M16.0075 21.6551H10.6487C10.3134 21.6551 10.0391 21.3807 10.0391 21.0454C10.0391 20.7101 10.3134 20.4358 10.6487 20.4358H16.0075C16.3428 20.4358 16.6172 20.7101 16.6172 21.0454C16.6172 21.3807 16.3428 21.6551 16.0075 21.6551Z"
+											fill="currentColor"
+										/>
+										<path
+											d="M16.0075 23.8859H10.6487C10.3134 23.8859 10.0391 23.6116 10.0391 23.2763C10.0391 22.941 10.3134 22.6666 10.6487 22.6666H16.0075C16.3428 22.6666 16.6172 22.941 16.6172 23.2763C16.6172 23.6116 16.3428 23.8859 16.0075 23.8859Z"
+											fill="currentColor"
+										/>
+										<path
+											d="M12.8089 6.8772C12.9857 6.38338 13.6807 6.38338 13.8574 6.8772L14.589 8.95C14.6378 9.09632 14.7475 9.21215 14.8878 9.27311L16.8996 10.1632C17.3385 10.3583 17.3385 10.9862 16.8996 11.1813L14.8878 12.0714C14.7475 12.1324 14.6378 12.2482 14.589 12.3945L13.8574 14.4673C13.6807 14.9611 12.9857 14.9611 12.8089 14.4673L12.0773 12.3945C12.0285 12.2482 11.9188 12.1324 11.7785 12.0714L9.76671 11.1813C9.32776 10.9862 9.32776 10.3583 9.76671 10.1632L11.7785 9.27311C11.9188 9.21215 12.0285 9.09632 12.0773 8.95L12.8089 6.8772Z"
+											fill="currentColor"
+										/>
+									</svg>
+								)}
+								{step.icon === "screen" && (
+									<svg width="27" height="26" viewBox="0 0 27 26" fill="none" class="shrink-0" aria-hidden="true">
+										<path
+											d="M17.3631 9.71784C17.4689 9.44122 17.8852 9.44122 17.9911 9.71784L18.4293 10.879C18.4585 10.9609 18.5242 11.0258 18.6082 11.06L19.8132 11.5586C20.0761 11.6678 20.0761 12.0196 19.8132 12.1289L18.6082 12.6275C18.5242 12.6616 18.4585 12.7265 18.4293 12.8085L17.9911 13.9696C17.8852 14.2462 17.4689 14.2462 17.3631 13.9696L16.9249 12.8085C16.8957 12.7265 16.8299 12.6616 16.7459 12.6275L15.5409 12.1289C15.278 12.0196 15.278 11.6678 15.5409 11.5586L16.7459 11.06C16.8299 11.0258 16.8957 10.9609 16.9249 10.879L17.3631 9.71784Z"
+											fill="currentColor"
+										/>
+										<path
+											d="M5.9367 19.05H21.2641C22.4099 19.05 23.343 18.1169 23.343 16.9711V6.59552C23.343 5.44971 22.4099 4.51663 21.2641 4.51663H15.4826C15.1146 4.51663 14.8141 4.81712 14.8141 5.18514C14.8141 5.55317 15.1146 5.85366 15.4826 5.85366H21.2641C21.6739 5.85366 22.006 6.18577 22.006 6.59552V16.9711C22.006 17.3808 21.6739 17.7129 21.2641 17.7129H5.9367C5.52695 17.7129 5.19485 17.3808 5.19485 16.9711V6.59552C5.19485 6.18576 5.52695 5.85366 5.9367 5.85366H11.7182C12.0862 5.85366 12.3867 5.55317 12.3867 5.18514C12.3867 4.81712 12.0862 4.51663 11.7182 4.51663H5.9367C4.79089 4.51663 3.85781 5.44971 3.85781 6.59552V16.9711C3.85781 18.1169 4.79089 19.05 5.9367 19.05Z"
+											fill="currentColor"
+											stroke="currentColor"
+											stroke-width="0.3"
+										/>
+										<path
+											d="M11.3154 21.7049H15.8732C16.2412 21.7049 16.5417 21.4044 16.5417 21.0363C16.5417 20.6683 16.2412 20.3678 15.8732 20.3678H11.3154C10.9474 20.3678 10.6469 20.6683 10.6469 21.0363C10.6469 21.4044 10.9474 21.7049 11.3154 21.7049Z"
+											fill="currentColor"
+											stroke="currentColor"
+											stroke-width="0.3"
+										/>
+										<rect x="7" y="8" width="7" height="7" rx="1" fill="currentColor" />
+									</svg>
+								)}
+								{step.name}
+							</div>
+							{step.items.length > 0 && (
+								<div class:list={["text-center lg:row-start-2", stepColumn[index]]}>
+									{step.items.map((item, itemIndex) => (
+										<div class:list={[itemIndex > 0 && "mt-5"]}>
+											<h3 class="text-xl leading-[1.625rem] font-bold text-text">{item.title}</h3>
+											<p class="mt-3 text-xs leading-4 font-light text-text-muted max-lg:text-sm max-lg:leading-5">
+												{item.text}
+											</p>
+										</div>
+									))}
+								</div>
+							)}
+						</>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<section class="pb-[10.625rem] max-lg:pb-16">
+		<div class="mx-auto w-[92%] max-w-[76.875rem]">
+			<h2 class="mx-auto max-w-[46.25rem] text-center text-[2.125rem] leading-[2.75rem] font-medium text-text max-md:text-[1.75rem] max-md:leading-9">
+				{copy.guarantees.title}
+			</h2>
+		</div>
+		<ul class="mx-auto mt-8 flex w-[92%] max-w-[76.875rem] flex-wrap justify-center gap-[1.375rem] py-2">
+			{
+				copy.guarantees.items.map((item) => (
+					<li class="flex w-full flex-col items-center gap-2.5 rounded-[20px] bg-background px-2.5 py-6 text-center shadow-[0_1px_4px_0_color-mix(in_srgb,var(--color-shadow)_20%,transparent)] sm:w-[calc((100%-1.375rem)/2)] lg:w-[calc((100%-4.125rem)/4)]">
+						<img
+							src="/method/guarantee-icon.webp"
+							alt=""
+							width="26"
+							height="26"
+							loading="lazy"
+							class="size-[1.625rem]"
+						/>
+						<h3 class="text-xl leading-[1.625rem] font-bold whitespace-pre-line text-text">{item.title}</h3>
+						<p class="text-base leading-[1.625rem] font-light text-text-muted">{item.text}</p>
+					</li>
+				))
+			}
+		</ul>
+	</section>
+
+	<section class="pb-24 max-lg:pb-16">
+		<div
+			class="mx-auto w-[92%] max-w-[69.5rem] rounded-3xl border-2 border-primary bg-[linear-gradient(135deg,color-mix(in_srgb,var(--color-primary)_10%,var(--color-background)),var(--color-background)_33%,var(--color-surface)_66%,color-mix(in_srgb,var(--color-accent)_15%,var(--color-background)))] px-8 pt-16 pb-[4.5rem] max-md:px-6"
+		>
+			<h2 class="mx-auto max-w-[46.25rem] text-center text-[2.125rem] leading-[2.75rem] font-medium text-text max-md:text-[1.75rem] max-md:leading-9">
+				{copy.why.title}
+			</h2>
+			<ul class="mt-8 grid gap-[1.375rem] lg:grid-cols-3 max-lg:gap-0">
+				{
+					copy.why.items.map((item, index) => (
+						<li class="flex flex-col items-center gap-2.5 px-2.5 py-6 text-center">
+							<svg width="26" height="26" viewBox="0 0 26 26" fill="none" class="text-primary" aria-hidden="true">
+								{whyIcons[index] === "clock" && (
+									<>
+										<rect x="0.75" y="0.75" width="24.5" height="24.5" rx="12.25" stroke="currentColor" stroke-width="1.5" />
+										<path d="M12 7V15H19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+									</>
+								)}
+								{whyIcons[index] === "arrow" && (
+									<>
+										<rect
+											x="25.25"
+											y="25.25"
+											width="24.5"
+											height="24.5"
+											rx="12.25"
+											transform="rotate(-180 25.25 25.25)"
+											stroke="currentColor"
+											stroke-width="1.5"
+										/>
+										<path
+											d="M18 14.4207L12.756 9.1767L7.18087 14.7602"
+											stroke="currentColor"
+											stroke-width="1.5"
+											stroke-linecap="round"
+										/>
+									</>
+								)}
+								{whyIcons[index] === "check" && (
+									<>
+										<rect x="0.75" y="0.75" width="24.5" height="24.5" rx="12.25" stroke="currentColor" stroke-width="1.5" />
+										<path
+											d="M8 11.8076L12.3795 16.1819L19.1791 9.37146"
+											stroke="currentColor"
+											stroke-width="1.5"
+											stroke-linecap="round"
+										/>
+									</>
+								)}
+							</svg>
+							<h3 class="text-xl leading-[1.625rem] font-bold text-text">{item.title}</h3>
+							<p class="text-base leading-[1.625rem] font-light text-text-muted">{item.text}</p>
+						</li>
+					))
+				}
+			</ul>
+
+			<figure class="mx-auto flex max-w-[33.4375rem] flex-col items-center gap-2.5 text-center">
+				<svg width="42" height="39" viewBox="0 0 42 39" fill="none" aria-hidden="true">
+					<path
+						d="M14.0697 2.35871C14.4027 1.51457 15.5973 1.51457 15.9303 2.35872L19.0833 10.3533C19.1849 10.6111 19.3889 10.8151 19.6467 10.9167L27.6413 14.0697C28.4854 14.4027 28.4854 15.5973 27.6413 15.9303L19.6467 19.0833C19.3889 19.1849 19.1849 19.3889 19.0833 19.6467L15.9303 27.6413C15.5973 28.4854 14.4027 28.4854 14.0697 27.6413L10.9167 19.6467C10.8151 19.3889 10.6111 19.1849 10.3533 19.0833L2.35871 15.9303C1.51457 15.5973 1.51457 14.4027 2.35872 14.0697L10.3533 10.9167C10.6111 10.8151 10.8151 10.6111 10.9167 10.3533L14.0697 2.35871Z"
+						fill="var(--color-primary)"
+					></path>
+					<path
+						d="M32.5629 23.5158C32.8862 22.6479 34.1138 22.6479 34.4371 23.5158L35.7527 27.0479C35.8493 27.3072 36.0491 27.5149 36.3045 27.6216L39.7903 29.0772C40.6098 29.4195 40.6098 30.5805 39.7903 30.9228L36.3045 32.3784C36.0491 32.4851 35.8493 32.6928 35.7527 32.9521L34.4371 36.4842C34.1138 37.3521 32.8862 37.3521 32.5629 36.4842L31.2473 32.9521C31.1507 32.6928 30.9509 32.4851 30.6955 32.3784L27.2097 30.9228C26.3902 30.5805 26.3902 29.4195 27.2097 29.0772L30.6955 27.6216C30.9509 27.5149 31.1507 27.3072 31.2473 27.0479L32.5629 23.5158Z"
+						fill="var(--color-accent)"
+					></path>
+				</svg>
+				<blockquote class="text-base leading-[1.625rem] font-bold text-text-muted italic">{copy.why.quote}</blockquote>
+				<figcaption class="flex flex-col gap-2.5 text-base leading-[1.625rem] text-text-muted italic">
+					<strong class="font-bold">{copy.why.author}</strong>
+					<span class="font-light">{copy.why.role}</span>
+				</figcaption>
+			</figure>
+
+			<div class="mt-6 text-center">
+				<Button variant="primary" href={contactHref}>{copy.why.cta}</Button>
+			</div>
 		</div>
 	</section>
 </Base>
