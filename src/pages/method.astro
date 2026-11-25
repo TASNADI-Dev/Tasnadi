@@ -2,6 +2,7 @@
 import Base from "../layouts/Base.astro";
 import { localizePath } from "../i18n/routes";
 import Button from "../components/Button.astro";
+import CtaBox from "../components/CtaBox.astro";
 import VideoCard from "../components/VideoCard.astro";
 
 const locale = Astro.currentLocale === "en" ? "en" : "hu";
@@ -9,6 +10,11 @@ const locale = Astro.currentLocale === "en" ? "en" : "hu";
 const copy = {
 	hu: {
 		pageTitle: "Módszer",
+		cta: {
+			title: "Érdekel a szolgáltatásunk?",
+			text: "Jelentkezz egy ingyenes konzultációra, ahol felmérjük az elakadásaid, üzleti céljaid, és meghatározzuk a stratégiai lehetőségeket!",
+			buttonLabel: "Ajánlatot kérek",
+		},
 		label: "Módszerünk",
 		title: "Legendás ügyfélélmény",
 		text: "Képzelj el egy olyan weboldalt, ami nem csupán kielégíti vevőid elvárásait, de a készítés folyamata is stresszmentes számodra. A legjobb helyen jársz ahhoz, hogy mindez megvalósuljon.",
@@ -182,6 +188,11 @@ const copy = {
 	},
 	en: {
 		pageTitle: "Method",
+		cta: {
+			title: "Interested?",
+			text: "Let’s have a conversation and see how we can help boost your brand.",
+			buttonLabel: "Sounds interesting; let’s chat!",
+		},
 		label: "Our Method",
 		title: "Legendary Client Experience",
 		text: "Imagine a website that not only meets your customers' expectations but also leaves you stress-free throughout the entire process. You’re in the perfect place to make it happen.",
@@ -773,6 +784,24 @@ const planets = [
 				</ol>
 			</div>
 		</div>
+	</section>
+	<section class="relative bg-background pt-24 pb-40 max-lg:pt-16 max-lg:pb-28">
+		<div class="mx-auto w-[92%] max-w-[76.875rem]">
+			<CtaBox
+				title={copy.cta.title}
+				text={copy.cta.text}
+				buttonLabel={copy.cta.buttonLabel}
+				buttonHref={contactHref}
+			/>
+		</div>
+		<svg
+			viewBox="0 0 1512 96"
+			preserveAspectRatio="none"
+			class="pointer-events-none absolute inset-x-0 bottom-0 block h-12 w-full fill-surface-dark md:h-24"
+			aria-hidden="true"
+		>
+			<path d="M0 96C0 96 265.5 0 756 0C1246.5 0 1512 96 1512 96H0Z"></path>
+		</svg>
 	</section>
 </Base>
 
