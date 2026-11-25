@@ -14,7 +14,7 @@ const HUNGARIAN_PATHS: Record<string, string> = {
 	"/about": "/rolunk",
 	"/contact": "/kapcsolat",
 	"/method": "/modszer",
-	"/projects": "/munka",
+	"/case-studies": "/esettanulmanyok",
 	"/services": "/szolgaltatasok",
 	"/services/website": "/szolgaltatasok/weboldal-keszites",
 	"/services/website/website-design": "/szolgaltatasok/weboldal-keszites/weboldal-tervezes",
@@ -32,6 +32,15 @@ const HUNGARIAN_PATHS: Record<string, string> = {
 	"/downloads/design-your-brand": "/letoltesek/tervezd-meg-a-markad",
 	"/downloads/webshop-guide": "/letoltesek/webaruhaz-fejlesztes-utmutato",
 	"/case-studies/[slug]": "/esettanulmanyok/[slug]",
+};
+
+/**
+ * Old internal path → its replacement. The original site's `/projects` section is merged into case studies,
+ * so these paths redirect in every language (`/projects` → `/en/case-studies`, `/hu/projects` → `/esettanulmanyok`).
+ */
+const LEGACY_PATHS: Record<string, string> = {
+	"/projects": "/case-studies",
+	"/projects/[slug]": "/case-studies/[slug]",
 };
 
 type RoutePair = { internal: RegExp; hungarian: RegExp; internalPath: string; hungarianPath: string };
@@ -56,6 +65,19 @@ function withoutTrailingSlash(path: string) {
 function splitLocale(pathname: string): { locale: Locale; rest: string } {
 	const match = pathname.match(/^\/en(\/.*)?$/);
 	return match ? { locale: "en", rest: match[1] || "/" } : { locale: DEFAULT_LOCALE, rest: pathname };
+}
+
+const LEGACY_ROUTES = Object.entries(LEGACY_PATHS).map(([oldPath, newPath]) => ({
+	pattern: toPattern(oldPath),
+	newPath,
+}));
+
+function legacyToInternal(path: string) {
+	for (const route of LEGACY_ROUTES) {
+		const match = path.match(route.pattern);
+		if (match) return fill(route.newPath, match[1]);
+	}
+	return null;
 }
 
 function internalToHungarian(path: string) {
@@ -117,10 +139,17 @@ export function routeAction(pathname: string): RouteAction {
 	const legacyHungarian = path.match(/^\/hu(\/.*)?$/);
 	if (legacyHungarian) {
 		const rest = legacyHungarian[1] || "/";
-		return { type: "redirect", location: localizePath(hungarianToInternal(rest) ?? rest, "hu") };
+		const internal = legacyToInternal(rest) ?? hungarianToInternal(rest) ?? rest;
+		return { type: "redirect", location: localizePath(internal, "hu") };
 	}
 
 	const { locale, rest } = splitLocale(path);
+	const replacement = legacyToInternal(rest);
+	if (replacement) {
+		// Unprefixed old URLs were English on the original site
+		return { type: "redirect", location: localizePath(replacement, "en") };
+	}
+
 	if (locale === "en") {
 		if (internalToHungarian(rest) !== null) return null;
 		const internal = hungarianToInternal(rest);

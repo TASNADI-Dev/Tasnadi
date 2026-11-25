@@ -37,7 +37,7 @@ const STATIC_PAGE_TITLES: Record<string, { hu: string; en: string }> = {
 	"/about": { hu: "Rólunk", en: "About" },
 	"/contact": { hu: "Kapcsolat", en: "Contact" },
 	"/services": { hu: "Szolgáltatásaink", en: "Services" },
-	"/projects": { hu: "Munkáink", en: "Work" },
+	"/case-studies": { hu: "Munkáink", en: "Work" },
 	"/blog": { hu: "Blog", en: "Blog" },
 	"/podcast": { hu: "Podcast", en: "Podcast" },
 };
