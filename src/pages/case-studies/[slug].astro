@@ -1,7 +1,6 @@
 ---
 import { getEmDashEntry, getSeoMeta, decodeSlug, getSiteSettings } from "emdash";
 import type { CacheHint } from "emdash";
-import { getRelativeLocaleUrl } from "astro:i18n";
 import { Image, PortableText } from "emdash/ui";
 import { getContentSeo } from "emdash/seo";
 import Base from "../../layouts/Base.astro";
@@ -10,6 +9,8 @@ import CtaBox from "../../components/CtaBox.astro";
 import TeamList from "../../components/TeamList.astro";
 import { mediaFileUrl } from "../../utils/media-url";
 import { resolveSiteIdentity } from "../../utils/site-identity";
+import { localizePath } from "../../i18n/routes";
+import { getEntryAlternates } from "../../utils/entry-alternates";
 import { rewriteToNotFound } from "../../utils/not-found";
 
 const locale = Astro.currentLocale === "en" ? "en" : "hu";
@@ -167,8 +168,9 @@ const { siteTitle } = resolveSiteIdentity(await getSiteSettings());
 const seo = getSeoMeta(caseStudy, {
 	siteTitle,
 	siteUrl: Astro.url.origin,
-	path: Astro.url.pathname.replace(/\/$/, ""),
+	path: localizePath(`/case-studies/${slug}`, locale),
 });
+const alternates = await getEntryAlternates("case_studies", caseStudy.data.id, (s) => `/case-studies/${s}`);
 ---
 
 <Base
@@ -177,6 +179,7 @@ const seo = getSeoMeta(caseStudy, {
 	pageTitle={seo.ogTitle}
 	description={seo.description ?? caseStudy.data.short_description}
 	canonical={seo.canonical}
+	{alternates}
 	content={{ collection: "case_studies", id: caseStudy.data.id, slug }}
 	navVariant="dark"
 >
@@ -604,7 +607,7 @@ const seo = getSeoMeta(caseStudy, {
 				title={copy.ctaTitle}
 				text={copy.ctaText}
 				buttonLabel={copy.ctaButton}
-				buttonHref={getRelativeLocaleUrl(locale, "/contact").replace(/(.)\/$/, "$1")}
+				buttonHref={localizePath("/contact", locale)}
 			/>
 		</div>
 	</section>

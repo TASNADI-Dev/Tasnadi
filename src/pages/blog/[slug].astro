@@ -10,6 +10,8 @@ import NewsletterSection from "../../components/NewsletterSection.astro";
 import { loadCategories, loadRelatedPosts, translationGroupOf } from "../../utils/blog-posts";
 import { richTextClass as contentClass } from "../../utils/rich-text-class";
 import { resolveSiteIdentity } from "../../utils/site-identity";
+import { localizePath } from "../../i18n/routes";
+import { getEntryAlternates } from "../../utils/entry-alternates";
 import { rewriteToNotFound } from "../../utils/not-found";
 
 const locale = Astro.currentLocale === "en" ? "en" : "hu";
@@ -61,8 +63,9 @@ const { siteTitle } = resolveSiteIdentity(await getSiteSettings());
 const seo = getSeoMeta(post, {
 	siteTitle,
 	siteUrl: Astro.url.origin,
-	path: Astro.url.pathname.replace(/\/$/, ""),
+	path: localizePath(`/blog/${slug}`, locale),
 });
+const alternates = await getEntryAlternates("posts", post.data.id, (s) => `/blog/${s}`);
 ---
 
 <Base
@@ -71,6 +74,7 @@ const seo = getSeoMeta(post, {
 	pageTitle={seo.ogTitle}
 	description={seo.description ?? post.data.post_summary}
 	canonical={seo.canonical}
+	{alternates}
 	content={{ collection: "posts", id: post.data.id, slug }}
 	navVariant="dark"
 >

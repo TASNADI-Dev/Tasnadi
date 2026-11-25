@@ -5,6 +5,7 @@ import ClientsSection from "../components/ClientsSection.astro";
 import ClutchReviews from "../components/ClutchReviews.astro";
 import CtaBox from "../components/CtaBox.astro";
 import TeamList from "../components/TeamList.astro";
+import { localizePath } from "../i18n/routes";
 import { clientVideos } from "../utils/client-videos";
 import { sliderArrowClass } from "../utils/slider-arrow";
 
@@ -949,7 +950,7 @@ const team = [...teamEntries].sort((a, b) => rank(a.data.slug) - rank(b.data.slu
 				title={copy.cta.title}
 				text={copy.cta.text}
 				buttonLabel={copy.cta.buttonLabel}
-				buttonHref={`${locale === "en" ? "/en" : ""}/contact`}
+				buttonHref={localizePath("/contact", locale)}
 			/>
 		</div>
 	</section>

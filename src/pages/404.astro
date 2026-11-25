@@ -1,9 +1,9 @@
 ---
-import { getRelativeLocaleUrl } from "astro:i18n";
+import { localizePath } from "../i18n/routes";
 import Base from "../layouts/Base.astro";
 
 const locale = Astro.currentLocale === "en" ? "en" : "hu";
-const homeHref = getRelativeLocaleUrl(locale, "/").replace(/(.)\/$/, "$1");
+const homeHref = localizePath("/", locale);
 
 const copy = {
 	hu: {

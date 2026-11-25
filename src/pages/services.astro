@@ -1,7 +1,7 @@
 ---
 import { getEmDashEntry } from "emdash";
 import { Image } from "emdash/ui";
-import { getRelativeLocaleUrl } from "astro:i18n";
+import { localizePath } from "../i18n/routes";
 import Base from "../layouts/Base.astro";
 import ClutchReviews from "../components/ClutchReviews.astro";
 import NewsletterSection from "../components/NewsletterSection.astro";
@@ -255,7 +255,7 @@ if (ownerHint && Astro.cache?.enabled) Astro.cache.set(ownerHint);
 							icon={item.icon}
 							title={item.title}
 							text={item.text}
-							href={getRelativeLocaleUrl(locale, `/services/${item.slug}`)}
+							href={localizePath(`/services/${item.slug}`, locale)}
 							moreLabel={copy.services.moreCta}
 							layout="inline"
 						/>

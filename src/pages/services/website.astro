@@ -1,5 +1,5 @@
 ---
-import { getRelativeLocaleUrl } from "astro:i18n";
+import { localizePath } from "../../i18n/routes";
 import Base from "../../layouts/Base.astro";
 import Button from "../../components/Button.astro";
 import ClutchReviews from "../../components/ClutchReviews.astro";
@@ -303,7 +303,7 @@ const stepLayout = [
 	{ tone: 4, column: 14, span: 2, row: 6 },
 ] as const;
 
-const contactHref = getRelativeLocaleUrl(locale, "/contact").replace(/(.)\/$/, "$1");
+const contactHref = localizePath("/contact", locale);
 
 const packages = copy.packages.cards.map((card, index) => ({
 	...card,
@@ -567,7 +567,7 @@ const packages = copy.packages.cards.map((card, index) => ({
 									<h4 class="mb-3 text-xl leading-[1.625rem] font-medium text-text">{copy.further.items[index]}</h4>
 									<Button
 										variant="link-arrow"
-										href={getRelativeLocaleUrl(locale, `/services/website/${slug}`).replace(/(.)\/$/, "$1")}
+										href={localizePath(`/services/website/${slug}`, locale)}
 									>
 										{copy.further.more}
 									</Button>

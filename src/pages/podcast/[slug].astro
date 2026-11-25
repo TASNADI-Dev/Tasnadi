@@ -8,6 +8,8 @@ import PlatformLinks from "../../components/PlatformLinks.astro";
 import PodcastCard from "../../components/PodcastCard.astro";
 import { richTextClass } from "../../utils/rich-text-class";
 import { resolveSiteIdentity } from "../../utils/site-identity";
+import { localizePath } from "../../i18n/routes";
+import { getEntryAlternates } from "../../utils/entry-alternates";
 import { rewriteToNotFound } from "../../utils/not-found";
 
 const slug = decodeSlug(Astro.params.slug);
@@ -63,8 +65,9 @@ const { siteTitle } = resolveSiteIdentity(await getSiteSettings());
 const seo = getSeoMeta(episode, {
 	siteTitle,
 	siteUrl: Astro.url.origin,
-	path: Astro.url.pathname.replace(/\/$/, ""),
+	path: localizePath(`/podcast/${slug}`, "hu"),
 });
+const alternates = await getEntryAlternates("podcasts", episode.data.id, (s) => `/podcast/${s}`, ["hu"]);
 ---
 
 <Base
@@ -73,6 +76,7 @@ const seo = getSeoMeta(episode, {
 	pageTitle={seo.ogTitle}
 	description={seo.description}
 	canonical={seo.canonical}
+	{alternates}
 	content={{ collection: "podcasts", id: episode.data.id, slug }}
 	navVariant="dark"
 >

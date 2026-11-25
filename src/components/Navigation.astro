@@ -1,39 +1,35 @@
 ---
-import { getRelativeLocaleUrl } from "astro:i18n";
+import { localizePath, type Locale } from "../i18n/routes";
 import Button from "./Button.astro";
 import LanguageSwitcher from "./LanguageSwitcher.astro";
 import NavDropdown from "./NavDropdown.astro";
-import { hasLocaleContent, isPathAvailable } from "../utils/locale-content";
-
-type Locale = "hu" | "en";
+import { hasLocaleContent } from "../utils/locale-content";
 
 type Props = {
 	locale?: Locale;
 	/** "light" = white bar on dark pages, "dark" = dark bar on light pages */
 	variant?: "light" | "dark";
+	/** The current page in each language; a missing language links to that language's home page */
+	languageHrefs?: Partial<Record<Locale, string>>;
 };
 
-const { variant = "light" } = Astro.props;
+const { variant = "light", languageHrefs: pageHrefs = {} } = Astro.props;
 const isDark = variant === "dark";
 
 const locale: Locale =
 	Astro.props.locale ?? (Astro.currentLocale === "en" ? "en" : "hu");
 
-const currentPath = Astro.url.pathname.replace(/^\/en(?=\/|$)/, "") || "/";
-const withoutTrailingSlash = (path: string) => path.replace(/(.)\/$/, "$1");
-// A page that has no English version sends the EN switch to the English home page instead of a missing page
-const englishPath = (await isPathAvailable(currentPath, "en")) ? currentPath : "/";
 const languageHrefs = {
-	hu: withoutTrailingSlash(getRelativeLocaleUrl("hu", currentPath)),
-	en: withoutTrailingSlash(getRelativeLocaleUrl("en", englishPath)),
+	hu: pageHrefs.hu ?? localizePath("/", "hu"),
+	en: pageHrefs.en ?? localizePath("/", "en"),
 };
 
-const aboutHref = withoutTrailingSlash(getRelativeLocaleUrl(locale, "/about"));
-const contactHref = withoutTrailingSlash(getRelativeLocaleUrl(locale, "/contact"));
-const blogHref = withoutTrailingSlash(getRelativeLocaleUrl(locale, "/blog"));
-const servicesHref = withoutTrailingSlash(getRelativeLocaleUrl(locale, "/services"));
-const workHref = withoutTrailingSlash(getRelativeLocaleUrl(locale, "/projects"));
-const podcastHref = withoutTrailingSlash(getRelativeLocaleUrl(locale, "/podcast"));
+const aboutHref = localizePath("/about", locale);
+const contactHref = localizePath("/contact", locale);
+const blogHref = localizePath("/blog", locale);
+const servicesHref = localizePath("/services", locale);
+const workHref = localizePath("/projects", locale);
+const podcastHref = localizePath("/podcast", locale);
 
 const copy = {
 	hu: {
@@ -126,7 +122,7 @@ const linkClass =
 		]}
 	>
 		<a
-			href="/"
+			href={localizePath("/", locale)}
 			class="flex shrink-0 items-center focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
 			aria-label="TASNADI"
 		>

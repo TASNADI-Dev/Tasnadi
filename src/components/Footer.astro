@@ -1,5 +1,5 @@
 ---
-import { getRelativeLocaleUrl } from "astro:i18n";
+import { localizePath } from "../i18n/routes";
 
 type Locale = "hu" | "en";
 
@@ -11,8 +11,6 @@ type Props = {
 const { class: className } = Astro.props;
 const locale: Locale =
 	Astro.props.locale ?? (Astro.currentLocale === "en" ? "en" : "hu");
-
-const withoutTrailingSlash = (path: string) => path.replace(/(.)\/$/, "$1");
 
 const currentYear = new Date().getFullYear();
 
@@ -55,7 +53,7 @@ const copy = {
 	},
 }[locale];
 
-const servicesHref = withoutTrailingSlash(getRelativeLocaleUrl(locale, "/services"));
+const servicesHref = localizePath("/services", locale);
 const email = "hello@tasnadi.net";
 const mapUrl = "https://goo.gl/maps/uZG2rTDrfRunMMeDA";
 const addressLines = ["Bajcsy-Zsilinszky út 58. 1054 Budapest,", copy.country];
@@ -108,7 +106,7 @@ const blockClass = "flex flex-col items-start gap-6";
 				class="col-span-full flex flex-col justify-between gap-8 lg:col-span-2"
 			>
 				<a
-					href="/"
+					href={localizePath("/", locale)}
 					aria-label="TASNADI"
 					class="self-start focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
 				>
@@ -142,7 +140,7 @@ const blockClass = "flex flex-col items-start gap-6";
 				</h2>
 				{
 					copy.serviceLinks.map(({ label, path }) => (
-						<a href={path ? withoutTrailingSlash(getRelativeLocaleUrl(locale, path)) : "#"} class={linkClass}>
+						<a href={path ? localizePath(path, locale) : "#"} class={linkClass}>
 							{label}
 						</a>
 					))
@@ -153,7 +151,7 @@ const blockClass = "flex flex-col items-start gap-6";
 				<h2 id="footer-company" class={headingClass}>{copy.company}</h2>
 				{
 					copy.companyLinks.map(({ label, path }) => (
-						<a href={path ? withoutTrailingSlash(getRelativeLocaleUrl(locale, path)) : "#"} class={linkClass}>
+						<a href={path ? localizePath(path, locale) : "#"} class={linkClass}>
 							{label}
 						</a>
 					))

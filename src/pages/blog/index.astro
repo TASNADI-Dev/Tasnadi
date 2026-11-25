@@ -1,5 +1,5 @@
 ---
-import { getRelativeLocaleUrl } from "astro:i18n";
+import { localizePath } from "../../i18n/routes";
 import Base from "../../layouts/Base.astro";
 import Badge from "../../components/Badge.astro";
 import BlogArticleList from "../../components/BlogArticleList.astro";
@@ -54,7 +54,7 @@ const filtersQuery = new URLSearchParams([
 	...activeCategories.map((slug) => ["category", slug]),
 ]).toString();
 
-const blogPath = getRelativeLocaleUrl(locale, "/blog").replace(/(.)\/$/, "$1");
+const blogPath = localizePath("/blog", locale);
 ---
 
 <Base title={copy.pageTitle} description={copy.description} navVariant="dark">

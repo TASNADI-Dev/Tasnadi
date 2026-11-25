@@ -1,5 +1,5 @@
 ---
-import { getRelativeLocaleUrl } from "astro:i18n";
+import { localizePath } from "../i18n/routes";
 import BlogCard from "./BlogCard.astro";
 import { translationGroupOf, type loadBlogPosts } from "../utils/blog-posts";
 
@@ -23,7 +23,7 @@ const categoryLabel = (post: (typeof posts)[number]) => {
 		<li>
 			<BlogCard
 				variant="stacked"
-				href={getRelativeLocaleUrl(locale, `/blog/${post.data.slug}`)}
+				href={localizePath(`/blog/${post.data.slug}`, locale)}
 				title={post.data.title}
 				image={post.data.image}
 				category={categoryLabel(post)}

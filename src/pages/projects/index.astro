@@ -1,5 +1,5 @@
 ---
-import { getRelativeLocaleUrl } from "astro:i18n";
+import { localizePath } from "../../i18n/routes";
 import Base from "../../layouts/Base.astro";
 import Badge from "../../components/Badge.astro";
 import Button from "../../components/Button.astro";
@@ -61,7 +61,7 @@ const { caseStudies, services, industries, activeServices, activeIndustries, hin
 );
 if (Astro.cache?.enabled) hints.forEach((hint) => Astro.cache.set(hint));
 
-const projectsPath = getRelativeLocaleUrl(locale, "/projects").replace(/(.)\/$/, "$1");
+const projectsPath = localizePath("/projects", locale);
 
 const groups = [
 	{ name: "service", label: copy.servicesLabel, options: services, active: activeServices },
@@ -126,7 +126,7 @@ const groups = [
 						{caseStudies.map((entry) => (
 							<li>
 								<CaseStudyCard
-									href={getRelativeLocaleUrl(locale, `/case-studies/${entry.data.slug}`)}
+									href={localizePath(`/case-studies/${entry.data.slug}`, locale)}
 									title={entry.data.hero_text}
 									description={entry.data.short_description}
 									image={entry.data.thumbnail}
@@ -146,7 +146,7 @@ const groups = [
 				title={copy.cta.title}
 				text={copy.cta.text}
 				buttonLabel={copy.cta.buttonLabel}
-				buttonHref={getRelativeLocaleUrl(locale, "/contact").replace(/(.)\/$/, "$1")}
+				buttonHref={localizePath("/contact", locale)}
 			/>
 		</div>
 	</section>

@@ -4,8 +4,11 @@ import { PortableText } from "emdash/ui";
 import { getContentSeo } from "emdash/seo";
 import Base from "../layouts/Base.astro";
 import { resolveSiteIdentity } from "../utils/site-identity";
+import { localizePath } from "../i18n/routes";
+import { getEntryAlternates } from "../utils/entry-alternates";
 import { rewriteToNotFound } from "../utils/not-found";
 
+const locale = Astro.currentLocale === "en" ? "en" : "hu";
 const slug = decodeSlug(Astro.params.slug);
 
 if (!slug) {
@@ -24,8 +27,9 @@ const { siteTitle } = resolveSiteIdentity(await getSiteSettings());
 const seo = getSeoMeta(page, {
 	siteTitle,
 	siteUrl: Astro.url.origin,
-	path: Astro.url.pathname.replace(/\/$/, ""),
+	path: localizePath(`/${slug}`, locale),
 });
+const alternates = await getEntryAlternates("pages", String(page.data.id), (s) => `/${s}`);
 ---
 
 <Base
@@ -34,6 +38,7 @@ const seo = getSeoMeta(page, {
 	pageTitle={seo.ogTitle}
 	description={seo.description}
 	canonical={seo.canonical}
+	{alternates}
 	content={{ collection: "pages", id: page.data.id, slug }}
 >
 	<article>

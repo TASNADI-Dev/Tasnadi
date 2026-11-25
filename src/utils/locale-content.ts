@@ -1,11 +1,8 @@
 // Tells whether a CMS collection has published entries in a locale, so Hungarian-only sections can be hidden from the English site instead of falling back to Hungarian content.
 import { getEmDashCollection } from "emdash";
+import { DEFAULT_LOCALE, LOCALES, localizePath, type Locale } from "../i18n/routes";
 
-type Locale = "hu" | "en";
-
-const DEFAULT_LOCALE: Locale = "hu";
-
-/** Site sections whose pages only make sense in a locale that has entries in the collection */
+/** Site sections (by internal path) whose pages only make sense in a locale that has entries in the collection */
 const SECTION_COLLECTIONS: Record<string, string> = {
 	"/projects": "case_studies",
 	"/blog": "posts",
@@ -22,10 +19,19 @@ export async function hasLocaleContent(collection: string, locale: Locale) {
 	return entries.length > 0;
 }
 
-/** `path` has no locale prefix, e.g. `/blog` or `/blog/my-post` */
+/** `path` is the internal path, e.g. `/blog` or `/blog/my-post` */
 export async function isPathAvailable(path: string, locale: Locale) {
 	const section = Object.keys(SECTION_COLLECTIONS).find(
 		(prefix) => path === prefix || path.startsWith(`${prefix}/`),
 	);
 	return section ? hasLocaleContent(SECTION_COLLECTIONS[section], locale) : true;
+}
+
+/** Public URL of a static page in every language it is available in */
+export async function getPageAlternates(path: string) {
+	const hrefs: Partial<Record<Locale, string>> = {};
+	for (const locale of LOCALES) {
+		if (await isPathAvailable(path, locale)) hrefs[locale] = localizePath(path, locale);
+	}
+	return hrefs;
 }

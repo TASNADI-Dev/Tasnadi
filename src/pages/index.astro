@@ -11,6 +11,7 @@ import MediaSection from "../components/MediaSection.astro";
 import CaseStudyCard from "../components/CaseStudyCard.astro";
 import ServiceCard from "../components/ServiceCard.astro";
 import { clientVideos } from "../utils/client-videos";
+import { localizePath } from "../i18n/routes";
 import { hasLocaleContent } from "../utils/locale-content";
 import { resolveSiteIdentity } from "../utils/site-identity";
 
@@ -81,8 +82,8 @@ const copy = {
 			],
 			text: "A TASNADI budapesti digitális ügynökség kis- és középvállalkozások számára. Hisszük, hogy a jó eredmény jó kapcsolatból születik: előbb meghallgatunk, mindent átláthatóvá teszünk, érthetően beszélünk, és teljes felelősséget vállalunk az eredményért – így a közös munka ugyanolyan jó, mint maga az eredmény.",
 			links: [
-				{ label: "Nézd meg, hogyan dolgozunk", href: "/method" },
-				{ label: "Ismerd meg a csapatot", href: "/about" },
+				{ label: "Nézd meg, hogyan dolgozunk", href: localizePath("/method", "hu") },
+				{ label: "Ismerd meg a csapatot", href: localizePath("/about", "hu") },
 			],
 			video: {
 				src: "/home/owner/video-hu.mp4",
@@ -184,8 +185,8 @@ const copy = {
 			],
 			text: "TASNADI is a Budapest-based digital agency for small and medium-sized businesses. We believe great results grow from great relationships: we listen first, keep things transparent, explain them simply, and take full responsibility for the outcome – so working with us feels as good as the result.",
 			links: [
-				{ label: "See how we work", href: "/en/method" },
-				{ label: "Meet the team", href: "/en/about" },
+				{ label: "See how we work", href: localizePath("/method", "en") },
+				{ label: "Meet the team", href: localizePath("/about", "en") },
 			],
 			video: {
 				src: "/home/owner/video-en.mp4",
@@ -253,8 +254,7 @@ const { entry: caseStudy, cacheHint: caseStudyHint } = featuredCaseStudySlug
 	: { entry: undefined, cacheHint: undefined };
 if (caseStudyHint && Astro.cache?.enabled) Astro.cache.set(caseStudyHint);
 
-const localePrefix = locale === "en" ? "/en" : "";
-const caseStudyHref = `${localePrefix}/case-studies/${caseStudy?.data.slug}`;
+const caseStudyHref = localizePath(`/case-studies/${caseStudy?.data.slug}`, locale);
 const caseStudyServices = caseStudy?.references?.services.entries ?? [];
 const caseStudyIndustry = caseStudy?.references?.industry.entries[0];
 const caseStudyLabels = [
@@ -330,9 +330,9 @@ if (contactPersonHint && Astro.cache?.enabled) Astro.cache.set(contactPersonHint
 const mediaSection = {
 	podcasts: {
 		...copy.media.podcasts,
-		moreHref: `${localePrefix}/podcast`,
+		moreHref: localizePath("/podcast", locale),
 		items: latestPodcasts.map((entry) => ({
-			href: `${localePrefix}/podcast/${entry.data.slug}`,
+			href: localizePath(`/podcast/${entry.data.slug}`, locale),
 			title: entry.data.title,
 			image: entry.data.image,
 			listenLabel: copy.media.podcasts.listenLabel,
@@ -347,9 +347,9 @@ const mediaSection = {
 	},
 	posts: {
 		...copy.media.posts,
-		moreHref: `${localePrefix}/blog`,
+		moreHref: localizePath("/blog", locale),
 		items: latestPosts.map((post) => ({
-			href: `${localePrefix}/blog/${post.data.slug}`,
+			href: localizePath(`/blog/${post.data.slug}`, locale),
 			title: post.data.title,
 			image: post.data.image,
 			category: post.references?.category.entries[0]?.data.title,
@@ -481,7 +481,7 @@ const fieldClass =
 							icon={item.icon}
 							title={item.title}
 							text={item.text}
-							href={`${localePrefix}/services/${item.slug}`}
+							href={localizePath(`/services/${item.slug}`, locale)}
 							moreLabel={copy.services.moreCta}
 						/>
 					))
@@ -593,7 +593,7 @@ const fieldClass =
 						{listedCaseStudies.map((entry) => (
 							<li>
 								<CaseStudyCard
-									href={`${localePrefix}/case-studies/${entry.data.slug}`}
+									href={localizePath(`/case-studies/${entry.data.slug}`, locale)}
 									title={entry.data.hero_text}
 									description={entry.data.short_description}
 									image={entry.data.thumbnail}
@@ -606,7 +606,7 @@ const fieldClass =
 					</ul>
 
 					<div class="mt-12 flex justify-end">
-						<Button variant="link-arrow" href={`${localePrefix}/projects`}>
+						<Button variant="link-arrow" href={localizePath("/projects", locale)}>
 							{copy.caseStudy.moreCta}
 						</Button>
 					</div>
