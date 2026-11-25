@@ -1,14 +1,375 @@
 ---
+import { localizePath } from "../../../i18n/routes";
 import Base from "../../../layouts/Base.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import ClutchReviews from "../../../components/ClutchReviews.astro";
+import CtaBox from "../../../components/CtaBox.astro";
+import HeroShapes from "../../../components/HeroShapes.astro";
+import PersonBioCard from "../../../components/PersonBioCard.astro";
+import ProcessStepCard from "../../../components/ProcessStepCard.astro";
 
 const locale = Astro.currentLocale === "en" ? "en" : "hu";
 
 const copy = {
-	hu: { pageTitle: "Webflow fejlesztés – Honlapkészítés Webflow rendszerben" },
-	en: { pageTitle: "Webflow development – Web page creation in Webflow system" },
+	hu: {
+		pageTitle: "Webflow fejlesztés – Honlapkészítés Webflow rendszerben",
+		breadcrumbs: ["Szolgáltatásaink", "Weboldalak"],
+		title: "Webflow fejlesztés",
+		subtitle: "Honlapkészítés Webflow rendszerben",
+		lead: "A Webflow a legmodernebb webfejlesztési platform, amely lehetővé teszi, hogy gyorsan és egyszerűen hozz létre professzionális, reszponzív weboldalakat.",
+		meaning: {
+			title: "Miért a Webflow?",
+			text: "Mert egyesíti a dizájn és a fejlesztés világát, így tökéletes megoldás azoknak, akik egyedi, felhasználóbarát és könnyen kezelhető weboldalt szeretnének. Ha olyan weboldalt szeretnél, amely gyorsan betöltődik, könnyen kezelhető és mobilbarát, akkor a Webflow fejlesztés a legideálisabb megoldás.",
+		},
+		asYouWish: {
+			title: "Weblap készítés,",
+			titleHighlight: "ahogy szeretnéd",
+			blocks: [
+				{
+					number: "01",
+					title: "Honnan tudhatod, hogy Webflow developer segítségére van szükséged?",
+					paragraphs: [
+						{
+							lead: "A Webflow fejlesztést elsősorban olyan vállalkozóknak ajánljuk, akiknek fontos a gyorsaság, a testreszabhatóság és a vizuális megjelenés.",
+							text: "Ha egy modern, felhasználóbarát és mobilra optimalizált weboldalt keresel, ami könnyen kezelhető, akkor a Webflow tökéletes választás.",
+						},
+					],
+				},
+				{
+					number: "02",
+					title: "Webflow rendszer vs WordPress",
+					paragraphs: [
+						{
+							lead: "Míg a WordPress a legelterjedtebb weboldal készítő platform, a Webflow sokkal rugalmasabb, valamint testreszabható.",
+							text: "Utóbbi ugyanis vizuális felületet kínál, amely lehetővé teszi a gyors fejlesztést, miközben a kódolás mögötti technikai részletek is könnyen kezelhetők.",
+						},
+					],
+				},
+				{
+					number: "03",
+					title: "Miben segít egy Webflow agency?",
+					paragraphs: [
+						{
+							lead: "Egy Webflow agency segít a weboldalad teljes fejlesztésében, az alapoktól a végső simításokig.",
+							text: "Célunk, hogy egy olyan weboldalt alkossunk, ami nemcsak esztétikai élményt nyújt, hanem a felhasználói élményt is javítja, miközben segíti a vállalkozásodat a céljai elérésében. Az általunk létrehozott weboldalak minden szempontból optimalizáltak: SEO-barátok, reszponzívak, és mindezek mellett könnyen karbantarthatóak is.",
+						},
+					],
+				},
+				{
+					number: "04",
+					title: "Ha a Webflow fejlesztés mellett döntesz...",
+					paragraphs: [
+						{
+							lead: "A Webflow egy erőteljes platform, amely lehetővé teszi a dizájnerek és fejlesztők számára, hogy komplex weboldalakat hozzanak létre anélkül, hogy szükség lenne egy bonyolult kódolásra.",
+							text: "A Webflow segítségével könnyen integrálhatók a szükséges funkciók, például e-kereskedelmi megoldások, blogok és portfóliók.",
+						},
+					],
+				},
+			],
+		},
+		meaningForUs: {
+			title: "Értékeink",
+			items: [
+				"Cégünk értékei közé tartozik a kreativitás, a precizitás és az ügyfélközpontúság.",
+				"Minden projektet egyedi módon közelítünk meg, figyelembe véve az ügyfél céljait és elvárásait, miközben a legmodernebb technológiai megoldásokat alkalmazzuk.",
+			],
+		},
+		workWithUs: {
+			title: "Dolgozz velünk",
+			text: "Jelentkezz konzultációra és lendítsük fel együtt az online jelenléted.",
+			buttonLabel: "Jelentkezem konzultációra",
+		},
+		process: {
+			title: "A webdesign folyamat lépésről lépésre",
+			text: "Webflow fejlesztés során a projekt minden szakaszában veled dolgozunk. Kezdetben meghatározzuk a céljaidat, majd a tervezés és a fejlesztés fázisában is együttműködünk, hogy a weboldalad pontosan megfeleljen az igényeidnek.",
+			steps: [
+				["01 Igényfelmérés, tervezés", "Webflow support folyamatunk az igényeid részletes felmérésével kezdődik."],
+				["02 Kivitelezés", "Ezt követi a tervezés, fejlesztés, tesztelés, majd a végső átadás."],
+				["03 Minőség", "Munkánk során mindig figyelembe vesszük a legújabb trendeket és a felhasználói visszajelzéseket, hogy a végeredmény tényleg tökéletes legyen."],
+			],
+		},
+		pricing: {
+			title: "Webflow fejlesztés árak –",
+			titleHighlight: "mi alapján árazunk?",
+			items: [
+				"A Webflow fejlesztés árát számos tényező befolyásolja, mint például a dizájn komplexitása, a funkciók és a testre szabott igények.",
+				"Mivel minden projekt egyedi, minden esetben személyre szabott árajánlatot készítünk, amely a konkrét igényeidre épít.",
+			],
+		},
+		cta: {
+			title: "Érdekel szolgáltatásunk?",
+			text: "Jelentkezz egy ingyenes, kötelezettségmentes beszélgetésre, és derítsük ki, hogy tudunk-e neked segíteni, és tényleg mi vagyunk-e a legmegfelelőbb választás számodra. A jelentkezésed után 3 munkanapon belül felvesszük veled a kapcsolatot!",
+			buttonLabel: "Jelentkezem konzultációra",
+		},
+	},
+	en: {
+		pageTitle: "Webflow development – Web page creation in Webflow system",
+		breadcrumbs: ["Services", "Websites"],
+		title: "Webflow development",
+		subtitle: "Website creation with Webflow",
+		lead: "Webflow is the most modern web development platform that allows you to create professional, responsive websites quickly and easily.",
+		meaning: {
+			title: "Why Webflow?",
+			text: "It combines the worlds of design and development, making it the perfect solution for those who want a unique, user-friendly, and easy-to-manage website. If you want a website that loads quickly, is easy to use, and mobile-friendly, then Webflow development is the ideal solution.",
+		},
+		asYouWish: {
+			title: "Web design",
+			titleHighlight: "the way you want it",
+			blocks: [
+				{
+					number: "01",
+					title: "How to know if you need a Webflow developer?",
+					paragraphs: [
+						{
+							lead: "We recommend Webflow development for entrepreneurs who value speed, customization, and visual appeal.",
+							text: "If you’re looking for a modern, user-friendly, and mobile-optimized website that’s easy to manage, Webflow is the perfect choice.",
+						},
+					],
+				},
+				{
+					number: "02",
+					title: "Webflow vs WordPress",
+					paragraphs: [
+						{
+							lead: "While WordPress is the most popular website creation platform, Webflow offers much more flexibility and customization options.",
+							text: "Webflow provides a visual interface that allows for fast development while keeping the technical details behind the coding easily manageable.",
+						},
+					],
+				},
+				{
+					number: "03",
+					title: "How can a Webflow agency help?",
+					paragraphs: [
+						{
+							lead: "A Webflow agency assists with the full development of your website, from the very basics to the final polish.",
+							text: "Our goal is to create a website that not only offers an aesthetic experience but also improves user experience and helps your business reach its goals. The websites we create are fully optimized: SEO-friendly, responsive, and easy to maintain.",
+						},
+					],
+				},
+				{
+					number: "04",
+					title: "If you choose Webflow development...",
+					paragraphs: [
+						{
+							lead: "Webflow is a powerful platform that enables designers and developers to create complex websites without needing complicated coding.",
+							text: "With Webflow, you can easily integrate necessary features like e-commerce solutions, blogs, and portfolios.",
+						},
+					],
+				},
+			],
+		},
+		meaningForUs: {
+			title: "Our values",
+			items: [
+				"Creativity, precision, and client-focus are at the core of our company values.",
+				"We approach every project uniquely, taking into account the client’s goals and expectations, while applying the latest technological solutions.",
+			],
+		},
+		workWithUs: {
+			title: "Work with us",
+			text: "Book a consultation and let’s elevate your online presence – together.",
+			buttonLabel: "Book consultation",
+		},
+		process: {
+			title: "The web design process step by step",
+			text: "During the Webflow development process, we collaborate with you at every stage of the project. We start by defining your goals, then work closely with you during the design and development phases to ensure your website perfectly meets your needs.",
+			steps: [
+				["01 Initial consultation", "Our Webflow support process begins with a detailed assessment of your needs."],
+				["02 Design and implement", "After that, we move on to the planning, development, and testing phases, followed by the final handover."],
+				["03 Quality", "Throughout the process, we always consider the latest trends and user feedback to ensure the final result is flawless."],
+			],
+		},
+		pricing: {
+			title: "Webflow development pricing –",
+			titleHighlight: "how do we set our rates?",
+			items: [
+				"The price of Webflow development is influenced by several factors, such as design complexity, desired features, and customization needs.",
+				"Since every project is unique, we provide a personalized quote tailored to your specific requirements.",
+			],
+		},
+		cta: {
+			title: "Ready to level up?",
+			text: "Book a free, no-pressure call with us. Let’s find out if we’re the perfect match. After you sign up, we’ll get back to you within three business days!",
+			buttonLabel: "Book consultation",
+		},
+	},
 }[locale];
+
+const contactHref = localizePath("/contact", locale);
+
+const breadcrumbs = [
+	{ label: copy.breadcrumbs[0], href: localizePath("/services", locale) },
+	{ label: copy.breadcrumbs[1], href: localizePath("/services/website", locale) },
+	{ label: copy.title },
+];
+
+const stepTones = [1, 2, 3] as const;
 ---
 
 <Base title={copy.pageTitle}>
-	<main></main>
+	<section class="bg-background pt-[8.75rem] pb-16 max-lg:pt-32 max-lg:pb-10">
+		<div
+			class="mx-auto flex w-[92%] max-w-[76.875rem] items-start justify-between gap-x-12 gap-y-10 max-lg:flex-col"
+		>
+			<div class="max-w-[39rem]">
+				<Breadcrumbs items={breadcrumbs} class="mb-6" />
+				<h1 class="font-medium text-text text-display">{copy.title}</h1>
+				<p class="mt-6 text-3xl leading-10 font-normal text-text max-lg:text-2xl max-lg:leading-9">
+					{copy.subtitle}
+				</p>
+				<p class="mt-4 max-w-[34rem] text-xl leading-8 font-light text-text">{copy.lead}</p>
+			</div>
+
+			<div class="relative w-full max-w-[19.5rem] shrink-0 max-lg:max-w-[24rem]">
+				<HeroShapes />
+				<PersonBioCard personSlug="peter-madacsi" />
+			</div>
+		</div>
+	</section>
+
+	<section class="relative overflow-hidden bg-background pt-24 pb-24 max-lg:py-16">
+		<img
+			src="/global/images/service-shape.webp"
+			alt=""
+			width="1512"
+			height="400"
+			loading="lazy"
+			class="pointer-events-none absolute bottom-6 left-1/2 h-auto w-[min(80rem,100vw)] max-w-none -translate-x-1/2 max-md:hidden"
+		/>
+		<div class="relative mx-auto flex w-[92%] max-w-[76.875rem] flex-col items-center text-center">
+			<h2 class="max-w-[37.375rem] font-medium text-text text-heading">{copy.meaning.title}</h2>
+			<p
+				class="mt-10 max-w-[28rem] rounded-[20px] bg-background px-8 py-6 text-base leading-[1.625rem] font-light text-text shadow-[0_0.5rem_1.5rem_color-mix(in_srgb,var(--color-shadow)_15%,transparent)]"
+			>
+				{copy.meaning.text}
+			</p>
+		</div>
+	</section>
+
+	<section class="bg-background pb-24 max-lg:pb-16">
+		<div class="mx-auto w-[92%] max-w-[76.875rem]">
+			<h2 class="mx-auto max-w-[37.375rem] text-center font-medium text-text text-heading">
+				{copy.asYouWish.title} <span class="text-primary">{copy.asYouWish.titleHighlight}</span>
+			</h2>
+
+			<div class="mt-16 flex flex-col gap-16 max-md:mt-10 max-md:gap-12">
+				{
+					copy.asYouWish.blocks.map((block) => (
+						<div class="grid grid-cols-2 items-start gap-x-16 gap-y-6 max-lg:grid-cols-1">
+							<h3 class="max-w-[30rem] text-3xl leading-10 font-medium text-text max-lg:text-2xl max-lg:leading-9">
+								<span class="text-primary">{block.number}</span> {block.title}
+							</h3>
+							<div class="flex flex-col gap-8">
+								{block.paragraphs.map((paragraph) => (
+									<div class="flex gap-3">
+										<img
+											src="/global/images/star-icon.webp"
+											alt=""
+											width="26"
+											height="26"
+											loading="lazy"
+											class="size-[1.625rem] shrink-0"
+										/>
+										<p class="text-base leading-[1.625rem] font-light text-text">
+											<strong class="font-medium">{paragraph.lead}</strong> {paragraph.text}
+										</p>
+									</div>
+								))}
+							</div>
+						</div>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<section class="bg-surface py-24 max-lg:py-16">
+		<div class="mx-auto w-[92%] max-w-[76.875rem]">
+			<h2 class="text-center font-medium text-text text-heading">{copy.meaningForUs.title}</h2>
+
+			<ul class="mx-auto mt-16 grid max-w-[53rem] grid-cols-2 gap-6 max-md:mt-10 max-md:grid-cols-1">
+				{
+					copy.meaningForUs.items.map((item) => (
+						<li class="flex items-start gap-3">
+							<img
+								src="/global/images/star-icon.webp"
+								alt=""
+								width="26"
+								height="26"
+								loading="lazy"
+								class="size-[1.625rem] shrink-0"
+							/>
+							<p class="text-xl leading-[1.625rem] font-medium text-text">{item}</p>
+						</li>
+					))
+				}
+			</ul>
+
+			<CtaBox
+				title={copy.workWithUs.title}
+				text={copy.workWithUs.text}
+				buttonLabel={copy.workWithUs.buttonLabel}
+				buttonHref={contactHref}
+				class="mt-20 max-md:mt-14"
+			/>
+		</div>
+	</section>
+
+	<section class="bg-surface-dark py-24 max-lg:py-16">
+		<div class="mx-auto w-[92%] max-w-[76.875rem]">
+			<h2 class="max-w-[48rem] font-medium text-text-inverse text-heading">{copy.process.title}</h2>
+			<p class="mt-6 max-w-[40rem] text-base leading-[1.625rem] font-light text-text-inverse">{copy.process.text}</p>
+
+			<div class="mt-14 grid grid-cols-3 gap-4 max-md:mt-10 max-md:grid-cols-1">
+				{
+					copy.process.steps.map(([title, text], index) => (
+						<ProcessStepCard title={title} text={text} tone={stepTones[index]} />
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<section class="bg-background py-24 max-lg:py-16">
+		<div class="mx-auto w-[92%] max-w-[76.875rem]">
+			<h2 class="mx-auto max-w-[44rem] text-center font-medium text-text text-heading">
+				{copy.pricing.title} <span class="text-primary">{copy.pricing.titleHighlight}</span>
+			</h2>
+
+			<ul class="mx-auto mt-16 grid max-w-[53rem] grid-cols-2 gap-x-16 gap-y-10 max-md:mt-10 max-md:grid-cols-1">
+				{
+					copy.pricing.items.map((item) => (
+						<li class="flex gap-3">
+							<img
+								src="/global/images/star-icon.webp"
+								alt=""
+								width="26"
+								height="26"
+								loading="lazy"
+								class="size-[1.625rem] shrink-0"
+							/>
+							<p class="text-xl leading-[1.625rem] font-medium text-text">{item}</p>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+
+	<section class="flow-root bg-surface pt-24 pb-24 max-lg:pt-16 max-lg:pb-16 [&_.clutch-widget]:overflow-hidden [&_.clutch-widget]:rounded-[20px]">
+		<div class="mx-auto w-[92%]">
+			<ClutchReviews />
+		</div>
+	</section>
+
+	<section class="bg-surface pb-24 max-lg:pb-16">
+		<div class="mx-auto w-[92%] max-w-[76.875rem]">
+			<CtaBox
+				title={copy.cta.title}
+				text={copy.cta.text}
+				buttonLabel={copy.cta.buttonLabel}
+				buttonHref={contactHref}
+			/>
+		</div>
+	</section>
 </Base>
