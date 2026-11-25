@@ -1,0 +1,26 @@
+---
+type Props = {
+	class?: string;
+};
+
+const { class: className } = Astro.props;
+---
+
+<section
+	class:list={[
+		"relative bg-surface-dark bg-[url(/global/images/service-process-bg.png)] bg-contain bg-[position:50%_0] bg-no-repeat pt-[8.75rem] pb-24 max-lg:pb-16 max-md:pt-[6.25rem]",
+		className,
+	]}
+>
+	<img
+		src="/global/images/astronaut-silhouette.svg"
+		alt=""
+		width="115"
+		height="177"
+		loading="lazy"
+		class="pointer-events-none absolute top-[4rem] left-[3%] z-10 h-auto w-[5.875rem] -translate-y-full max-md:left-[4%] max-md:w-[4.5rem]"
+	/>
+	<div class="mx-auto w-[92%] max-w-[76.875rem]">
+		<slot />
+	</div>
+</section>

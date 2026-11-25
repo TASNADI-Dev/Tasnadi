@@ -7,6 +7,7 @@ import CtaBox from "../../../components/CtaBox.astro";
 import HeroShapes from "../../../components/HeroShapes.astro";
 import PersonBioCard from "../../../components/PersonBioCard.astro";
 import ProcessStepCard from "../../../components/ProcessStepCard.astro";
+import ServiceProcessSection from "../../../components/ServiceProcessSection.astro";
 
 const locale = Astro.currentLocale === "en" ? "en" : "hu";
 
@@ -267,7 +268,7 @@ const stepTones = [1, 2, 3] as const;
 		</div>
 	</section>
 
-	<section class="bg-surface py-24 max-lg:py-16">
+	<section class="bg-background pt-0 pb-24 max-lg:pb-16">
 		<div class="mx-auto w-[92%] max-w-[76.875rem]">
 			<h2 class="text-center font-medium text-text text-heading">{copy.meaningForUs.title}</h2>
 
@@ -299,26 +300,24 @@ const stepTones = [1, 2, 3] as const;
 		</div>
 	</section>
 
-	<section class="bg-surface-dark py-24 max-lg:py-16">
-		<div class="mx-auto w-[92%] max-w-[76.875rem]">
-			<h2 class="max-w-[48rem] font-medium text-text-inverse text-heading">{copy.process.title}</h2>
-			<div class="mt-6 grid grid-cols-2 gap-10 max-md:grid-cols-1">
-				{
-					copy.process.paragraphs.map((paragraph) => (
-						<p class="text-base leading-[1.625rem] font-light text-text-inverse">{paragraph}</p>
-					))
-				}
-			</div>
-
-			<div class="mt-14 grid grid-cols-3 gap-4 max-md:mt-10 max-md:grid-cols-1">
-				{
-					copy.process.steps.map(([title, text], index) => (
-						<ProcessStepCard title={title} text={text} tone={stepTones[index]} />
-					))
-				}
-			</div>
+	<ServiceProcessSection>
+		<h2 class="max-w-[48rem] font-medium text-text-inverse text-heading">{copy.process.title}</h2>
+		<div class="mt-6 grid grid-cols-2 gap-10 max-md:grid-cols-1">
+			{
+				copy.process.paragraphs.map((paragraph) => (
+					<p class="text-base leading-[1.625rem] font-light text-text-inverse">{paragraph}</p>
+				))
+			}
 		</div>
-	</section>
+
+		<div class="mt-14 grid grid-cols-3 gap-4 max-md:mt-10 max-md:grid-cols-1">
+			{
+				copy.process.steps.map(([title, text], index) => (
+					<ProcessStepCard title={title} text={text} tone={stepTones[index]} />
+				))
+			}
+		</div>
+	</ServiceProcessSection>
 
 	<section class="bg-background py-24 max-lg:py-16">
 		<div class="mx-auto w-[92%] max-w-[76.875rem]">

@@ -1,14 +1,351 @@
 ---
+import { localizePath } from "../../../i18n/routes";
 import Base from "../../../layouts/Base.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import ClutchReviews from "../../../components/ClutchReviews.astro";
+import CtaBox from "../../../components/CtaBox.astro";
+import HeroShapes from "../../../components/HeroShapes.astro";
+import PersonBioCard from "../../../components/PersonBioCard.astro";
+import ProcessStepCard from "../../../components/ProcessStepCard.astro";
+import ServiceProcessSection from "../../../components/ServiceProcessSection.astro";
 
 const locale = Astro.currentLocale === "en" ? "en" : "hu";
 
 const copy = {
-	hu: { pageTitle: "Wordpress fejlesztés – Wordpress honlap készítése" },
-	en: { pageTitle: "Wordpress development – Wordpress website development" },
+	hu: {
+		pageTitle: "WordPress fejlesztés – WordPress honlap készítése",
+		breadcrumbs: ["Szolgáltatásaink", "Weboldalak"],
+		title: "WordPress fejlesztés",
+		subtitle: "WordPress weboldal készítése",
+		lead: "A WordPress az egyik legnépszerűbb weboldal-készítési platform, amely rugalmasságának köszönhetően tökéletes választás vállalkozásod online megjelenéséhez.",
+		meaning: {
+			title: "Mikor érdemes a WordPress-t választani?",
+			text: "A WordPress kiváló megoldás, ha könnyen kezelhető, skálázható és költséghatékony weboldalt szeretnél. Akár egy bemutatkozó oldalt, akár egy komplex webshopot tervezel, a számtalan bővítménynek és testreszabási lehetőségnek köszönhetően egyedi igényeidhez alakítható, miközben stabil és megbízható technikai hátteret biztosít. Kezdő vállalkozóknak, kis- és középvállalkozásoknak, valamint nagyobb cégeknek egyaránt ajánljuk, akik egy jól strukturált, könnyen kezelhető és keresőbarát honlapot szeretnének.",
+		},
+		asYouWish: {
+			title: "Weblap készítés,",
+			titleHighlight: "ahogy szeretnéd",
+			blocks: [
+				{
+					number: "01",
+					title: "WordPress vs Webflow – melyiket érdemes választani?",
+					paragraphs: [
+						{
+							lead: "A WordPress egy nyílt forráskódú rendszer, amely hatalmas bővítménytárral és testreszabható sablonokkal rendelkezik, míg a Webflow inkább egy vizuális szerkesztő, amely kevesebb fejlesztői tudást igényel.",
+							text: "Ha nagyobb rugalmasságot és hosszú távú skálázhatóságot keresel, a WordPress lehet az ideális megoldás számodra.",
+						},
+					],
+				},
+				{
+					number: "02",
+					title: "Egyedi WordPress weboldal készítés előnyei",
+					paragraphs: [
+						{
+							lead: "Egy testreszabott WordPress weboldal lehetőséget biztosít arra, hogy pontosan az igényeid szerint alakítsd ki az online jelenléted.",
+							text: "Egyedi dizájnnal, gyors betöltési sebességgel és optimalizált funkciókkal biztosítjuk, hogy weboldalad kiemelkedjen a versenytársak közül, miközben hatékonyan támogatja vállalkozásod növekedését.",
+						},
+					],
+				},
+				{
+					number: "03",
+					title: "Miben segít egy WordPress fejlesztő?",
+					paragraphs: [
+						{
+							lead: "Egy tapasztalt WordPress fejlesztő gondoskodik arról, hogy weboldalad minden szempontból professzionális legyen.",
+							text: "A tervezéstől a fejlesztésen át a keresőoptimalizálásig és a biztonsági beállításokig minden részletet precízen kidolgozunk, hogy a végeredmény egy gyors, biztonságos és hatékony weboldal legyen.",
+						},
+					],
+				},
+			],
+		},
+		meaningForUs: {
+			title: "Mire számíthatsz, ha minket választasz?",
+			items: [
+				"Velünk együttműködve egy modern, igényeidre szabott WordPress weboldalt kapsz, amely nemcsak esztétikus, hanem technikailag is kiválóan működik.",
+				"Odafigyelünk a kiemelkedő ügyfélélményre, a reszponzív (mobilbarát) weboldal megjelenésre, a könnyű kezelhetőségre és a biztonságos működésre, hogy weboldalad hosszú távon is hatékonyan szolgálja vállalkozásod.",
+			],
+		},
+		workWithUs: {
+			title: "Dolgozz velünk",
+			text: "Jelentkezz konzultációra és lendítsük fel együtt az online jelenléted.",
+			buttonLabel: "Jelentkezem konzultációra",
+		},
+		process: {
+			title: "Hogyan dolgozunk",
+			steps: [
+				["01 Igényfelmérés, tervezés", "Munkánk során először felmérjük az igényeidet, majd piaci elemzést végzünk a felhasználói igények és a versenytársak körében, mindezek alapján pedig egyedi terveket készítünk."],
+				["02 Kivitelezés", "Folyamatosan figyelembe véve saját kéréseidet, közösen választjuk a számodra legmegfelelőbbeket. A fejlesztési folyamat során is folyamatosan egyeztetünk veled, hogy a végeredmény pontosan azt nyújtsa, amit elvársz."],
+				["03 Átadás", "Az elkészült weboldalt teszteljük, optimalizáljuk, majd átadjuk neked, és ha szükséges, további támogatást biztosítunk."],
+			],
+		},
+		pricing: {
+			title: "WordPress weboldal készítés árak –",
+			titleHighlight: "mi alapján árazunk?",
+			items: [
+				"Egy weboldal készítés árát több tényező befolyásolja, például a dizájn komplexitása, a kívánt funkciók és az egyedi fejlesztési igények.",
+				"Minden projekt esetében személyre szabott ajánlatot készítünk, így biztos lehetsz benne, hogy az ár-érték arány a lehető legkedvezőbb lesz számodra.",
+			],
+		},
+		cta: {
+			title: "Érdekel szolgáltatásunk?",
+			text: "Jelentkezz egy ingyenes, kötelezettségmentes beszélgetésre, és derítsük ki, hogy tudunk-e neked segíteni, és tényleg mi vagyunk-e a legmegfelelőbb választás számodra. A jelentkezésed után 3 munkanapon belül felvesszük veled a kapcsolatot!",
+			buttonLabel: "Jelentkezem konzultációra",
+		},
+	},
+	en: {
+		pageTitle: "WordPress development – WordPress website development",
+		breadcrumbs: ["Services", "Websites"],
+		title: "WordPress development",
+		subtitle: "Creating a WordPress website",
+		lead: "WordPress is one of the most popular website-building platforms. Thanks to its flexibility, it’s a perfect choice for establishing your business’s online presence.",
+		meaning: {
+			title: "When should you choose WordPress?",
+			text: "WordPress is an excellent solution if you’re looking for an easy-to-manage, scalable and cost-effective website. Whether you’re planning a simple landing page or a complex e-commerce site, the wide range of plugins and customization options allows you to tailor your website to your unique needs – all while ensuring a stable and reliable technical foundation. We recommend it for startups, small and medium-sized businesses, as well as larger companies looking for a well-structured, user-friendly, and SEO-optimized website.",
+		},
+		asYouWish: {
+			title: "Web design",
+			titleHighlight: "the way you want it",
+			blocks: [
+				{
+					number: "01",
+					title: "WordPress vs Webflow – which one should you choose?",
+					paragraphs: [
+						{
+							lead: "WordPress is an open-source platform with a vast library of plugins and customizable themes. Webflow, on the other hand, is more of a visual editor that requires less technical knowledge.",
+							text: "If you’re looking for greater flexibility and long-term scalability, WordPress might be the ideal solution for you.",
+						},
+					],
+				},
+				{
+					number: "02",
+					title: "Benefits of a custom WordPress website",
+					paragraphs: [
+						{
+							lead: "A custom-built WordPress site gives you the freedom to shape your online presence exactly as you envision it.",
+							text: "With a unique design, fast load times, and optimized features, we ensure your website stands out from the competition while effectively supporting the growth of your business.",
+						},
+					],
+				},
+				{
+					number: "03",
+					title: "How can a WordPress developer help?",
+					paragraphs: [
+						{
+							lead: "An experienced WordPress developer ensures that your website is professional in every aspect.",
+							text: "From planning and development to SEO and security settings, every detail is crafted with precision – resulting in a fast, secure, and high-performing website.",
+						},
+					],
+				},
+			],
+		},
+		meaningForUs: {
+			title: "What to expect when you work with us",
+			items: [
+				"Partnering with us means getting a modern, tailored WordPress website that looks great and works flawlessly.",
+				"We focus on delivering an outstanding user experience, responsive (mobile-friendly) design, intuitive navigation, and secure performance – so your site continues to support your business for the long haul.",
+			],
+		},
+		workWithUs: {
+			title: "Work with us",
+			text: "Book a consultation and let’s elevate your online presence – together.",
+			buttonLabel: "Book consultation",
+		},
+		process: {
+			title: "Our workflow",
+			steps: [
+				["01 Initial consultation", "First, we assess your needs, then conduct market and competitor analysis to better understand user demands."],
+				["02 Design and implement", "Based on this, we create a unique concept tailored to your goals. Throughout the process, we involve you in key decisions to ensure the final product aligns with your expectations."],
+				["03 Handover", "We test, optimize, and deliver your new site – and offer ongoing support if needed."],
+			],
+		},
+		pricing: {
+			title: "WordPress development pricing –",
+			titleHighlight: "how do we price our services?",
+			items: [
+				"The cost of building a website depends on several factors, such as design complexity, required features, and custom development needs.",
+				"We provide personalized quotes for each project, ensuring the best possible value for your investment.",
+			],
+		},
+		cta: {
+			title: "Ready to level up?",
+			text: "Book a free, no-pressure call with us. Let’s find out if we’re the perfect match. After you sign up, we’ll get back to you within three business days!",
+			buttonLabel: "Book consultation",
+		},
+	},
 }[locale];
+
+const contactHref = localizePath("/contact", locale);
+
+const breadcrumbs = [
+	{ label: copy.breadcrumbs[0], href: localizePath("/services", locale) },
+	{ label: copy.breadcrumbs[1], href: localizePath("/services/website", locale) },
+	{ label: copy.title },
+];
+
+const stepTones = [1, 2, 3] as const;
 ---
 
 <Base title={copy.pageTitle}>
-	<main></main>
+	<section class="bg-background pt-[8.75rem] pb-16 max-lg:pt-32 max-lg:pb-10">
+		<div
+			class="mx-auto flex w-[92%] max-w-[76.875rem] items-start justify-between gap-x-12 gap-y-10 max-lg:flex-col"
+		>
+			<div class="max-w-[39rem]">
+				<Breadcrumbs items={breadcrumbs} class="mb-6" />
+				<h1 class="font-medium text-text text-display">{copy.title}</h1>
+				<p class="mt-6 text-3xl leading-10 font-normal text-text max-lg:text-2xl max-lg:leading-9">
+					{copy.subtitle}
+				</p>
+				<p class="mt-4 max-w-[34rem] text-xl leading-8 font-light text-text">{copy.lead}</p>
+			</div>
+
+			<div class="relative w-full max-w-[19.5rem] shrink-0 max-lg:max-w-[24rem]">
+				<HeroShapes />
+				<PersonBioCard personSlug="attila-toth" />
+			</div>
+		</div>
+	</section>
+
+	<section class="relative overflow-hidden bg-background pt-24 pb-24 max-lg:py-16">
+		<img
+			src="/global/images/service-shape.webp"
+			alt=""
+			width="1512"
+			height="400"
+			loading="lazy"
+			class="pointer-events-none absolute bottom-6 left-1/2 h-auto w-[min(80rem,100vw)] max-w-none -translate-x-1/2 max-md:hidden"
+		/>
+		<div class="relative mx-auto flex w-[92%] max-w-[76.875rem] flex-col items-center text-center">
+			<h2 class="max-w-[37.375rem] font-medium text-text text-heading">{copy.meaning.title}</h2>
+			<p
+				class="mt-10 max-w-[28rem] rounded-[20px] bg-background px-8 py-6 text-base leading-[1.625rem] font-light text-text shadow-[0_0.5rem_1.5rem_color-mix(in_srgb,var(--color-shadow)_15%,transparent)]"
+			>
+				{copy.meaning.text}
+			</p>
+		</div>
+	</section>
+
+	<section class="bg-background pb-24 max-lg:pb-16">
+		<div class="mx-auto w-[92%] max-w-[76.875rem]">
+			<h2 class="mx-auto max-w-[37.375rem] text-center font-medium text-text text-heading">
+				{copy.asYouWish.title} <span class="text-primary">{copy.asYouWish.titleHighlight}</span>
+			</h2>
+
+			<div class="mt-16 flex flex-col gap-16 max-md:mt-10 max-md:gap-12">
+				{
+					copy.asYouWish.blocks.map((block) => (
+						<div class="grid grid-cols-2 items-start gap-x-16 gap-y-6 max-lg:grid-cols-1">
+							<h3 class="max-w-[30rem] text-3xl leading-10 font-medium text-text max-lg:text-2xl max-lg:leading-9">
+								<span class="text-primary">{block.number}</span> {block.title}
+							</h3>
+							<div class="flex flex-col gap-8">
+								{block.paragraphs.map((paragraph) => (
+									<div class="flex gap-3">
+										<img
+											src="/global/images/star-icon.webp"
+											alt=""
+											width="26"
+											height="26"
+											loading="lazy"
+											class="size-[1.625rem] shrink-0"
+										/>
+										<p class="text-base leading-[1.625rem] font-light text-text">
+											<strong class="font-medium">{paragraph.lead}</strong> {paragraph.text}
+										</p>
+									</div>
+								))}
+							</div>
+						</div>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<section class="bg-background pt-0 pb-24 max-lg:pb-16">
+		<div class="mx-auto w-[92%] max-w-[76.875rem]">
+			<h2 class="text-center font-medium text-text text-heading">{copy.meaningForUs.title}</h2>
+
+			<ul class="mx-auto mt-16 grid max-w-[53rem] grid-cols-2 gap-6 max-md:mt-10 max-md:grid-cols-1">
+				{
+					copy.meaningForUs.items.map((item) => (
+						<li class="flex items-start gap-3">
+							<img
+								src="/global/images/star-icon.webp"
+								alt=""
+								width="26"
+								height="26"
+								loading="lazy"
+								class="size-[1.625rem] shrink-0"
+							/>
+							<p class="text-xl leading-[1.625rem] font-medium text-text">{item}</p>
+						</li>
+					))
+				}
+			</ul>
+
+			<CtaBox
+				title={copy.workWithUs.title}
+				text={copy.workWithUs.text}
+				buttonLabel={copy.workWithUs.buttonLabel}
+				buttonHref={contactHref}
+				class="mt-20 max-md:mt-14"
+			/>
+		</div>
+	</section>
+
+	<ServiceProcessSection>
+		<h2 class="max-w-[48rem] font-medium text-text-inverse text-heading">{copy.process.title}</h2>
+
+		<div class="mt-14 grid grid-cols-3 gap-4 max-md:mt-10 max-md:grid-cols-1">
+			{
+				copy.process.steps.map(([title, text], index) => (
+					<ProcessStepCard title={title} text={text} tone={stepTones[index]} />
+				))
+			}
+		</div>
+	</ServiceProcessSection>
+
+	<section class="bg-background py-24 max-lg:py-16">
+		<div class="mx-auto w-[92%] max-w-[76.875rem]">
+			<h2 class="mx-auto max-w-[44rem] text-center font-medium text-text text-heading">
+				{copy.pricing.title} <span class="text-primary">{copy.pricing.titleHighlight}</span>
+			</h2>
+
+			<ul class="mx-auto mt-16 grid max-w-[53rem] grid-cols-2 gap-x-16 gap-y-10 max-md:mt-10 max-md:grid-cols-1">
+				{
+					copy.pricing.items.map((item) => (
+						<li class="flex gap-3">
+							<img
+								src="/global/images/star-icon.webp"
+								alt=""
+								width="26"
+								height="26"
+								loading="lazy"
+								class="size-[1.625rem] shrink-0"
+							/>
+							<p class="text-xl leading-[1.625rem] font-medium text-text">{item}</p>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+
+	<section class="flow-root bg-surface pt-24 pb-24 max-lg:pt-16 max-lg:pb-16 [&_.clutch-widget]:overflow-hidden [&_.clutch-widget]:rounded-[20px]">
+		<div class="mx-auto w-[92%]">
+			<ClutchReviews />
+		</div>
+	</section>
+
+	<section class="bg-surface pb-24 max-lg:pb-16">
+		<div class="mx-auto w-[92%] max-w-[76.875rem]">
+			<CtaBox
+				title={copy.cta.title}
+				text={copy.cta.text}
+				buttonLabel={copy.cta.buttonLabel}
+				buttonHref={contactHref}
+			/>
+		</div>
+	</section>
 </Base>
