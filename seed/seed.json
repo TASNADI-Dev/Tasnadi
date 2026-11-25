@@ -62,14 +62,6 @@
 					"label": "Body",
 					"type": "portableText",
 					"searchable": true
-				},
-				{
-					"slug": "cta_option",
-					"label": "CTA option",
-					"type": "select",
-					"validation": {
-						"options": ["Rebrand", "Webshop guide", "Webnavigátor"]
-					}
 				}
 			]
 		},
