@@ -3,7 +3,7 @@
 Migration of the Webflow site at https://www.tasnadi.co/ to Astro and EmDash.
 
 - **Stack:** Astro, TypeScript, Tailwind CSS v4, EmDash CMS (SQLite, local uploads)
-- **Locales:** Hungarian (default, unprefixed) and English (`/en`)
+- **Locales:** Hungarian (default, unprefixed, Hungarian slugs such as `/rolunk`) and English (`/en`, the original tasnadi.co slugs such as `/en/about`). The slugs are mapped in `src/i18n/routes.ts`.
 - **Project rules:** see [AGENTS.md](AGENTS.md)
 
 ## Commands
