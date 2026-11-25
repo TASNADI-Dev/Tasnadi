@@ -33,14 +33,17 @@ export const GET: APIRoute = async ({ url, request, redirect }) => {
 		lines.push("  <url>", `    <loc>${escapeXml(origin + item.path)}</loc>`);
 		if (item.lastmod) lines.push(`    <lastmod>${item.lastmod}</lastmod>`);
 
-		const alternates = Object.entries(item.alternates);
+		const alternates = Object.entries(item.alternates).filter(
+			(entry): entry is [string, string] => entry[1] !== undefined,
+		);
 		if (alternates.length > 1) {
 			for (const [locale, path] of alternates) {
 				lines.push(
 					`    <xhtml:link rel="alternate" hreflang="${locale}" href="${escapeXml(origin + path)}" />`,
 				);
 			}
-			const defaultPath = item.alternates.hu ?? alternates[0][1];
+			// x-default is the English page, as on the original site
+			const defaultPath = item.alternates.en ?? item.alternates.hu ?? alternates[0][1];
 			lines.push(
 				`    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(origin + defaultPath)}" />`,
 			);

@@ -1,16 +1,18 @@
 // Collects every public URL (static Astro pages + published CMS entries) for /sitemap.xml and /sitemap.
-import { getEmDashCollection, getI18nConfig, SchemaRegistry } from "emdash";
+import { getEmDashCollection, SchemaRegistry } from "emdash";
 import type { ContentEntry } from "emdash";
 import { getDb } from "emdash/runtime";
+import { DEFAULT_LOCALE, LOCALES, localizePath, type Locale } from "../i18n/routes";
+import { getPageAlternates } from "./locale-content";
 
 export interface SitemapUrl {
-	/** Path with locale prefix, e.g. `/blog/my-post` or `/en` */
+	/** Public path, e.g. `/esettanulmanyok/my-case`, `/blog/my-post` or `/en` */
 	path: string;
 	title: string;
 	locale: string;
 	lastmod?: string;
 	/** Same page in every locale it exists in, keyed by locale */
-	alternates: Record<string, string>;
+	alternates: Partial<Record<string, string>>;
 }
 
 export interface SitemapGroup {
@@ -18,8 +20,6 @@ export interface SitemapGroup {
 	label: { hu: string; en: string };
 	urls: SitemapUrl[];
 }
-
-const DEFAULT_LOCALE = "hu";
 
 const COLLECTION_LABELS: Record<string, { hu: string; en: string }> = {
 	pages: { hu: "Oldalak", en: "Pages" },
@@ -31,8 +31,9 @@ const COLLECTION_LABELS: Record<string, { hu: string; en: string }> = {
 	team_members: { hu: "Csapat", en: "Team" },
 };
 
+/** Titles by internal path */
 const STATIC_PAGE_TITLES: Record<string, { hu: string; en: string }> = {
-	"": { hu: "Főoldal", en: "Home" },
+	"/": { hu: "Főoldal", en: "Home" },
 	"/about": { hu: "Rólunk", en: "About" },
 	"/contact": { hu: "Kapcsolat", en: "Contact" },
 	"/services": { hu: "Szolgáltatásaink", en: "Services" },
@@ -41,19 +42,10 @@ const STATIC_PAGE_TITLES: Record<string, { hu: string; en: string }> = {
 	"/podcast": { hu: "Podcast", en: "Podcast" },
 };
 
-// Every .astro file under src/pages is picked up automatically; dynamic routes,
-// the 404 page, the dev tools and the sitemap page itself are skipped.
+// Every .astro file under src/pages is picked up automatically; dynamic routes, the 404 page,
+// the dev tools, the sitemap page itself and the en/ copies (the same page in English) are skipped.
 const pageFiles = Object.keys(import.meta.glob("/src/pages/**/*.astro"));
-const EXCLUDED_STATIC = /(\[|^\/src\/pages\/(404|sitemap|dev\/|partials\/))/;
-
-function localePrefix(locale: string, defaultLocale: string) {
-	return locale === defaultLocale ? "" : `/${locale}`;
-}
-
-function withLocale(path: string, locale: string, defaultLocale: string) {
-	const full = `${localePrefix(locale, defaultLocale)}${path}`;
-	return full === "" ? "/" : full;
-}
+const EXCLUDED_STATIC = /(\[|^\/src\/pages\/(404|sitemap|dev\/|partials\/|en\/))/;
 
 function humanize(slug: string) {
 	const text = slug.split("/").pop()?.replace(/[-_]/g, " ") ?? slug;
@@ -66,42 +58,21 @@ function toIsoDate(value: unknown): string | undefined {
 	return Number.isNaN(date.getTime()) ? undefined : date.toISOString();
 }
 
-/** Static pages from src/pages. `en/<page>.astro` files mark a page as translated. */
-function getStaticPages(locales: string[], defaultLocale: string): SitemapUrl[] {
-	const routes = new Map<string, Set<string>>();
-
-	for (const file of pageFiles) {
-		if (EXCLUDED_STATIC.test(file)) continue;
-
-		let route = file
-			.replace("/src/pages", "")
-			.replace(/\.astro$/, "")
-			.replace(/\/index$/, "");
-		let locale = defaultLocale;
-
-		const localeMatch = route.match(/^\/([a-z]{2})(\/.*)?$/);
-		if (localeMatch && locales.includes(localeMatch[1]) && localeMatch[1] !== defaultLocale) {
-			locale = localeMatch[1];
-			route = localeMatch[2] ?? "";
-		}
-
-		if (!routes.has(route)) routes.set(route, new Set());
-		routes.get(route)?.add(locale);
-	}
+/** Static pages from src/pages, in every language they are available in, at their localized URLs. */
+async function getStaticPages(): Promise<SitemapUrl[]> {
+	const routes = pageFiles
+		.filter((file) => !EXCLUDED_STATIC.test(file))
+		.map((file) => file.replace("/src/pages", "").replace(/\.astro$/, "").replace(/\/?index$/, "") || "/")
+		.sort((a, b) => a.localeCompare(b));
 
 	const urls: SitemapUrl[] = [];
-	for (const [route, routeLocales] of [...routes].sort(([a], [b]) => a.localeCompare(b))) {
-		const alternates = Object.fromEntries(
-			[...routeLocales].map((locale) => [locale, withLocale(route, locale, defaultLocale)]),
-		);
-		for (const locale of [...routeLocales].sort((a, b) => (a === defaultLocale ? -1 : b === defaultLocale ? 1 : 0))) {
+	for (const route of routes) {
+		const alternates = await getPageAlternates(route);
+		for (const locale of LOCALES) {
+			const path = alternates[locale];
+			if (!path) continue;
 			const titles = STATIC_PAGE_TITLES[route];
-			urls.push({
-				path: alternates[locale],
-				title: titles?.[locale as "hu" | "en"] ?? titles?.hu ?? humanize(route),
-				locale,
-				alternates,
-			});
+			urls.push({ path, title: titles?.[locale] ?? titles?.hu ?? humanize(route), locale, alternates });
 		}
 	}
 	return urls;
@@ -122,15 +93,11 @@ async function getPublishedEntries(collection: string, locales: string[]) {
 }
 
 export async function getSitemapGroups(): Promise<SitemapGroup[]> {
-	const i18n = getI18nConfig();
-	const defaultLocale = i18n?.defaultLocale ?? DEFAULT_LOCALE;
-	const locales = i18n?.locales ?? [defaultLocale];
-
 	const groups: SitemapGroup[] = [
 		{
 			key: "static",
 			label: { hu: "Oldalak", en: "Pages" },
-			urls: getStaticPages(locales, defaultLocale),
+			urls: await getStaticPages(),
 		},
 	];
 
@@ -149,7 +116,7 @@ export async function getSitemapGroups(): Promise<SitemapGroup[]> {
 		if (collection.routable === false || !collection.urlPattern) continue;
 		const urlPattern = collection.urlPattern;
 
-		const entries = (await getPublishedEntries(collection.slug, locales)).filter(
+		const entries = (await getPublishedEntries(collection.slug, LOCALES)).filter(
 			(entry) => !hidden.has(`${collection.slug}:${entry.data.id}`),
 		);
 
@@ -164,15 +131,11 @@ export async function getSitemapGroups(): Promise<SitemapGroup[]> {
 		for (const siblings of byGroup.values()) {
 			const alternates: Record<string, string> = {};
 			for (const entry of siblings) {
-				const locale = String(entry.data.locale ?? defaultLocale);
-				alternates[locale] = withLocale(
-					urlPattern.replace("{slug}", String(entry.data.slug ?? entry.id)),
-					locale,
-					defaultLocale,
-				);
+				const locale = (entry.data.locale ?? DEFAULT_LOCALE) as Locale;
+				alternates[locale] = localizePath(urlPattern.replace("{slug}", String(entry.data.slug ?? entry.id)), locale);
 			}
 			for (const entry of siblings) {
-				const locale = String(entry.data.locale ?? defaultLocale);
+				const locale = String(entry.data.locale ?? DEFAULT_LOCALE);
 				urls.push({
 					path: alternates[locale],
 					title: String(entry.data.title ?? entry.data.slug ?? entry.id),
