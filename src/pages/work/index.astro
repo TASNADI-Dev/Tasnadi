@@ -12,7 +12,7 @@ import { rewriteToNotFound } from "../../utils/not-found";
 
 const locale = Astro.currentLocale === "en" ? "en" : "hu";
 
-// There is no case studies page in a language without case studies, so /en/case-studies is a 404 until the first English one is published
+// There is no case studies page in a language without case studies, so /en/work is a 404 until the first English one is published
 if (!(await hasLocaleContent("case_studies", locale))) {
 	return rewriteToNotFound(Astro);
 }
@@ -22,7 +22,7 @@ const copy = {
 		pageTitle: "Munkáink",
 		description:
 			"Az esettanulmányaink segítségével jobban megértheted, hogyan tudunk segíteni az eladások növelésében.",
-		title: "Projektjeink",
+		title: "Munkáink",
 		text: "Az alábbi esettanulmányok segítségével jobban megértheted, hogyan tudunk segíteni az eladások növelésében.",
 		servicesLabel: "Szolgáltatásaink",
 		industriesLabel: "Iparág",
@@ -39,7 +39,7 @@ const copy = {
 		pageTitle: "Work",
 		description:
 			"Our case studies show how we help our clients grow their sales.",
-		title: "Our projects",
+		title: "Work",
 		text: "The case studies below show you how we can help you increase your sales.",
 		servicesLabel: "Our services",
 		industriesLabel: "Industry",
@@ -61,7 +61,7 @@ const { caseStudies, services, industries, activeServices, activeIndustries, hin
 );
 if (Astro.cache?.enabled) hints.forEach((hint) => Astro.cache.set(hint));
 
-const listPath = localizePath("/case-studies", locale);
+const listPath = localizePath("/work", locale);
 
 const groups = [
 	{ name: "service", label: copy.servicesLabel, options: services, active: activeServices },
@@ -126,7 +126,7 @@ const groups = [
 						{caseStudies.map((entry) => (
 							<li>
 								<CaseStudyCard
-									href={localizePath(`/case-studies/${entry.data.slug}`, locale)}
+									href={localizePath(`/work/${entry.data.slug}`, locale)}
 									title={entry.data.hero_text}
 									description={entry.data.short_description}
 									image={entry.data.thumbnail}

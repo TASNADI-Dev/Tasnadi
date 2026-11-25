@@ -4,7 +4,7 @@ import { DEFAULT_LOCALE, LOCALES, localizePath, type Locale } from "../i18n/rout
 
 /** Site sections (by internal path) whose pages only make sense in a locale that has entries in the collection */
 const SECTION_COLLECTIONS: Record<string, string> = {
-	"/case-studies": "case_studies",
+	"/work": "case_studies",
 	"/blog": "posts",
 	"/podcast": "podcasts",
 };

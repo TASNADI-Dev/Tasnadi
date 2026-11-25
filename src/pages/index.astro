@@ -254,7 +254,7 @@ const { entry: caseStudy, cacheHint: caseStudyHint } = featuredCaseStudySlug
 	: { entry: undefined, cacheHint: undefined };
 if (caseStudyHint && Astro.cache?.enabled) Astro.cache.set(caseStudyHint);
 
-const caseStudyHref = localizePath(`/case-studies/${caseStudy?.data.slug}`, locale);
+const caseStudyHref = localizePath(`/work/${caseStudy?.data.slug}`, locale);
 const caseStudyServices = caseStudy?.references?.services.entries ?? [];
 const caseStudyIndustry = caseStudy?.references?.industry.entries[0];
 const caseStudyLabels = [
@@ -593,7 +593,7 @@ const fieldClass =
 						{listedCaseStudies.map((entry) => (
 							<li>
 								<CaseStudyCard
-									href={localizePath(`/case-studies/${entry.data.slug}`, locale)}
+									href={localizePath(`/work/${entry.data.slug}`, locale)}
 									title={entry.data.hero_text}
 									description={entry.data.short_description}
 									image={entry.data.thumbnail}
@@ -606,7 +606,7 @@ const fieldClass =
 					</ul>
 
 					<div class="mt-12 flex justify-end">
-						<Button variant="link-arrow" href={localizePath("/case-studies", locale)}>
+						<Button variant="link-arrow" href={localizePath("/work", locale)}>
 							{copy.caseStudy.moreCta}
 						</Button>
 					</div>

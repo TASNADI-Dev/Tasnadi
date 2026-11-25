@@ -14,7 +14,7 @@ const HUNGARIAN_PATHS: Record<string, string> = {
 	"/about": "/rolunk",
 	"/contact": "/kapcsolat",
 	"/method": "/modszer",
-	"/case-studies": "/esettanulmanyok",
+	"/work": "/munkaink",
 	"/services": "/szolgaltatasok",
 	"/services/website": "/szolgaltatasok/weboldalak",
 	"/services/website/website-design": "/szolgaltatasok/weboldalak/weboldal-tervezes",
@@ -31,16 +31,24 @@ const HUNGARIAN_PATHS: Record<string, string> = {
 	"/focus-areas/partnerships": "/fokusz/partnersegek",
 	"/downloads/design-your-brand": "/letoltesek/tervezd-meg-a-markad",
 	"/downloads/webshop-guide": "/letoltesek/webaruhaz-fejlesztes-utmutato",
-	"/case-studies/[slug]": "/esettanulmanyok/[slug]",
+	"/work/[slug]": "/munkaink/[slug]",
 };
 
 /**
  * Old internal path → its replacement. The original site's `/projects` section is merged into case studies,
- * so these paths redirect in every language (`/projects` → `/en/case-studies`, `/hu/projects` → `/esettanulmanyok`).
+ * so these paths redirect in every language (`/projects` → `/en/work`, `/hu/projects` → `/munkaink`).
  */
 const LEGACY_PATHS: Record<string, string> = {
-	"/projects": "/case-studies",
-	"/projects/[slug]": "/case-studies/[slug]",
+	"/projects": "/work",
+	"/projects/[slug]": "/work/[slug]",
+	"/case-studies": "/work",
+	"/case-studies/[slug]": "/work/[slug]",
+};
+
+/** Old Hungarian public paths that redirect to the current Hungarian URL of their page */
+const LEGACY_HUNGARIAN_PATHS: Record<string, string> = {
+	"/esettanulmanyok": "/work",
+	"/esettanulmanyok/[slug]": "/work/[slug]",
 };
 
 type RoutePair = { internal: RegExp; hungarian: RegExp; internalPath: string; hungarianPath: string };
@@ -72,6 +80,19 @@ const LEGACY_ROUTES = Object.entries(LEGACY_PATHS).map(([oldPath, newPath]) => (
 	newPath,
 }));
 
+const LEGACY_HUNGARIAN_ROUTES = Object.entries(LEGACY_HUNGARIAN_PATHS).map(([oldPath, newPath]) => ({
+	pattern: toPattern(oldPath),
+	newPath,
+}));
+
+function legacyHungarianToInternal(path: string) {
+	for (const route of LEGACY_HUNGARIAN_ROUTES) {
+		const match = path.match(route.pattern);
+		if (match) return fill(route.newPath, match[1]);
+	}
+	return null;
+}
+
 function legacyToInternal(path: string) {
 	for (const route of LEGACY_ROUTES) {
 		const match = path.match(route.pattern);
@@ -97,7 +118,7 @@ function hungarianToInternal(path: string) {
 }
 
 /**
- * Public URL of a page in a language. `path` is the internal path (`/about`, `/case-studies/my-case`),
+ * Public URL of a page in a language. `path` is the internal path (`/about`, `/work/my-case`),
  * optionally with a query string or hash.
  */
 export function localizePath(path: string, locale: Locale) {
@@ -139,11 +160,14 @@ export function routeAction(pathname: string): RouteAction {
 	const legacyHungarian = path.match(/^\/hu(\/.*)?$/);
 	if (legacyHungarian) {
 		const rest = legacyHungarian[1] || "/";
-		const internal = legacyToInternal(rest) ?? hungarianToInternal(rest) ?? rest;
+		const internal =
+			legacyToInternal(rest) ?? legacyHungarianToInternal(rest) ?? hungarianToInternal(rest) ?? rest;
 		return { type: "redirect", location: localizePath(internal, "hu") };
 	}
 
 	const { locale, rest } = splitLocale(path);
+	const oldHungarian = locale === "hu" ? legacyHungarianToInternal(rest) : null;
+	if (oldHungarian) return { type: "redirect", location: localizePath(oldHungarian, "hu") };
 	const replacement = legacyToInternal(rest);
 	if (replacement) {
 		// Unprefixed old URLs were English on the original site

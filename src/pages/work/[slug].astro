@@ -168,9 +168,9 @@ const { siteTitle } = resolveSiteIdentity(await getSiteSettings());
 const seo = getSeoMeta(caseStudy, {
 	siteTitle,
 	siteUrl: Astro.url.origin,
-	path: localizePath(`/case-studies/${slug}`, locale),
+	path: localizePath(`/work/${slug}`, locale),
 });
-const alternates = await getEntryAlternates("case_studies", caseStudy.data.id, (s) => `/case-studies/${s}`);
+const alternates = await getEntryAlternates("case_studies", caseStudy.data.id, (s) => `/work/${s}`);
 ---
 
 <Base
@@ -594,7 +594,7 @@ const alternates = await getEntryAlternates("case_studies", caseStudy.data.id, (
 			class="pointer-events-none absolute inset-x-0 top-0 h-auto w-full"
 		/>
 		<img
-			src="/case-studies/astronaut.webp"
+			src="/work/astronaut.webp"
 			alt=""
 			width="447"
 			height="583"
