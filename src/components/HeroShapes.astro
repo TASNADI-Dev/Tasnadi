@@ -1,0 +1,30 @@
+---
+type Props = {
+	class?: string;
+};
+
+const { class: className } = Astro.props;
+---
+
+<div
+	aria-hidden="true"
+	class:list={["pointer-events-none absolute top-0 right-[calc(100%+5rem)] h-[20rem] w-32 max-lg:hidden", className]}
+>
+	<img
+		src="/global/images/hero-planet.webp"
+		alt=""
+		width="254"
+		height="254"
+		loading="eager"
+		class="size-32 animate-float motion-reduce:animate-none"
+	/>
+	<svg
+		viewBox="0 0 30 31"
+		fill="none"
+		class="absolute top-[8.5rem] right-0 size-[1.875rem] animate-float text-primary [animation-delay:-0.6s] motion-reduce:animate-none"
+	>
+		<path
+			d="M14.066 1.44226C14.3938 0.585204 15.6063 0.585204 15.934 1.44226L19.3704 10.4276C19.4693 10.6863 19.6711 10.8923 19.9277 10.9967L28.7225 14.5737C29.5535 14.9117 29.5535 16.0883 28.7225 16.4263L19.9277 20.0033C19.6711 20.1077 19.4693 20.3137 19.3704 20.5724L15.934 29.5577C15.6063 30.4148 14.3938 30.4148 14.066 29.5577L10.6296 20.5724C10.5307 20.3137 10.3289 20.1077 10.0723 20.0033L1.27753 16.4263C0.44653 16.0883 0.44653 14.9117 1.27753 14.5737L10.0723 10.9967C10.3289 10.8923 10.5307 10.6863 10.6296 10.4276L14.066 1.44226Z"
+			fill="currentColor"></path>
+	</svg>
+</div>

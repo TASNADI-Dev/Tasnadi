@@ -1,0 +1,58 @@
+---
+import { getEmDashEntry } from "emdash";
+import { Image } from "emdash/ui";
+
+type Props = {
+	/** Slug of the team member; name, position, bio and both photos come from the CMS */
+	personSlug: string;
+	class?: string;
+};
+
+const { personSlug, class: className } = Astro.props;
+
+const locale = Astro.currentLocale === "en" ? "en" : "hu";
+const { entry: person, cacheHint } = await getEmDashEntry("team_members", personSlug, { locale });
+if (cacheHint && Astro.cache?.enabled) Astro.cache.set(cacheHint);
+---
+
+{
+	person && (
+		<div
+			class:list={[
+				"group rounded-[20px] border-2 border-border bg-background px-8 py-7 text-center text-text shadow-[0_0.5rem_1.5rem_color-mix(in_srgb,var(--color-shadow)_15%,transparent)]",
+				className,
+			]}
+		>
+			<div class="relative mx-auto size-28 overflow-hidden rounded-full">
+				<Image
+					image={person.data.default_image}
+					sizes="7rem"
+					loading="eager"
+					class="size-full object-cover"
+				/>
+				{person.data.hover_image && (
+					<Image
+						image={person.data.hover_image}
+						alt=""
+						sizes="7rem"
+						loading="eager"
+						class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100 motion-reduce:transition-none"
+					/>
+				)}
+			</div>
+			<p {...person.edit.title} class="mt-4 text-xl leading-[1.625rem] font-medium">
+				{person.data.title}
+			</p>
+			{person.data.position && (
+				<p {...person.edit.position} class="mt-1 text-sm leading-5 font-medium tracking-[0.02em] text-primary uppercase">
+					{person.data.position}
+				</p>
+			)}
+			{person.data.bio && (
+				<p {...person.edit.bio} class="mt-4 text-sm leading-6 font-light text-text-muted italic">
+					{person.data.bio}
+				</p>
+			)}
+		</div>
+	)
+}

@@ -1,4 +1,6 @@
 ---
+import ProcessStepCard from "./ProcessStepCard.astro";
+
 type Tone = 1 | 2 | 3 | 4;
 
 type Phase = {
@@ -26,20 +28,18 @@ type Props = {
 	steps: Step[];
 	/** Accessible name of the scrollable region */
 	label: string;
-	/** Sizes each step row to its own content instead of making all rows as tall as the tallest one */
-	fitContent?: boolean;
 	class?: string;
 };
 
-const { weeks, phases, steps, label, fitContent = false, class: className } = Astro.props;
+const { weeks, phases, steps, label, class: className } = Astro.props;
 
 const rowCount = Math.max(...steps.map((step) => step.row));
 
-const tones: Record<Tone, { phase: string; step: string }> = {
-	1: { phase: "bg-process-phase-1 text-text-inverse", step: "border-t-process-phase-1" },
-	2: { phase: "bg-process-phase-2 text-text-inverse", step: "border-t-process-phase-2" },
-	3: { phase: "bg-process-phase-3 text-text-inverse", step: "border-t-process-phase-3" },
-	4: { phase: "bg-process-phase-4 text-text", step: "border-t-process-phase-4" },
+const phaseTones: Record<Tone, string> = {
+	1: "bg-process-phase-1 text-text-inverse",
+	2: "bg-process-phase-2 text-text-inverse",
+	3: "bg-process-phase-3 text-text-inverse",
+	4: "bg-process-phase-4 text-text",
 };
 ---
 
@@ -56,7 +56,7 @@ const tones: Record<Tone, { phase: string; step: string }> = {
 	<div class="w-max px-[max(4%,calc((100%_-_76.875rem)/2))]">
 		<div
 			class="grid gap-x-px gap-y-1 rounded-[10px] border border-border-inverse bg-[repeating-linear-gradient(90deg,transparent_0_200px,var(--color-process-grid-line)_200px_201px)]"
-			style={`grid-template-columns: repeat(${weeks.length}, 200px); grid-template-rows: auto auto repeat(${rowCount}, ${fitContent ? "auto" : "1fr"});`}
+			style={`grid-template-columns: repeat(${weeks.length}, 200px); grid-template-rows: auto auto repeat(${rowCount}, auto);`}
 		>
 			{
 				weeks.map((week) => (
@@ -67,7 +67,7 @@ const tones: Record<Tone, { phase: string; step: string }> = {
 			{
 				phases.map((phase) => (
 					<div
-						class:list={["rounded-[10px] px-3 py-0.5 text-base leading-5 font-medium", tones[phase.tone].phase]}
+						class:list={["rounded-[10px] px-3 py-0.5 text-base leading-5 font-medium", phaseTones[phase.tone]]}
 						style={`grid-column: span ${phase.span};`}
 					>
 						{phase.label}
@@ -77,13 +77,12 @@ const tones: Record<Tone, { phase: string; step: string }> = {
 
 			{
 				steps.map((step) => (
-					<div
-						class:list={["rounded-[10px] border border-t-[3px] border-surface-dark-hover bg-surface-dark p-3", tones[step.tone].step]}
+					<ProcessStepCard
+						title={step.title}
+						text={step.text}
+						tone={step.tone}
 						style={`grid-column: ${step.column} / span ${step.span}; grid-row: ${step.row + 2};`}
-					>
-						<h3 class="text-base leading-5 font-light text-text-inverse">{step.title}</h3>
-						<p class="mt-2.5 mb-2.5 text-xs font-light text-text-subtle">{step.text}</p>
-					</div>
+					/>
 				))
 			}
 		</div>

@@ -326,7 +326,6 @@ const contactHref = localizePath("/contact", locale);
 
 		<ProcessTimeline
 			label={copy.process.timelineLabel}
-			fitContent
 			weeks={weeks}
 			phases={phases.map((phase, index) => ({ ...phase, label: copy.process.phases[index] }))}
 			steps={stepLayout.map((layout, index) => ({

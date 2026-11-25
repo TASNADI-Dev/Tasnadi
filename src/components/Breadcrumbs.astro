@@ -1,0 +1,41 @@
+---
+type Item = {
+	label: string;
+	/** Link of the item; the last item is the current page and has none */
+	href?: string;
+};
+
+type Props = {
+	items: Item[];
+	class?: string;
+};
+
+const { items, class: className } = Astro.props;
+---
+
+<nav aria-label={Astro.currentLocale === "en" ? "Breadcrumb" : "Morzsamenü"} class={className}>
+	<ol class="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-xs leading-4 font-light text-text-muted">
+		{
+			items.map((item, index) => {
+				const isLast = index === items.length - 1;
+				return (
+					<li class="flex items-center gap-1.5">
+						{item.href && !isLast ? (
+							<a
+								href={item.href}
+								class="no-underline transition-colors duration-200 hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+							>
+								{item.label}
+							</a>
+						) : (
+							<span aria-current={isLast ? "page" : undefined} class:list={[isLast && "font-medium text-accent"]}>
+								{item.label}
+							</span>
+						)}
+						{!isLast && <span aria-hidden="true">/</span>}
+					</li>
+				);
+			})
+		}
+	</ol>
+</nav>

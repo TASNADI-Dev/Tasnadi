@@ -4,10 +4,14 @@ import Base from "../../layouts/Base.astro";
 import Button from "../../components/Button.astro";
 import Badge from "../../components/Badge.astro";
 import BlogCard from "../../components/BlogCard.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import ClientsSection from "../../components/ClientsSection.astro";
 import ClutchReviews from "../../components/ClutchReviews.astro";
 import CaseStudyCard from "../../components/CaseStudyCard.astro";
 import CtaBox from "../../components/CtaBox.astro";
+import HeroShapes from "../../components/HeroShapes.astro";
+import PersonBioCard from "../../components/PersonBioCard.astro";
+import ProcessStepCard from "../../components/ProcessStepCard.astro";
 import Navigation from "../../components/Navigation.astro";
 import NewsletterSection from "../../components/NewsletterSection.astro";
 import type { ComponentProps } from "astro/types";
@@ -514,31 +518,6 @@ const colorGroups = [
 					/>
 				</div>
 			</div>
-
-			<div class="mt-10 border-t border-border pt-6">
-				<h3 class="mb-4 text-lg font-medium">
-					<code>fitContent</code>
-				</h3>
-				<div class="overflow-hidden rounded-[24px] bg-surface-dark py-8">
-					<ProcessTimeline
-						fitContent
-						label={copy.process.label}
-						weeks={copy.process.weeks}
-						phases={[
-							{ label: copy.process.phases[0], span: 1, tone: 1 },
-							{ label: copy.process.phases[1], span: 2, tone: 2 },
-							{ label: copy.process.phases[2], span: 1, tone: 3 },
-							{ label: copy.process.phases[3], span: 1, tone: 4 },
-						]}
-						steps={[
-							{ title: copy.process.stepTitle, text: copy.process.stepText, tone: 1, column: 1, span: 1, row: 1 },
-							{ title: copy.process.stepTitle, text: copy.process.stepText, tone: 2, column: 2, span: 2, row: 2 },
-							{ title: copy.process.stepTitle, text: copy.process.stepText, tone: 3, column: 4, span: 1, row: 3 },
-							{ title: copy.process.stepTitle, text: copy.process.stepText, tone: 4, column: 5, span: 1, row: 4 },
-						]}
-					/>
-				</div>
-			</div>
 		</section>
 
 		<section class="mt-16">
@@ -584,6 +563,45 @@ const colorGroups = [
 					buttonLabel={copy.cta.buttonLabel}
 					buttonHref="#"
 				/>
+			</div>
+		</section>
+
+		<section class="mt-16">
+			<h2 class="mb-8 text-2xl font-bold">Breadcrumbs</h2>
+
+			<div class="border-t border-border pt-6">
+				<Breadcrumbs items={[{ label: "Services", href: "#" }, { label: "Websites", href: "#" }, { label: "Website design" }]} />
+			</div>
+		</section>
+
+		<section class="mt-16">
+			<h2 class="mb-8 text-2xl font-bold">Hero shapes</h2>
+
+			<div class="border-t border-border pt-6">
+				<div class="relative ml-48 h-[20rem] w-[19.5rem] rounded-[20px] border-2 border-dashed border-border">
+					<HeroShapes class="max-lg:block" />
+				</div>
+			</div>
+		</section>
+
+		<section class="mt-16">
+			<h2 class="mb-8 text-2xl font-bold">Person bio card</h2>
+
+			<div class="border-t border-border pt-6">
+				<PersonBioCard personSlug="peter-madacsi" class="max-w-[19.5rem]" />
+			</div>
+		</section>
+
+		<section class="mt-16">
+			<h2 class="mb-8 text-2xl font-bold">Process step card</h2>
+
+			<div class="border-t border-border pt-6">
+				<div class="grid max-w-[60rem] grid-cols-4 gap-4 rounded-[24px] bg-surface-dark p-8">
+					<ProcessStepCard tone={1} title="01 Strategy" text="Designing your website begins with understanding your needs." />
+					<ProcessStepCard tone={2} title="02 Design" text="From there, we move into the planning, development, and testing phases." />
+					<ProcessStepCard tone={3} title="03 Build" text="Once everything works perfectly, we hand over your website." />
+					<ProcessStepCard tone={4} title="04 Hosting" text="We keep your website fast, secure and online." />
+				</div>
 			</div>
 		</section>
 

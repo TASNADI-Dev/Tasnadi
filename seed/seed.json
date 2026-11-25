@@ -156,6 +156,11 @@
 					"type": "string"
 				},
 				{
+					"slug": "bio",
+					"label": "Bio (short description shown on service pages, e.g. in the hero)",
+					"type": "text"
+				},
+				{
 					"slug": "default_image",
 					"label": "Default image (1:1 square)",
 					"type": "image"

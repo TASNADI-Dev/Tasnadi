@@ -113,6 +113,7 @@ export interface TeamMember {
   email?: string;
   phone?: string;
   show_on_about?: boolean;
+  bio?: string;
   createdAt: Date;
   updatedAt: Date;
   publishedAt: Date | null;

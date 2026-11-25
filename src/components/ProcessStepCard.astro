@@ -1,0 +1,29 @@
+---
+type Tone = 1 | 2 | 3 | 4;
+
+type Props = {
+	title: string;
+	text: string;
+	/** Color of the top border, matching the process phase the step belongs to */
+	tone: Tone;
+	class?: string;
+	style?: string;
+};
+
+const { title, text, tone, class: className, style } = Astro.props;
+
+const tones: Record<Tone, string> = {
+	1: "border-t-process-phase-1",
+	2: "border-t-process-phase-2",
+	3: "border-t-process-phase-3",
+	4: "border-t-process-phase-4",
+};
+---
+
+<div
+	class:list={["rounded-[10px] border border-t-[3px] border-surface-dark-hover bg-surface-dark p-3", tones[tone], className]}
+	style={style}
+>
+	<h3 class="text-base leading-5 font-light text-text-inverse">{title}</h3>
+	<p class="mt-2.5 mb-2.5 text-xs font-light text-text-subtle">{text}</p>
+</div>

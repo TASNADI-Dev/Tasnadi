@@ -1,14 +1,365 @@
 ---
+import { localizePath } from "../../../i18n/routes";
 import Base from "../../../layouts/Base.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import ClutchReviews from "../../../components/ClutchReviews.astro";
+import CtaBox from "../../../components/CtaBox.astro";
+import HeroShapes from "../../../components/HeroShapes.astro";
+import PersonBioCard from "../../../components/PersonBioCard.astro";
+import ProcessStepCard from "../../../components/ProcessStepCard.astro";
 
 const locale = Astro.currentLocale === "en" ? "en" : "hu";
 
 const copy = {
-	hu: { pageTitle: "Website design és weboldal tervezés" },
-	en: { pageTitle: "Website design and website planning" },
+	hu: {
+		pageTitle: "Website design és weboldal tervezés",
+		breadcrumbs: ["Szolgáltatásaink", "Weboldalak"],
+		title: "Website design és weboldal tervezés",
+		subtitle: "A te igényeidre szabva!",
+		lead: "A mai üzleti világban elengedhetetlen, hogy egy vállalkozás megfelelően megtervezett weboldallal rendelkezzen, amiben fontos szerepet játszik a website design.",
+		meaning: {
+			title: "Mit jelent a „megfelelően megtervezett” weblap készítése?",
+			text: "Egy professzionálisan kialakított weboldal nem csupán esztétikailag vonzó, hanem az üzleti céljaidat is támogató, jól működő online eszköz. Mi ebben támogatunk téged és a vállalkozásodat.",
+		},
+		asYouWish: {
+			title: "Weblap készítés,",
+			titleHighlight: "ahogy szeretnéd",
+			blocks: [
+				{
+					number: "01",
+					title: "Ha profi webdesigner csapat véleményére is nyitott vagy...",
+					paragraphs: [
+						{
+							lead: "Webdesign ügynökségként segítünk ötletelni is.",
+							text: "Tapasztalt csapatunk szakértői javaslatokat és különböző megoldási lehetőségeket kínál neked, ezzel is elősegítve a kreatív munkafolyamatokat.",
+						},
+						{
+							lead: "A webdesign tervezés során minden részletet az igényeidre szabunk.",
+							text: "Legyen szó kezdő vállalkozásról vagy már működő cégről, ha fontos számodra az online megjelenés, a felhasználói élmény és a gyors betöltődés, mi segítünk mindezt megvalósítani az igényeidnek megfelelően.",
+						},
+						{
+							lead: "Ha már van egy kész ötleted leendő weboldalad arculatáról, mi segítünk életre kelteni igényeidet.",
+							text: "Viszont, ha nem vagy biztos a döntéseidben, szakértői tanácsokkal támasztjuk alá elképzeléseinket. Az alap célunk, hogy egy olyan online jelenlétet építsünk, ami segíti a vállalkozásod hosszú távú sikerét.",
+						},
+					],
+				},
+				{
+					number: "02",
+					title: "Miben segít egy webdesign ügynökség?",
+					paragraphs: [
+						{
+							lead: "A webdesign nem csupán design, hanem a felhasználói élmény javítása, a navigáció egyszerűsítése és a technikai alapok biztosítása is.",
+							text: "Egy weboldalnak gyorsnak, mobilbarátnak és keresőoptimalizáltnak kell lennie. Mi azzal a céllal dolgozunk, hogy a weboldalad intuitív és könnyen navigálható legyen a látogatók számára, miközben a technikai részletek sem maradnak el.",
+						},
+					],
+				},
+			],
+		},
+		meaningForUs: {
+			title: "Mit jelent számunkra a webdizájn?",
+			items: [
+				"A webdesign számunkra az egész felhasználói élményt jelenti.",
+				"A dizájn elemek elrendezése mellett a technikai alapokra – mint a gyors betöltődés, mobilbarát kialakítás és a SEO fontossága – is nagy figyelmet fordítunk.",
+				"Célunk, hogy olyan weboldalt alkossunk, ami vizuálisan vonzó, ugyanakkor hatékonyan segíti a felhasználókat a kívánt cselekvés elvégzésében.",
+			],
+		},
+		workWithUs: {
+			title: "Dolgozz velünk",
+			text: "Jelentkezz konzultációra és lendítsük fel együtt az online jelenléted.",
+			buttonLabel: "Jelentkezem konzultációra",
+		},
+		process: {
+			title: "A honlaptervezés menete lépésről lépésre",
+			paragraphs: [
+				"Számunkra a webdesign nem csupán esztétika. Egy jól megtervezett weboldal a felhasználói élmény, a funkcionalitás és az üzleti célok összehangolása.",
+				"A dizájn minden elemét úgy alakítjuk ki, hogy az megfeleljen a látogatók igényeinek, miközben biztosítja, hogy a vállalkozásod céljait is sikeresen támogassa.",
+			],
+			steps: [
+				["01 Stratégia", "A weblap dizájnjának szerkesztése az igények felmérésével kezdődik."],
+				["02 Kivitelezés", "Ezután a tervek elkészítése következik, amit fejlesztési és tesztelési folyamatok követnek."],
+				["03 Átadás", "Végül, miután minden működőképes, átadjuk a kész weboldalt."],
+			],
+		},
+		pricing: {
+			title: "Webdesign árak –",
+			titleHighlight: "mi alapján árazunk?",
+			items: [
+				"Az árazás több mindentől is függ. Például a dizájn komplexitásától, a kívánt funkcióktól és a testre szabott igényektől.",
+				"Mivel minden projekt egyedi, mi mindig egy személyre szabott árajánlatot készítünk, amely a te konkrét igényeidet veszi figyelembe.",
+			],
+		},
+		cta: {
+			title: "Érdekel szolgáltatásunk?",
+			text: "Jelentkezz egy ingyenes, kötelezettségmentes beszélgetésre, és derítsük ki, hogy tudunk-e neked segíteni, és tényleg mi vagyunk-e a legmegfelelőbb választás számodra. A jelentkezésed után 3 munkanapon belül felvesszük veled a kapcsolatot!",
+			buttonLabel: "Jelentkezem konzultációra",
+		},
+	},
+	en: {
+		pageTitle: "Website design and website planning",
+		breadcrumbs: ["Services", "Websites"],
+		title: "Website design & Web development",
+		subtitle: "Tailored to your needs",
+		lead: "In today’s business landscape, having a well-designed website is essential for any company. Website design plays a key role in this.",
+		meaning: {
+			title: "But what exactly does “well-designed” mean?",
+			text: "A professionally crafted website is not just visually appealing – it also serves as a functional, effective online tool that supports your business goals. That’s where we come in – to support you and your business.",
+		},
+		asYouWish: {
+			title: "Web design",
+			titleHighlight: "the way you want it",
+			blocks: [
+				{
+					number: "01",
+					title: "If you’re open to the insight of a professional web design team...",
+					paragraphs: [
+						{
+							lead: "As a web design agency, we’re here to brainstorm with you.",
+							text: "Our experienced team provides expert suggestions and a range of creative solutions to help drive the design process forward.",
+						},
+						{
+							lead: "During the web design process we tailor every detail to match your needs.",
+							text: "Whether you’re just starting out or already running an established company, if a strong online presence, great user experience, and fast loading times matter to you, we’re here to make it all happen – exactly the way you envision it.",
+						},
+						{
+							lead: "If you already have a clear idea of what your future website should look like, we’ll help bring that vision to life.",
+							text: "And if you’re unsure, we offer expert guidance to shape your ideas. Our core mission is to build an online presence that contributes to your business’s long-term success.",
+						},
+					],
+				},
+				{
+					number: "02",
+					title: "How can a web design agency help you?",
+					paragraphs: [
+						{
+							lead: "Web design isn’t just about looks. It’s about enhancing user experience, simplifying navigation, and ensuring solid technical foundations.",
+							text: "A website needs to be fast, mobile-friendly, and SEO-optimized. We work to ensure your site is intuitive and easy to navigate for visitors – while taking care of all the technical details behind the scenes.",
+						},
+					],
+				},
+			],
+		},
+		meaningForUs: {
+			title: "What does web design mean to us?",
+			items: [
+				"To us, web design encompasses the entire user experience.",
+				"Beyond layout and visuals, we pay close attention to technical foundations like fast load times, mobile responsiveness, and SEO.",
+				"Our goal is to create a website that not only looks great but also guides users toward meaningful actions with ease.",
+			],
+		},
+		workWithUs: {
+			title: "Work with us",
+			text: "Book a consultation and let’s elevate your online presence – together.",
+			buttonLabel: "Book consultation",
+		},
+		process: {
+			title: "The web design process step by step",
+			paragraphs: [
+				"As you can see, designing a website isn’t just about appearances – it’s a comprehensive process. When we develop and design your site’s visual identity, we consider the latest trends, user habits, and technological advancements.",
+				"And we make sure your website is SEO-friendly, fast, and mobile-optimized – we’ve said it often because it really matters.",
+			],
+			steps: [
+				["01 Strategy", "Designing your website begins with understanding your needs."],
+				["02 Design and implement", "From there, we move into the planning, development, and testing phases."],
+				["03 Handover", "Once everything works perfectly, we hand over your fully functional website."],
+			],
+		},
+		pricing: {
+			title: "Web design pricing –",
+			titleHighlight: "how do we set our rates?",
+			items: [
+				"Pricing depends on several factors – such as design complexity, required features, and customization level.",
+				"Since every project is unique, we always provide a personalized quote tailored to your specific needs.",
+			],
+		},
+		cta: {
+			title: "Ready to level up?",
+			text: "Book a free, no-pressure call with us. Let’s find out if we’re the perfect match. After you sign up, we’ll get back to you within three business days!",
+			buttonLabel: "Book consultation",
+		},
+	},
 }[locale];
+
+const contactHref = localizePath("/contact", locale);
+
+const breadcrumbs = [
+	{ label: copy.breadcrumbs[0], href: localizePath("/services", locale) },
+	{ label: copy.breadcrumbs[1], href: localizePath("/services/website", locale) },
+	{ label: copy.title },
+];
+
+const stepTones = [1, 2, 3] as const;
 ---
 
 <Base title={copy.pageTitle}>
-	<main></main>
+	<section class="bg-background pt-[8.75rem] pb-16 max-lg:pt-32 max-lg:pb-10">
+		<div
+			class="mx-auto flex w-[92%] max-w-[76.875rem] items-start justify-between gap-x-12 gap-y-10 max-lg:flex-col"
+		>
+			<div class="max-w-[39rem]">
+				<Breadcrumbs items={breadcrumbs} class="mb-6" />
+				<h1 class="font-medium text-text text-display">{copy.title}</h1>
+				<p class="mt-6 text-3xl leading-10 font-normal text-text max-lg:text-2xl max-lg:leading-9">
+					{copy.subtitle}
+				</p>
+				<p class="mt-4 max-w-[34rem] text-xl leading-8 font-light text-text">{copy.lead}</p>
+			</div>
+
+			<div class="relative w-full max-w-[19.5rem] shrink-0 max-lg:max-w-[24rem]">
+				<HeroShapes />
+				<PersonBioCard personSlug="peter-madacsi" />
+			</div>
+		</div>
+	</section>
+
+	<section class="relative overflow-hidden bg-background pt-24 pb-24 max-lg:py-16">
+		<img
+			src="/global/images/service-shape.webp"
+			alt=""
+			width="1512"
+			height="400"
+			loading="lazy"
+			class="pointer-events-none absolute bottom-6 left-1/2 h-auto w-[min(80rem,100vw)] max-w-none -translate-x-1/2 max-md:hidden"
+		/>
+		<div class="relative mx-auto flex w-[92%] max-w-[76.875rem] flex-col items-center text-center">
+			<h2 class="max-w-[37.375rem] font-medium text-text text-heading">{copy.meaning.title}</h2>
+			<p
+				class="mt-10 max-w-[28rem] rounded-[20px] bg-background px-8 py-6 text-base leading-[1.625rem] font-light text-text shadow-[0_0.5rem_1.5rem_color-mix(in_srgb,var(--color-shadow)_15%,transparent)]"
+			>
+				{copy.meaning.text}
+			</p>
+		</div>
+	</section>
+
+	<section class="bg-background pb-24 max-lg:pb-16">
+		<div class="mx-auto w-[92%] max-w-[76.875rem]">
+			<h2 class="mx-auto max-w-[37.375rem] text-center font-medium text-text text-heading">
+				{copy.asYouWish.title} <span class="text-primary">{copy.asYouWish.titleHighlight}</span>
+			</h2>
+
+			<div class="mt-16 flex flex-col gap-16 max-md:mt-10 max-md:gap-12">
+				{
+					copy.asYouWish.blocks.map((block) => (
+						<div class="grid grid-cols-2 items-start gap-x-16 gap-y-6 max-lg:grid-cols-1">
+							<h3 class="max-w-[30rem] text-3xl leading-10 font-medium text-text max-lg:text-2xl max-lg:leading-9">
+								<span class="text-primary">{block.number}</span> {block.title}
+							</h3>
+							<div class="flex flex-col gap-8">
+								{block.paragraphs.map((paragraph) => (
+									<div class="flex gap-3">
+										<img
+											src="/global/images/star-icon.webp"
+											alt=""
+											width="26"
+											height="26"
+											loading="lazy"
+											class="size-[1.625rem] shrink-0"
+										/>
+										<p class="text-base leading-[1.625rem] font-light text-text">
+											<strong class="font-medium">{paragraph.lead}</strong> {paragraph.text}
+										</p>
+									</div>
+								))}
+							</div>
+						</div>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<section class="bg-surface py-24 max-lg:py-16">
+		<div class="mx-auto w-[92%] max-w-[76.875rem]">
+			<h2 class="text-center font-medium text-text text-heading">{copy.meaningForUs.title}</h2>
+
+			<ul class="mx-auto mt-16 grid max-w-[63.4375rem] grid-cols-3 gap-6 max-md:mt-10 max-md:grid-cols-1">
+				{
+					copy.meaningForUs.items.map((item) => (
+						<li class="flex items-start gap-3">
+							<img
+								src="/global/images/star-icon.webp"
+								alt=""
+								width="26"
+								height="26"
+								loading="lazy"
+								class="size-[1.625rem] shrink-0"
+							/>
+							<p class="text-xl leading-[1.625rem] font-medium text-text">{item}</p>
+						</li>
+					))
+				}
+			</ul>
+
+			<CtaBox
+				title={copy.workWithUs.title}
+				text={copy.workWithUs.text}
+				buttonLabel={copy.workWithUs.buttonLabel}
+				buttonHref={contactHref}
+				class="mt-20 max-md:mt-14"
+			/>
+		</div>
+	</section>
+
+	<section class="bg-surface-dark py-24 max-lg:py-16">
+		<div class="mx-auto w-[92%] max-w-[76.875rem]">
+			<h2 class="max-w-[48rem] font-medium text-text-inverse text-heading">{copy.process.title}</h2>
+			<div class="mt-6 grid grid-cols-2 gap-10 max-md:grid-cols-1">
+				{
+					copy.process.paragraphs.map((paragraph) => (
+						<p class="text-base leading-[1.625rem] font-light text-text-inverse">{paragraph}</p>
+					))
+				}
+			</div>
+
+			<div class="mt-14 grid grid-cols-3 gap-4 max-md:mt-10 max-md:grid-cols-1">
+				{
+					copy.process.steps.map(([title, text], index) => (
+						<ProcessStepCard title={title} text={text} tone={stepTones[index]} />
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<section class="bg-background py-24 max-lg:py-16">
+		<div class="mx-auto w-[92%] max-w-[76.875rem]">
+			<h2 class="mx-auto max-w-[44rem] text-center font-medium text-text text-heading">
+				{copy.pricing.title} <span class="text-primary">{copy.pricing.titleHighlight}</span>
+			</h2>
+
+			<ul class="mx-auto mt-16 grid max-w-[53rem] grid-cols-2 gap-x-16 gap-y-10 max-md:mt-10 max-md:grid-cols-1">
+				{
+					copy.pricing.items.map((item) => (
+						<li class="flex gap-3">
+							<img
+								src="/global/images/star-icon.webp"
+								alt=""
+								width="26"
+								height="26"
+								loading="lazy"
+								class="size-[1.625rem] shrink-0"
+							/>
+							<p class="text-xl leading-[1.625rem] font-medium text-text">{item}</p>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+
+	<section class="flow-root bg-surface pt-24 pb-24 max-lg:pt-16 max-lg:pb-16 [&_.clutch-widget]:overflow-hidden [&_.clutch-widget]:rounded-[20px]">
+		<div class="mx-auto w-[92%]">
+			<ClutchReviews />
+		</div>
+	</section>
+
+	<section class="bg-surface pb-24 max-lg:pb-16">
+		<div class="mx-auto w-[92%] max-w-[76.875rem]">
+			<CtaBox
+				title={copy.cta.title}
+				text={copy.cta.text}
+				buttonLabel={copy.cta.buttonLabel}
+				buttonHref={contactHref}
+			/>
+		</div>
+	</section>
 </Base>
