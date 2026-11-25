@@ -686,7 +686,7 @@ const team = [...teamEntries].sort((a, b) => rank(a.data.slug) - rank(b.data.slu
 					<p class="font-medium">{copy.human.lead}</p>
 					<p>
 						{copy.human.body[0]}<a
-							href="#"
+							href={localizePath("/method", locale)}
 							class="text-accent transition-colors hover:text-primary-hover">{copy.human.linkText}</a
 						>{copy.human.body[1]}
 					</p>

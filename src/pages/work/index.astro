@@ -5,7 +5,6 @@ import Badge from "../../components/Badge.astro";
 import Button from "../../components/Button.astro";
 import CaseStudyCard from "../../components/CaseStudyCard.astro";
 import CtaBox from "../../components/CtaBox.astro";
-import PageHero from "../../components/PageHero.astro";
 import { loadCaseStudies, parseProjectFilters } from "../../utils/case-studies";
 import { hasLocaleContent } from "../../utils/locale-content";
 import { rewriteToNotFound } from "../../utils/not-found";
@@ -69,74 +68,92 @@ const groups = [
 ];
 ---
 
-<Base title={copy.pageTitle} description={copy.description} navVariant="dark">
-	<PageHero titleHighlight={copy.title} text={copy.text} />
+<Base title={copy.pageTitle} description={copy.description}>
+	<section class="relative bg-background pt-[11.25rem] pb-[3.75rem] max-lg:pt-40 max-lg:pb-10">
+		<img
+			src="/work/hero-bg.webp"
+			srcset="/work/hero-bg-mobile.webp 800w, /work/hero-bg.webp 1512w"
+			sizes="100vw"
+			alt=""
+			width="1512"
+			height="768"
+			loading="eager"
+			fetchpriority="high"
+			class="pointer-events-none absolute top-0 left-0 h-auto w-full max-lg:h-full max-lg:object-cover max-lg:object-[50%_60%]"
+		/>
 
-	<section id="filters" class="scroll-mt-28 bg-background pt-4 pb-8">
-		<form
-			data-list-filters
-			action={`${listPath}#filters`}
-			method="get"
-			class="mx-auto flex w-[92%] max-w-[32.5rem] flex-col items-center gap-6 rounded-[8px] bg-background p-6 shadow-[0_4px_30px_color-mix(in_srgb,var(--color-shadow)_15%,transparent)]"
-		>
-			{
-				groups.map((group) => (
-					<fieldset class="m-0 min-w-0 border-0 p-0">
-						<legend class="mx-auto mb-3 text-center text-base leading-6 font-medium text-text">{group.label}</legend>
-						<ul class="flex flex-wrap justify-center gap-2">
-							{group.options.map((option) => (
+		<div class="relative z-10 mx-auto w-[92%] max-w-[76.875rem]">
+			<div class="max-w-[45%] max-lg:max-w-none">
+				<h1 class="mb-[0.625rem] text-display font-medium text-text">{copy.title}</h1>
+				<p class="text-2xl leading-[2.125rem] font-medium text-text max-lg:text-lg max-lg:leading-7">{copy.text}</p>
+			</div>
+		</div>
+	</section>
+
+	<section id="filters" class="relative scroll-mt-28 pt-4 pb-24 max-lg:pb-16">
+		<div class="mx-auto grid w-[92%] max-w-[76.875rem] grid-cols-[17.5rem_minmax(0,1fr)] items-start gap-x-12 max-lg:grid-cols-1 max-lg:gap-y-8">
+			<form
+				data-list-filters
+				action={`${listPath}#filters`}
+				method="get"
+				class="sticky top-28 flex w-full flex-col items-start gap-6 rounded-[8px] bg-background p-6 shadow-[0_4px_30px_color-mix(in_srgb,var(--color-shadow)_15%,transparent)] max-lg:static max-lg:mx-auto max-lg:max-w-[32.5rem] max-lg:items-center"
+			>
+				{
+					groups.map((group) => (
+						<fieldset class="m-0 min-w-0 border-0 p-0">
+							<legend class="mb-3 text-base leading-6 font-medium text-text max-lg:mx-auto max-lg:text-center">
+								{group.label}
+							</legend>
+							<ul class="flex flex-wrap gap-2 max-lg:justify-center">
+								{group.options.map((option) => (
+									<li>
+										<label class="cursor-pointer">
+											<input
+												type="checkbox"
+												name={group.name}
+												value={option.slug}
+												checked={group.active.includes(option.slug)}
+												class="peer sr-only"
+											/>
+											<Badge
+												variant="outline"
+												class="transition-colors duration-200 hover:bg-[color-mix(in_srgb,var(--color-accent)_12%,var(--color-background))] peer-checked:bg-accent peer-checked:text-text-inverse peer-checked:hover:bg-accent peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent motion-reduce:transition-none"
+											>
+												{option.label}
+											</Badge>
+										</label>
+									</li>
+								))}
+							</ul>
+						</fieldset>
+					))
+				}
+
+				<button type="submit" class="sr-only">{copy.filter}</button>
+				<Button variant="link" href={`${listPath}#filters`} data-list-reset>{copy.reset}</Button>
+			</form>
+
+			<div data-list-results class="transition-opacity duration-200 data-[loading=true]:opacity-50 motion-reduce:transition-none">
+				{
+					caseStudies.length === 0 ? (
+						<p class="text-xl leading-8 font-medium text-text-muted max-lg:text-center">{copy.noResults}</p>
+					) : (
+						<ul class="grid grid-cols-2 gap-8 max-md:grid-cols-1">
+							{caseStudies.map((entry) => (
 								<li>
-									<label class="cursor-pointer">
-										<input
-											type="checkbox"
-											name={group.name}
-											value={option.slug}
-											checked={group.active.includes(option.slug)}
-											class="peer sr-only"
-										/>
-										<Badge
-											variant="outline"
-											class="transition-colors duration-200 hover:bg-[color-mix(in_srgb,var(--color-accent)_12%,var(--color-background))] peer-checked:bg-accent peer-checked:text-text-inverse peer-checked:hover:bg-accent peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent motion-reduce:transition-none"
-										>
-											{option.label}
-										</Badge>
-									</label>
+									<CaseStudyCard
+										href={localizePath(`/work/${entry.data.slug}`, locale)}
+										title={entry.data.hero_text}
+										description={entry.data.short_description}
+										image={entry.data.thumbnail}
+										services={entry.references?.services.entries.map((service) => service.data.title)}
+									/>
 								</li>
 							))}
 						</ul>
-					</fieldset>
-				))
-			}
-
-			<button type="submit" class="sr-only">{copy.filter}</button>
-			<Button variant="link" href={`${listPath}#filters`} data-list-reset>{copy.reset}</Button>
-		</form>
-	</section>
-
-	<section
-		data-list-results
-		class="bg-background pt-4 pb-24 transition-opacity duration-200 data-[loading=true]:opacity-50 max-lg:pb-16 motion-reduce:transition-none"
-	>
-		<div class="mx-auto w-[92%] max-w-[76.875rem]">
-			{
-				caseStudies.length === 0 ? (
-					<p class="text-center text-xl leading-8 font-medium text-text-muted">{copy.noResults}</p>
-				) : (
-					<ul class="grid grid-cols-3 gap-8 max-lg:grid-cols-2 max-md:grid-cols-1">
-						{caseStudies.map((entry) => (
-							<li>
-								<CaseStudyCard
-									href={localizePath(`/work/${entry.data.slug}`, locale)}
-									title={entry.data.hero_text}
-									description={entry.data.short_description}
-									image={entry.data.thumbnail}
-									services={entry.references?.services.entries.map((service) => service.data.title)}
-								/>
-							</li>
-						))}
-					</ul>
-				)
-			}
+					)
+				}
+			</div>
 		</div>
 	</section>
 

@@ -1,14 +1,418 @@
 ---
+import { localizePath } from "../../../i18n/routes";
 import Base from "../../../layouts/Base.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import ClutchReviews from "../../../components/ClutchReviews.astro";
+import CtaBox from "../../../components/CtaBox.astro";
+import HeroShapes from "../../../components/HeroShapes.astro";
+import PersonBioCard from "../../../components/PersonBioCard.astro";
+import ProcessStepCard from "../../../components/ProcessStepCard.astro";
+import ServiceProcessSection from "../../../components/ServiceProcessSection.astro";
 
 const locale = Astro.currentLocale === "en" ? "en" : "hu";
 
 const copy = {
-	hu: { pageTitle: "Shopify webshop készítés – Nyisd meg online üzleted!" },
-	en: { pageTitle: "Shopify webshop creation – Build your online store!" },
+	"hu": {
+		"pageTitle": "Shopify webshop készítés – Nyisd meg online üzleted!",
+		"breadcrumbs": [
+			"Szolgáltatásaink",
+			"Webshopok"
+		],
+		"title": "Shopify webshop létrehozása",
+		"subtitle": "Nyisd meg online üzleted!",
+		"lead": "Modern webáruházra van szükséged, de nem találtál még olyan rendszert, amely gyors és költséghatékony? Akkor a Shopify a te üzleted!",
+		"meaning": {
+			"title": "Shopify webáruház készítés – Mikor érdemes ezt választani?",
+			"text": "A Shopify egy kiváló megoldás mindazok számára, akik gyorsan és hatékonyan szeretnék elindítani online üzletüket. Ha nincs fejlesztői tapasztalatod, mégis egy profi megjelenésű és jól működő webáruházat szeretnél, akkor ez a rendszer tökéletes választás lehet."
+		},
+		"asYouWish": {
+			"title": "Weblap készítés,",
+			"titleHighlight": "ahogy szeretnéd",
+			"blocks": [
+				{
+					"number": "01",
+					"title": "Kinek ajánljuk a szolgáltatást?",
+					"paragraphs": [
+						{
+							"lead": "A Shopify webshop készítést azoknak ajánljuk, akik szeretnék kihasználni az e-kereskedelem nyújtotta lehetőségeket anélkül, hogy bonyolult fejlesztési folyamatokon kellene végigmenniük.",
+							"text": "Kezdő és haladó vállalkozók egyaránt megtalálják benne a számukra legmegfelelőbb megoldásokat. Ha fontos számodra a skálázhatóság, a megbízható fizetési és szállítási integrációk, valamint a testreszabhatóság, akkor ez a rendszer tényleg neked való."
+						}
+					]
+				},
+				{
+					"number": "02",
+					"title": "Mi az a Shopify?",
+					"paragraphs": [
+						{
+							"lead": "A Shopify egy népszerű e-kereskedelmi platform, amely lehetővé teszi, hogy bárki néhány kattintással létrehozza saját webáruházát.",
+							"text": "A rendszer egyik legnagyobb előnye, hogy nem igényel programozói tudást, mégis rengeteg testreszabási lehetőséget kínál. A rendszer segítségével könnyedén kezelheted a termékeidet, automatizálhatod az értékesítési folyamataidat, és akár globálisan is elérheted a vásárlóidat."
+						}
+					]
+				},
+				{
+					"number": "03",
+					"title": "Shopify store előnyei, hátrányai",
+					"paragraphs": [
+						{
+							"lead": "A Shopify egyik legnagyobb előnye, hogy egy felhőalapú rendszer, éppen ezért nincs szükség szerverekre vagy bonyolult telepítésekre.",
+							"text": "A beépített fizetési és szállítási integrációk megkönnyítik az indulást, később pedig számos sablon áll rendelkezésedre a vizuális testreszabáshoz. Hátránya, hogy bizonyos fejlettebb funkciókhoz fizetős alkalmazásokat kell használnod, illetve a tranzakciós díjak miatt érdemes körültekintően kiválasztani a megfelelő csomagot."
+						}
+					]
+				},
+				{
+					"number": "04",
+					"title": "Shopify adózás",
+					"paragraphs": [
+						{
+							"lead": "Shopify használata esetén az adózási kérdéseket is figyelembe kell venni.",
+							"text": "Magyarországon a Shopify webshop bevételei után áfát és egyéb adókat kell fizetni. Fontos, hogy megfelelően beállítsd a számlázási és adózási opciókat, valamint konzultálj egy könyvelővel, hogy biztosan megfelelj a jogszabályoknak."
+						}
+					]
+				},
+				{
+					"number": "05",
+					"title": "Miben segítünk mi?",
+					"paragraphs": [
+						{
+							"lead": "A webshop készítés során minden lépésben segítünk, a tervezéstől kezdve a beállításokon át egészen az élesítésig.",
+							"text": "Testreszabjuk a dizájnt, integráljuk a fizetési és szállítási megoldásokat, valamint biztosítjuk a szükséges SEO beállításokat is, hogy webshopod ne csak látható, de sikeres is legyen az online térben."
+						}
+					]
+				}
+			]
+		},
+		"meaningForUs": {
+			"title": "Értékeink",
+			"items": [
+				"Minden egyes projektet az ügyfél igényeihez igazítunk, figyelembe véve a piaci trendeket és a vállalkozás céljait. Gyors kivitelezéssel dolgozunk, hogy webshopod a lehető legrövidebb idő alatt elindulhasson anélkül, hogy kompromisszumot kellene kötnöd minőség terén.",
+				"Hosszú távú támogatást nyújtunk, így nemcsak az induláskor, hanem a webshop teljes működése során számíthatsz ránk, legyen szó technikai segítségről, fejlesztésekről vagy marketing tanácsadásról."
+			]
+		},
+		"workWithUs": {
+			"title": "Dolgozz velünk",
+			"text": "Jelentkezz konzultációra és lendítsük fel együtt az online jelenléted.",
+			"buttonLabel": "Jelentkezem konzultációra"
+		},
+		"process": {
+			"title": "Hogyan dolgozunk?",
+			"text": "Elsődleges célunk, hogy egy olyan gyorsan és hatékonyan működő webshopot adjunk át, amely nemcsak esztétikailag vonzó, de technikailag is kifogástalan. Minden projektet egyedi igények alapján alakítunk ki, valamint folyamatos támogatást nyújtunk az indulás után is.",
+			"steps": [
+				[
+					"01 Igényfelmérés, tervezés",
+					"Először egy konzultáció során megismerkedünk a céljaiddal, elvárásaiddal, és felmérjük a projekt igényeit. Ezt követően részletes piackutatást és versenytárselemzést végzünk, hogy a webáruházad minden szempontból megfeleljen a célközönséged igényeinek."
+				],
+				[
+					"02 Kivitelezés",
+					"A következő lépésben wireframe-eket készítünk, amelyek segítenek meghatározni a webshop szerkezetét és elrendezését. A végleges design kialakítása során figyelembe vesszük a márka arculatát és egyedi igényeidet, hogy a webáruház vizuálisan is tökéletes legyen."
+				],
+				[
+					"03 Átadás",
+					"Ezután következik a tesztelés és a finomhangolás, melyek során ellenőrizzük a funkcionalitást és a felhasználói élményt. Végül átadjuk a kész Shopify webáruházadat."
+				]
+			]
+		},
+		"pricing": {
+			"title": "Mi alapján árazunk?",
+			"titleHighlight": "",
+			"items": [
+				"A Shopify webáruház-készítés ára függ a projekt komplexitásától és az igényelt funkcionalitásoktól is.",
+				"Mivel minden projekt egyedi, pontos árat csak a részletes igények alapján tudunk adni."
+			]
+		},
+		"cta": {
+			"title": "Érdekel szolgáltatásunk?",
+			"text": "Jelentkezz egy ingyenes, kötelezettségmentes beszélgetésre, és derítsük ki, hogy tudunk-e neked segíteni, és tényleg mi vagyunk-e a legmegfelelőbb választás számodra. A jelentkezésed után 3 munkanapon belül felvesszük veled a kapcsolatot!",
+			"buttonLabel": "Jelentkezem konzultációra"
+		}
+	},
+	"en": {
+		"pageTitle": "Shopify webshop creation – Build your online store!",
+		"breadcrumbs": [
+			"Services",
+			"Webshops"
+		],
+		"title": "Shopify webshop creation",
+		"subtitle": "Open your online store!",
+		"lead": "Need a modern online shop but haven’t found a platform that’s both fast and cost-effective? Then Shopify might be just what you’re looking for!",
+		"meaning": {
+			"title": "When to choose Shopify?",
+			"text": "Shopify is an excellent solution for those who want to launch their online store quickly and efficiently. If you don’t have coding experience but still want a professional-looking and fully functional webshop, this platform is a perfect fit."
+		},
+		"asYouWish": {
+			"title": "Web design",
+			"titleHighlight": "the way you want it",
+			"blocks": [
+				{
+					"number": "01",
+					"title": "Who do we recommend it for?",
+					"paragraphs": [
+						{
+							"lead": "Our Shopify webshop service is ideal for those who want to take advantage of e-commerce opportunities without going through complex development processes.",
+							"text": "Whether you’re a beginner or an experienced entrepreneur, you’ll find everything you need in Shopify. If scalability, reliable payment and shipping integrations, and easy customization are priorities for you, this platform is a great choice."
+						}
+					]
+				},
+				{
+					"number": "02",
+					"title": "What is Shopify?",
+					"paragraphs": [
+						{
+							"lead": "Shopify is a popular e-commerce platform that lets anyone build a webstore in just a few clicks.",
+							"text": "One of its biggest advantages is that it doesn’t require programming skills, yet it offers plenty of customization options. With Shopify, you can easily manage your products, automate sales processes, and even reach customers worldwide."
+						}
+					]
+				},
+				{
+					"number": "03",
+					"title": "Shopify pros and cons",
+					"paragraphs": [
+						{
+							"lead": "One major advantage of Shopify is that it’s cloud-based – no need for servers or complicated installations.",
+							"text": "Built-in payment and shipping integrations make it easy to get started, and a wide range of templates allows for visual customization. On the downside, some advanced features require paid apps, and transaction fees mean it’s important to choose the right pricing plan."
+						}
+					]
+				},
+				{
+					"number": "04",
+					"title": "Shopify and taxation",
+					"paragraphs": [
+						{
+							"lead": "When using Shopify, it’s important to consider local tax regulations.",
+							"text": "In Hungary, Shopify store revenue is subject to VAT and other applicable taxes. Make sure to configure billing and tax settings correctly, and consult an accountant to ensure compliance with the law."
+						}
+					]
+				},
+				{
+					"number": "05",
+					"title": "How can we help?",
+					"paragraphs": [
+						{
+							"lead": "We guide you through every step – from planning and setup to launch.",
+							"text": "We customize your store’s design, integrate payment and shipping solutions, and ensure SEO settings are in place so your webshop isn’t just visible, but successful in the digital space."
+						}
+					]
+				}
+			]
+		},
+		"meaningForUs": {
+			"title": "Our values",
+			"items": [
+				"Every project is built around our clients’ goals, informed by current market trends. We deliver quickly, without compromising on quality.",
+				"And we provide long-term support, helping you not just at launch, but throughout the life of your webshop – whether you need tech support, development, or marketing advice."
+			]
+		},
+		"workWithUs": {
+			"title": "Work with us",
+			"text": "Book a consultation and let’s elevate your online presence – together.",
+			"buttonLabel": "Book consultation"
+		},
+		"process": {
+			"title": "How our Shopify webshop development works",
+			"text": "Our goal is to deliver a fast, efficient, and technically flawless online store that looks great and performs well. Every project is tailored to your unique needs, and we offer ongoing support after launch to ensure long-term success.",
+			"steps": [
+				[
+					"01 Initial consultation",
+					"We start with a consultation to understand your goals and expectations, and assess project requirements. Then we conduct thorough market research and competitor analysis to make sure your webshop meets your audience’s needs."
+				],
+				[
+					"02 Design and implement",
+					"Next, we create wireframes to define the store’s structure and layout. During final design, we incorporate your brand identity and specific preferences for a polished visual result."
+				],
+				[
+					"03 Handover",
+					"After that, we move to testing and fine-tuning to ensure full functionality and a smooth user experience. Finally, we hand over your completed Shopify webshop."
+				]
+			]
+		},
+		"pricing": {
+			"title": "How we price our services",
+			"titleHighlight": "",
+			"items": [
+				"The cost of Shopify webshop development depends on the project’s complexity and the features you need.",
+				"Since every webshop is unique, we can provide a tailored quote after discussing your specific requirements."
+			]
+		},
+		"cta": {
+			"title": "Ready to level up?",
+			"text": "Book a free, no-pressure call with us. Let’s find out if we’re the perfect match. After you sign up, we’ll get back to you within three business days!",
+			"buttonLabel": "Book consultation"
+		}
+	}
 }[locale];
+
+const contactHref = localizePath("/contact", locale);
+
+const breadcrumbs = [
+	{ label: copy.breadcrumbs[0], href: localizePath("/services", locale) },
+	{ label: copy.breadcrumbs[1], href: localizePath("/services/webshops", locale) },
+	{ label: copy.title },
+];
+
+const stepTones = [1, 2, 3] as const;
 ---
 
 <Base title={copy.pageTitle}>
-	<main></main>
+	<section class="bg-background pt-[8.75rem] pb-16 max-lg:pt-32 max-lg:pb-10">
+		<div
+			class="mx-auto flex w-[92%] max-w-[76.875rem] items-start justify-between gap-x-12 gap-y-10 max-lg:flex-col"
+		>
+			<div class="max-w-[39rem]">
+				<Breadcrumbs items={breadcrumbs} class="mb-6" />
+				<h1 class="font-medium text-text text-display">{copy.title}</h1>
+				<p class="mt-6 text-3xl leading-10 font-normal text-text max-lg:text-2xl max-lg:leading-9">
+					{copy.subtitle}
+				</p>
+				<p class="mt-4 max-w-[34rem] text-xl leading-8 font-light text-text">{copy.lead}</p>
+			</div>
+
+			<div class="relative w-full max-w-[19.5rem] shrink-0 max-lg:max-w-[24rem]">
+				<HeroShapes />
+				<PersonBioCard personSlug="attila-toth" />
+			</div>
+		</div>
+	</section>
+
+	<section class="relative overflow-hidden bg-background pt-24 pb-24 max-lg:py-16">
+		<img
+			src="/global/images/service-shape.webp"
+			alt=""
+			width="1512"
+			height="400"
+			loading="lazy"
+			class="pointer-events-none absolute bottom-6 left-1/2 h-auto w-[min(80rem,100vw)] max-w-none -translate-x-1/2 max-md:hidden"
+		/>
+		<div class="relative mx-auto flex w-[92%] max-w-[76.875rem] flex-col items-center text-center">
+			<h2 class="max-w-[37.375rem] font-medium text-text text-heading">{copy.meaning.title}</h2>
+			<p
+				class="mt-10 max-w-[28rem] rounded-[20px] bg-background px-8 py-6 text-base leading-[1.625rem] font-light text-text shadow-[0_0.5rem_1.5rem_color-mix(in_srgb,var(--color-shadow)_15%,transparent)]"
+			>
+				{copy.meaning.text}
+			</p>
+		</div>
+	</section>
+
+	<section class="bg-background pb-24 max-lg:pb-16">
+		<div class="mx-auto w-[92%] max-w-[76.875rem]">
+			<h2 class="mx-auto max-w-[37.375rem] text-center font-medium text-text text-heading">
+				{copy.asYouWish.title} <span class="text-primary">{copy.asYouWish.titleHighlight}</span>
+			</h2>
+
+			<div class="mt-16 flex flex-col gap-16 max-md:mt-10 max-md:gap-12">
+				{
+					copy.asYouWish.blocks.map((block) => (
+						<div class="grid grid-cols-2 items-start gap-x-16 gap-y-6 max-lg:grid-cols-1">
+							<h3 class="max-w-[30rem] text-3xl leading-10 font-medium text-text max-lg:text-2xl max-lg:leading-9">
+								<span class="text-primary">{block.number}</span> {block.title}
+							</h3>
+							<div class="flex flex-col gap-8">
+								{block.paragraphs.map((paragraph) => (
+									<div class="flex gap-3">
+										<img
+											src="/global/images/star-icon.webp"
+											alt=""
+											width="26"
+											height="26"
+											loading="lazy"
+											class="size-[1.625rem] shrink-0"
+										/>
+										<p class="text-base leading-[1.625rem] font-light text-text">
+											<strong class="font-medium">{paragraph.lead}</strong> {paragraph.text}
+										</p>
+									</div>
+								))}
+							</div>
+						</div>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<section class="bg-background pt-0 pb-24 max-lg:pb-16">
+		<div class="mx-auto w-[92%] max-w-[76.875rem]">
+			<h2 class="text-center font-medium text-text text-heading">{copy.meaningForUs.title}</h2>
+
+			<ul class="mx-auto mt-16 grid max-w-[53rem] grid-cols-2 gap-6 max-md:mt-10 max-md:grid-cols-1">
+				{
+					copy.meaningForUs.items.map((item) => (
+						<li class="flex items-start gap-3">
+							<img
+								src="/global/images/star-icon.webp"
+								alt=""
+								width="26"
+								height="26"
+								loading="lazy"
+								class="size-[1.625rem] shrink-0"
+							/>
+							<p class="text-xl leading-[1.625rem] font-medium text-text">{item}</p>
+						</li>
+					))
+				}
+			</ul>
+
+			<CtaBox
+				title={copy.workWithUs.title}
+				text={copy.workWithUs.text}
+				buttonLabel={copy.workWithUs.buttonLabel}
+				buttonHref={contactHref}
+				class="mt-20 max-md:mt-14"
+			/>
+		</div>
+	</section>
+
+	<ServiceProcessSection>
+		<h2 class="max-w-[48rem] font-medium text-text-inverse text-heading">{copy.process.title}</h2>
+		<p class="mt-6 max-w-[40rem] text-base leading-[1.625rem] font-light text-text-inverse">{copy.process.text}</p>
+
+		<div class="mt-14 grid grid-cols-3 gap-4 max-md:mt-10 max-md:grid-cols-1">
+			{
+				copy.process.steps.map(([title, text], index) => (
+					<ProcessStepCard title={title} text={text} tone={stepTones[index]} />
+				))
+			}
+		</div>
+	</ServiceProcessSection>
+
+	<section class="bg-background py-24 max-lg:py-16">
+		<div class="mx-auto w-[92%] max-w-[76.875rem]">
+			<h2 class="mx-auto max-w-[44rem] text-center font-medium text-text text-heading">
+				{copy.pricing.title} <span class="text-primary">{copy.pricing.titleHighlight}</span>
+			</h2>
+
+			<ul class="mx-auto mt-16 grid max-w-[53rem] grid-cols-2 gap-x-16 gap-y-10 max-md:mt-10 max-md:grid-cols-1">
+				{
+					copy.pricing.items.map((item) => (
+						<li class="flex gap-3">
+							<img
+								src="/global/images/star-icon.webp"
+								alt=""
+								width="26"
+								height="26"
+								loading="lazy"
+								class="size-[1.625rem] shrink-0"
+							/>
+							<p class="text-xl leading-[1.625rem] font-medium text-text">{item}</p>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+
+	<section class="flow-root bg-surface pt-24 pb-24 max-lg:pt-16 max-lg:pb-16 [&_.clutch-widget]:overflow-hidden [&_.clutch-widget]:rounded-[20px]">
+		<div class="mx-auto w-[92%]">
+			<ClutchReviews />
+		</div>
+	</section>
+
+	<section class="bg-surface pb-24 max-lg:pb-16">
+		<div class="mx-auto w-[92%] max-w-[76.875rem]">
+			<CtaBox
+				title={copy.cta.title}
+				text={copy.cta.text}
+				buttonLabel={copy.cta.buttonLabel}
+				buttonHref={contactHref}
+			/>
+		</div>
+	</section>
 </Base>

@@ -1,0 +1,56 @@
+---
+import Base from "../layouts/Base.astro";
+import VideoCard from "../components/VideoCard.astro";
+
+const locale = Astro.currentLocale === "en" ? "en" : "hu";
+
+const copy = {
+	hu: {
+		pageTitle: "Módszer",
+		label: "Módszerünk",
+		title: "Legendás ügyfélélmény",
+		text: "Képzelj el egy olyan weboldalt, ami nem csupán kielégíti vevőid elvárásait, de a készítés folyamata is stresszmentes számodra. A legjobb helyen jársz ahhoz, hogy mindez megvalósuljon.",
+		question: "Hogyan készítünk olyan weboldalt, amit nem csak létrehozni nagyszerű, de használni is öröm?",
+		video: { src: "/method/intro-hu.mp4", playLabel: "Videó lejátszása" },
+	},
+	en: {
+		pageTitle: "Method",
+		label: "Our Method",
+		title: "Legendary Client Experience",
+		text: "Imagine a website that not only meets your customers' expectations but also leaves you stress-free throughout the entire process. You’re in the perfect place to make it happen.",
+		question: "How do we craft a website that's not just great to create, but a joy to use?",
+		video: { src: "/method/intro-en.mp4", playLabel: "Play video" },
+	},
+}[locale];
+---
+
+<Base title={copy.pageTitle} navVariant="light">
+	<section class="relative overflow-hidden bg-surface pt-[8.75rem] max-lg:pt-32">
+		<img
+			src="/method/hero-arc.svg"
+			alt=""
+			width="1512"
+			height="158"
+			loading="eager"
+			class="pointer-events-none absolute bottom-0 left-1/2 h-auto w-[max(100%,64rem)] max-w-none -translate-x-1/2"
+		/>
+
+		<div class="relative z-10 mx-auto flex w-[92%] max-w-[76.875rem] flex-col items-center text-center">
+			<p class="text-sm leading-5 font-normal text-text">{copy.label}</p>
+			<h1 class="mt-3 max-w-[40rem] font-medium text-text text-display">{copy.title}</h1>
+			<p class="mt-8 max-w-[44rem] text-2xl leading-9 font-normal text-text max-lg:text-xl max-lg:leading-8">
+				{copy.text}
+			</p>
+			<h2 class="mt-16 max-w-[21rem] text-xl leading-[1.625rem] font-medium text-primary max-lg:mt-12">
+				{copy.question}
+			</h2>
+
+			<VideoCard
+				src={copy.video.src}
+				poster="/global/images/service-video-poster.webp"
+				playLabel={copy.video.playLabel}
+				class="mt-10 shrink-0"
+			/>
+		</div>
+	</section>
+</Base>

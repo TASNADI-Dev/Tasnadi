@@ -1,14 +1,358 @@
 ---
+import { localizePath } from "../../../i18n/routes";
 import Base from "../../../layouts/Base.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import ClutchReviews from "../../../components/ClutchReviews.astro";
+import CtaBox from "../../../components/CtaBox.astro";
+import HeroShapes from "../../../components/HeroShapes.astro";
+import PersonBioCard from "../../../components/PersonBioCard.astro";
+import ProcessStepCard from "../../../components/ProcessStepCard.astro";
+import ServiceProcessSection from "../../../components/ServiceProcessSection.astro";
 
 const locale = Astro.currentLocale === "en" ? "en" : "hu";
 
 const copy = {
-	hu: { pageTitle: "Woocommerce webshop készítés – Indítsd el saját webáruházad!" },
-	en: { pageTitle: "Woocommerce webshop creation – Create your own webshop!" },
+	"hu": {
+		"pageTitle": "WooCommerce webshop készítés – Indítsd el saját webáruházad!",
+		"breadcrumbs": [
+			"Szolgáltatásaink",
+			"Webshopok"
+		],
+		"title": "WooCommerce webshop készítés",
+		"subtitle": "Indítsd el saját webáruházad!",
+		"lead": "Ha szeretnél saját online boltot, webáruházat indítani, a WooCommerce a tökéletes választás! Könnyen használható, rugalmas, valamint számos funkcióval bővíthető platform.",
+		"meaning": {
+			"title": "Mikor érdemes WooCommerce-t választani?",
+			"text": "A WooCommerce egy bővítmény, amely WordPress alapú weboldalakhoz webshop funkciókat biztosít. Az egyik legnépszerűbb és legjobban dokumentált plugin (bővítmény), amely lehetővé teszi egy webshop egyszerű kezelését. Számos egyedi funkcióval ellátható, legyen szó akár fizetési megoldásról, szállítási lehetőségekről vagy egyéb integrációkról. A WooCommerce ideális választás, ha WordPress alapú weboldalt szeretnél bővíteni, méghozzá egy webshop rendszerrel. Alacsony költségvetésű, mégis hatékony megoldást kínál, amellyel könnyen kezelheted termékeidet, vásárlóidat és a rendeléseidet. Éppen ezért magánvállalkozók, kis- és középvállalkozások számára is ideális választás."
+		},
+		"asYouWish": {
+			"title": "Weblap készítés,",
+			"titleHighlight": "ahogy szeretnéd",
+			"blocks": [
+				{
+					"number": "01",
+					"title": "WooCommerce vs Shopify",
+					"paragraphs": [
+						{
+							"lead": "Bár a Shopify is egy népszerű webshop platform, a WooCommerce számos előnnyel rendelkezik.",
+							"text": "Az egyik legnagyobb különbség, hogy a WooCommerce teljes mértékben testre szabható, míg a Shopify korlátozottabb lehetőségeket biztosít. Emellett a WooCommerce szorosabb integrációt kínál a WordPress világával, ami nagy előnyt jelenthet azoknak, akik már ismerik és használják a WordPress-t, nekik bátran ajánljuk ezt a megoldást."
+						}
+					]
+				},
+				{
+					"number": "02",
+					"title": "Hogyan segíthetünk mi?",
+					"paragraphs": [
+						{
+							"lead": "Csapatunk támogat abban, hogy webáruházad dizájnja ne csak vonzó, hanem a márkád értékeit tükröző egyedi megjelenést kapjon.",
+							"text": "A termékek kezelését intuitívvá tesszük, és minden szükséges funkciót úgy integrálunk, hogy a webshopod ne csak „úgy” működjön, hanem tényleg kiemelkedjen a piacon."
+						}
+					]
+				}
+			]
+		},
+		"meaningForUs": {
+			"title": "Mire számíthatsz, ha minket választasz?",
+			"items": [
+				"Külön figyelmet fordítunk a mobilbarát dizájnra és a felhasználói élményre, hogy vásárlóid könnyedén navigálhassanak az oldaladon. És persze nem feledkezünk meg rólad sem...",
+				"Ügyfeleink számára az a legfontosabb, hogy a közös munka során jól érezzék magukat, és biztosak legyenek abban, hogy minden lépésnél mellettük állunk, így a folyamat zökkenőmentes és biztonságos lesz számukra."
+			]
+		},
+		"workWithUs": {
+			"title": "Dolgozz velünk",
+			"text": "Jelentkezz konzultációra és lendítsük fel együtt az online jelenléted.",
+			"buttonLabel": "Jelentkezem konzultációra"
+		},
+		"process": {
+			"title": "Hogyan dolgozunk?",
+			"text": "Mi a minőségre és a hosszú távú eredményekre koncentrálunk! Folyamatunk egyszerű: megismerjük a vállalkozásod igényeit, vásárlóid érdeklődési köreit, illetve végzünk versenytárselemzést is a legpontosabb információk érdekében. Ezt követően személyre szabott webáruház terveket készítünk. Miután együtt kiválasztjuk a számodra legmegfelelőbb részleteket, elkezdjük a fejlesztést és az implementálást.",
+			"steps": [
+				[
+					"01 Igényfelmérés, tervezés",
+					"Megismerjük vállalkozásod, feltárjuk célközönséged preferenciáit, és elemezzük versenytársaidat."
+				],
+				[
+					"02 Kivitelezés",
+					"Ezután egyedi webshop-koncepciót készítünk egyedi igényeid alapján. Miután közösen kiválasztottuk a legmegfelelőbb megoldást, rátérünk a fejlesztésre és a megvalósításra."
+				],
+				[
+					"03 Átadás",
+					"Üzleted felépítése során webáruházad teljes mértékben igazodik márkádhoz. Ha elkészült, alaposan teszteljük az oldalt, segítünk elindítani, és támogatjuk az éles üzembe helyezés első lépéseit."
+				]
+			]
+		},
+		"pricing": {
+			"title": "Mi alapján árazunk?",
+			"titleHighlight": "",
+			"items": [
+				"A WooCommerce webáruház-készítés ára függ a projekt komplexitásától és az igényelt funkcionalitásoktól is.",
+				"Mivel minden projekt egyedi, pontos árat csak a részletes igények alapján tudunk adni."
+			]
+		},
+		"cta": {
+			"title": "Érdekel szolgáltatásunk?",
+			"text": "Jelentkezz egy ingyenes, kötelezettségmentes beszélgetésre, és derítsük ki, hogy tudunk-e neked segíteni, és tényleg mi vagyunk-e a legmegfelelőbb választás számodra. A jelentkezésed után 3 munkanapon belül felvesszük veled a kapcsolatot!",
+			"buttonLabel": "Jelentkezem konzultációra"
+		}
+	},
+	"en": {
+		"pageTitle": "WooCommerce webshop creation – Create your own webshop!",
+		"breadcrumbs": [
+			"Services",
+			"Webshops"
+		],
+		"title": "WooCommerce webshop creation",
+		"subtitle": "Start your own online store",
+		"lead": "If you’re thinking about launching your own online shop, WooCommerce is the perfect choice! It’s a user-friendly, flexible platform with a wide range of features and extensions.",
+		"meaning": {
+			"title": "When should you choose WooCommerce?",
+			"text": "WooCommerce is a plugin that adds webshop functionality to WordPress-based websites. It’s one of the most popular and well-documented tools available, allowing for easy store management. It supports a wide variety of features, from payment solutions to shipping options and third-party integrations. It’s an ideal option if you already have a WordPress website and want to expand it with a professional webshop. WooCommerce offers a cost-effective yet powerful solution that lets you manage your products, customers, and orders with ease – making it perfect for freelancers, small businesses, and growing companies alike."
+		},
+		"asYouWish": {
+			"title": "Web design",
+			"titleHighlight": "the way you want it",
+			"blocks": [
+				{
+					"number": "01",
+					"title": "WooCommerce vs Shopify",
+					"paragraphs": [
+						{
+							"lead": "While Shopify is also a popular e-commerce platform, WooCommerce has several distinct advantages.",
+							"text": "One of the biggest differences is its full customizability – Shopify can be more limited in this regard. Plus, WooCommerce offers tighter integration with the WordPress ecosystem, which makes it a great choice for those already familiar with WordPress."
+						}
+					]
+				},
+				{
+					"number": "02",
+					"title": "How can we help?",
+					"paragraphs": [
+						{
+							"lead": "Our team ensures that your online store doesn’t just look good – it reflects your brand’s identity through a unique and engaging design.",
+							"text": "We make product management intuitive and implement all the features you need to ensure your webshop doesn’t just function, but truly stands out in the market."
+						}
+					]
+				}
+			]
+		},
+		"meaningForUs": {
+			"title": "What to expect when you work with us",
+			"items": [
+				"We pay special attention to responsive design and the user experience, making it easy for your customers to navigate your site.",
+				"And we don’t forget about you either – your experience matters just as much. We aim to make the entire process smooth, transparent, and enjoyable, giving you the confidence that you’re supported every step of the way."
+			]
+		},
+		"workWithUs": {
+			"title": "Work with us",
+			"text": "Book a consultation and let’s elevate your online presence – together.",
+			"buttonLabel": "Book consultation"
+		},
+		"process": {
+			"title": "How we work",
+			"text": "We focus on quality and long-term results. Precision, reliability, and a client-focused mindset are at the heart of everything we do. We aim to build webshops that not only meet but exceed market expectations.",
+			"steps": [
+				[
+					"01 Initial consultation",
+					"We get to know your business, explore your target audience’s preferences, and analyze your competitors."
+				],
+				[
+					"02 Design and implement",
+					"Then, we create a custom webshop concept based on your specific needs. Once we’ve selected the best-fit solution together, we move on to development and implementation."
+				],
+				[
+					"03 Handover",
+					"While building your store, your webshop fully aligns with your brand. Once it’s complete, we thoroughly test the site, help you launch it, and support your first steps in going live."
+				]
+			]
+		},
+		"pricing": {
+			"title": "How we price our services",
+			"titleHighlight": "",
+			"items": [
+				"The cost of building a WooCommerce store depends on the complexity of the project and the required features.",
+				"Since every webshop is unique, we provide tailored quotes based on your specific needs."
+			]
+		},
+		"cta": {
+			"title": "Ready to level up?",
+			"text": "Book a free, no-pressure call with us. Let’s find out if we’re the perfect match. After you sign up, we’ll get back to you within three business days!",
+			"buttonLabel": "Book consultation"
+		}
+	}
 }[locale];
+
+const contactHref = localizePath("/contact", locale);
+
+const breadcrumbs = [
+	{ label: copy.breadcrumbs[0], href: localizePath("/services", locale) },
+	{ label: copy.breadcrumbs[1], href: localizePath("/services/webshops", locale) },
+	{ label: copy.title },
+];
+
+const stepTones = [1, 2, 3] as const;
 ---
 
 <Base title={copy.pageTitle}>
-	<main></main>
+	<section class="bg-background pt-[8.75rem] pb-16 max-lg:pt-32 max-lg:pb-10">
+		<div
+			class="mx-auto flex w-[92%] max-w-[76.875rem] items-start justify-between gap-x-12 gap-y-10 max-lg:flex-col"
+		>
+			<div class="max-w-[39rem]">
+				<Breadcrumbs items={breadcrumbs} class="mb-6" />
+				<h1 class="font-medium text-text text-display">{copy.title}</h1>
+				<p class="mt-6 text-3xl leading-10 font-normal text-text max-lg:text-2xl max-lg:leading-9">
+					{copy.subtitle}
+				</p>
+				<p class="mt-4 max-w-[34rem] text-xl leading-8 font-light text-text">{copy.lead}</p>
+			</div>
+
+			<div class="relative w-full max-w-[19.5rem] shrink-0 max-lg:max-w-[24rem]">
+				<HeroShapes />
+				<PersonBioCard personSlug="attila-toth" />
+			</div>
+		</div>
+	</section>
+
+	<section class="relative overflow-hidden bg-background pt-24 pb-24 max-lg:py-16">
+		<img
+			src="/global/images/service-shape.webp"
+			alt=""
+			width="1512"
+			height="400"
+			loading="lazy"
+			class="pointer-events-none absolute bottom-6 left-1/2 h-auto w-[min(80rem,100vw)] max-w-none -translate-x-1/2 max-md:hidden"
+		/>
+		<div class="relative mx-auto flex w-[92%] max-w-[76.875rem] flex-col items-center text-center">
+			<h2 class="max-w-[37.375rem] font-medium text-text text-heading">{copy.meaning.title}</h2>
+			<p
+				class="mt-10 max-w-[28rem] rounded-[20px] bg-background px-8 py-6 text-base leading-[1.625rem] font-light text-text shadow-[0_0.5rem_1.5rem_color-mix(in_srgb,var(--color-shadow)_15%,transparent)]"
+			>
+				{copy.meaning.text}
+			</p>
+		</div>
+	</section>
+
+	<section class="bg-background pb-24 max-lg:pb-16">
+		<div class="mx-auto w-[92%] max-w-[76.875rem]">
+			<h2 class="mx-auto max-w-[37.375rem] text-center font-medium text-text text-heading">
+				{copy.asYouWish.title} <span class="text-primary">{copy.asYouWish.titleHighlight}</span>
+			</h2>
+
+			<div class="mt-16 flex flex-col gap-16 max-md:mt-10 max-md:gap-12">
+				{
+					copy.asYouWish.blocks.map((block) => (
+						<div class="grid grid-cols-2 items-start gap-x-16 gap-y-6 max-lg:grid-cols-1">
+							<h3 class="max-w-[30rem] text-3xl leading-10 font-medium text-text max-lg:text-2xl max-lg:leading-9">
+								<span class="text-primary">{block.number}</span> {block.title}
+							</h3>
+							<div class="flex flex-col gap-8">
+								{block.paragraphs.map((paragraph) => (
+									<div class="flex gap-3">
+										<img
+											src="/global/images/star-icon.webp"
+											alt=""
+											width="26"
+											height="26"
+											loading="lazy"
+											class="size-[1.625rem] shrink-0"
+										/>
+										<p class="text-base leading-[1.625rem] font-light text-text">
+											<strong class="font-medium">{paragraph.lead}</strong> {paragraph.text}
+										</p>
+									</div>
+								))}
+							</div>
+						</div>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<section class="bg-background pt-0 pb-24 max-lg:pb-16">
+		<div class="mx-auto w-[92%] max-w-[76.875rem]">
+			<h2 class="text-center font-medium text-text text-heading">{copy.meaningForUs.title}</h2>
+
+			<ul class="mx-auto mt-16 grid max-w-[53rem] grid-cols-2 gap-6 max-md:mt-10 max-md:grid-cols-1">
+				{
+					copy.meaningForUs.items.map((item) => (
+						<li class="flex items-start gap-3">
+							<img
+								src="/global/images/star-icon.webp"
+								alt=""
+								width="26"
+								height="26"
+								loading="lazy"
+								class="size-[1.625rem] shrink-0"
+							/>
+							<p class="text-xl leading-[1.625rem] font-medium text-text">{item}</p>
+						</li>
+					))
+				}
+			</ul>
+
+			<CtaBox
+				title={copy.workWithUs.title}
+				text={copy.workWithUs.text}
+				buttonLabel={copy.workWithUs.buttonLabel}
+				buttonHref={contactHref}
+				class="mt-20 max-md:mt-14"
+			/>
+		</div>
+	</section>
+
+	<ServiceProcessSection>
+		<h2 class="max-w-[48rem] font-medium text-text-inverse text-heading">{copy.process.title}</h2>
+		<p class="mt-6 max-w-[40rem] text-base leading-[1.625rem] font-light text-text-inverse">{copy.process.text}</p>
+
+		<div class="mt-14 grid grid-cols-3 gap-4 max-md:mt-10 max-md:grid-cols-1">
+			{
+				copy.process.steps.map(([title, text], index) => (
+					<ProcessStepCard title={title} text={text} tone={stepTones[index]} />
+				))
+			}
+		</div>
+	</ServiceProcessSection>
+
+	<section class="bg-background py-24 max-lg:py-16">
+		<div class="mx-auto w-[92%] max-w-[76.875rem]">
+			<h2 class="mx-auto max-w-[44rem] text-center font-medium text-text text-heading">
+				{copy.pricing.title} <span class="text-primary">{copy.pricing.titleHighlight}</span>
+			</h2>
+
+			<ul class="mx-auto mt-16 grid max-w-[53rem] grid-cols-2 gap-x-16 gap-y-10 max-md:mt-10 max-md:grid-cols-1">
+				{
+					copy.pricing.items.map((item) => (
+						<li class="flex gap-3">
+							<img
+								src="/global/images/star-icon.webp"
+								alt=""
+								width="26"
+								height="26"
+								loading="lazy"
+								class="size-[1.625rem] shrink-0"
+							/>
+							<p class="text-xl leading-[1.625rem] font-medium text-text">{item}</p>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+
+	<section class="flow-root bg-surface pt-24 pb-24 max-lg:pt-16 max-lg:pb-16 [&_.clutch-widget]:overflow-hidden [&_.clutch-widget]:rounded-[20px]">
+		<div class="mx-auto w-[92%]">
+			<ClutchReviews />
+		</div>
+	</section>
+
+	<section class="bg-surface pb-24 max-lg:pb-16">
+		<div class="mx-auto w-[92%] max-w-[76.875rem]">
+			<CtaBox
+				title={copy.cta.title}
+				text={copy.cta.text}
+				buttonLabel={copy.cta.buttonLabel}
+				buttonHref={contactHref}
+			/>
+		</div>
+	</section>
 </Base>

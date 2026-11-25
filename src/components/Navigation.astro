@@ -29,6 +29,7 @@ const contactHref = localizePath("/contact", locale);
 const blogHref = localizePath("/blog", locale);
 const servicesHref = localizePath("/services", locale);
 const workHref = localizePath("/work", locale);
+const methodHref = localizePath("/method", locale);
 const podcastHref = localizePath("/podcast", locale);
 
 const copy = {
@@ -176,7 +177,7 @@ const linkClass =
 			<ul class="flex flex-col gap-1 nav:flex-row nav:items-center nav:gap-0">
 				<li><a href={servicesHref} class={linkClass}>{copy.services}</a></li>
 				<li><a href={workHref} class={linkClass}>{copy.work}</a></li>
-				<li><a href="#" class={linkClass}>{copy.method}</a></li>
+				<li><a href={methodHref} class={linkClass}>{copy.method}</a></li>
 				<li><a href={aboutHref} class={linkClass}>{copy.about}</a></li>
 				{insightGroups.length > 0 && <NavDropdown label={copy.insights} groups={insightGroups} {variant} />}
 			</ul>
